@@ -1,0 +1,120 @@
+@import './fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* BACKGROUNDS */
+  --bg-base:        #080909;
+  --bg-elevated:    #0C0D0E;
+  --bg-surface:     #111214;
+  --bg-overlay:     #161819;
+
+  /* BORDERS */
+  --border-subtle:  rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.10);
+  --border-strong:  rgba(255, 255, 255, 0.18);
+  --border-glow:    rgba(255, 255, 255, 0.30);
+
+  /* TEXT */
+  --text-primary:   #EDEEEF;
+  --text-secondary: rgba(237, 238, 239, 0.55);
+  --text-muted:     rgba(237, 238, 239, 0.30);
+  --text-disabled:  rgba(237, 238, 239, 0.15);
+
+  /* ACCENT */
+  --accent:         #E8E8E8;
+  --accent-glow:    rgba(232, 232, 232, 0.08);
+
+  /* SEMANTIC */
+  --success:        rgba(74, 222, 128, 0.7);
+  --warning:        rgba(251, 191, 36, 0.7);
+  --error:          rgba(248, 113, 113, 0.7);
+
+  /* SHADOWS */
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl:  0 16px 48px rgba(0, 0, 0, 0.7);
+
+  /* RADIUS */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ANIMATIONS */
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-enter:  600ms;
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:   cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-both: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+/* BASE RESET */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Geist', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* DOTS PATTERN — signature Buildrs, obligatoire sur toutes les pages */
+.dots-bg {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Fade des bords du dots pattern */
+.dots-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, var(--bg-base) 100%);
+  pointer-events: none;
+}
+
+/* AMBIENT GLOW */
+.ambient-glow {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
