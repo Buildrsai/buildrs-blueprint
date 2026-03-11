@@ -83,7 +83,9 @@ body {
   background-size: 28px 28px;
 }
 
-/* Fade des bords du dots pattern */
+/* Fade des bords du dots pattern
+   IMPORTANT : Le parent DOIT avoir position: relative (ou non-static)
+   pour que ce pseudo-élément se positionne correctement. */
 .dots-bg::before {
   content: '';
   position: absolute;

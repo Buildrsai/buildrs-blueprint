@@ -16,9 +16,10 @@ const buttonVariants = cva(
           'bg-transparent text-text-secondary border border-transparent rounded-md hover:text-text-primary hover:bg-white/[0.04]',
       },
       size: {
-        sm:  'h-8  px-3   text-xs',
-        md:  'h-9  px-[18px] text-sm',
-        lg:  'h-10 px-5   text-sm',
+        sm:   'h-8  px-3      text-xs',
+        md:   'h-9  px-[18px] text-sm',
+        lg:   'h-10 px-5      text-sm',
+        icon: 'h-9  w-9       p-0',
       },
     },
     defaultVariants: {
