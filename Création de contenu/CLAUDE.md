@@ -19,7 +19,7 @@ Chaque contenu sert le funnel. Chaque script démarre avec un hook fort.
 | Fichier | Contenu | Quand le lire |
 |---------|---------|----------------|
 | `ALFRED.md` | Histoire, valeurs, voix, accroche | Toujours — avant tout script |
-| `BRAND.md` | Bible marque, funnel, ManyChat mapping | Pour scripts + vérifications brand |
+| `BRAND.md` | Bible marque, funnel, ManyChat mapping — voix Alfred (TikTok/Reels/X) + voix Buildrs (LinkedIn) | Pour scripts + vérifications brand |
 | `STRATEGY.md` | 5 piliers, plateformes, KPIs | Pour planning + idées |
 | `IDEAS-BOARD.md` | 100 idées classées | Quand Alfred cherche un sujet |
 | `CALENDAR-30J.md` | Planning 30 jours | Pour savoir quoi produire aujourd'hui |
@@ -66,7 +66,7 @@ TAPIT → Ressources gratuites → Vibecoder IA 27€ → Stratégie Micro-SaaS 
 2. Jamais "revenus passifs", "c'est facile", "suffit de", "révolution"
 3. Toujours pointer vers la bonne ressource selon le sujet (voir BRAND.md)
 4. Ton : pote accessible qui maîtrise. Pas corporate. Pas bullshit.
-5. VibeCoding s'écrit toujours en CamelCase
+5. VibeCoding (la méthode) s'écrit VibeCoding. Vibecoder (la personne/le produit) s'écrit Vibecoder. Ne pas confondre.
 6. Phrases courtes. Une idée = une ligne.
 
 ---
