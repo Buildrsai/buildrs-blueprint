@@ -85,6 +85,7 @@ function OnboardingPage() {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   // Rediriger vers /login si non connecté
   useEffect(() => {
@@ -110,8 +111,13 @@ function OnboardingPage() {
 
   const handleComplete = async () => {
     setSaving(true)
-    await completeOnboarding(answers)
+    setSaveError(null)
+    const { error } = await completeOnboarding(answers)
     setSaving(false)
+    if (error) {
+      setSaveError("Une erreur s'est produite. Réessaie.")
+      return
+    }
     navigate('/dashboard', { replace: true })
   }
 
@@ -132,7 +138,7 @@ function OnboardingPage() {
     return (
       <div className="min-h-screen bg-[#F8F9FC] flex flex-col">
         {header}
-        <WelcomeScreen answers={answers} onStart={handleComplete} loading={saving} />
+        <WelcomeScreen answers={answers} onStart={handleComplete} loading={saving} error={saveError} />
       </div>
     )
   }

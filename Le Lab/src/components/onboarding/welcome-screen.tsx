@@ -5,6 +5,7 @@ interface WelcomeScreenProps {
   answers: Record<string, string>
   onStart: () => void
   loading?: boolean
+  error?: string | null
 }
 
 function getTimeline(temps: string): string {
@@ -21,7 +22,7 @@ function getRevenueLabel(revenu: string): string {
   return '500-1 000€/mois'
 }
 
-function WelcomeScreen({ answers, onStart, loading = false }: WelcomeScreenProps) {
+function WelcomeScreen({ answers, onStart, loading = false, error = null }: WelcomeScreenProps) {
   const { user } = useAuth()
   const firstName = user?.email
     ? user.email.split('@')[0].charAt(0).toUpperCase() + user.email.split('@')[0].slice(1)
@@ -67,6 +68,10 @@ function WelcomeScreen({ answers, onStart, loading = false }: WelcomeScreenProps
         <p className="text-sm text-[#B2BBC5] leading-relaxed">
           Le Lab va s'adapter à toi. Chaque étape sera calibrée à ton niveau et à ton temps disponible.
         </p>
+
+        {error && (
+          <p className="text-sm text-[#EF4444] text-center">{error}</p>
+        )}
 
         <Button variant="primary" size="lg" onClick={onStart} loading={loading} fullWidth>
           Commencer l'aventure →
