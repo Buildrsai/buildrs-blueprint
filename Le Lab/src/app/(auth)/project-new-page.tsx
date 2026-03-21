@@ -5,6 +5,8 @@ import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/hooks/use-auth'
 
 const projectSchema = z.object({
   name: z.string().min(2, 'Le nom doit faire au moins 2 caractères'),
@@ -16,11 +18,13 @@ type ProjectForm = z.infer<typeof projectSchema>
 
 function ProjectNewPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [form, setForm] = useState<ProjectForm>({ name: '', description: '', niche: '' })
   const [errors, setErrors] = useState<Partial<ProjectForm>>({})
   const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const result = projectSchema.safeParse(form)
     if (!result.success) {
@@ -33,12 +37,35 @@ function ProjectNewPage() {
       return
     }
     setErrors({})
+    setServerError(null)
     setLoading(true)
-    // TODO: créer projet dans Supabase
-    setTimeout(() => {
+
+    // Créer le projet
+    const { data: project, error: projectError } = await supabase
+      .from('projects')
+      .insert({
+        user_id: user!.id,
+        name: form.name,
+        description: form.description,
+        idea_data: { niche: form.niche },
+      })
+      .select('id')
+      .single()
+
+    if (projectError || !project) {
+      setServerError('Erreur lors de la création. Réessaie.')
       setLoading(false)
-      navigate('/project/demo-id')
-    }, 1500)
+      return
+    }
+
+    // Créer la phase 1 comme active
+    await supabase.from('project_phases').insert({
+      project_id: project.id,
+      phase_number: 1,
+      status: 'active',
+    })
+
+    navigate(`/project/${project.id}`, { replace: true })
   }
 
   return (
@@ -95,6 +122,10 @@ function ProjectNewPage() {
             error={errors.niche}
             hint="Qui sont tes clients cibles ?"
           />
+
+          {serverError && (
+            <p className="text-sm text-[#EF4444]">{serverError}</p>
+          )}
 
           <Button
             type="submit"

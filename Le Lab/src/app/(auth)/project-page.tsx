@@ -6,6 +6,7 @@ import { ScoreBadge } from '@/components/ui/score-badge'
 import { ProgressPhases } from '@/components/ui/progress-phases'
 import { PHASE_NAMES } from '@/lib/utils'
 import { cn } from '@/lib/utils'
+import { useProjectContext } from '@/contexts/project-context'
 
 const PHASE_ICONS = ['💡', '🏗️', '🎨', '🔧', '⚙️', '🔨', '🚀', '📣']
 const PHASE_DESCRIPTIONS = [
@@ -19,26 +20,37 @@ const PHASE_DESCRIPTIONS = [
   'Checklist de lancement, templates Product Hunt, Reddit, LinkedIn.',
 ]
 
-const DEMO_PROJECT = {
-  id: '1',
-  name: 'TaskFlow Pro',
-  description: 'Outil de gestion de tâches pour freelances',
-  current_phase: 3,
-  completed_phases: [1, 2],
-  score: 82,
-}
-
 function ProjectPage() {
   const { id } = useParams<{ id: string }>()
-  const project = DEMO_PROJECT
+  const { project, phases, loading, error } = useProjectContext()
 
-  if (!project) {
+  if (loading) {
+    return (
+      <div className="max-w-[860px] mx-auto flex flex-col gap-8">
+        <div className="h-10 w-64 bg-[#F0F1F5] rounded-xl animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+            <div key={i} className="h-28 bg-[#F0F1F5] rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !project) {
     return (
       <div className="flex items-center justify-center h-64">
         <p className="text-[#45474D]">Projet introuvable.</p>
       </div>
     )
   }
+
+  const completedPhases = phases
+    .filter(p => p.status === 'completed')
+    .map(p => p.phase_number)
+
+  const phase1 = phases.find(p => p.phase_number === 1 && p.status === 'completed')
+  const score = (phase1?.generated_content?.score as number) ?? 0
 
   return (
     <div className="max-w-[860px] mx-auto flex flex-col gap-8">
@@ -51,12 +63,14 @@ function ProjectPage() {
           >
             {project.name}
           </h1>
-          {project.score > 0 && <ScoreBadge score={project.score} />}
+          {score > 0 && <ScoreBadge score={score} />}
         </div>
-        <p className="text-sm text-[#45474D]">{project.description}</p>
+        <p className="text-sm text-[#45474D]">
+          {project.description ?? project.idea_data?.niche ?? '—'}
+        </p>
         <ProgressPhases
           currentPhase={project.current_phase}
-          completedPhases={project.completed_phases}
+          completedPhases={completedPhases}
           showLabels
         />
       </div>
@@ -64,7 +78,7 @@ function ProjectPage() {
       {/* Grille 8 phases */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((phase) => {
-          const isCompleted = project.completed_phases.includes(phase)
+          const isCompleted = completedPhases.includes(phase)
           const isCurrent = phase === project.current_phase
           const isLocked = phase > project.current_phase && !isCompleted
 

@@ -4,19 +4,20 @@ import { AppSidebar } from './app-sidebar'
 import { AppHeader } from './app-header'
 import { useAuth } from '@/hooks/use-auth'
 import { useProfile } from '@/hooks/use-profile'
+import { useProject } from '@/hooks/use-project'
+import { ProjectContext } from '@/contexts/project-context'
 
 /**
  * Layout LIGHT — dashboard et pages authentifiées.
  * Fond #F8F9FC, sidebar blanche, header blanc.
- * Redirections :
- *   - non connecté → /login
- *   - onboarding non complété → /onboarding
+ * Fetche le projet courant (si route /project/:id) et le fournit via ProjectContext.
  */
 function AppLayout() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, loading: authLoading } = useAuth()
   const { profile, loading: profileLoading } = useProfile()
+  const projectData = useProject(id) // no-op quand id est undefined
 
   // Redirection : non connecté
   useEffect(() => {
@@ -46,16 +47,26 @@ function AppLayout() {
 
   if (!user) return null
 
+  const completedPhaseNumbers = projectData.phases
+    .filter(p => p.status === 'completed')
+    .map(p => p.phase_number)
+
   return (
-    <div className="min-h-screen flex bg-[#F8F9FC]">
-      <AppSidebar currentProjectId={id} />
-      <div className="flex-1 flex flex-col min-w-0">
-        <AppHeader />
-        <main className="flex-1 overflow-y-auto p-6">
-          <Outlet />
-        </main>
+    <ProjectContext.Provider value={projectData}>
+      <div className="min-h-screen flex bg-[#F8F9FC]">
+        <AppSidebar
+          currentProjectId={id}
+          currentPhase={projectData.project?.current_phase}
+          completedPhases={completedPhaseNumbers}
+        />
+        <div className="flex-1 flex flex-col min-w-0">
+          <AppHeader />
+          <main className="flex-1 overflow-y-auto p-6">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </ProjectContext.Provider>
   )
 }
 

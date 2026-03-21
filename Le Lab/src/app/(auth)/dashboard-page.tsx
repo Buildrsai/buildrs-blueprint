@@ -6,32 +6,51 @@ import { ProgressPhases } from '@/components/ui/progress-phases'
 import { ScoreBadge } from '@/components/ui/score-badge'
 import { PHASE_NAMES } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
+import { useProjects } from '@/hooks/use-projects'
+import type { PhaseInfo } from '@/hooks/use-projects'
 
-const DEMO_PROJECTS = [
-  {
-    id: '1',
-    name: 'TaskFlow Pro',
-    description: 'Outil de gestion de tâches pour freelances',
-    current_phase: 3,
-    completed_phases: [1, 2],
-    score: 82,
-    updated_at: 'Il y a 2 heures',
-  },
-  {
-    id: '2',
-    name: 'MediSync',
-    description: 'Agenda intelligent pour para-médicaux',
-    current_phase: 1,
-    completed_phases: [],
-    score: 71,
-    updated_at: 'Hier',
-  },
-]
+function relativeTime(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime()
+  const h = Math.floor(diff / 3600000)
+  if (h < 1) return "À l'instant"
+  if (h < 24) return `Il y a ${h}h`
+  const d = Math.floor(h / 24)
+  if (d === 1) return 'Hier'
+  return `Il y a ${d} jours`
+}
+
+function getScore(phases: PhaseInfo[]): number {
+  const phase1 = phases.find(p => p.phase_number === 1 && p.status === 'completed')
+  return (phase1?.generated_content?.score as number) ?? 0
+}
 
 function DashboardPage() {
   const { user } = useAuth()
+  const { projects, loading, error } = useProjects()
+
   const rawName = user?.email?.split('@')[0] ?? 'toi'
   const firstName = rawName.charAt(0).toUpperCase() + rawName.slice(1)
+
+  if (loading) {
+    return (
+      <div className="max-w-[960px] mx-auto flex flex-col gap-8">
+        <div className="h-10 w-48 bg-[#F0F1F5] rounded-xl animate-pulse" />
+        <div className="flex flex-col gap-3">
+          {[1, 2].map(i => (
+            <div key={i} className="h-32 bg-[#F0F1F5] rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-[960px] mx-auto">
+        <p className="text-sm text-[#EF4444]">Erreur : {error}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-[960px] mx-auto flex flex-col gap-8">
@@ -44,7 +63,7 @@ function DashboardPage() {
             Bonjour, {firstName} 👋
           </h1>
           <p className="text-sm text-[#45474D] mt-1">
-            {DEMO_PROJECTS.length} projet{DEMO_PROJECTS.length > 1 ? 's' : ''} en cours
+            {projects.length} projet{projects.length > 1 ? 's' : ''} en cours
           </p>
         </div>
         <Link to="/project/new">
@@ -55,47 +74,58 @@ function DashboardPage() {
         </Link>
       </div>
 
-      <div className="flex flex-col gap-3">
-        {DEMO_PROJECTS.map((project) => (
-          <Link key={project.id} to={`/project/${project.id}`}>
-            <Card variant="white" padding="lg" hover className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex flex-col gap-1 flex-1 min-w-0">
-                  <div className="flex items-center gap-3">
-                    <h2
-                      className="text-[#121317] truncate"
-                      style={{ fontSize: '0.95rem', fontWeight: 500, letterSpacing: '-0.01em' }}
-                    >
-                      {project.name}
-                    </h2>
-                    {project.score > 0 && <ScoreBadge score={project.score} size="sm" />}
-                  </div>
-                  <p className="text-sm text-[#45474D] truncate">{project.description}</p>
-                </div>
-                <ArrowRight size={15} className="text-[#B2BBC5] flex-shrink-0 mt-0.5" />
-              </div>
+      {projects.length > 0 && (
+        <div className="flex flex-col gap-3">
+          {projects.map((project) => {
+            const completedPhases = project.project_phases
+              .filter(p => p.status === 'completed')
+              .map(p => p.phase_number)
+            const score = getScore(project.project_phases)
 
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-[#B2BBC5]">
-                    Phase {project.current_phase} — {PHASE_NAMES[project.current_phase]}
-                  </span>
-                  <div className="flex items-center gap-1 text-xs text-[#B2BBC5]">
-                    <Clock size={11} />
-                    {project.updated_at}
+            return (
+              <Link key={project.id} to={`/project/${project.id}`}>
+                <Card variant="white" padding="lg" hover className="flex flex-col gap-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-1 flex-1 min-w-0">
+                      <div className="flex items-center gap-3">
+                        <h2
+                          className="text-[#121317] truncate"
+                          style={{ fontSize: '0.95rem', fontWeight: 500, letterSpacing: '-0.01em' }}
+                        >
+                          {project.name}
+                        </h2>
+                        {score > 0 && <ScoreBadge score={score} size="sm" />}
+                      </div>
+                      <p className="text-sm text-[#45474D] truncate">
+                        {project.description ?? project.idea_data?.niche ?? '—'}
+                      </p>
+                    </div>
+                    <ArrowRight size={15} className="text-[#B2BBC5] flex-shrink-0 mt-0.5" />
                   </div>
-                </div>
-                <ProgressPhases
-                  currentPhase={project.current_phase}
-                  completedPhases={project.completed_phases}
-                />
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
 
-      {DEMO_PROJECTS.length === 0 && (
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-[#B2BBC5]">
+                        Phase {project.current_phase} — {PHASE_NAMES[project.current_phase]}
+                      </span>
+                      <div className="flex items-center gap-1 text-xs text-[#B2BBC5]">
+                        <Clock size={11} />
+                        {relativeTime(project.updated_at)}
+                      </div>
+                    </div>
+                    <ProgressPhases
+                      currentPhase={project.current_phase}
+                      completedPhases={completedPhases}
+                    />
+                  </div>
+                </Card>
+              </Link>
+            )
+          })}
+        </div>
+      )}
+
+      {projects.length === 0 && (
         <Card variant="white" padding="lg" className="flex flex-col items-center gap-4 text-center py-16">
           <p className="text-4xl">💡</p>
           <div>
