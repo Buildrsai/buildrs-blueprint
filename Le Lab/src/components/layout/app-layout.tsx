@@ -3,37 +3,51 @@ import { Outlet, useParams, useNavigate } from 'react-router'
 import { AppSidebar } from './app-sidebar'
 import { AppHeader } from './app-header'
 import { useAuth } from '@/hooks/use-auth'
+import { useProfile } from '@/hooks/use-profile'
 
 /**
- * Layout DARK — dashboard et pages authentifiées
- * Fond #050508, sidebar #0A0A0F, cockpit immersif
- * Redirige vers /login si l'utilisateur n'est pas connecté.
+ * Layout LIGHT — dashboard et pages authentifiées.
+ * Fond #F8F9FC, sidebar blanche, header blanc.
+ * Redirections :
+ *   - non connecté → /login
+ *   - onboarding non complété → /onboarding
  */
 function AppLayout() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user, loading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
+  const { profile, loading: profileLoading } = useProfile()
 
+  // Redirection : non connecté
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       navigate('/login', { replace: true })
     }
-  }, [user, loading, navigate])
+  }, [user, authLoading, navigate])
 
-  // Pendant la vérification de session
+  // Redirection : onboarding non complété
+  useEffect(() => {
+    if (!authLoading && !profileLoading && user) {
+      if (!profile || !profile.onboarding_completed) {
+        navigate('/onboarding', { replace: true })
+      }
+    }
+  }, [user, authLoading, profile, profileLoading, navigate])
+
+  const loading = authLoading || (!!user && profileLoading)
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#000000]">
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F9FC]">
         <div className="w-5 h-5 rounded-full border-2 border-[#3279F9] border-t-transparent animate-spin" />
       </div>
     )
   }
 
-  // Non connecté — sera redirigé par le useEffect
   if (!user) return null
 
   return (
-    <div className="min-h-screen flex bg-[#050508] dark">
+    <div className="min-h-screen flex bg-[#F8F9FC]">
       <AppSidebar currentProjectId={id} />
       <div className="flex-1 flex flex-col min-w-0">
         <AppHeader />
