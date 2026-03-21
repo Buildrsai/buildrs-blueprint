@@ -12,6 +12,9 @@ import { LoginPage } from '@/app/(public)/login-page'
 import { SignupPage } from '@/app/(public)/signup-page'
 import { AuthCallbackPage } from '@/app/(public)/auth-callback-page'
 
+// Onboarding
+import { OnboardingPage } from '@/app/(auth)/onboarding-page'
+
 // Pages authentifiées
 import { DashboardPage } from '@/app/(auth)/dashboard-page'
 import { ProjectNewPage } from '@/app/(auth)/project-new-page'
@@ -33,7 +36,13 @@ const router = createBrowserRouter([
     ],
   },
 
-  // ── Pages authentifiées (DARK) ───────────────────────────────────
+  // ── Onboarding (standalone, authentifié) ─────────────────────────
+  {
+    path: '/onboarding',
+    element: <OnboardingPage />,
+  },
+
+  // ── Pages authentifiées (LIGHT) ───────────────────────────────────
   {
     element: <AppLayout />,
     children: [
