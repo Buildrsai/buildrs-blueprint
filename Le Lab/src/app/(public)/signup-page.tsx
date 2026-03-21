@@ -26,7 +26,6 @@ const BENEFITS = [
 ]
 
 function SignupPage() {
-  const navigate = useNavigate()
   const [form, setForm] = useState<SignupForm>({ name: '', email: '', password: '' })
   const [errors, setErrors] = useState<Partial<SignupForm & { global: string }>>({})
   const [loading, setLoading] = useState(false)
