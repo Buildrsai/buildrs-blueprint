@@ -713,14 +713,6 @@ function Sprint() {
                   transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
                   className={`relative md:grid md:grid-cols-2 md:gap-8 md:items-center pl-14 md:pl-0 ${isLeft ? "" : "md:[&>*:first-child]:order-2"}`}
                 >
-                  {/* Dot mobile — sur la ligne gauche */}
-                  <div
-                    className="absolute left-0 top-6 flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted bg-foreground shadow-sm md:hidden"
-                    style={{ zIndex: 1 }}
-                  >
-                    <span className="font-mono text-[10px] font-bold text-background">{day}</span>
-                  </div>
-
                   {/* Card */}
                   <div className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-sm">
                     <div className="mb-4 flex items-center justify-between">
@@ -763,6 +755,14 @@ function Sprint() {
                     >
                       {day}
                     </div>
+                  </div>
+
+                  {/* Dot mobile — absolu, après les items grid pour ne pas casser [&>*:first-child] */}
+                  <div
+                    className="absolute left-0 top-6 flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted bg-foreground shadow-sm md:hidden"
+                    style={{ zIndex: 1 }}
+                  >
+                    <span className="font-mono text-[10px] font-bold text-background">{day}</span>
                   </div>
                 </motion.div>
               )
