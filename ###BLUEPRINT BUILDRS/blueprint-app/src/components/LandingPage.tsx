@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Clock, Banknote, Layers, Bot, TrendingUp, Copy, Repeat2, Building2, Zap, Check, Flame } from "lucide-react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench } from "lucide-react"
 import { TestimonialsSection } from "./ui/testimonials-section"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { BuildrsIcon, BrandIcons } from "./ui/icons"
@@ -7,41 +7,48 @@ import { BuildrsIcon, BrandIcons } from "./ui/icons"
 import { AnimatedBeamStack } from "./ui/animated-beam-stack"
 import { DashboardPreview } from "./ui/dashboard-preview"
 import { WordRotate } from "./ui/word-rotate"
+import { MorphingCardStack } from "./ui/morphing-card-stack"
+import type { CardData } from "./ui/morphing-card-stack"
 
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
 const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
-  { label: "Claude AI",    Icon: BrandIcons.claude },
-  { label: "Supabase",    Icon: BrandIcons.supabase },
-  { label: "Stripe",      Icon: BrandIcons.stripe },
-  { label: "Vercel",      Icon: BrandIcons.vercel },
-  { label: "GitHub",      Icon: BrandIcons.github },
-  { label: "Tailwind CSS",Icon: BrandIcons.tailwind },
-  { label: "Resend",      Icon: BrandIcons.resend },
-  { label: "Cloudflare",  Icon: BrandIcons.cloudflare },
+  { label: "Claude AI",        Icon: BrandIcons.claude },
+  { label: "Mobbin",           Icon: BrandIcons.mobbin },
+  { label: "Stitch",           Icon: BrandIcons.stitch },
+  { label: "21st.dev",         Icon: BrandIcons.twentyOneDev },
+  { label: "VS Code",          Icon: BrandIcons.vscode },
+  { label: "Supabase",         Icon: BrandIcons.supabase },
+  { label: "Vercel",           Icon: BrandIcons.vercel },
+  { label: "Resend",           Icon: BrandIcons.resend },
+  { label: "Stripe",           Icon: BrandIcons.stripe },
+  { label: "Hostinger",        Icon: BrandIcons.hostinger },
+  { label: "GitHub",           Icon: BrandIcons.github },
+  { label: "Google AI Studio", Icon: BrandIcons.googleAIStudio },
+  { label: "Kling AI",         Icon: BrandIcons.klingAI },
 ]
 
 const stats = [
   { num: "6 jours", desc: "De l'idée au produit live et monétisé" },
-  { num: "27€", desc: "Prix de lancement — 82/100 places prises" },
-  { num: "6", desc: "Modules actionnables pour lancer ton produit" },
+  { num: "25K€/mois", desc: "Générés chez Buildrs" },
+  { num: "+80", desc: "ont décidé de se lancer avec Buildrs" },
 ]
 
 const pains = [
   {
     Icon: Clock,
     title: "Tu scrolles depuis des mois sans rien lancer",
-    desc: "Des créateurs de contenu qui te promettent 10 000€/mois avec ChatGPT. Et toi tu watchlistes encore.",
+    desc: "Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.",
   },
   {
     Icon: Banknote,
-    title: "Les formations coûtent une fortune pour peu de résultats",
-    desc: "997€ pour apprendre la théorie sans jamais passer à l'action. Et à la fin, toujours rien de live.",
+    title: "Les formations coûtent une fortune pour rien",
+    desc: "997€ pour apprendre la théorie. Et dans quelques mois, avec les nouvelles IA qui sortent, tout ce que tu as appris sera déjà obsolète. Tu paies pour du périmé.",
   },
   {
     Icon: Layers,
     title: "Trop d'outils, zéro direction",
-    desc: "GPT, Bolt, Make, Airtable… Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
+    desc: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make... Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
   },
   {
     Icon: Bot,
@@ -87,21 +94,22 @@ const faqs = [
 ]
 
 const features = [
+  "Accès au dashboard interactif Buildrs",
   "6 modules complets (de l'idée au lancement)",
-  "Les prompts exacts à copier-coller",
-  "La liste de tous les outils avec liens directs",
+  "Les prompts exacts à copier-coller à chaque étape",
+  "Le stack complet d'outils avec guides de configuration",
   "Générateur d'idées intégré",
-  "Checklist interactive",
-  "Bibliothèque de templates",
-  "Glossaire et fondations",
-  "3 stratégies de départ",
-  "3 modèles de monétisation",
+  "Checklist interactive de progression",
+  "Templates prêts à l'emploi (brief, emails, landing page)",
+  "Les fondations du vibecoding et du product building",
+  "3 stratégies de départ (copier, résoudre, découvrir)",
+  "3 modèles de monétisation (MRR, revente, commande)",
   "Accès à vie + mises à jour",
 ]
 
 const bonuses = [
   "3 générateurs IA (idées, validation, MRR)",
-  "Accès canal WhatsApp premium — 7 jours",
+  "Accès au canal WhatsApp Buildrs",
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
@@ -128,10 +136,22 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
         {/* Links */}
         <ul className="hidden items-center gap-1 list-none md:flex">
-          {["Modules", "Comment", "Tarif", "FAQ"].map((l) => (
-            <li key={l}>
-              <a href={`#${l.toLowerCase()}`} className="rounded-md px-3 py-1.5 text-sm font-[450] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground no-underline">
-                {l}
+          {[
+            { label: "Modules", id: "modules" },
+            { label: "Comment", id: "comment" },
+            { label: "Tarif",   id: "tarif"   },
+            { label: "FAQ",     id: "faq"     },
+          ].map(({ label, id }) => (
+            <li key={id}>
+              <a
+                href={`#${id}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="rounded-md px-3 py-1.5 text-sm font-[450] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground no-underline cursor-pointer"
+              >
+                {label}
               </a>
             </li>
           ))}
@@ -163,59 +183,86 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
-    <section className="relative overflow-hidden px-6 pb-20 pt-[140px] text-center">
+    <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[100px] sm:pt-[130px]">
       {/* Radial gradient top */}
       <div
-        className="pointer-events-none absolute left-0 right-0 top-0 h-[500px]"
+        className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
       />
 
-      {/* Badge */}
-      <div className="mb-8 inline-flex max-w-[340px] sm:max-w-none items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-        <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
-          <BrandIcons.supabase className="h-3 w-3 text-foreground" />
-        </span>
-        <span className="text-center sm:text-left">Le système utilisé en interne chez Buildrs pour lancer des produits en 6 jours.</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div className="relative mx-auto max-w-[1200px] grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-14 items-center">
+
+        {/* ── LEFT — Texte ──────────────────────────────────────── */}
+        <div className="flex flex-col items-start text-left">
+
+          {/* Badge */}
+          <div className="mb-8 inline-flex max-w-[340px] sm:max-w-none items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
+            <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
+              <BrandIcons.supabase className="h-3 w-3 text-foreground" />
+            </span>
+            <span>Le système utilisé en interne chez Buildrs pour lancer des produits en 6 jours.</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          {/* H1 */}
+          <h1
+            className="mb-7 text-foreground"
+            style={{ fontSize: "clamp(44px, 5.5vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
+          >
+            Crée ton{" "}
+            <WordRotate
+              words={["saas", "app", "logiciel"]}
+              duration={2200}
+              className="text-foreground"
+              style={{ fontSize: "clamp(44px, 5.5vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+            />
+            <br />avec l'IA. En 6 jours.
+          </h1>
+
+          {/* Sub */}
+          <p className="mb-10 max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
+            Le plan d'action étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur de production, et lancer un produit digital qui génère des revenus —{" "}
+            <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center gap-3">
+            <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
+              Accéder au Blueprint — 27€ →
+            </a>
+            <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
+              Voir les modules
+            </a>
+          </div>
+
+          {/* Price note */}
+          <p className="mt-5 flex items-center gap-1.5 text-[13px] text-muted-foreground/60">
+            <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
+            <span>Offre de lancement — 82/100 places prises · Ensuite 297€</span>
+          </p>
+        </div>
+
+        {/* ── RIGHT — Mockup vidéo ───────────────────────────────── */}
+        <div className="relative flex justify-center">
+          {/* Glow derrière */}
+          <div
+            className="pointer-events-none absolute inset-0 -z-10 scale-90 rounded-3xl blur-3xl"
+            style={{ background: "radial-gradient(ellipse, rgba(160,160,255,0.18) 0%, transparent 70%)" }}
+          />
+
+          {/* Vidéo flottante — sans contour */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="block w-full max-w-[640px] dark:mix-blend-multiply"
+            style={{ animation: "hero-float 5s ease-in-out infinite" }}
+            src="/demo.mp4"
+          />
+        </div>
+
       </div>
-
-      {/* H1 */}
-      <h1
-        className="mx-auto mb-7 max-w-[900px] text-foreground"
-        style={{ fontSize: "clamp(52px, 8.5vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
-      >
-        Crée ton{" "}
-        <WordRotate
-          words={["SaaS", "app", "logiciel"]}
-          duration={2200}
-          className="text-foreground"
-          style={{ fontSize: "clamp(52px, 8.5vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-        />
-        <br />avec l'IA. En 6 jours.
-      </h1>
-
-      {/* Sub */}
-      <p className="mx-auto mb-10 max-w-[560px] text-[18px] leading-[1.65] text-muted-foreground">
-        Le plan d'action étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur de production, et lancer un produit digital qui génère des revenus —{" "}
-        <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
-      </p>
-
-      {/* CTAs */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-          Accéder au Blueprint — 27€ →
-        </a>
-        <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
-          Voir les modules
-        </a>
-      </div>
-
-      {/* Price note */}
-      <p className="mt-5 flex items-center justify-center gap-1.5 text-[13px] text-muted-foreground/60">
-        <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
-        <span>Offre de lancement — 82/100 places prises · Ensuite 297€</span>
-      </p>
-
     </section>
   )
 }
@@ -227,7 +274,7 @@ function Marquee() {
   return (
     <section className="overflow-hidden border-y border-border bg-muted py-12">
       <p className="mb-5 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-        Les outils que tu vas maîtriser
+        Le stack IA que tu vas orchestrer
       </p>
       <div className="overflow-hidden">
         <div
@@ -276,48 +323,10 @@ function Stats() {
 
 // ─── WHY SAAS ────────────────────────────────────────────────────────────────
 
-const whyCards = [
-  {
-    id: "clone",
-    title: "Copier un SaaS qui marche",
-    description: "Repère un SaaS US qui cartonne, adapte-le au marché français. Le modèle est validé, tu exécutes.",
-    icon: <Copy className="h-5 w-5" />,
-  },
-  {
-    id: "problem",
-    title: "Résoudre un vrai problème",
-    description: "Tu identifies une douleur réelle dans ton secteur. Tu construis la solution exacte. Personne d'autre ne l'a encore faite.",
-    icon: <Zap className="h-5 w-5" />,
-  },
-  {
-    id: "agents",
-    title: "Orchestrer des agents IA",
-    description: "Claude fait le travail. Toi tu diriges. Tu deviens le CEO d'un studio IA sans équipe ni salaires.",
-    icon: <Bot className="h-5 w-5" />,
-  },
-  {
-    id: "mrr",
-    title: "Générer du MRR",
-    description: "Des revenus récurrents chaque mois. Prévisibles. Scalables. Sans client à gérer, sans prestation à livrer.",
-    icon: <Repeat2 className="h-5 w-5" />,
-  },
-  {
-    id: "flip",
-    title: "Construire pour revendre",
-    description: "Un SaaS rentable se revend 3 à 5x son MRR annuel. Tu construis en 72h, tu revends en quelques mois.",
-    icon: <TrendingUp className="h-5 w-5" />,
-  },
-  {
-    id: "solo",
-    title: "Zéro équipe, zéro budget",
-    description: "Pas de développeur, pas d'investisseur, pas d'expérience technique requise. Juste toi, Claude, et ce Blueprint.",
-    icon: <Building2 className="h-5 w-5" />,
-  },
-]
 
 function WhySaaS() {
   return (
-    <section className="py-24">
+    <section id="comment" className="py-24">
       <div className="mx-auto max-w-[1100px] px-6">
         {/* Header centré */}
         <div className="mb-14 text-center">
@@ -331,7 +340,7 @@ function WhySaaS() {
             Tu n'as pas besoin<br />de coder. Tu as besoin<br />de diriger.
           </h2>
           <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-            Tu es le chef d'orchestre. Les agents IA sont ton équipe d'exécution. Claude code. Vercel déploie. Supabase gère.
+            Tu es le chef d'orchestre. Les outils et agents IA sont ton équipe d'exécution. Claude code. Vercel déploie. Supabase gère. Stripe encaisse. Rien de plus.
           </p>
         </div>
 
@@ -343,10 +352,10 @@ function WhySaaS() {
         {/* Stats en bas */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[
-            { num: "20–40×", label: "Valeur de revente du MRR mensuel" },
             { num: "6 jours", label: "De l'idée au produit live" },
-            { num: "<100€", label: "De budget pour démarrer" },
-            { num: "100%", label: "Solo, aucune équipe nécessaire" },
+            { num: "< 50€", label: "De budget pour démarrer" },
+            { num: "100% solo", label: "Aucune équipe nécessaire" },
+            { num: "0 ligne de code", label: "Tu décris, l'IA construit" },
           ].map(({ num, label }) => (
             <div key={num} className="rounded-xl border border-border bg-muted p-4 text-center">
               <p className="text-[22px] font-bold tracking-tight text-foreground" style={{ letterSpacing: "-0.03em" }}>{num}</p>
@@ -370,7 +379,7 @@ function Pain() {
         Tout le monde te parle d'IA.<br />Personne ne te montre<br />comment en vivre.
       </h2>
       <p className="max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-        Pendant ce temps, des gens sans background technique lancent des micro-SaaS à 5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système. Blueprint le remplace.
+        Pendant ce temps, des gens sans background technique lancent des micro-SaaS, des apps et des logiciels à +5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système. Blueprint le remplace.
       </p>
 
       <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -389,22 +398,82 @@ function Pain() {
   )
 }
 
+// ─── SAAS VEHICLE ─────────────────────────────────────────────────────────────
+
+const saasCardItems: CardData[] = [
+  {
+    id: "global",
+    title: "Vendre sans limites",
+    stat: "24h/24 · Dans le monde entier",
+    description: "Tu crées ton produit une fois. Il se vend à l'infini, dans tous les pays, sans stock à gérer, sans livraison, sans logistique.",
+    icon: <Globe strokeWidth={1.5} size={20} />,
+  },
+  {
+    id: "mrr",
+    title: "Revenus récurrents",
+    stat: "50 clients × 29€ = 1 450€/mois",
+    description: "Tes clients paient chaque mois. Tu ne repars pas de zéro à chaque vente. Le MRR s'accumule automatiquement.",
+    icon: <TrendingUp strokeWidth={1.5} size={20} />,
+  },
+  {
+    id: "stack",
+    title: "Dupliquer et recommencer",
+    stat: "SaaS 1 → SaaS 2 → SaaS 3",
+    description: "La méthode est identique à chaque fois. Tu lances un deuxième, un troisième produit. Chaque SaaS devient une source de revenus indépendante.",
+    icon: <Copy strokeWidth={1.5} size={20} />,
+  },
+  {
+    id: "exit",
+    title: "Revendre ou conserver",
+    stat: "1 000€/mois → 20 000 à 40 000€",
+    description: "Tu gardes et développes ton SaaS, ou tu le revends entre 20x et 40x son MRR mensuel. C'est toi qui choisis.",
+    icon: <ArrowLeftRight strokeWidth={1.5} size={20} />,
+  },
+]
+
+function SaasVehicle() {
+  return (
+    <section className="py-24 bg-background overflow-hidden">
+      <div className="mx-auto max-w-[1100px] px-6">
+        <div className="mb-14 text-center">
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+            Pourquoi un SaaS
+          </p>
+          <h2
+            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+            className="mb-5 text-foreground"
+          >
+            Un produit digital. Zéro stock.<br />Des clients dans le monde entier.
+          </h2>
+          <p className="mx-auto max-w-[560px] text-[17px] leading-[1.65] text-muted-foreground">
+            Contrairement au e-commerce, au freelance ou au coaching, un SaaS ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
+          </p>
+        </div>
+
+        <MorphingCardStack cards={saasCardItems} defaultLayout="stack" className="max-w-md mx-auto" />
+      </div>
+    </section>
+  )
+}
+
 // ─── BEFORE / AFTER ──────────────────────────────────────────────────────────
 
 const beforeItems = [
   "Tu scrolles du contenu sur l'IA sans rien lancer",
   "Tu ne sais pas quel outil utiliser ni dans quel ordre",
-  "Tu penses qu'il faut savoir coder ou avoir un gros budget",
+  "Tu penses qu'il faut être développeur ou avoir une grosse équipe",
   "Tu as des idées mais elles restent dans ta tête",
-  "Tu dépends des développeurs ou des freelances",
+  "Tu dépends des freelances et des devis à 5 000€",
+  "Tu consommes des formations qui seront obsolètes dans 3 mois",
 ]
 
 const afterItems = [
   "Tu as un produit live accessible à tout le monde",
-  "Tu maîtrises un stack complet d'outils IA",
   "Tu sais construire n'importe quelle app en quelques jours",
-  "Ton idée est un vrai produit qui génère des revenus",
-  "Tu es autonome — chef d'orchestre de tes agents IA",
+  "Tu peux vendre des logiciels à des entreprises ou des particuliers",
+  "Tu crées des micro-SaaS qui résolvent un vrai problème et génèrent des revenus",
+  "Tu maîtrises LA compétence la plus recherchée du marché en 2026",
+  "Tu es autonome — tu bosses seul, d'où tu veux, quand tu veux",
 ]
 
 function BeforeAfter() {
@@ -457,6 +526,39 @@ function BeforeAfter() {
 
 // ─── DASHBOARD PREVIEW ────────────────────────────────────────────────────────
 
+const DASHBOARD_FEATURES = [
+  {
+    Icon: Zap,
+    title: 'Autopilot IA',
+    desc: 'Ton workspace projet guidé par Claude. Timeline de progression, brief produit, stack et MRR estimé — tout en un.',
+  },
+  {
+    Icon: BookOpen,
+    title: 'Mon Parcours',
+    desc: '7 modules et 33 leçons interactives. Un plan structuré de l\'idée au lancement, à suivre à ton rythme.',
+  },
+  {
+    Icon: Lightbulb,
+    title: 'Générateurs IA',
+    desc: '3 outils IA intégrés : idées de SaaS, validation de concept avec score, calculateur MRR & revente.',
+  },
+  {
+    Icon: Copy,
+    title: 'Bibliothèque de prompts',
+    desc: '100+ prompts copiables classés par module et par usage. Prêts à coller dans Claude Code.',
+  },
+  {
+    Icon: CheckSquare,
+    title: 'Checklist de lancement',
+    desc: 'Chaque étape cochable en temps réel. Tu sais exactement où tu en es et ce qu\'il reste à faire.',
+  },
+  {
+    Icon: Wrench,
+    title: 'Boîte à outils',
+    desc: 'Tous les outils du stack (Supabase, Vercel, Stripe…) avec guides de configuration et liens directs.',
+  },
+]
+
 function DashboardSection() {
   return (
     <section className="py-24 overflow-hidden">
@@ -469,19 +571,36 @@ function DashboardSection() {
             style={{ fontSize: 'clamp(34px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.06 }}
             className="mb-4 text-foreground"
           >
-            Ton dashboard.<br />Pas un PDF. Pas une vidéo.
+            Pas un PDF. Pas une vidéo.<br />Un vrai dashboard produit.
           </h2>
-          <p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
-            Un vrai produit SaaS interactif. Prompts copiables, checklist cochable, progression en temps réel. Explore les 3 vues ci-dessous.
+          <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
+            Tu accèdes à un dashboard complet avec ton workspace projet Autopilot IA, tes modules interactifs, tes générateurs, ta bibliothèque de prompts, ta checklist et tes outils — tout en un.
           </p>
         </div>
+
         <DashboardPreview />
+
+        {/* Feature grid */}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {DASHBOARD_FEATURES.map(({ Icon, title, desc }) => (
+            <div
+              key={title}
+              className="border border-border rounded-xl p-5 hover:border-foreground/20 transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center mb-3">
+                <Icon size={16} strokeWidth={1.5} className="text-foreground" />
+              </div>
+              <h3 className="font-bold text-[14px] text-foreground mb-1.5" style={{ letterSpacing: '-0.01em' }}>{title}</h3>
+              <p className="text-[13px] text-muted-foreground leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
-// ─── PRICING ─────────────────────────────────────────────────────────────────
+// ─── PRICING ─────────────────────────────────────────────────────────────────────────────
 
 function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
@@ -495,7 +614,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           Un seul paiement. Un accès à vie. Un seul client sur ton SaaS et le Blueprint est rentabilisé 10 fois.
         </p>
 
-        {/* Shine border wrapper — reuses .bump-neon + .bump-inner from index.css */}
+        {/* Shine border wrapper */}
         <div className="bump-neon relative mx-auto mt-12 max-w-[440px]" style={{ borderRadius: 22 }}>
           <div className="bump-inner p-10 text-left" style={{ borderRadius: 20 }}>
             {/* Header row */}
@@ -520,7 +639,6 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             </div>
             <p className="mb-7 text-[14px] text-muted-foreground">Paiement unique · Accès à vie</p>
 
-            {/* Separator */}
             <hr className="mb-7 border-border" />
 
             {/* Features */}
@@ -641,37 +759,37 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 const sprintDays = [
   {
     day: "01", label: "Lundi", title: "Fondations",
-    deliverable: "Livrable : ta stratégie de lancement définie",
-    items: ["Comprendre le vibecoding et pourquoi ça change tout", "Choisir ta stratégie de départ (copier, résoudre, découvrir)", "Définir ton objectif de monétisation"],
+    deliverable: "Tu repars avec une direction claire : ta stratégie, ton objectif, tes bases posées",
+    items: ["Comprendre le vibecoding et pourquoi ça change tout", "Choisir entre une app, un micro-SaaS ou un logiciel", "Choisir ta stratégie de départ (copier, résoudre, découvrir)", "Définir ton objectif de monétisation", "Les bases de l'IA avec Claude et le rôle des agents autonomes"],
     accent: "#4d96ff",
   },
   {
     day: "02", label: "Mardi", title: "Trouver & Valider",
-    deliverable: "Livrable : ton brief produit complet",
-    items: ["Générer 5 idées avec le générateur intégré", "Valider ton idée avec Claude en 30 min", "Rédiger ton brief produit (nom, cible, feature, prix)"],
+    deliverable: "Tu repars avec ton idée validée et un brief produit complet prêt à exécuter",
+    items: ["Générer 5 idées avec le générateur intégré", "Valider ton idée avec Buildrs Blueprint en 30 min", "Rédiger ton brief produit (nom, cible, feature, prix)"],
     accent: "#cc5de8",
   },
   {
     day: "03", label: "Mercredi", title: "Design & Architecture",
-    deliverable: "Livrable : ton stack configuré, ton schéma DB prêt",
-    items: ["Configurer ton environnement (Supabase, Vercel, Stripe)", "Branding express en 15 min avec Claude", "Schéma base de données + architecture validée"],
+    deliverable: "Tu repars avec ton environnement configuré et l'architecture de ton produit posée",
+    items: ["Configurer ton environnement (Supabase, Vercel, Stripe...)", "Créer ton branding avec Mobbin ou Pageflows et le valider dans Blueprint", "Schéma base de données + architecture validée"],
     accent: "#eab308",
   },
   {
     day: "04", label: "Jeudi", title: "Construire",
-    deliverable: "Livrable : ton MVP fonctionnel",
-    items: ["Générer la base de l'app avec Claude Code", "Implémenter la feature principale", "Auth + onboarding utilisateur"],
+    deliverable: "Tu repars avec un MVP fonctionnel qui tourne",
+    items: ["Générer la base de l'app avec Claude Code", "Implémenter la feature principale", "Auth + onboarding utilisateur + sécurité"],
     accent: "#ff6b6b",
   },
   {
     day: "05", label: "Vendredi", title: "Déployer",
-    deliverable: "Livrable : ton app accessible en ligne",
+    deliverable: "Tu repars avec ton produit en ligne, accessible au monde entier",
     items: ["Mise en ligne sur Vercel", "Domaine personnalisé connecté", "Stripe + Resend branchés et testés"],
     accent: "#22c55e",
   },
   {
     day: "06", label: "Samedi", title: "Monétiser & Lancer",
-    deliverable: "Livrable : premiers euros encaissés",
+    deliverable: "Tu repars avec ta page de vente live et tes premiers euros en vue",
     items: ["Page de vente rédigée et publiée", "5 contenus de lancement prêts à poster", "Premiers clients et premiers revenus"],
     accent: "#f97316",
   },
@@ -787,6 +905,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Stats />
         <Pain />
         <WhySaaS />
+        <SaasVehicle />
         <BeforeAfter />
         <Sprint />
         <DashboardSection />
