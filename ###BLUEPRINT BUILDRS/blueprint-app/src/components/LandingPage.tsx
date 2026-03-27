@@ -1,14 +1,46 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench } from "lucide-react"
-import { TestimonialsSection } from "./ui/testimonials-section"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { BuildrsIcon, BrandIcons } from "./ui/icons"
 
-import { AnimatedBeamStack } from "./ui/animated-beam-stack"
 import { DashboardPreview } from "./ui/dashboard-preview"
+import { OrbitalClaude } from "./ui/orbital-claude"
 import { WordRotate } from "./ui/word-rotate"
-import { MorphingCardStack } from "./ui/morphing-card-stack"
-import type { CardData } from "./ui/morphing-card-stack"
+import { SaasMarquee } from "./ui/saas-marquee"
+import { DottedSurface } from "./ui/dotted-surface"
+import { BGPattern } from "./ui/bg-pattern"
+
+// ── Countdown to launch end ───────────────────────────────────────────────────
+const LAUNCH_END = new Date('2026-04-01T23:59:59')
+
+function useCountdown(target: Date) {
+  const get = (t: Date) => {
+    const diff = Math.max(0, t.getTime() - Date.now())
+    return {
+      d: Math.floor(diff / 86400000),
+      h: Math.floor((diff % 86400000) / 3600000),
+      m: Math.floor((diff % 3600000) / 60000),
+      s: Math.floor((diff % 60000) / 1000),
+    }
+  }
+  const [t, setT] = useState(() => get(target))
+  useEffect(() => {
+    const id = setInterval(() => setT(get(target)), 1000)
+    return () => clearInterval(id)
+  }, [target])
+  return t
+}
+
+function ScarcityCountdown({ className }: { className?: string }) {
+  const { d, h, m, s } = useCountdown(LAUNCH_END)
+  return (
+    <span className={className}>
+      <span className="hidden sm:inline">Offre de lancement — se termine dans </span>
+      <span className="sm:hidden">Fin dans </span>
+      <span className="font-bold tabular-nums">{d}j {h}h {m}m {String(s).padStart(2, '0')}s</span>
+    </span>
+  )
+}
 
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
@@ -29,9 +61,9 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
 ]
 
 const stats = [
-  { num: "6 jours", desc: "De l'idée au produit live et monétisé" },
-  { num: "25K€/mois", desc: "Générés chez Buildrs" },
-  { num: "+80", desc: "ont décidé de se lancer avec Buildrs" },
+  { num: "6 jours", desc: "Plan d'action complet, de l'idée au premier produit live" },
+  { num: "3 000€/mois", desc: "L'objectif minimum atteignable dans les 90 prochains jours en suivant la méthode" },
+  { num: "+80", desc: "Builders ont déjà lancé leur produit avec Blueprint" },
 ]
 
 const pains = [
@@ -137,10 +169,10 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         {/* Links */}
         <ul className="hidden items-center gap-1 list-none md:flex">
           {[
-            { label: "Modules", id: "modules" },
-            { label: "Comment", id: "comment" },
-            { label: "Tarif",   id: "tarif"   },
-            { label: "FAQ",     id: "faq"     },
+            { label: "Le programme",  id: "modules"   },
+            { label: "Résultats",    id: "resultats" },
+            { label: "Tarif",        id: "tarif"     },
+            { label: "FAQ",          id: "faq"       },
           ].map(({ label, id }) => (
             <li key={id}>
               <a
@@ -183,86 +215,77 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[100px] sm:pt-[130px]">
+    <section className="relative overflow-hidden px-6 sm:px-10 pb-24 pt-[120px] sm:pt-[150px] text-center">
+      <DottedSurface className="absolute inset-0 w-full h-full opacity-40" />
       {/* Radial gradient top */}
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
       />
 
-      <div className="relative mx-auto max-w-[1200px] grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-14 items-center">
+      <div className="relative mx-auto max-w-[820px] flex flex-col items-center">
 
-        {/* ── LEFT — Texte ──────────────────────────────────────── */}
-        <div className="flex flex-col items-start text-left">
+        {/* Badge */}
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
+          <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
+            <BrandIcons.supabase className="h-3 w-3 text-foreground" />
+          </span>
+          <span>Le système utilisé en interne chez Buildrs pour lancer des SaaS IA en 6 jours.</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
 
-          {/* Badge */}
-          <div className="mb-8 inline-flex max-w-[340px] sm:max-w-none items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-            <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
-              <BrandIcons.supabase className="h-3 w-3 text-foreground" />
+        {/* H1 */}
+        <h1
+          className="mb-7 text-foreground"
+          style={{ fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.03 }}
+        >
+          Crée ton{" "}
+          <WordRotate
+            words={["saas", "app"]}
+            duration={2200}
+            className="text-foreground"
+            style={{ fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+          />
+          <br />avec l'IA. En 6 jours.
+        </h1>
+
+        {/* Sub */}
+        <p className="mb-7 max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
+          Le système guidé étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur de production, et lancer un micro SaaS IA qui génère des revenus en autopilote —{" "}
+          <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
+        </p>
+
+        {/* Badges */}
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
+          {["Sans savoir coder", "Sans expertise en IA", "Sans lever de fond ni d'équipe"].map((label) => (
+            <span
+              key={label}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
+            >
+              <Check className="h-3 w-3 text-green-500 shrink-0" strokeWidth={2.5} />
+              {label}
             </span>
-            <span>Le système utilisé en interne chez Buildrs pour lancer des produits en 6 jours.</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-
-          {/* H1 */}
-          <h1
-            className="mb-7 text-foreground"
-            style={{ fontSize: "clamp(44px, 5.5vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
-          >
-            Crée ton{" "}
-            <WordRotate
-              words={["saas", "app", "logiciel"]}
-              duration={2200}
-              className="text-foreground"
-              style={{ fontSize: "clamp(44px, 5.5vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-            />
-            <br />avec l'IA. En 6 jours.
-          </h1>
-
-          {/* Sub */}
-          <p className="mb-10 max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
-            Le plan d'action étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur de production, et lancer un produit digital qui génère des revenus —{" "}
-            <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-3">
-            <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-              Accéder au Blueprint — 27€ →
-            </a>
-            <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
-              Voir les modules
-            </a>
-          </div>
-
-          {/* Price note */}
-          <p className="mt-5 flex items-center gap-1.5 text-[13px] text-muted-foreground/60">
-            <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
-            <span>Offre de lancement — 82/100 places prises · Ensuite 297€</span>
-          </p>
+          ))}
         </div>
 
-        {/* ── RIGHT — Mockup vidéo ───────────────────────────────── */}
-        <div className="relative flex justify-center">
-          {/* Glow derrière */}
-          <div
-            className="pointer-events-none absolute inset-0 -z-10 scale-90 rounded-3xl blur-3xl"
-            style={{ background: "radial-gradient(ellipse, rgba(160,160,255,0.18) 0%, transparent 70%)" }}
-          />
-
-          {/* Vidéo flottante — sans contour */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="block w-full max-w-[640px] dark:mix-blend-multiply"
-            style={{ animation: "hero-float 5s ease-in-out infinite" }}
-            src="/demo.mp4"
-          />
+        {/* CTAs */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
+            Accéder au Blueprint — 27€ →
+          </a>
+          <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
+            Voir les modules
+          </a>
         </div>
 
+        {/* Countdown */}
+        <p className="mt-5 flex items-center justify-center gap-1.5 text-[13px] text-muted-foreground/60">
+          <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
+          <ScarcityCountdown />
+          {" · Ensuite 297€"}
+        </p>
       </div>
+
     </section>
   )
 }
@@ -309,7 +332,7 @@ function Stats() {
           <div key={num} className="bg-background px-9 py-10 text-center">
             <div
               className="mb-2 leading-none text-foreground"
-              style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-0.04em" }}
+              style={{ fontSize: "clamp(28px, 6vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em" }}
             >
               {num}
             </div>
@@ -326,7 +349,8 @@ function Stats() {
 
 function WhySaaS() {
   return (
-    <section id="comment" className="py-24">
+    <section id="resultats" className="relative py-24">
+      <BGPattern variant="dots" mask="fade-edges" size={28} fill="rgba(255,255,255,0.07)" />
       <div className="mx-auto max-w-[1100px] px-6">
         {/* Header centré */}
         <div className="mb-14 text-center">
@@ -340,22 +364,21 @@ function WhySaaS() {
             Tu n'as pas besoin<br />de coder. Tu as besoin<br />de diriger.
           </h2>
           <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-            Tu es le chef d'orchestre. Les outils et agents IA sont ton équipe d'exécution. Claude code. Vercel déploie. Supabase gère. Stripe encaisse. Rien de plus.
+            Tu es le chef d'orchestre. Claude et Blueprint sont tes associés. Tu donnes l'instruction — l'IA construit. Bienvenue en 2026.
           </p>
         </div>
 
-        {/* Animation centrale */}
-        <div className="mx-auto mb-14 max-w-[560px] rounded-2xl border border-border bg-card p-8 shadow-sm">
-          <AnimatedBeamStack />
+        {/* Orbital Claude */}
+        <div className="mb-14">
+          <OrbitalClaude />
         </div>
 
         {/* Stats en bas */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {[
-            { num: "6 jours", label: "De l'idée au produit live" },
-            { num: "< 50€", label: "De budget pour démarrer" },
-            { num: "100% solo", label: "Aucune équipe nécessaire" },
             { num: "0 ligne de code", label: "Tu décris, l'IA construit" },
+            { num: "100% solo", label: "Aucune équipe nécessaire" },
+            { num: "< 50€", label: "De budget pour démarrer" },
           ].map(({ num, label }) => (
             <div key={num} className="rounded-xl border border-border bg-muted p-4 text-center">
               <p className="text-[22px] font-bold tracking-tight text-foreground" style={{ letterSpacing: "-0.03em" }}>{num}</p>
@@ -400,7 +423,7 @@ function Pain() {
 
 // ─── SAAS VEHICLE ─────────────────────────────────────────────────────────────
 
-const saasCardItems: CardData[] = [
+const saasCardItems = [
   {
     id: "global",
     title: "Vendre sans limites",
@@ -431,13 +454,28 @@ const saasCardItems: CardData[] = [
   },
 ]
 
+function SaasCardDecorator({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      aria-hidden
+      className="relative mx-auto size-24 [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:20px_20px] opacity-60" />
+      <div className="bg-background absolute inset-0 m-auto flex size-12 items-center justify-center border-t border-l border-border">
+        {children}
+      </div>
+    </div>
+  )
+}
+
 function SaasVehicle() {
   return (
-    <section className="py-24 bg-background overflow-hidden">
+    <section className="relative py-24 bg-background overflow-hidden">
+      <BGPattern variant="dots" mask="fade-edges" size={28} fill="rgba(255,255,255,0.06)" />
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="mb-14 text-center">
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Pourquoi un SaaS
+            Pourquoi un SaaS IA
           </p>
           <h2
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
@@ -450,7 +488,31 @@ function SaasVehicle() {
           </p>
         </div>
 
-        <MorphingCardStack cards={saasCardItems} defaultLayout="stack" className="max-w-md mx-auto" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {saasCardItems.map(({ id, title, stat, description, icon }, i) => (
+            <motion.div
+              key={id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.45, ease: "easeOut", delay: i * 0.08 }}
+              className="group rounded-2xl border border-border bg-card p-8 text-center hover:border-foreground/20 transition-colors"
+            >
+              <SaasCardDecorator>
+                <span className="text-foreground [&>svg]:size-5 [&>svg]:stroke-[1.5]">{icon}</span>
+              </SaasCardDecorator>
+
+              <h3
+                className="mt-5 mb-1.5 text-foreground"
+                style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15 }}
+              >
+                {title}
+              </h3>
+              <p className="mb-3 text-[13px] font-bold text-muted-foreground tabular-nums tracking-tight">{stat}</p>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">{description}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -561,7 +623,8 @@ const DASHBOARD_FEATURES = [
 
 function DashboardSection() {
   return (
-    <section className="py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden">
+      <DottedSurface className="absolute inset-0 w-full h-full opacity-50" />
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="text-center mb-14">
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
@@ -571,7 +634,7 @@ function DashboardSection() {
             style={{ fontSize: 'clamp(34px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.06 }}
             className="mb-4 text-foreground"
           >
-            Pas un PDF. Pas une vidéo.<br />Un vrai dashboard produit.
+            Pas un PDF. Pas une vidéo.<br />Un vrai copilote SaaS.
           </h2>
           <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
             Tu accèdes à un dashboard complet avec ton workspace projet Autopilot IA, tes modules interactifs, tes générateurs, ta bibliothèque de prompts, ta checklist et tes outils — tout en un.
@@ -579,23 +642,28 @@ function DashboardSection() {
         </div>
 
         <DashboardPreview />
-
-        {/* Feature grid */}
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {DASHBOARD_FEATURES.map(({ Icon, title, desc }) => (
-            <div
-              key={title}
-              className="border border-border rounded-xl p-5 hover:border-foreground/20 transition-colors"
-            >
-              <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center mb-3">
-                <Icon size={16} strokeWidth={1.5} className="text-foreground" />
-              </div>
-              <h3 className="font-bold text-[14px] text-foreground mb-1.5" style={{ letterSpacing: '-0.01em' }}>{title}</h3>
-              <p className="text-[13px] text-muted-foreground leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
       </div>
+    </section>
+  )
+}
+
+// ─── TESTIMONIALS ────────────────────────────────────────────────────────────
+
+function UniqueTestimonialSection() {
+  return (
+    <section className="py-24 overflow-hidden bg-muted">
+      <div className="mx-auto max-w-[1100px] px-6 mb-14 text-center">
+        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+          Ils ont construit avec Blueprint
+        </p>
+        <h2
+          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          className="text-foreground"
+        >
+          Les derniers projets propulsés<br />par les membres Buildrs
+        </h2>
+      </div>
+      <SaasMarquee />
     </section>
   )
 }
@@ -677,7 +745,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             </p>
             <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12px] font-semibold text-foreground/70">
               <Flame size={12} strokeWidth={1.5} />
-              Offre de lancement — 82/100 places prises · Ensuite 297€
+              <ScarcityCountdown /> · Ensuite 297€
             </p>
           </div>
         </div>
@@ -738,7 +806,7 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         className="mx-auto mb-[18px] max-w-[680px] text-foreground"
         style={{ fontSize: "clamp(40px, 6vw, 70px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
       >
-        Ton premier produit digital<br />est à 6 jours d'ici.
+        Ton premier SaaS IA<br />est à 6 jours d'ici.
       </h2>
       <p className="mx-auto mb-9 max-w-[440px] text-[17px] leading-[1.65] text-muted-foreground">
         Pas dans 6 mois. Pas quand tu auras appris à coder. Pas quand tu auras trouvé le bon moment. En 6 jours.
@@ -748,7 +816,7 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       </a>
       <p className="mt-5 flex items-center justify-center gap-1.5 text-[13px] text-muted-foreground/60">
         <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
-        82/100 places au prix de lancement
+        <ScarcityCountdown /> · Ensuite 297€
       </p>
     </section>
   )
@@ -806,7 +874,7 @@ function Sprint() {
           style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
-          6 jours. 6 modules.<br />1 produit monétisé.
+          6 modules.<br />1 SaaS IA monétisé.
         </h2>
         <p className="mb-12 md:mb-20 max-w-[500px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
           Un livrable concret chaque jour. Au bout de 6 jours, ton produit est en ligne et prêt à encaisser.
@@ -833,13 +901,12 @@ function Sprint() {
                 >
                   {/* Card */}
                   <div className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-sm">
-                    <div className="mb-4 flex items-center justify-between">
-                      <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">{label}</span>
+                    <div className="mb-4 flex items-center justify-end">
                       <span
                         className="font-mono text-[11px] font-bold"
                         style={{ color: accent }}
                       >
-                        Jour {day}
+                        Module {day}
                       </span>
                     </div>
                     <h3 className="mb-4 text-[18px] md:text-[20px] font-bold tracking-tight text-foreground">{title}</h3>
@@ -909,7 +976,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <BeforeAfter />
         <Sprint />
         <DashboardSection />
-        <TestimonialsSection />
+        <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <FAQ />
         <FinalCTA onCTA={go} />

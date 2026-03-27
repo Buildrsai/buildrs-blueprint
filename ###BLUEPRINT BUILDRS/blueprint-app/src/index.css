@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+    --primary: 240 10% 4%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 10%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 240 10% 4%;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 4%;
+    --secondary: 240 4% 10%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 10%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 4% 10%;
+    --accent-foreground: 0 0% 98%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 240 5% 84%;
+  }
+
+  html.dark body {
+    background-color: #09090b;
+    color: #fafafa;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    font-family: 'Geist', 'Geist Sans', system-ui, sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@keyframes rainbow-glow {
+  0%   { filter: blur(12px) hue-rotate(0deg); }
+  100% { filter: blur(12px) hue-rotate(360deg); }
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: var(--op); }
+  50%       { transform: translateY(-18px) scale(1.15); opacity: calc(var(--op) * 0.4); }
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.step-animate {
+  animation: step-in 0.3s ease-out forwards;
+}
+
+.cta-rainbow {
+  position: relative;
+}
+.cta-rainbow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0.55;
+  animation: rainbow-glow 3s linear infinite;
+}
+
+/* ── COHORTE SPINNING BORDER ── */
+@keyframes cohorte-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── AUTOPILOT PULSE ── */
+@keyframes autopilot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ── BANNER GRADIENT BORDER ── */
+
+@property --banner-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes banner-spin {
+  to { --banner-angle: 360deg; }
+}
+
+.banner-gradient-border {
+  padding: 1px 0;
+  background: conic-gradient(
+    from var(--banner-angle),
+    #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b
+  );
+  animation: banner-spin 5s linear infinite;
+  width: 100%;
+}
+
+.banner-gradient-inner {
+  background: #09090b;
+  width: 100%;
+}
+
+/* ── NEON BUMP BORDER ── */
+
+@property --bump-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+  50%       { transform: translateY(-14px) rotate(-1.5deg); }
+}
+
+@keyframes bump-spin {
+  to { --bump-angle: 360deg; }
+}
+
+/* Outer wrapper — IS the animated gradient border (via padding) */
+.bump-neon {
+  padding: 2px;
+  border-radius: 14px;
+  background: conic-gradient(
+    from var(--bump-angle),
+    #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b
+  );
+  animation: bump-spin 4s linear infinite;
+  position: relative;
+}
+
+/* Outer glow bloom */
+.bump-neon::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 20px;
+  background: conic-gradient(
+    from var(--bump-angle),
+    #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b
+  );
+  filter: blur(14px);
+  opacity: 0.28;
+  animation: bump-spin 4s linear infinite;
+  z-index: -1;
+}
+
+/* Inner card — masks the gradient, becomes the "inset" background */
+.bump-inner {
+  border-radius: 12px;
+  background: hsl(var(--card));
+  overflow: hidden;
+}
