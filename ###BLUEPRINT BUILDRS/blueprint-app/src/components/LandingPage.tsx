@@ -891,23 +891,285 @@ function DashboardSection() {
   )
 }
 
-// ─── TESTIMONIALS ────────────────────────────────────────────────────────────
+// ─── BUILT WITH US ────────────────────────────────────────────────────────────
+
+interface SaasBuiltItem {
+  productName: string
+  handle: string
+  founderName: string
+  founderAvatar: string
+  quote: string
+  thumbnail?: string
+  preview?: React.ReactNode
+}
+
+// ─── PRICEFLOW DASHBOARD MOCKUP ───────────────────────────────────────────────
+
+function PriceFlowPreview() {
+  return (
+    <div style={{ fontFamily: 'system-ui, sans-serif', display: 'flex', height: '100%', background: '#fff', overflow: 'hidden', borderRadius: 8 }}>
+      {/* Sidebar */}
+      <div style={{ width: '22%', background: '#0f1117', padding: '10px 6px', display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 10, paddingLeft: 4 }}>
+          <div style={{ width: 14, height: 14, borderRadius: 3, background: 'linear-gradient(135deg, #3b82f6, #6366f1)' }} />
+          <span style={{ color: 'white', fontWeight: 700, fontSize: 8 }}>PriceFlow</span>
+        </div>
+        {[
+          { label: 'Dashboard', active: true },
+          { label: 'Règles de prix' },
+          { label: 'Produits' },
+          { label: 'Analyse' },
+          { label: 'Concurrents' },
+          { label: 'Rapports' },
+          { label: 'Automatisations' },
+        ].map(item => (
+          <div key={item.label} style={{
+            padding: '4px 6px', borderRadius: 3,
+            background: item.active ? '#1e293b' : 'transparent',
+            color: item.active ? 'white' : '#475569',
+            fontSize: 7, fontWeight: item.active ? 600 : 400,
+          }}>{item.label}</div>
+        ))}
+        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: 4, paddingLeft: 4, paddingTop: 8, borderTop: '1px solid #1e293b' }}>
+          <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: 7, fontWeight: 600, color: 'white' }}>Jean Dupont</div>
+            <div style={{ fontSize: 6, color: '#64748b' }}>Pro Plan</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div style={{ flex: 1, background: '#f8fafc', padding: '8px', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: 10, color: '#0f172a' }}>Bonjour, Jean 👋</div>
+            <div style={{ fontSize: 6, color: '#64748b' }}>Aperçu de vos performances aujourd'hui</div>
+          </div>
+          <div style={{ background: '#e2e8f0', borderRadius: 4, padding: '3px 7px', fontSize: 6, color: '#64748b' }}>Rechercher...</div>
+        </div>
+
+        {/* KPI row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
+          {[
+            { label: 'Revenu total', value: '€124,580', change: '+12.5%', pos: true },
+            { label: 'Produits actifs', value: '2,847', change: '+8.2%', pos: true },
+            { label: 'Ajustements prix', value: '1,234', change: '+24.1%', pos: true },
+            { label: 'Commandes', value: '856', change: '-3.2%', pos: false },
+          ].map(kpi => (
+            <div key={kpi.label} style={{ background: 'white', borderRadius: 5, padding: '5px', border: '1px solid #e2e8f0' }}>
+              <div style={{ fontSize: 5.5, color: '#64748b', marginBottom: 2 }}>{kpi.label}</div>
+              <div style={{ fontSize: 9, fontWeight: 800, color: '#0f172a', marginBottom: 1 }}>{kpi.value}</div>
+              <div style={{ fontSize: 5.5, color: kpi.pos ? '#22c55e' : '#ef4444', fontWeight: 500 }}>{kpi.change} vs mois dernier</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Chart + Activity */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 4, flex: 1, minHeight: 0 }}>
+          <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+            <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>Revenu & Profit</div>
+            <div style={{ fontSize: 5.5, color: '#94a3b8', marginBottom: 4 }}>Performance mensuelle</div>
+            <svg width="100%" height="38" viewBox="0 0 200 38" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15"/>
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,35 C20,33 40,28 60,24 C80,20 100,16 120,13 C140,10 160,8 180,7 L200,6 L200,38 L0,38Z" fill="url(#blueGrad)"/>
+              <polyline points="0,35 30,30 60,24 90,19 120,13 150,9 180,7 200,6" fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round"/>
+              <polyline points="0,37 30,36 60,35 90,33 120,31 150,29 180,28 200,27" fill="none" stroke="#22c55e" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            <div style={{ display: 'flex', gap: 8, marginTop: 3 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 5.5, color: '#64748b' }}>
+                <div style={{ width: 8, height: 2, background: '#3b82f6', borderRadius: 1 }} /> Revenu
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 5.5, color: '#64748b' }}>
+                <div style={{ width: 8, height: 2, background: '#22c55e', borderRadius: 1 }} /> Profit
+              </div>
+            </div>
+          </div>
+          <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+            <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>Activité récente</div>
+            {[
+              { label: 'Prix augmenté', sub: 'AirPods Pro 2 → €279', color: '#22c55e' },
+              { label: 'Prix réduit', sub: 'Samsung 4K 55" → €489', color: '#ef4444' },
+              { label: 'Règle déclenchée', sub: 'Alignement concurrent', color: '#f59e0b' },
+              { label: 'Alerte stock bas', sub: 'Dyson V15 — 12 unités', color: '#64748b' },
+              { label: 'Prix augmenté', sub: 'Nike Air Max 90 → €149', color: '#22c55e' },
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '2.5px 0', borderBottom: '1px solid #f1f5f9' }}>
+                <div style={{ width: 5, height: 5, borderRadius: '50%', background: item.color, flexShrink: 0 }} />
+                <div>
+                  <div style={{ fontSize: 6, fontWeight: 500, color: '#0f172a' }}>{item.label}</div>
+                  <div style={{ fontSize: 5, color: '#94a3b8' }}>{item.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rules table */}
+        <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0' }}>
+          <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 3 }}>Règles de tarification <span style={{ fontSize: 5.5, color: '#94a3b8', fontWeight: 400 }}>5 règles actives</span></div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 0.8fr 0.8fr', gap: 2, marginBottom: 3, paddingBottom: 2, borderBottom: '1px solid #e2e8f0' }}>
+            {['Règle','Catégorie','Statut','Produits','Impact'].map(h => (
+              <div key={h} style={{ fontSize: 5.5, color: '#94a3b8', fontWeight: 600 }}>{h}</div>
+            ))}
+          </div>
+          {[
+            { name: 'Marge minimum 15%', cat: 'Électronique', status: 'Actif', prod: '342', impact: '+€3,240', statusColor: '#dcfce7', statusText: '#16a34a' },
+            { name: 'Alignement concurrent', cat: 'Mode', status: 'Actif', prod: '128', impact: '+€1,898', statusColor: '#dcfce7', statusText: '#16a34a' },
+            { name: 'Promo Black Friday', cat: 'Tous', status: 'Planifié', prod: '2847', impact: '—', statusColor: '#fef9c3', statusText: '#ca8a04' },
+          ].map(rule => (
+            <div key={rule.name} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 0.8fr 0.8fr', gap: 2, padding: '2.5px 0', borderBottom: '1px solid #f8fafc', alignItems: 'center' }}>
+              <div style={{ fontSize: 6, fontWeight: 500, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{rule.name}</div>
+              <div style={{ fontSize: 5.5, color: '#64748b' }}>{rule.cat}</div>
+              <div style={{ fontSize: 5, padding: '1px 4px', borderRadius: 20, background: rule.statusColor, color: rule.statusText, fontWeight: 600, textAlign: 'center', width: 'fit-content' }}>{rule.status}</div>
+              <div style={{ fontSize: 5.5, color: '#64748b' }}>{rule.prod}</div>
+              <div style={{ fontSize: 6, color: '#22c55e', fontWeight: 600 }}>{rule.impact}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const SAAS_BUILT: SaasBuiltItem[] = [
+  {
+    productName: "PriceFlow",
+    handle: "@thomas_brd",
+    founderName: "Thomas B.",
+    founderAvatar: "/Mec1.png",
+    quote: "PriceFlow est un outil que je vends aux e-commerçants — il ajuste leurs prix en temps réel selon la concurrence et les stocks. Mes clients gagnaient des heures chaque semaine sur une tâche qu'ils faisaient à la main. J'ai sorti la v1 en 5 jours avec Blueprint.",
+    thumbnail: "/DASH1.png",
+  },
+  {
+    productName: "MeetYourCEO",
+    handle: "@alba_ceo",
+    founderName: "Alba",
+    founderAvatar: "/F5.png",
+    quote: "MeetYourCEO c'est une plateforme de matching pour entrepreneurs — trouver un associé, un mentor ou un co-founder selon son profil et son projet. Ce problème je l'avais vécu moi-même. J'ai construit la v1 avec Blueprint sans savoir coder.",
+    thumbnail: "/D5.png",
+  },
+  {
+    productName: "Trick2",
+    handle: "@skate_romain",
+    founderName: "Romain D.",
+    founderAvatar: "/F4.jpeg",
+    quote: "Trick2 permet de logger ses tricks, suivre sa progression et partager ses sessions. Aucune app n'existait vraiment pour ça dans la communauté skate. J'ai utilisé Blueprint pour construire la première version — beaucoup plus rapide que ce que j'espérais.",
+  },
+  {
+    productName: "Brew App",
+    handle: "@julie_brew",
+    founderName: "Julie D.",
+    founderAvatar: "/F3.jpeg",
+    quote: "Brew App c'est un carnet de dégustation pour amateurs de café — noter les origines, les profils, les méthodes d'extraction. Je cherchais cet outil depuis longtemps sans le trouver. Blueprint m'a donné le cadre pour passer de l'idée au produit live.",
+    thumbnail: "/D3.png",
+  },
+  {
+    productName: "StayTrack",
+    handle: "@marina_host",
+    founderName: "Pierre L.",
+    founderAvatar: "/F2.jpeg",
+    quote: "StayTrack centralise la gestion de mes locations — loyers, charges, taux d'occupation, alertes. Avec 8 biens, les tablettes Excel ça ne tenait plus. Je l'ai construit en une semaine via Blueprint, sans avoir à embaucher un dev.",
+    thumbnail: "/Dash2.png",
+  },
+  {
+    productName: "StockAlert",
+    handle: "@marine_ecom",
+    founderName: "Marine P.",
+    founderAvatar: "https://images.unsplash.com/photo-1499887142886-791eca5918cd?w=80&h=80&fit=crop&q=80",
+    quote: "StockAlert envoie des alertes en temps réel quand un produit passe sous le seuil de stock. Pour un e-commerçant qui gère des centaines de références, c'est critique. J'ai sorti la v1 rapidement avec Blueprint — sans toucher à une ligne de code.",
+  },
+]
+
+function SaasBuiltCard({ item }: { item: SaasBuiltItem }) {
+  return (
+    <div className="break-inside-avoid mb-4 rounded-3xl border border-border bg-card p-5 transition-shadow hover:shadow-md">
+      {(item.preview || item.thumbnail) && (
+        <div
+          className="mb-4 overflow-hidden rounded-xl border border-border"
+          style={{ aspectRatio: "16/9" }}
+        >
+          {item.preview
+            ? item.preview
+            : (
+              <img
+                src={item.thumbnail}
+                alt={item.productName}
+                className="h-full w-full object-cover"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none" }}
+              />
+            )
+          }
+        </div>
+      )}
+
+      <div className="mb-3 inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-[11px] font-semibold text-foreground">
+        {item.productName}
+      </div>
+
+      <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">
+        "{item.quote}"
+      </p>
+
+      <hr className="mb-4 border-border" />
+
+      <div className="flex items-center gap-3">
+        <img
+          src={item.founderAvatar}
+          alt={item.handle}
+          className="h-9 w-9 shrink-0 rounded-full object-cover"
+          onError={(e) => {
+            const el = e.currentTarget as HTMLImageElement
+            el.style.display = "none"
+          }}
+        />
+        <div className="min-w-0">
+          <p className="text-[13px] font-semibold text-foreground">Founder</p>
+          <p className="text-[12px] text-muted-foreground">@{item.productName.toLowerCase().replace(/\s/g, '')}</p>
+        </div>
+        <div className="ml-auto flex shrink-0 gap-0.5">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-foreground">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function UniqueTestimonialSection() {
   return (
-    <section className="py-24 overflow-hidden bg-muted">
-      <div className="mx-auto max-w-[1100px] px-6 mb-14 text-center">
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-          Ils ont construit avec Blueprint
-        </p>
-        <h2
-          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-          className="text-foreground"
-        >
-          Les derniers projets propulsés<br />par les membres Buildrs
-        </h2>
+    <section className="py-24 bg-muted">
+      <div className="mx-auto max-w-[1100px] px-6">
+        <div className="mb-14 text-center">
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+            Built with us
+          </p>
+          <h2
+            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+            className="text-foreground"
+          >
+            De l'idée au produit live.
+          </h2>
+          <p className="mx-auto mt-4 max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
+            Voilà ce que nos membres ont construit avec Blueprint — en moins d'une semaine.
+          </p>
+        </div>
+
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
+          {SAAS_BUILT.map((item) => (
+            <SaasBuiltCard key={item.productName} item={item} />
+          ))}
+        </div>
       </div>
-      <SaasMarquee />
     </section>
   )
 }
