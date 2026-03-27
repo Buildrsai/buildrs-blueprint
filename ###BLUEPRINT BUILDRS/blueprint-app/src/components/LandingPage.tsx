@@ -211,81 +211,327 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   )
 }
 
+// ─── TYPING IDEA BAR ──────────────────────────────────────────────────────────
+
+const TYPING_IDEAS = [
+  "Un coach nutrition IA à 9,99€/mois",
+  "Un tracker de loyers pour propriétaires Airbnb",
+  "Un générateur de contrats freelance en 30 sec",
+  "Une app qui résume tes réunions Zoom auto",
+  "Un CRM vocal pour commerciaux terrain",
+  "Un outil de pricing dynamique pour e-commerce",
+  "Un assistant juridique IA pour auto-entrepreneurs",
+]
+
+function TypingIdea() {
+  const [idx, setIdx] = useState(0)
+  const [text, setText] = useState("")
+  const [phase, setPhase] = useState<'typing' | 'waiting' | 'deleting'>('typing')
+
+  useEffect(() => {
+    const full = TYPING_IDEAS[idx]
+    let timer: ReturnType<typeof setTimeout>
+
+    if (phase === 'typing') {
+      if (text.length < full.length) {
+        timer = setTimeout(() => setText(full.slice(0, text.length + 1)), 60)
+      } else {
+        timer = setTimeout(() => setPhase('deleting'), 2000)
+      }
+    } else if (phase === 'deleting') {
+      if (text.length > 0) {
+        timer = setTimeout(() => setText(text.slice(0, -1)), 30)
+      } else {
+        setIdx(i => (i + 1) % TYPING_IDEAS.length)
+        setPhase('typing')
+      }
+    }
+
+    return () => clearTimeout(timer)
+  }, [text, phase, idx])
+
+  return (
+    <div
+      className="mb-8 inline-flex items-center gap-2.5 rounded-full px-5 py-3"
+      style={{
+        background: '#09090b',
+        border: '1px solid rgba(255,255,255,0.10)',
+        boxShadow: '0 0 0 1px rgba(255,255,255,0.03), 0 8px 24px rgba(0,0,0,0.25)',
+      }}
+    >
+      <span className="text-[14px] whitespace-nowrap font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        Ton idée :
+      </span>
+      <span className="text-[14px] font-semibold text-white min-w-0 max-w-[280px] truncate">{text}</span>
+      <span
+        className="text-white font-light text-[16px] leading-none"
+        style={{ animation: 'cursor-blink 0.9s step-end infinite' }}
+      >|</span>
+    </div>
+  )
+}
+
+// ─── HERO DASHBOARD MOCKUP ────────────────────────────────────────────────────
+
+function HeroDashboardMockup() {
+  return (
+    <div className="relative w-full select-none pointer-events-none">
+      <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-20" style={{ background: 'radial-gradient(ellipse, rgba(150,120,255,0.5) 0%, transparent 70%)' }} />
+      <div className="relative rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04)' }}>
+        {/* Window chrome */}
+        <div className="flex items-center gap-1.5 px-3 h-8 bg-[#0f0f12]" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+          <div className="flex-1 flex justify-center">
+            <div className="px-3 h-[18px] rounded flex items-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <span className="text-[8px]" style={{ color: 'rgba(255,255,255,0.25)' }}>buildrs.fr/dashboard</span>
+            </div>
+          </div>
+          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.04)' }} />
+        </div>
+
+        {/* Dashboard body */}
+        <div className="flex bg-[#09090b]" style={{ height: '370px' }}>
+
+          {/* Sidebar */}
+          <div className="flex flex-col overflow-hidden bg-[#09090b]" style={{ width: '130px', flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center justify-between px-3 h-9" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="flex items-center gap-1.5">
+                <BuildrsIcon color="#ffffff" size={11} />
+                <span className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.04em' }}>Buildrs</span>
+              </div>
+              <div className="h-3.5 rounded-full flex items-center justify-end px-0.5" style={{ width: '26px', background: 'rgba(255,255,255,0.15)' }}>
+                <div className="w-2.5 h-2.5 rounded-full bg-white" />
+              </div>
+            </div>
+            <div className="px-3 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="flex justify-between mb-1">
+                <span className="text-[6px] font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.3)' }}>Progression</span>
+                <span className="text-[7.5px] font-extrabold text-white">97%</span>
+              </div>
+              <div className="h-[2px] rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <div className="h-full rounded-full bg-white" style={{ width: '97%' }} />
+              </div>
+            </div>
+            <div className="px-2 pt-2.5 flex-1 overflow-hidden">
+              <p className="text-[6px] font-bold uppercase tracking-[0.08em] px-1 mb-1" style={{ color: 'rgba(255,255,255,0.22)' }}>Construire</p>
+              <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                <Zap size={8} strokeWidth={1.5} className="text-white flex-shrink-0" />
+                <span className="text-[7.5px] font-semibold text-white flex-1 truncate">Autopilot IA</span>
+                <span className="text-[5.5px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>ACTIF</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5">
+                <BookOpen size={8} strokeWidth={1.5} className="flex-shrink-0" style={{ color: 'rgba(255,255,255,0.35)' }} />
+                <span className="text-[7.5px] font-medium flex-1 truncate" style={{ color: 'rgba(255,255,255,0.35)' }}>Mon Parcours</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-2">
+                <Lightbulb size={8} strokeWidth={1.5} className="flex-shrink-0" style={{ color: 'rgba(255,255,255,0.35)' }} />
+                <span className="text-[7.5px] font-medium flex-1 truncate" style={{ color: 'rgba(255,255,255,0.35)' }}>Mes Idées</span>
+              </div>
+              <p className="text-[6px] font-bold uppercase tracking-[0.08em] px-1 mb-1" style={{ color: 'rgba(255,255,255,0.22)' }}>Outils IA</p>
+              {["Idées de SaaS", "Validateur d'idée", "Calc. MRR & Revente"].map(l => (
+                <div key={l} className="flex items-center gap-1.5 px-2 py-1 rounded-md mb-0.5">
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ border: '1px solid rgba(255,255,255,0.2)' }} />
+                  <span className="text-[7px] truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>{l}</span>
+                </div>
+              ))}
+              <p className="text-[6px] font-bold uppercase tracking-[0.08em] px-1 mb-1 mt-1.5" style={{ color: 'rgba(255,255,255,0.22)' }}>Ressources</p>
+              {["Mes Projets", "Bibliothèque", "Checklist", "Boîte à outils"].map(l => (
+                <div key={l} className="flex items-center gap-1.5 px-2 py-1 rounded-md mb-0.5">
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ border: '1px solid rgba(255,255,255,0.2)' }} />
+                  <span className="text-[7px] truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>{l}</span>
+                </div>
+              ))}
+            </div>
+            <div className="p-2">
+              <div className="rounded-lg p-2" style={{ border: '1px solid rgba(234,179,8,0.25)', background: 'rgba(234,179,8,0.05)' }}>
+                <p className="text-[5.5px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(234,179,8,0.6)' }}>Envie d'aller + vite ?</p>
+                <p className="text-[7.5px] font-semibold" style={{ color: 'rgba(255,255,255,0.75)' }}>Accélérer mon projet →</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[7px] font-bold uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.35)' }}>Autopilot IA</span>
+              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
+                <span className="text-[7px] font-semibold text-white">CLAUDE ACTIF</span>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-extrabold text-white leading-tight mb-0.5" style={{ fontSize: '18px', letterSpacing: '-0.03em' }}>Agents Powers</h3>
+              <p className="text-[8px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>Les freelances en manque de structuration financière</p>
+              <div className="flex gap-1.5 mt-1.5">
+                {["En construction", "MVP 72h"].map(b => (
+                  <span key={b} className="text-[6.5px] font-medium px-1.5 py-0.5 rounded-full" style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.4)' }}>{b}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-[6.5px] font-bold uppercase tracking-[0.09em] mb-2" style={{ color: 'rgba(255,255,255,0.28)' }}>Progression du projet</p>
+              <div className="flex flex-col gap-1">
+                {[
+                  { label: 'Idée validée',              sub: 'Score 50/100 · Marché analysé',   done: true,  current: false },
+                  { label: 'Architecture définie',      sub: 'Stack · Base de données · Auth',   done: true,  current: false },
+                  { label: 'Design & branding validés', sub: 'Module 2 — Préparer & Designer',   done: true,  current: false },
+                  { label: 'Build en cours',            sub: 'Module 4 — Construire',             done: false, current: true  },
+                  { label: 'Déploiement & Monétisation',sub: 'Modules 5 & 6',                    done: false, current: false },
+                ].map(({ label, sub, done, current }) => (
+                  <div key={label} className="flex items-start gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: current ? 'rgba(255,255,255,0.07)' : 'transparent' }}>
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: done ? '#fff' : 'transparent', border: done ? 'none' : current ? '2px solid rgba(255,255,255,0.5)' : '1px solid rgba(255,255,255,0.15)' }}>
+                      {done && <Check size={7} strokeWidth={3.5} className="text-[#09090b]" />}
+                      {current && <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.8)' }} />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[8.5px] font-semibold" style={{ color: done ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)', textDecoration: done ? 'line-through' : 'none' }}>{label}</p>
+                      <p className="text-[7px] truncate" style={{ color: 'rgba(255,255,255,0.25)' }}>{sub}</p>
+                    </div>
+                    {current && <span className="text-[6px] font-bold tracking-wide flex-shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>EN COURS</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-auto flex items-center justify-between px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <div>
+                <p className="text-[6.5px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>Prochaine étape</p>
+                <p className="text-[8.5px] font-semibold text-white">Build en cours →</p>
+              </div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: 'rgba(255,255,255,0.25)' }}><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          {/* Right panel */}
+          <div className="flex flex-col gap-3 p-3 overflow-hidden" style={{ width: '115px', flexShrink: 0, borderLeft: '1px solid rgba(255,255,255,0.06)' }}>
+            <div>
+              <p className="text-[6.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.28)' }}>Score de viabilité</p>
+              <div className="rounded-lg py-2.5 text-center" style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+                <span className="font-extrabold text-white leading-none" style={{ fontSize: '26px', letterSpacing: '-0.04em' }}>50</span>
+                <p className="text-[6.5px] mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Idée fortement validée</p>
+              </div>
+            </div>
+            <div>
+              <p className="text-[6.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.28)' }}>Stack</p>
+              <div className="flex flex-col gap-1">
+                {[
+                  { Icon: BrandIcons.anthropic, label: 'Claude Code' },
+                  { Icon: BrandIcons.supabase,  label: 'Supabase'    },
+                  { Icon: BrandIcons.vercel,    label: 'Vercel'      },
+                  { Icon: BrandIcons.resend,    label: 'Resend'      },
+                  { Icon: BrandIcons.hostinger, label: 'Hostinger'   },
+                  { Icon: BrandIcons.stripe,    label: 'Stripe'      },
+                  { Icon: BrandIcons.github,    label: 'GitHub'      },
+                ].map(({ Icon, label }) => (
+                  <div key={label} className="flex items-center justify-between px-1.5 py-1 rounded" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div className="flex items-center gap-1">
+                      <Icon className="w-2.5 h-2.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.6)' }} />
+                      <span className="text-[7px]" style={{ color: 'rgba(255,255,255,0.45)' }}>{label}</span>
+                    </div>
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(74,222,128,0.8)' }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-[6.5px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.28)' }}>MRR estimé</p>
+              <div className="h-px w-8 mb-1.5" style={{ background: 'rgba(255,255,255,0.12)' }} />
+              <span className="text-[7px]" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'underline' }}>Calculer →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pb-24 pt-[120px] sm:pt-[150px] text-center">
+    <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
       <DottedSurface className="absolute inset-0 w-full h-full opacity-40" />
-      {/* Radial gradient top */}
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
       />
 
-      <div className="relative mx-auto max-w-[820px] flex flex-col items-center">
+      <div className="relative mx-auto max-w-[1150px] flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-14">
 
-        {/* Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-          <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
-            <BrandIcons.supabase className="h-3 w-3 text-foreground" />
-          </span>
-          <span>Le système utilisé en interne chez Buildrs pour lancer des SaaS IA en 6 jours.</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
+        {/* Left — text */}
+        <div className="flex-1 flex flex-col items-center text-center lg:items-start lg:text-left">
 
-        {/* H1 */}
-        <h1
-          className="mb-7 text-foreground"
-          style={{ fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.03 }}
-        >
-          Crée ton{" "}
-          <WordRotate
-            words={["saas", "app"]}
-            duration={2200}
-            className="text-foreground"
-            style={{ fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-          />
-          <br />avec l'IA. En 6 jours.
-        </h1>
-
-        {/* Sub */}
-        <p className="mb-7 max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-          Le système guidé pour créer et monétiser ton premier produit digital grâce à l'IA et générer tes premiers revenus en autopilote —{" "}
-          <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
-        </p>
-
-        {/* Badges */}
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
-          {["Sans savoir coder", "Sans expertise en IA", "Sans lever de fond ni d'équipe"].map((label) => (
-            <span
-              key={label}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
-            >
-              <Check className="h-3 w-3 text-green-500 shrink-0" strokeWidth={2.5} />
-              {label}
+          {/* Badge */}
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
+            <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
+              <BrandIcons.supabase className="h-3 w-3 text-foreground" />
             </span>
-          ))}
+            <span>Le système qui transforme l'IA en vrai levier business — sans coder.</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+
+          {/* H1 */}
+          <h1
+            className="mb-7 text-foreground"
+            style={{ fontSize: "clamp(42px, 6vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.03 }}
+          >
+            Crée ton{" "}
+            <WordRotate
+              words={["saas", "app"]}
+              duration={2200}
+              className="text-foreground"
+              style={{ fontSize: "clamp(42px, 6vw, 80px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+            />
+            <br />avec l'IA. En 6 jours.
+          </h1>
+
+          {/* Sub */}
+          <p className="mb-6 max-w-[500px] text-[16px] leading-[1.65] text-muted-foreground">
+            Le système guidé pour créer et monétiser ton premier produit digital grâce à l'IA et générer tes premiers revenus en autopilote —{" "}
+            <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
+          </p>
+
+          {/* Typing idea */}
+          <TypingIdea />
+
+          {/* Badges */}
+          <div className="mb-10 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+            {["Sans savoir coder", "Sans expertise en IA", "Sans lever de fond ni d'équipe"].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
+              >
+                <Check className="h-3 w-3 text-green-500 shrink-0" strokeWidth={2.5} />
+                {label}
+              </span>
+            ))}
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+            <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
+              Accéder au Blueprint — 27€ →
+            </a>
+            <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
+              Voir les modules
+            </a>
+          </div>
+
+          {/* Countdown */}
+          <p className="mt-5 flex items-center justify-center lg:justify-start gap-1.5 text-[13px] text-muted-foreground/60">
+            <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
+            <ScarcityCountdown />
+            {" · Ensuite 297€"}
+          </p>
         </div>
 
-        {/* CTAs */}
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-            Accéder au Blueprint — 27€ →
-          </a>
-          <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
-            Voir les modules
-          </a>
+        {/* Right — dashboard mockup */}
+        <div className="w-full lg:w-[510px] flex-shrink-0">
+          <HeroDashboardMockup />
         </div>
 
-        {/* Countdown */}
-        <p className="mt-5 flex items-center justify-center gap-1.5 text-[13px] text-muted-foreground/60">
-          <Flame size={13} strokeWidth={1.5} className="text-foreground/50" />
-          <ScarcityCountdown />
-          {" · Ensuite 297€"}
-        </p>
       </div>
-
     </section>
   )
 }
@@ -295,23 +541,21 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 function Marquee() {
   const doubled = [...tools, ...tools]
   return (
-    <section className="overflow-hidden border-y border-border bg-muted py-12">
-      <p className="mb-5 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-        Le stack IA que tu vas orchestrer
+    <section className="overflow-hidden border-y border-border bg-background py-10">
+      <p className="mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/60">
+        Nous construisons avec les meilleurs outils du marché — pas besoin de choisir
       </p>
       <div className="overflow-hidden">
         <div
-          className="flex gap-3"
-          style={{ width: "max-content", animation: "marquee-scroll 28s linear infinite" }}
+          className="flex items-center gap-8"
+          style={{ width: "max-content", animation: "marquee-scroll 32s linear infinite" }}
         >
           {doubled.map(({ label, Icon }, i) => (
-            <span
+            <Icon
               key={i}
-              className="flex items-center gap-2 whitespace-nowrap rounded-xl border border-border bg-background px-4 py-2.5 text-[13px] font-medium text-muted-foreground"
-            >
-              <Icon className="h-4 w-4 shrink-0 text-foreground" />
-              {label}
-            </span>
+              aria-label={label}
+              className="h-7 w-7 shrink-0 text-foreground/30 hover:text-foreground/60 transition-colors"
+            />
           ))}
         </div>
       </div>
@@ -329,10 +573,10 @@ function Stats() {
         style={{ background: "hsl(var(--border))", gap: "1px" }}
       >
         {stats.map(({ num, desc }) => (
-          <div key={num} className="bg-background px-9 py-10 text-center">
+          <div key={num} className="bg-background px-6 py-10 text-center">
             <div
-              className="mb-2 leading-none text-foreground"
-              style={{ fontSize: "clamp(28px, 6vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+              className="mb-2 leading-none text-foreground whitespace-nowrap"
+              style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.04em" }}
             >
               {num}
             </div>
@@ -361,10 +605,10 @@ function WhySaaS() {
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
             className="mb-5 text-foreground"
           >
-            Tu n'as pas besoin<br />de coder. Tu as besoin<br />de diriger.
+            Tu n'as pas besoin<br />de coder. Tu as besoin<br />d'avoir des idées.
           </h2>
           <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-            Tu es le chef d'orchestre. Claude et Blueprint sont tes associés. Tu donnes l'instruction — l'IA construit. Bienvenue en 2026.
+            Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction. Tu décris ce que tu veux — l'IA et Claude construisent. Bienvenue en 2026.
           </p>
         </div>
 
