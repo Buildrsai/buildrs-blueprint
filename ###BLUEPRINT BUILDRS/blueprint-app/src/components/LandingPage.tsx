@@ -251,7 +251,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
         {/* Sub */}
         <p className="mb-7 max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-          Le système guidé étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur de production, et lancer un micro SaaS IA qui génère des revenus en autopilote —{" "}
+          Le système guidé pour créer et monétiser ton premier produit digital grâce à l'IA et générer tes premiers revenus en autopilote —{" "}
           <strong className="font-semibold text-foreground">même si tu n'as jamais ouvert un éditeur de code de ta vie.</strong>
         </p>
 
