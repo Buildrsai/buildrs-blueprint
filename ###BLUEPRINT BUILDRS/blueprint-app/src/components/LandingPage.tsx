@@ -352,51 +352,59 @@ function HeroDashboardMockup() {
             </div>
           </div>
 
-          {/* Main content — Checklist */}
-          <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-2.5">
+          {/* Main content — Dashboard style */}
+          <div className="flex-1 p-3 overflow-hidden flex flex-col gap-2.5">
+
+            {/* Header */}
             <div className="flex items-center justify-between">
-              <span className="text-[7px] font-bold uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.35)' }}>Checklist Blueprint</span>
+              <div>
+                <p className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.02em' }}>Mon Parcours</p>
+                <p className="text-[6.5px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Voici ta progression Blueprint</p>
+              </div>
               <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                <span className="text-[7px] font-semibold" style={{ color: '#22c55e' }}>4 / 6 complétés</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
+                <span className="text-[6.5px] font-semibold" style={{ color: '#22c55e' }}>CLAUDE ACTIF</span>
               </div>
             </div>
 
-            {/* Progress bar */}
-            <div className="h-[3px] rounded-full w-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
-              <div className="h-full rounded-full bg-white" style={{ width: '66%' }} />
-            </div>
-
-            {/* Checklist items */}
-            <div className="flex flex-col gap-1 flex-1">
+            {/* Stat cards */}
+            <div className="grid grid-cols-3 gap-1.5">
               {[
-                { num: '00', label: 'Introduction & Fondations',    items: ['Glossaire', 'Stratégies de départ', 'Modèles de monétisation'],   done: true  },
-                { num: '01', label: 'Trouver & Valider',            items: ['Idée générée', 'Validation marché', 'Brief produit'],             done: true  },
-                { num: '02', label: 'Préparer & Designer',          items: ['Environnement configuré', 'Inspiration UI', 'Branding express'],  done: true  },
-                { num: '03', label: 'L\'Architecture',              items: ['BDD Supabase', 'Auth', 'Sécurité'],                               done: true  },
-                { num: '04', label: 'Construire',                   items: ['Feature core', 'Pages essentielles', 'Onboarding'],               done: false, current: true  },
-                { num: '05', label: 'Déployer & Monétiser',         items: ['Vercel deploy', 'Stripe branché', 'Emails auto'],                 done: false },
-              ].map(({ num, label, items, done, current }) => (
-                <div key={num} className="rounded-lg px-2.5 py-1.5" style={{ background: current ? 'rgba(255,255,255,0.05)' : 'transparent', border: current ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent' }}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-3.5 h-3.5 rounded flex items-center justify-center flex-shrink-0" style={{ background: done ? '#fff' : 'rgba(255,255,255,0.06)', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)' }}>
-                      {done && <Check size={6} strokeWidth={3.5} className="text-[#09090b]" />}
-                      {current && <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.7)' }} />}
-                    </div>
-                    <span className="text-[6px] font-bold uppercase tracking-wider flex-shrink-0" style={{ color: 'rgba(255,255,255,0.2)' }}>M{num}</span>
-                    <span className="text-[8px] font-semibold truncate" style={{ color: done ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)', textDecoration: done ? 'line-through' : 'none' }}>{label}</span>
-                    {current && <span className="ml-auto text-[5.5px] font-bold tracking-wide flex-shrink-0" style={{ color: '#22c55e' }}>EN COURS</span>}
-                  </div>
-                  <div className="flex gap-1.5 pl-5 flex-wrap">
-                    {items.map(item => (
-                      <span key={item} className="text-[6px] flex items-center gap-0.5" style={{ color: done ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.3)' }}>
-                        {done && <Check size={5} strokeWidth={3} />}
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+                { label: 'Modules', value: '4/6',   sub: '+1 cette semaine' },
+                { label: 'Tâches',  value: '24',    sub: '8 restantes'      },
+                { label: 'Score',   value: '72%',   sub: 'Progression'      },
+              ].map(({ label, value, sub }) => (
+                <div key={label} className="rounded-lg p-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <p className="text-[6px] uppercase tracking-wider mb-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>{label}</p>
+                  <p className="text-[13px] font-extrabold text-white leading-none" style={{ letterSpacing: '-0.03em' }}>{value}</p>
+                  <p className="text-[6px] mt-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>{sub}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Module list */}
+            <div>
+              <p className="text-[6.5px] font-bold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.28)' }}>Étapes récentes</p>
+              <div className="flex flex-col gap-1">
+                {[
+                  { label: 'Trouver & Valider',     sub: 'Idée validée · Score 72/100',     badge: 'Fait',     green: false, done: true  },
+                  { label: 'Préparer & Designer',   sub: 'Branding · UI · Stack configuré', badge: 'Fait',     green: false, done: true  },
+                  { label: 'L\'Architecture',       sub: 'Supabase · Auth · Sécurité',      badge: 'Fait',     green: false, done: true  },
+                  { label: 'Construire',            sub: 'Feature core · Pages essentielles',badge: 'En cours', green: true,  done: false },
+                  { label: 'Déployer & Monétiser',  sub: 'Vercel · Stripe · Emails',        badge: 'À faire',  green: false, done: false },
+                ].map(({ label, sub, badge, green, done }) => (
+                  <div key={label} className="flex items-center gap-2 px-2 py-1.5 rounded-lg" style={{ background: green ? 'rgba(255,255,255,0.04)' : 'transparent', border: green ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent' }}>
+                    <div className="w-4 h-4 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: done ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.05)', border: done ? 'none' : '1px solid rgba(255,255,255,0.12)' }}>
+                      {done && <Check size={6} strokeWidth={3.5} className="text-[#09090b]" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[8px] font-semibold truncate" style={{ color: done ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.9)', textDecoration: done ? 'line-through' : 'none' }}>{label}</p>
+                      <p className="text-[6.5px] truncate" style={{ color: 'rgba(255,255,255,0.22)' }}>{sub}</p>
+                    </div>
+                    <span className="text-[6px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0" style={{ background: green ? 'rgba(234,179,8,0.15)' : done ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)', color: green ? '#eab308' : done ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)', border: `1px solid ${green ? 'rgba(234,179,8,0.25)' : 'rgba(255,255,255,0.08)'}` }}>{badge}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
