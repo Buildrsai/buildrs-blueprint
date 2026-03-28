@@ -247,6 +247,12 @@ const CATEGORIES: Category[] = [
         url: 'https://acquire.com',
         icon: lucide(DollarSign),
       },
+      {
+        name: 'TrustMRR',
+        desc: 'Annuaire de SaaS avec leurs MRR vérifiés. Trouve les niches rentables et analyse les revenus réels avant de te lancer.',
+        url: 'https://trustmrr.com',
+        icon: lucide(TrendingUp),
+      },
     ],
   },
 ]

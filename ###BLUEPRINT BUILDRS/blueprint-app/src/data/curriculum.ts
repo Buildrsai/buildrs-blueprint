@@ -244,6 +244,7 @@ export const CURRICULUM: Module[] = [
             { label: 'App Store',     desc: "Avis des apps mobiles — une mine d'or de douleurs non résolues." },
             { label: 'Flippa',        desc: "Marketplace de SaaS à vendre. Tu vois exactement ce qui rapporte." },
             { label: 'Acquire.com',   desc: "Même logique que Flippa, mais pour des SaaS plus matures (50k€+ ARR)." },
+            { label: 'TrustMRR',      desc: "Annuaire de SaaS avec leurs MRR vérifiés. Repère les niches rentables et vois exactement ce que rapportent les produits existants avant de te lancer." },
           ]},
           { type: 'quiz-inline',
             question: "Quelle stratégie correspond le mieux à ta situation actuelle ?",
