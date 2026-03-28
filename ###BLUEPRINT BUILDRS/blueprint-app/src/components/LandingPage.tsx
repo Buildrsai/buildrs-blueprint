@@ -352,54 +352,51 @@ function HeroDashboardMockup() {
             </div>
           </div>
 
-          {/* Main content */}
-          <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-2">
+          {/* Main content — Checklist */}
+          <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-[7px] font-bold uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.35)' }}>Autopilot IA</span>
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
-                <span className="text-[7px] font-semibold text-white">CLAUDE ACTIF</span>
+              <span className="text-[7px] font-bold uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.35)' }}>Checklist Blueprint</span>
+              <div className="flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                <span className="text-[7px] font-semibold" style={{ color: '#22c55e' }}>4 / 6 complétés</span>
               </div>
             </div>
-            <div>
-              <h3 className="font-extrabold text-white leading-tight mb-0.5" style={{ fontSize: '18px', letterSpacing: '-0.03em' }}>Agents Powers</h3>
-              <p className="text-[8px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>Les freelances en manque de structuration financière</p>
-              <div className="flex gap-1.5 mt-1.5">
-                {["En construction", "MVP 72h"].map(b => (
-                  <span key={b} className="text-[6.5px] font-medium px-1.5 py-0.5 rounded-full" style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.4)' }}>{b}</span>
-                ))}
-              </div>
+
+            {/* Progress bar */}
+            <div className="h-[3px] rounded-full w-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
+              <div className="h-full rounded-full bg-white" style={{ width: '66%' }} />
             </div>
-            <div>
-              <p className="text-[6.5px] font-bold uppercase tracking-[0.09em] mb-2" style={{ color: 'rgba(255,255,255,0.28)' }}>Progression du projet</p>
-              <div className="flex flex-col gap-1">
-                {[
-                  { label: 'Idée validée',              sub: 'Score 50/100 · Marché analysé',   done: true,  current: false },
-                  { label: 'Architecture définie',      sub: 'Stack · Base de données · Auth',   done: true,  current: false },
-                  { label: 'Design & branding validés', sub: 'Module 2 — Préparer & Designer',   done: true,  current: false },
-                  { label: 'Build en cours',            sub: 'Module 4 — Construire',             done: false, current: true  },
-                  { label: 'Déploiement & Monétisation',sub: 'Modules 5 & 6',                    done: false, current: false },
-                ].map(({ label, sub, done, current }) => (
-                  <div key={label} className="flex items-start gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: current ? 'rgba(255,255,255,0.07)' : 'transparent' }}>
-                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: done ? '#fff' : 'transparent', border: done ? 'none' : current ? '2px solid rgba(255,255,255,0.5)' : '1px solid rgba(255,255,255,0.15)' }}>
-                      {done && <Check size={7} strokeWidth={3.5} className="text-[#09090b]" />}
-                      {current && <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.8)' }} />}
+
+            {/* Checklist items */}
+            <div className="flex flex-col gap-1 flex-1">
+              {[
+                { num: '00', label: 'Introduction & Fondations',    items: ['Glossaire', 'Stratégies de départ', 'Modèles de monétisation'],   done: true  },
+                { num: '01', label: 'Trouver & Valider',            items: ['Idée générée', 'Validation marché', 'Brief produit'],             done: true  },
+                { num: '02', label: 'Préparer & Designer',          items: ['Environnement configuré', 'Inspiration UI', 'Branding express'],  done: true  },
+                { num: '03', label: 'L\'Architecture',              items: ['BDD Supabase', 'Auth', 'Sécurité'],                               done: true  },
+                { num: '04', label: 'Construire',                   items: ['Feature core', 'Pages essentielles', 'Onboarding'],               done: false, current: true  },
+                { num: '05', label: 'Déployer & Monétiser',         items: ['Vercel deploy', 'Stripe branché', 'Emails auto'],                 done: false },
+              ].map(({ num, label, items, done, current }) => (
+                <div key={num} className="rounded-lg px-2.5 py-1.5" style={{ background: current ? 'rgba(255,255,255,0.05)' : 'transparent', border: current ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent' }}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-3.5 h-3.5 rounded flex items-center justify-center flex-shrink-0" style={{ background: done ? '#fff' : 'rgba(255,255,255,0.06)', border: done ? 'none' : '1px solid rgba(255,255,255,0.15)' }}>
+                      {done && <Check size={6} strokeWidth={3.5} className="text-[#09090b]" />}
+                      {current && <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.7)' }} />}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[8.5px] font-semibold" style={{ color: done ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)', textDecoration: done ? 'line-through' : 'none' }}>{label}</p>
-                      <p className="text-[7px] truncate" style={{ color: 'rgba(255,255,255,0.25)' }}>{sub}</p>
-                    </div>
-                    {current && <span className="text-[6px] font-bold tracking-wide flex-shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>EN COURS</span>}
+                    <span className="text-[6px] font-bold uppercase tracking-wider flex-shrink-0" style={{ color: 'rgba(255,255,255,0.2)' }}>M{num}</span>
+                    <span className="text-[8px] font-semibold truncate" style={{ color: done ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.9)', textDecoration: done ? 'line-through' : 'none' }}>{label}</span>
+                    {current && <span className="ml-auto text-[5.5px] font-bold tracking-wide flex-shrink-0" style={{ color: '#22c55e' }}>EN COURS</span>}
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="mt-auto flex items-center justify-between px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <div>
-                <p className="text-[6.5px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>Prochaine étape</p>
-                <p className="text-[8.5px] font-semibold text-white">Build en cours →</p>
-              </div>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: 'rgba(255,255,255,0.25)' }}><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  <div className="flex gap-1.5 pl-5 flex-wrap">
+                    {items.map(item => (
+                      <span key={item} className="text-[6px] flex items-center gap-0.5" style={{ color: done ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.3)' }}>
+                        {done && <Check size={5} strokeWidth={3} />}
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
