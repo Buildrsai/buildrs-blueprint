@@ -127,15 +127,15 @@ const faqs = [
 
 const features = [
   "Accès au dashboard interactif Buildrs",
-  "6 modules complets (de l'idée au lancement)",
-  "Les prompts exacts à copier-coller à chaque étape",
-  "Le stack complet d'outils avec guides de configuration",
-  "Générateur d'idées intégré",
-  "Checklist interactive de progression",
-  "Templates prêts à l'emploi (brief, emails, landing page)",
-  "Les fondations du vibecoding et du product building",
+  "7 modules : de l'idée à tes premiers revenus",
+  "Les instructions exactes à donner à l'IA à chaque étape",
+  "Tous les outils nécessaires avec guides de configuration pas à pas",
+  "Générateur d'idées de produits rentables",
+  "Checklist interactive — tu sais toujours où tu en es",
+  "Templates prêts à l'emploi (fiche produit, emails, page de vente)",
+  "Les bases pour piloter l'IA et créer des produits digitaux",
   "3 stratégies de départ (copier, résoudre, découvrir)",
-  "3 modèles de monétisation (MRR, revente, commande)",
+  "3 modèles de monétisation (revenus récurrents, revente, commande client)",
   "Accès à vie + mises à jour",
 ]
 
@@ -838,22 +838,22 @@ const DASHBOARD_FEATURES = [
   {
     Icon: Zap,
     title: 'Autopilot IA',
-    desc: 'Ton workspace projet guidé par Claude. Timeline de progression, brief produit, stack et MRR estimé — tout en un.',
+    desc: 'Ton espace projet intelligent. Progression, fiche produit, outils configurés et revenus estimés — tout centralisé.',
   },
   {
     Icon: BookOpen,
     title: 'Mon Parcours',
-    desc: '7 modules et 33 leçons interactives. Un plan structuré de l\'idée au lancement, à suivre à ton rythme.',
+    desc: '7 modules et +30 leçons interactives. Un plan structuré de l\'idée aux premiers revenus, à suivre à ton rythme.',
   },
   {
     Icon: Lightbulb,
     title: 'Générateurs IA',
-    desc: '3 outils IA intégrés : idées de SaaS, validation de concept avec score, calculateur MRR & revente.',
+    desc: '3 outils IA intégrés : générateur d\'idées, validateur de concept avec score, calculateur de revenus.',
   },
   {
     Icon: Copy,
-    title: 'Bibliothèque de prompts',
-    desc: '100+ prompts copiables classés par module et par usage. Prêts à coller dans Claude Code.',
+    title: 'Bibliothèque d\'instructions',
+    desc: '100+ instructions IA copiables classées par étape. Prêtes à utiliser en un clic.',
   },
   {
     Icon: CheckSquare,
@@ -863,7 +863,7 @@ const DASHBOARD_FEATURES = [
   {
     Icon: Wrench,
     title: 'Boîte à outils',
-    desc: 'Tous les outils du stack (Supabase, Vercel, Stripe…) avec guides de configuration et liens directs.',
+    desc: 'Tous les outils nécessaires avec guides de configuration pas à pas et liens directs.',
   },
 ]
 
@@ -883,7 +883,7 @@ function DashboardSection() {
             Pas un PDF. Pas une vidéo.<br />Un vrai copilote SaaS.
           </h2>
           <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
-            Tu accèdes à un dashboard complet avec ton workspace projet Autopilot IA, tes modules interactifs, tes générateurs, ta bibliothèque de prompts, ta checklist et tes outils — tout en un.
+            Tu accèdes à un dashboard complet : ton espace projet, tes modules interactifs, tes générateurs IA, ta bibliothèque d'instructions, ta checklist et tes outils — tout en un.
           </p>
         </div>
 
@@ -1334,37 +1334,43 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
 const sprintDays = [
   {
-    day: "01", label: "Lundi", title: "Fondations",
-    deliverable: "Tu repars avec une direction claire : ta stratégie, ton objectif, tes bases posées",
-    items: ["Comprendre le vibecoding et pourquoi ça change tout", "Choisir entre une app, un micro-SaaS ou un logiciel", "Choisir ta stratégie de départ (copier, résoudre, découvrir)", "Définir ton objectif de monétisation", "Les bases de l'IA avec Claude et le rôle des agents autonomes"],
+    day: "01", label: "Jour 1", title: "Ta direction",
+    deliverable: "Tu repars avec une direction claire : ton type de produit, ta stratégie et ton objectif financier",
+    items: ["Choisir le type de produit que tu vas créer", "Définir ta stratégie : copier ce qui marche, résoudre un problème, ou explorer une opportunité", "Fixer ton objectif financier : revenus récurrents, revente ou commande client", "Comprendre comment l'IA construit à ta place — et ton rôle de pilote"],
     accent: "#4d96ff",
   },
   {
-    day: "02", label: "Mardi", title: "Trouver & Valider",
-    deliverable: "Tu repars avec ton idée validée et un brief produit complet prêt à exécuter",
-    items: ["Générer 5 idées avec le générateur intégré", "Valider ton idée avec Buildrs Blueprint en 30 min", "Rédiger ton brief produit (nom, cible, feature, prix)"],
+    day: "02", label: "Jour 2", title: "Ton espace de travail",
+    deliverable: "Tu repars avec un environnement complet, configuré, prêt à builder",
+    items: ["Installer et configurer tous tes outils en suivant le guide pas à pas", "Préparer ton environnement pour construire vite", "Tout est prêt — tu ne touches plus jamais à la config"],
+    accent: "#6bcb77",
+  },
+  {
+    day: "03", label: "Jour 3", title: "Ton idée validée",
+    deliverable: "Tu repars avec ton idée validée et une fiche produit prête à exécuter",
+    items: ["Trouver 5 idées de produits rentables avec le générateur IA", "Tester si ton idée a un vrai marché — en 30 minutes", "Créer la fiche de ton produit : nom, cible, fonctionnalité star, prix"],
     accent: "#cc5de8",
   },
   {
-    day: "03", label: "Mercredi", title: "Design & Architecture",
-    deliverable: "Tu repars avec ton environnement configuré et l'architecture de ton produit posée",
-    items: ["Configurer ton environnement (Supabase, Vercel, Stripe...)", "Créer ton branding avec Mobbin ou Pageflows et le valider dans Blueprint", "Schéma base de données + architecture validée"],
+    day: "04", label: "Jour 4", title: "Le look et les fondations",
+    deliverable: "Tu repars avec le design et la structure de ton produit validés — prêt à construire",
+    items: ["Trouver ton identité visuelle en t'inspirant des meilleures apps du marché", "Poser la structure technique de ton produit — l'IA s'en occupe, tu valides", "Définir le parcours utilisateur de ton produit"],
     accent: "#eab308",
   },
   {
-    day: "04", label: "Jeudi", title: "Construire",
-    deliverable: "Tu repars avec un MVP fonctionnel qui tourne",
-    items: ["Générer la base de l'app avec Claude Code", "Implémenter la feature principale", "Auth + onboarding utilisateur + sécurité"],
+    day: "05", label: "Jour 5", title: "Construction",
+    deliverable: "Tu repars avec un produit fonctionnel qui tourne",
+    items: ["L'IA génère la base de ton produit — tu décris ce que tu veux", "Créer la fonctionnalité principale — celle qui justifie le paiement", "Ajouter l'inscription utilisateur et le parcours d'accueil"],
     accent: "#ff6b6b",
   },
   {
-    day: "05", label: "Vendredi", title: "Déployer",
+    day: "06", label: "Jour 6", title: "Déployer",
     deliverable: "Tu repars avec ton produit en ligne, accessible au monde entier",
-    items: ["Mise en ligne sur Vercel", "Domaine personnalisé connecté", "Stripe + Resend branchés et testés"],
+    items: ["Mettre ton produit en ligne — accessible au monde entier", "Connecter ton nom de domaine personnalisé", "Brancher les paiements et les emails automatiques"],
     accent: "#22c55e",
   },
   {
-    day: "06", label: "Samedi", title: "Monétiser & Lancer",
+    day: "07", label: "Jour 7", title: "Monétiser & Lancer",
     deliverable: "Tu repars avec ta page de vente live et tes premiers euros en vue",
     items: ["Page de vente rédigée et publiée", "5 contenus de lancement prêts à poster", "Premiers clients et premiers revenus"],
     accent: "#f97316",
@@ -1382,10 +1388,10 @@ function Sprint() {
           style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
-          6 modules.<br />1 SaaS IA monétisé.
+          7 modules.<br />1 produit monétisé.
         </h2>
         <p className="mb-12 md:mb-20 max-w-[500px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          Un livrable concret chaque jour. Au bout de 6 jours, ton produit est en ligne et prêt à encaisser.
+          Un livrable concret chaque jour. Au bout de 7 jours, ton produit est en ligne et prêt à encaisser.
         </p>
 
         {/* Timeline */}
