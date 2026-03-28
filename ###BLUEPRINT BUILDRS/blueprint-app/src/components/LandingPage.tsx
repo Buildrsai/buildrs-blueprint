@@ -275,7 +275,7 @@ function TypingIdea() {
 
 function HeroDashboardMockup() {
   return (
-    <div className="relative w-full select-none pointer-events-none">
+    <div className="relative w-full select-none pointer-events-none overflow-hidden max-h-[220px] sm:max-h-none">
       <div className="absolute -inset-6 rounded-3xl blur-3xl opacity-20" style={{ background: 'radial-gradient(ellipse, rgba(150,120,255,0.5) 0%, transparent 70%)' }} />
       <div className="relative rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04)' }}>
         {/* Window chrome */}
@@ -467,7 +467,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-muted">
               <BrandIcons.supabase className="h-3 w-3 text-foreground" />
             </span>
-            <span>Le système qui transforme l'IA en vrai levier business — sans coder.</span>
+            <span>Transforme l'IA en vrai levier business</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
 
@@ -513,9 +513,6 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
               Accéder au Blueprint — 27€ →
             </a>
-            <a href="#modules" className="flex items-center gap-2 rounded-[10px] border border-border px-6 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent no-underline">
-              Voir les modules
-            </a>
           </div>
 
           {/* Countdown */}
@@ -542,7 +539,7 @@ function Marquee() {
   const doubled = [...tools, ...tools]
   return (
     <section className="overflow-hidden border-y border-border bg-background py-10">
-      <p className="mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/60">
+      <p className="mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/60 px-6 sm:px-0">
         Nous construisons avec les meilleurs outils du marché — pas besoin de choisir
       </p>
       <div className="overflow-hidden">
