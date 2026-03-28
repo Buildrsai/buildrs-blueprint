@@ -1391,7 +1391,7 @@ function Sprint() {
           7 modules.<br />1 produit monétisé.
         </h2>
         <p className="mb-12 md:mb-20 max-w-[500px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          Un livrable concret chaque jour. Au bout de 7 jours, ton produit est en ligne et prêt à encaisser.
+          7 modules pour passer de l'idée au produit monétisé. Les IA qu'on utilise sont les meilleurs du marché — et presque tous gratuits. Moins de 50€ pour tout démarrer.
         </p>
 
         {/* Timeline */}
