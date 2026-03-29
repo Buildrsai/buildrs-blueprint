@@ -1,0 +1,278 @@
+[    1735ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://eu.i.posthog.com/flags/?v=2&ip=0&_=1774609627622&ver=1.363.6&compression=base64:0
+[    1839ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0
+[  136423ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0
+[  141768ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  141780ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  141768ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  141780ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  142010ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=27&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=988e1e52-ee6f-48f6-9799-487391266f94&origin=https%3A%2F%2Fjs.stripe.com:0
+[  142010ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=27&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr:0
+[  142014ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=988e1e52-ee6f-48f6-9799-487391266f94&origin=https%3A%2F%2Fjs.stripe.com:0
+[  142014ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false:0
+[  142014ms] [WARNING] Failed to fetch Amazon Pay merchantId for Stripe flow: TypeError: Failed to fetch
+    at https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:16:19645
+    at https://static-eu.payments-amazon.com/checkout.js:1:287825
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ls (https://static-eu.payments-amazon.com/checkout.js:1:287563)
+    at https://static-eu.payments-amazon.com/checkout.js:1:288286
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ds (https://static-eu.payments-amazon.com/checkout.js:1:287941)
+    at Wr (https://static-eu.payments-amazon.com/checkout.js:1:166976)
+    at Object.<anonymous> (https://static-eu.payments-amazon.com/checkout.js:1:344076)
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Object.renderButton [as renderJSButton] (https://static-eu.payments-amazon.com/checkout.js:1:343280)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:151313
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:276
+    at new Promise (<anonymous>)
+    at e (https://static-na.payments-amazon.com/cPSPcheckout.js:1:53)
+    at LA (https://static-na.payments-amazon.com/cPSPcheckout.js:1:151053)
+    at A.<anonymous> (https://static-na.payments-amazon.com/cPSPcheckout.js:1:152208)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at i (https://static-na.payments-amazon.com/cPSPcheckout.js:1:109) @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:15
+[  145314ms] [WARNING] Cannot download icons after the webpage has been closed (web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay"). @ https://buildrs.fr/#/checkout:0
+[  145314ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/checkout:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  296770ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  298504ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  298514ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  298763ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=64&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=2c9aad30-bcea-48ec-b730-3c5129382567&origin=https%3A%2F%2Fjs.stripe.com:0
+[  298763ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=64&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr:0
+[  298763ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=2c9aad30-bcea-48ec-b730-3c5129382567&origin=https%3A%2F%2Fjs.stripe.com:0
+[  298763ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false:0
+[  298764ms] [WARNING] Failed to fetch Amazon Pay merchantId for Stripe flow: TypeError: Failed to fetch
+    at https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:16:19645
+    at https://static-eu.payments-amazon.com/checkout.js:1:287825
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ls (https://static-eu.payments-amazon.com/checkout.js:1:287563)
+    at https://static-eu.payments-amazon.com/checkout.js:1:288286
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ds (https://static-eu.payments-amazon.com/checkout.js:1:287941)
+    at Wr (https://static-eu.payments-amazon.com/checkout.js:1:166976)
+    at Object.<anonymous> (https://static-eu.payments-amazon.com/checkout.js:1:344076)
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Object.renderButton [as renderJSButton] (https://static-eu.payments-amazon.com/checkout.js:1:343280)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:151313
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:276
+    at new Promise (<anonymous>)
+    at e (https://static-na.payments-amazon.com/cPSPcheckout.js:1:53)
+    at LA (https://static-na.payments-amazon.com/cPSPcheckout.js:1:151053)
+    at A.<anonymous> (https://static-na.payments-amazon.com/cPSPcheckout.js:1:152208)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at i (https://static-na.payments-amazon.com/cPSPcheckout.js:1:109) @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:15
+[  299287ms] [WARNING] Cannot download icons after the webpage has been closed (web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay"). @ https://buildrs.fr/#/checkout:0
+[  299287ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/checkout:0
+[  302957ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://eu.i.posthog.com/flags/?v=2&ip=0&_=1774609929210&ver=1.363.6&compression=base64:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  310824ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0
+[  312079ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  312091ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  312079ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  312091ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  312079ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  312091ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  312530ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=27&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=741ca30a-9059-4e1c-a256-fc2e5ec7f9cb&origin=https%3A%2F%2Fjs.stripe.com:0
+[  312530ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=27&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr:0
+[  312546ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=741ca30a-9059-4e1c-a256-fc2e5ec7f9cb&origin=https%3A%2F%2Fjs.stripe.com:0
+[  312546ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false:0
+[  312546ms] [WARNING] Failed to fetch Amazon Pay merchantId for Stripe flow: TypeError: Failed to fetch
+    at https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:16:19645
+    at https://static-eu.payments-amazon.com/checkout.js:1:287825
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ls (https://static-eu.payments-amazon.com/checkout.js:1:287563)
+    at https://static-eu.payments-amazon.com/checkout.js:1:288286
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ds (https://static-eu.payments-amazon.com/checkout.js:1:287941)
+    at Wr (https://static-eu.payments-amazon.com/checkout.js:1:166976)
+    at Object.<anonymous> (https://static-eu.payments-amazon.com/checkout.js:1:344076)
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Object.renderButton [as renderJSButton] (https://static-eu.payments-amazon.com/checkout.js:1:343280)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:151313
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:276
+    at new Promise (<anonymous>)
+    at e (https://static-na.payments-amazon.com/cPSPcheckout.js:1:53)
+    at LA (https://static-na.payments-amazon.com/cPSPcheckout.js:1:151053)
+    at A.<anonymous> (https://static-na.payments-amazon.com/cPSPcheckout.js:1:152208)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at i (https://static-na.payments-amazon.com/cPSPcheckout.js:1:109) @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:15
+[  312686ms] [WARNING] Cannot download icons after the webpage has been closed (web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay"). @ https://buildrs.fr/#/checkout:0
+[  312686ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/checkout:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  465713ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  465738ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  465765ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=497&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=2b92f026-4259-4779-a7b1-a2c2b0f67481&origin=https%3A%2F%2Fjs.stripe.com:0
+[  465765ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=497&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr:0
+[  465819ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=2b92f026-4259-4779-a7b1-a2c2b0f67481&origin=https%3A%2F%2Fjs.stripe.com:0
+[  465820ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false:0
+[  465820ms] [WARNING] Failed to fetch Amazon Pay merchantId for Stripe flow: TypeError: Failed to fetch
+    at https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:16:19645
+    at https://static-eu.payments-amazon.com/checkout.js:1:287825
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ls (https://static-eu.payments-amazon.com/checkout.js:1:287563)
+    at https://static-eu.payments-amazon.com/checkout.js:1:288286
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ds (https://static-eu.payments-amazon.com/checkout.js:1:287941)
+    at Wr (https://static-eu.payments-amazon.com/checkout.js:1:166976)
+    at Object.<anonymous> (https://static-eu.payments-amazon.com/checkout.js:1:344076)
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Object.renderButton [as renderJSButton] (https://static-eu.payments-amazon.com/checkout.js:1:343280)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:151313
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:276
+    at new Promise (<anonymous>)
+    at e (https://static-na.payments-amazon.com/cPSPcheckout.js:1:53)
+    at LA (https://static-na.payments-amazon.com/cPSPcheckout.js:1:151053)
+    at A.<anonymous> (https://static-na.payments-amazon.com/cPSPcheckout.js:1:152208)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at i (https://static-na.payments-amazon.com/cPSPcheckout.js:1:109) @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:15
+[  466319ms] [WARNING] Error while trying to use the following icon from the Manifest: https://www.gstatic.com/instantbuy/svg/transparent_square.svg (Download error or resource isn't a valid image) @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  466319ms] [ERROR] Failed to download or decode the icon from web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay". @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  466319ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  466376ms] [WARNING] Cannot download icons after the webpage has been closed (web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay"). @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  466376ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  493030ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  493043ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  493030ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  493043ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  493030ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  493043ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  493494ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=62bdc394-2cbb-4bbb-9645-3e7a261b7551&origin=https%3A%2F%2Fjs.stripe.com:0
+[  493494ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/amazonpayMerchantId?ledgerCurrency=EUR&externalPartnerId=A2LYRA14DQME2H&externalMerchantDomain=buildrs.fr&isSandbox=false:0
+[  493495ms] [WARNING] Failed to fetch Amazon Pay merchantId for Stripe flow: TypeError: Failed to fetch
+    at https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:16:19645
+    at https://static-eu.payments-amazon.com/checkout.js:1:287825
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ls (https://static-eu.payments-amazon.com/checkout.js:1:287563)
+    at https://static-eu.payments-amazon.com/checkout.js:1:288286
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Ds (https://static-eu.payments-amazon.com/checkout.js:1:287941)
+    at Wr (https://static-eu.payments-amazon.com/checkout.js:1:166976)
+    at Object.<anonymous> (https://static-eu.payments-amazon.com/checkout.js:1:344076)
+    at https://static-eu.payments-amazon.com/checkout.js:1:1495
+    at Object.next (https://static-eu.payments-amazon.com/checkout.js:1:1600)
+    at https://static-eu.payments-amazon.com/checkout.js:1:538
+    at new Promise (<anonymous>)
+    at e (https://static-eu.payments-amazon.com/checkout.js:1:315)
+    at Object.renderButton [as renderJSButton] (https://static-eu.payments-amazon.com/checkout.js:1:343280)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:151313
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:276
+    at new Promise (<anonymous>)
+    at e (https://static-na.payments-amazon.com/cPSPcheckout.js:1:53)
+    at LA (https://static-na.payments-amazon.com/cPSPcheckout.js:1:151053)
+    at A.<anonymous> (https://static-na.payments-amazon.com/cPSPcheckout.js:1:152208)
+    at https://static-na.payments-amazon.com/cPSPcheckout.js:1:1233
+    at Object.next (https://static-na.payments-amazon.com/cPSPcheckout.js:1:1338)
+    at i (https://static-na.payments-amazon.com/cPSPcheckout.js:1:109) @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/vendors~AddressAutocomplete~AffirmInContext~AfterpayInContext~AmazonPayButton~ApplePay~Arkose~Arkose~daedefc0.dbeca930e1d74334cc68.bundle.js:15
+[  493498ms] [ERROR] Access to fetch at 'https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=1497&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr' from origin 'https://b.stripecdn.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://b.stripecdn.com/stripethirdparty-srv/assets/v32.1/AmazonPayButton.html?id=62bdc394-2cbb-4bbb-9645-3e7a261b7551&origin=https%3A%2F%2Fjs.stripe.com:0
+[  493499ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://payments-eu.amazon.com/alaMessage?merchantId=undefined&ledgerCurrency=EUR&affirmEnabled=false&amount=1497&pageType=banner&useBestTerms=true&isSandbox=false&partnerId=A2LYRA14DQME2H&merchantDomain=buildrs.fr:0
+[  493666ms] [WARNING] Cannot download icons after the webpage has been closed (web app manifest "https://pay.google.com/gp/p/web_manifest.json" for payment handler manifest "https://google.com/pay"). @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  493667ms] [ERROR] Failed to download or decode a non-empty icon for payment app with "https://pay.google.com/gp/p/web_manifest.json" manifest. @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  230690ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://api.stripe.com/v1/payment_methods:0
+[  499471ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  499481ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  499471ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  499481ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  499471ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  499481ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  499471ms] [ERROR] Framing 'https://client.wra-api.net/' violates the following Content Security Policy directive: "frame-src 'self' https://*.px-cloud.net https://*.px-cdn.net https://crcldu.com". The request has been blocked.
+ @ https://client.px-cloud.net/:0
+[  499481ms] [WARNING] Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://client.wra-api.net') does not match the recipient window's origin ('null'). @ https://client.px-cloud.net/PXVl48pWoc/main.min.js:2
+[  500089ms] [ERROR] Unable to download payment manifest "https://pay.google.com/gp/p/payment_method_manifest.json". @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  500089ms] [ERROR] Unable to download payment manifest "https://pay.google.com/gp/p/payment_method_manifest.json". @ https://buildrs.fr/#/upsell-cohort?session_id=cs_live_a1gT8yBA8oZXfbqzxsHXbEJJ5bCL31WHlCkIminYKpfTDFI0YouraEGqwM:0
+[  529616ms] [ERROR] Attestation check for Attribution Reporting on https://www.facebook.com failed. @ https://buildrs.fr/#/confirmation:0
+[  529757ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0
+[  602938ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://eu.i.posthog.com/flags/?v=2&ip=0&_=1774610229211&ver=1.363.6&compression=base64:0
+[  902942ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://eu.i.posthog.com/flags/?v=2&ip=0&_=1774610529211&ver=1.363.6&compression=base64:0

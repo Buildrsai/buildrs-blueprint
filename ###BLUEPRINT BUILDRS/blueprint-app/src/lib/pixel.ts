@@ -4,6 +4,7 @@
 // Usage : trackEvent('Purchase', { value: 27, currency: 'EUR' })
 
 const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1'
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 
 declare function fbq(event: string, name: string, params?: Record<string, unknown>): void
 
@@ -48,7 +49,10 @@ export function trackEvent(eventName: string, params?: PixelEventParams): void {
 
   fetch(`${SUPABASE_FUNCTIONS_URL}/meta-pixel`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    },
     body: JSON.stringify({
       event_name: eventName,
       event_source_url: window.location.href,

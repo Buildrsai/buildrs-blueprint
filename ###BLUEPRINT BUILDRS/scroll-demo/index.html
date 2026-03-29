@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buildrs — De l'idée au MVP en 6 jours</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="9" fill="#18181b"/>
+        <line x1="13.5" y1="6" x2="13.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <line x1="22.5" y1="6" x2="22.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <line x1="6" y1="13.5" x2="30" y2="13.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <line x1="6" y1="22.5" x2="30" y2="22.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span>Buildrs</span>
+    </div>
+    <div class="loader-bar-wrap">
+      <div id="loader-bar"></div>
+    </div>
+    <div id="loader-percent">0%</div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <nav>
+      <div class="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="9" fill="#18181b"/>
+          <line x1="13.5" y1="6" x2="13.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="22.5" y1="6" x2="22.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="13.5" x2="30" y2="13.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="22.5" x2="30" y2="22.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span>Buildrs</span>
+      </div>
+      <div class="nav-links">
+        <a href="#" class="nav-cta">Accéder — 27€ →</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO STANDALONE -->
+  <section class="hero-standalone" id="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Vibecoding avec Claude
+    </div>
+    <h1 class="hero-heading">
+      <span class="word">Claude</span>
+      <span class="word">code.</span>
+      <br>
+      <span class="word bright">Toi tu</span>
+      <span class="word bright">diriges.</span>
+    </h1>
+    <p class="hero-tagline">
+      De l'idée au MVP monétisé.<br>
+      <strong>En 6 jours.</strong>
+    </p>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- CANVAS (video frames) -->
+  <div class="canvas-wrap" id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- DARK OVERLAY -->
+  <div id="dark-overlay"></div>
+
+  <!-- MARQUEE (fixed, scroll-driven) -->
+  <div class="marquee-wrap" id="marquee" data-scroll-speed="-22">
+    <div class="marquee-text">
+      BUILDRS &nbsp;·&nbsp; VIBECODING &nbsp;·&nbsp; CLAUDE CODE &nbsp;·&nbsp;
+      6 JOURS &nbsp;·&nbsp; TON SAAS &nbsp;·&nbsp; BUILDRS &nbsp;·&nbsp;
+      VIBECODING &nbsp;·&nbsp; CLAUDE CODE &nbsp;·&nbsp; 6 JOURS &nbsp;·&nbsp;
+      TON SAAS &nbsp;·&nbsp; BUILDRS &nbsp;·&nbsp; VIBECODING &nbsp;·&nbsp;
+    </div>
+  </div>
+
+  <!-- SCROLL CONTAINER — 900vh -->
+  <div id="scroll-container">
+
+    <!-- Section 1 : De l'idée au produit -->
+    <section class="scroll-section section-content align-left"
+             data-enter="8" data-leave="22" data-animation="slide-left">
+      <div class="section-inner">
+        <span class="section-label">001 / Concept</span>
+        <h2 class="section-heading">De l'idée<br>au produit.</h2>
+        <p class="section-body">Tu as l'idée. Claude a l'expertise technique. Ensemble vous construisez un vrai produit numérique — pas un prototype.</p>
+      </div>
+    </section>
+
+    <!-- Section 2 : Sans savoir coder -->
+    <section class="scroll-section section-content align-right"
+             data-enter="24" data-leave="38" data-animation="slide-right">
+      <div class="section-inner">
+        <span class="section-label">002 / Méthode</span>
+        <h2 class="section-heading">Sans savoir<br>coder.</h2>
+        <p class="section-body">Tu décris. Claude construit. Tu valides. Tu es le chef d'orchestre — lui, le développeur le plus rapide du monde.</p>
+      </div>
+    </section>
+
+    <!-- Section 3 : 6 jours chrono -->
+    <section class="scroll-section section-content align-left"
+             data-enter="40" data-leave="54" data-animation="fade-up">
+      <div class="section-inner">
+        <span class="section-label">003 / Timeline</span>
+        <h2 class="section-heading">6 jours.<br>Chrono.</h2>
+        <p class="section-body">Module 1 → idée validée. Module 6 → produit live avec paiements. 2h par jour. Zéro budget développement.</p>
+      </div>
+    </section>
+
+    <!-- Section 4 : Stats (dark overlay) -->
+    <section class="scroll-section section-stats"
+             data-enter="55" data-leave="72" data-animation="stagger-up"
+             data-overlay-enter="0.54" data-overlay-leave="0.73">
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-number" data-value="6" data-decimals="0">0</span>
+          <span class="stat-suffix">J</span>
+          <span class="stat-label">De l'idée<br>au live</span>
+        </div>
+        <div class="stat stat-center">
+          <span class="stat-number" data-value="2" data-decimals="0">0</span>
+          <span class="stat-suffix">h/j</span>
+          <span class="stat-label">Par jour<br>suffisent</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-value="27" data-decimals="0">0</span>
+          <span class="stat-suffix">€</span>
+          <span class="stat-label">Pour tout<br>le système</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 : Stack -->
+    <section class="scroll-section section-content align-right"
+             data-enter="74" data-leave="87" data-animation="scale-up">
+      <div class="section-inner">
+        <span class="section-label">004 / Stack</span>
+        <h2 class="section-heading">La stack<br>des pros.</h2>
+        <p class="section-body">Claude · Supabase · Stripe · Vercel · Resend. Les mêmes outils que les startups qui lèvent des millions. À ta portée dès maintenant.</p>
+        <div class="stack-chips">
+          <span class="chip">Claude</span>
+          <span class="chip">Supabase</span>
+          <span class="chip">Stripe</span>
+          <span class="chip">Vercel</span>
+          <span class="chip">Resend</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final (persist) -->
+    <section class="scroll-section section-cta"
+             data-enter="88" data-leave="100" data-animation="clip-reveal"
+             data-persist="true">
+      <div class="cta-inner">
+        <span class="section-label">Rejoins le mouvement</span>
+        <h2 class="cta-heading">Ton SaaS.<br><span class="cta-accent">Live en 6 jours.</span></h2>
+        <div class="cta-price">
+          <span class="price-old">197€</span>
+          <span class="price-new">27€</span>
+        </div>
+        <a href="https://buildrs.fr" class="cta-button">
+          Accéder au Blueprint →
+        </a>
+        <p class="cta-note">
+          <span class="note-dot"></span>
+          82/100 places · Prix monte à 297€ bientôt
+        </p>
+      </div>
+    </section>
+
+  </div><!-- /scroll-container -->
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

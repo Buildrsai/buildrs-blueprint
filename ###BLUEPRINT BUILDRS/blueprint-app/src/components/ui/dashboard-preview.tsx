@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
-  ShieldCheck, TrendingUp, Check, Copy, Zap, ChevronRight,
+  ShieldCheck, TrendingUp, Check, Copy, Zap, ChevronRight, Bot,
   BookOpen, CheckSquare, Wrench, ExternalLink, Lightbulb, FolderOpen,
 } from 'lucide-react'
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from './icons'
@@ -44,24 +44,30 @@ function MiniSidebar({ tab }: { tab: Tab }) {
       <div className="px-2 pt-2.5">
         <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Construire</p>
         {([
-          { id: 'autopilot' as Tab, icon: Zap,      label: 'Jarvis IA',     badge: 'ACTIF' },
-          { id: 'parcours'  as Tab, icon: BookOpen,  label: 'Mon Parcours',  badge: null    },
-        ]).map(({ id, icon: Icon, label, badge }) => (
+          { id: 'autopilot' as Tab, icon: Zap,      label: 'Jarvis IA',     badge: 'ACTIF', badgeColor: '#22c55e' },
+          { id: 'parcours'  as Tab, icon: BookOpen,  label: 'Mon Parcours',  badge: null,    badgeColor: '' },
+        ]).map(({ id, icon: Icon, label, badge, badgeColor }) => (
           <div key={id} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
             <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
             <span className="text-[8px] font-medium flex-1 truncate">{label}</span>
             {badge && (
-              <span className="text-[6px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>
+              <span className="text-[6px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: `${badgeColor}26`, color: badgeColor, border: `1px solid ${badgeColor}4d` }}>
                 {badge}
               </span>
             )}
           </div>
         ))}
+        {/* Mes agents IA */}
+        <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground">
+          <Bot size={9} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[8px] font-medium flex-1 truncate">Mes agents IA</span>
+          <span className="text-[6px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(77,150,255,0.15)', color: '#4d96ff', border: '1px solid rgba(77,150,255,0.3)' }}>NEW</span>
+        </div>
       </div>
 
       {/* OUTILS IA */}
       <div className="px-2 pt-2">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Plugins IA</p>
+        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Outils IA</p>
         {([
           { id: 'generator' as Tab, Icon: Lightbulb,   label: 'NicheFinder'  },
           { id: null,               Icon: ShieldCheck,  label: 'MarketPulse'  },
@@ -144,60 +150,128 @@ const STACK_ITEMS = [
   { Icon: BrandIcons.github,   label: 'GitHub',   active: true  },
 ]
 
+const AUTOPILOT_STACK = [
+  { Icon: BrandIcons.anthropic, label: 'Claude Code' },
+  { Icon: BrandIcons.supabase,  label: 'Supabase'    },
+  { Icon: BrandIcons.vercel,    label: 'Vercel'      },
+  { Icon: BrandIcons.resend,    label: 'Resend'      },
+  { Icon: BrandIcons.hostinger, label: 'Hostinger'   },
+  { Icon: BrandIcons.stripe,    label: 'Stripe'      },
+  { Icon: BrandIcons.github,    label: 'GitHub'      },
+]
+
 function AutopilotContent() {
   return (
     <div className="flex-1 flex overflow-hidden">
-      <div className="flex-1 p-4 flex flex-col gap-3 overflow-hidden">
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-foreground flex-shrink-0" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
-          <span className="text-[7.5px] font-bold uppercase tracking-[0.1em] text-foreground">CLAUDE ACTIF</span>
-          <span className="ml-auto text-[13px] font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>FactureAI</span>
-        </div>
-
-        <div className="border border-border rounded-lg p-3 bg-secondary/50">
-          <p className="text-[7px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Brief produit</p>
-          <p className="text-[10px] font-semibold text-foreground mb-0.5">FactureAI</p>
-          <p className="text-[8.5px] text-muted-foreground leading-relaxed">Créer et envoyer des factures pro en 30s grâce à l'IA</p>
-        </div>
-
-        <div className="flex flex-col gap-1.5 flex-1">
-          {TIMELINE_STEPS.map(({ n, label, done, current }) => (
-            <div key={n} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg ${current ? 'bg-foreground' : 'border border-border'}`}>
-              <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${done ? 'bg-foreground text-background' : current ? 'bg-background text-foreground' : 'border border-border text-muted-foreground'}`}>
-                {done ? <Check size={7} strokeWidth={3} className="text-background" /> : <span className="text-[7px] font-bold">{n}</span>}
-              </div>
-              <span className={`text-[8.5px] font-medium flex-1 ${current ? 'text-background' : done ? 'text-muted-foreground line-through' : 'text-foreground'}`}>{label}</span>
-              {current && <span className="text-[6.5px] font-bold text-background/60 tracking-wider">EN COURS</span>}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="w-[120px] flex-shrink-0 border-l border-border p-3 flex flex-col gap-3">
-        <div>
-          <p className="text-[7px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Score viabilité</p>
-          <div className="text-center border border-border rounded-lg py-2">
-            <span className="text-2xl font-extrabold text-foreground" style={{ letterSpacing: '-0.04em', lineHeight: 1 }}>74</span>
-            <span className="text-[9px] text-muted-foreground">/100</span>
+      {/* Main — colonne principale */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="px-4 pt-3 pb-2.5 border-b border-border flex items-center justify-between flex-shrink-0">
+          <div>
+            <p className="text-[9px] font-extrabold text-foreground" style={{ letterSpacing: '-0.02em' }}>Mon Parcours</p>
+            <p className="text-[6.5px] text-muted-foreground">Voici ta progression Blueprint</p>
+          </div>
+          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
+            <div className="w-1 h-1 rounded-full bg-green-400" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
+            <span className="text-[6px] font-bold" style={{ color: '#22c55e' }}>CLAUDE ACTIF</span>
           </div>
         </div>
 
+        <div className="flex-1 overflow-hidden px-3 py-2.5 flex flex-col gap-2.5">
+          {/* Stat bar */}
+          <div className="flex items-center rounded-lg px-3 py-2 border border-border bg-secondary">
+            {[
+              { label: 'Modules', value: '4/6' },
+              { label: 'Tâches',  value: '24'  },
+              { label: 'Score',   value: '72%' },
+            ].map(({ label, value }, i) => (
+              <div key={label} className="flex-1 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid hsl(var(--border))' : 'none' }}>
+                <p className="text-[13px] font-extrabold text-foreground leading-none" style={{ letterSpacing: '-0.03em' }}>{value}</p>
+                <p className="text-[6px] uppercase tracking-wider mt-0.5 text-muted-foreground">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Jarvis greeting */}
+          <div className="flex items-start gap-1.5">
+            <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #cc5de8, #4d96ff)', boxShadow: '0 0 8px rgba(204,93,232,0.35)' }}>
+              <Zap size={9} strokeWidth={2} className="text-white" />
+            </div>
+            <div className="flex-1 rounded-xl rounded-tl-sm px-2.5 py-2" style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}>
+              <p className="text-[7px] font-bold mb-0.5" style={{ background: 'linear-gradient(90deg, #cc5de8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Jarvis</p>
+              <p className="text-[8px] text-foreground leading-relaxed">Bonjour ! Je suis Jarvis, ton copilote IA. Dis-moi où tu en es — je te guide pour la prochaine étape.</p>
+            </div>
+          </div>
+
+          {/* Chat input */}
+          <div className="rounded-xl px-3 py-2 border border-border bg-secondary">
+            <p className="text-[8px] text-muted-foreground mb-2">Parle à Jarvis...</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                {[
+                  <svg key="attach" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>,
+                  <svg key="globe" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>,
+                  <svg key="code"  width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+                ].map((icon, i) => (
+                  <div key={i} className="w-5 h-5 rounded-full flex items-center justify-center">{icon}</div>
+                ))}
+              </div>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center bg-foreground">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--background))" strokeWidth="2.5"><path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3"/></svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Checklist */}
+          <div>
+            <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Checklist en cours</p>
+            <div className="flex flex-col gap-1">
+              {[
+                { label: 'Trouver & Valider',    done: true,  active: false },
+                { label: 'Préparer & Designer',  done: true,  active: false },
+                { label: 'Construire',           done: false, active: true  },
+                { label: 'Déployer & Monétiser', done: false, active: false },
+              ].map(({ label, done, active }) => (
+                <div key={label} className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg" style={{ background: active ? 'hsl(var(--secondary))' : 'transparent', border: active ? '1px solid hsl(var(--border))' : '1px solid transparent' }}>
+                  <div className="w-3 h-3 rounded flex items-center justify-center flex-shrink-0" style={{ background: done ? 'hsl(var(--foreground))' : 'hsl(var(--border))' }}>
+                    {done && <Check size={5} strokeWidth={3} className="text-background" />}
+                  </div>
+                  <span className="text-[7.5px] flex-1" style={{ color: done ? 'hsl(var(--muted-foreground))' : 'hsl(var(--foreground))', textDecoration: done ? 'line-through' : 'none' }}>{label}</span>
+                  {active && <span className="text-[5.5px] font-bold px-1 py-0.5 rounded-full" style={{ background: 'rgba(234,179,8,0.12)', color: '#eab308', border: '1px solid rgba(234,179,8,0.25)' }}>EN COURS</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right panel — desktop only */}
+      <div className="hidden sm:flex w-[115px] flex-shrink-0 border-l border-border p-3 flex-col gap-3">
         <div>
-          <p className="text-[7px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Stack</p>
-          <div className="flex flex-wrap gap-1">
-            {STACK_ITEMS.map(({ Icon, label, active }) => (
-              <div key={label} className={`flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] ${active ? 'bg-foreground text-background' : 'border border-border text-muted-foreground'}`}>
-                <Icon className="w-2.5 h-2.5" />
-                <span>{label}</span>
+          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Score de viabilité</p>
+          <div className="text-center border border-border rounded-lg py-2.5" style={{ background: 'hsl(var(--secondary))' }}>
+            <span className="text-[26px] font-extrabold text-foreground leading-none" style={{ letterSpacing: '-0.04em' }}>50</span>
+            <p className="text-[6.5px] text-muted-foreground mt-0.5">Idée fortement validée</p>
+          </div>
+        </div>
+        <div>
+          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Stack</p>
+          <div className="flex flex-col gap-1">
+            {AUTOPILOT_STACK.map(({ Icon, label }) => (
+              <div key={label} className="flex items-center justify-between px-1.5 py-1 rounded border border-border" style={{ background: 'hsl(var(--secondary))' }}>
+                <div className="flex items-center gap-1">
+                  <Icon className="w-2.5 h-2.5 flex-shrink-0 text-muted-foreground" />
+                  <span className="text-[7px] text-muted-foreground">{label}</span>
+                </div>
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(74,222,128,0.85)' }} />
               </div>
             ))}
           </div>
         </div>
-
         <div>
-          <p className="text-[7px] font-bold uppercase tracking-wider text-muted-foreground mb-1">MRR cible</p>
-          <p className="text-[18px] font-extrabold text-foreground" style={{ letterSpacing: '-0.04em', lineHeight: 1 }}>1 000€</p>
-          <p className="text-[7px] text-muted-foreground mt-0.5">~83 clients à 12€/mois</p>
+          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1">MRR estimé</p>
+          <div className="h-px w-8 mb-1.5 bg-border" />
+          <span className="text-[7px] text-muted-foreground underline cursor-pointer">Calculer →</span>
         </div>
       </div>
     </div>
@@ -372,15 +446,15 @@ function GeneratorContent() {
 // ── Content: Bibliothèque ─────────────────────────────────────────────────────
 
 const PROMPTS_LIB = [
-  { module: 'Mod. 03', tag: 'Architecture', title: 'Structurer ma base de données',   preview: 'Tu es architecte Supabase. Génère le schéma complet (tables, colonnes, types, relations) pour mon SaaS...' },
-  { module: 'Mod. 03', tag: 'Sécurité',     title: 'Sécuriser les accès avec RLS',    preview: 'Active et configure les Row Level Security policies Supabase pour que chaque user accède uniquement à ses données...' },
-  { module: 'Mod. 04', tag: 'Build',        title: 'Créer mon schéma d\'API REST',    preview: 'Génère la structure d\'API complète pour mon SaaS : routes, méthodes HTTP, payloads, codes retour...' },
-  { module: 'Mod. 05', tag: 'Déploiement',  title: 'Générer mes emails automatiques', preview: 'Crée les templates d\'emails transactionnels avec Resend : bienvenue, confirmation de paiement, relance...' },
-  { module: 'Mod. 04', tag: 'Build',        title: 'Optimiser mes requêtes SQL',      preview: 'Audite et optimise ces requêtes Supabase. Identifie les indexes manquants et les N+1...' },
+  { module: 'Mod. 01', tag: 'Idée',        title: 'Trouver mon idée de SaaS',         preview: 'Donne-moi 10 idées de micro-SaaS que je peux construire ce week-end, adaptées au marché français...' },
+  { module: 'Mod. 02', tag: 'Design',      title: 'Créer mon branding en 5 minutes',  preview: 'Génère un nom, une couleur principale et un slogan pour mon SaaS qui [problème résolu]...' },
+  { module: 'Mod. 03', tag: 'Architecture','title': 'Expliquer comment mon app fonctionne', preview: 'Décris comment construire [mon SaaS] étape par étape, sans jargon technique. Quelles pages, quels boutons...' },
+  { module: 'Mod. 04', tag: 'Build',       title: 'Construire ma page principale',    preview: 'Crée le code de ma page d\'accueil. Elle doit avoir : une accroche, un bouton s\'inscrire, et une liste de fonctionnalités...' },
+  { module: 'Mod. 06', tag: 'Lancement',   title: 'Rédiger mes 5 premiers posts',     preview: 'Écris 5 posts LinkedIn pour lancer mon SaaS. Ton direct, sans jargon. Commence par le problème que je résous...' },
 ]
 
 const TAG_COLORS: Record<string, string> = {
-  Architecture: '#cc5de8', Sécurité: '#ff6b6b', Build: '#eab308', Déploiement: '#4d96ff', Lancement: '#22c55e',
+  Idée: '#4d96ff', Design: '#cc5de8', Architecture: '#cc5de8', Build: '#eab308', Déploiement: '#4d96ff', Lancement: '#22c55e',
 }
 
 function BibliothequeContent() {
@@ -553,13 +627,13 @@ function OutilsContent() {
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
-export function DashboardPreview() {
+export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideTabs = false }: { windowHeight?: number; mobileHeight?: number; hideTabs?: boolean }) {
   const [tab, setTab] = useState<Tab>('autopilot')
 
   return (
     <div>
       {/* Tab switcher — scrollable, full labels always */}
-      <div className="relative mb-8">
+      <div className={`relative mb-8 ${hideTabs ? 'hidden' : ''}`}>
         <div className="flex items-center justify-start sm:justify-center gap-1 overflow-x-auto pb-1 -mx-2 px-2 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map(t => (
             <button
@@ -592,7 +666,7 @@ export function DashboardPreview() {
               </div>
               <div className="w-16" />
             </div>
-            <div className="flex bg-background overflow-hidden" style={{ height: 460 }}>
+            <div className="flex bg-background overflow-hidden" style={{ height: windowHeight }}>
               <MiniSidebar tab={tab} />
               {tab === 'autopilot'    && <AutopilotContent />}
               {tab === 'parcours'     && <ParcoursContent />}
@@ -617,13 +691,16 @@ export function DashboardPreview() {
             </div>
           </div>
         </div>
-        <div className="bg-background" style={{ minHeight: 360 }}>
-          {tab === 'autopilot'    && <AutopilotContent />}
-          {tab === 'parcours'     && <ParcoursContent />}
-          {tab === 'generator'    && <GeneratorContent />}
-          {tab === 'bibliotheque' && <BibliothequeContent />}
-          {tab === 'checklist'    && <ChecklistContent />}
-          {tab === 'outils'       && <OutilsContent />}
+        <div className="flex bg-background overflow-hidden" style={{ minHeight: mobileHeight }}>
+          <MiniSidebar tab={tab} />
+          <div className="flex-1 overflow-hidden">
+            {tab === 'autopilot'    && <AutopilotContent />}
+            {tab === 'parcours'     && <ParcoursContent />}
+            {tab === 'generator'    && <GeneratorContent />}
+            {tab === 'bibliotheque' && <BibliothequeContent />}
+            {tab === 'checklist'    && <ChecklistContent />}
+            {tab === 'outils'       && <OutilsContent />}
+          </div>
         </div>
       </div>
     </div>

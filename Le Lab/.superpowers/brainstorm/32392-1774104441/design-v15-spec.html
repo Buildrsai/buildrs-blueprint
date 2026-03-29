@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buildrs V1.5 — Design Spec</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Inter', sans-serif; background: #F8F9FC; color: #121317; padding: 40px 60px; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .meta { font-size: 14px; color: #45474D; margin-bottom: 40px; }
+  .badge { display: inline-block; background: #3279F9; color: white; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 9999px; margin-right: 6px; }
+  .badge.dark { background: #121317; }
+  .badge.new { background: #22C55E; }
+
+  .section-block { background: white; border: 1px solid #E6EAF0; border-radius: 16px; padding: 28px 32px; margin-bottom: 20px; }
+  .section-block h2 { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-block .tag { font-size: 11px; background: #EFF2F7; color: #45474D; padding: 2px 8px; border-radius: 9999px; font-weight: 500; }
+  .section-block .tag.new { background: #DCFCE7; color: #166534; }
+  .section-block .tag.upgrade { background: #DBEAFE; color: #1E40AF; }
+
+  .spec-row { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid #F0F1F5; align-items: start; }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-label { font-size: 12px; font-weight: 600; color: #45474D; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 2px; }
+  .spec-value { font-size: 14px; color: #121317; line-height: 1.6; }
+  .spec-value code { background: #EFF2F7; padding: 1px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3279F9; }
+
+  .mockup { border-radius: 12px; overflow: hidden; border: 1px solid #E6EAF0; margin-top: 16px; }
+  .mockup-header { background: #F0F1F5; padding: 8px 14px; font-size: 11px; color: #45474D; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  .mockup-body { padding: 20px; }
+
+  /* HERO MOCKUP */
+  .hero-mock { background: white; padding: 40px; position: relative; overflow: hidden; min-height: 200px; text-align: center; }
+  .particle-rect { position: absolute; border-radius: 1px; opacity: 0.7; }
+  .hero-headline { font-size: 36px; font-weight: 500; letter-spacing: -1px; color: #121317; line-height: 1.1; position: relative; z-index: 1; }
+  .cursor { display: inline-block; width: 3px; height: 36px; background: #3279F9; margin-left: 4px; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+  .hero-sub { font-size: 14px; color: #45474D; margin-top: 12px; position: relative; z-index: 1; }
+  .pill-btn { display: inline-block; background: #121317; color: white; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; margin-top: 16px; position: relative; z-index: 1; margin-right: 8px; }
+  .pill-btn.outline { background: transparent; color: #121317; border: 1px solid #121317; }
+
+  /* PARTICLES */
+  @keyframes drift-up { 0% { transform: translateY(0) rotate(15deg); opacity: 0.8; } 100% { transform: translateY(-120px) rotate(25deg); opacity: 0; } }
+  @keyframes drift-float { 0%, 100% { transform: translateY(0) rotate(12deg); } 50% { transform: translateY(-8px) rotate(18deg); } }
+
+  /* TOOL STRIP */
+  .tool-strip { background: white; border-top: 1px solid #E6EAF0; border-bottom: 1px solid #E6EAF0; padding: 18px 0; overflow: hidden; position: relative; }
+  .tools-track { display: flex; gap: 32px; align-items: center; width: max-content; animation: scroll-left 20s linear infinite; }
+  .tool-chip { display: flex; align-items: center; gap: 8px; background: #F8F9FC; border: 1px solid #E6EAF0; border-radius: 9999px; padding: 6px 14px; white-space: nowrap; font-size: 12px; font-weight: 500; color: #45474D; }
+  .tool-dot { width: 8px; height: 8px; border-radius: 50%; background: #3279F9; flex-shrink: 0; }
+  @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* DOT GRID */
+  .dot-grid-section { background-image: radial-gradient(#CDD4DC 1px, transparent 1px); background-size: 20px 20px; padding: 40px; border-radius: 12px; background-color: #F8F9FC; }
+
+  /* DARK CTA */
+  .dark-cta-mock { background: #000000; padding: 40px; border-radius: 12px; text-align: center; position: relative; overflow: hidden; }
+  .dark-cta-mock h3 { color: white; font-size: 24px; font-weight: 500; letter-spacing: -0.5px; position: relative; z-index: 1; }
+  .dark-cta-mock p { color: #B2BBC5; font-size: 13px; margin-top: 8px; position: relative; z-index: 1; }
+
+  /* FEATURE SECTION */
+  .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .feature-label { font-size: 11px; font-weight: 600; color: #3279F9; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .feature-title { font-size: 24px; font-weight: 500; letter-spacing: -0.5px; color: #121317; line-height: 1.15; margin-bottom: 10px; }
+  .feature-body { font-size: 13px; color: #45474D; line-height: 1.6; }
+  .product-card-mock { background: #EFF2F7; border-radius: 16px; padding: 20px; text-align: center; }
+  .screen-mock { background: #121317; border-radius: 10px; height: 100px; display: flex; align-items: center; justify-content: center; color: #3279F9; font-size: 11px; }
+
+  /* SCROLL REVEAL DEMO */
+  .reveal-item { opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+  .reveal-item.visible { opacity: 1; transform: translateY(0); }
+
+  /* PARALLAX DEMO */
+  .parallax-hero { background: linear-gradient(180deg, rgba(50,121,249,0.03) 0%, transparent 60%), white; padding: 40px; text-align: center; position: relative; overflow: hidden; border-radius: 12px; }
+
+  /* STATS */
+  .stats-row { display: flex; gap: 24px; }
+  .stat-box { background: white; border: 1px solid #E6EAF0; border-radius: 12px; padding: 16px 20px; flex: 1; }
+  .stat-number { font-size: 28px; font-weight: 600; letter-spacing: -1px; color: #121317; }
+  .stat-label { font-size: 12px; color: #45474D; margin-top: 2px; }
+
+  .effort-bar { display: flex; gap: 8px; margin-top: 16px; }
+  .effort-item { flex: 1; padding: 10px 12px; border-radius: 10px; font-size: 12px; }
+  .effort-item.high { background: #DCFCE7; color: #166534; }
+  .effort-item.med { background: #DBEAFE; color: #1E40AF; }
+  .effort-item.low { background: #FEF3C7; color: #92400E; }
+</style>
+</head>
+<body>
+
+<h1>Buildrs V1.5 — Zero-Gravity Cinematic</h1>
+<p class="meta">Spec visuel complet — 7 upgrades pour atteindre le niveau Antigravity</p>
+
+<!-- UPGRADE 1: PARTICLES -->
+<div class="section-block">
+  <h2>1. Particules rectangles <span class="tag upgrade">Upgrade particles-background.tsx</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Forme</div>
+    <div class="spec-value">Mini-rectangles <code>2×7px</code>, <code>border-radius: 1px</code>, rotation aléatoire <code>-20° à +20°</code></div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Couleurs LIGHT</div>
+    <div class="spec-value">Mix de <code>#3279F9</code> (30%) + <code>#7B6EF6</code> violet (25%) + <code>#CDD4DC</code> gris (45%) — multicolore subtil</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Couleurs DARK</div>
+    <div class="spec-value"><code>#3279F9</code> uniquement, avec halo glow — <strong>drift vers le haut</strong> (gravity inverse)</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Animation DARK</div>
+    <div class="spec-value"><code>translateY(0 → -150px)</code>, durée 4-8s aléatoire, boucle infinie, apparition en bas</div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">Aperçu hero light</div>
+    <div class="mockup-body">
+      <div class="hero-mock" id="heroMock">
+        <!-- Particles générées par JS -->
+        <div style="position:relative;z-index:1">
+          <div class="hero-headline">Ton SaaS, de l'idée au live<span class="cursor"></span></div>
+          <div class="hero-sub">Buildrs Lab t'accompagne étape par étape — sans code.</div>
+          <div style="margin-top:16px">
+            <span class="pill-btn">Commencer gratuitement</span>
+            <span class="pill-btn outline">Voir le Lab</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE 2: BLINKING CURSOR -->
+<div class="section-block">
+  <h2>2. Blinking Cursor sur H1 <span class="tag new">Nouveau</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Implémentation</div>
+    <div class="spec-value">Span <code>::after</code> ou élément inline <code>width:3px, height:0.85em</code>, <code>background:#3279F9</code></div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Animation</div>
+    <div class="spec-value"><code>animation: blink 1s step-end infinite</code> — 0%/100% opacité 1, 50% opacité 0</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Pages</div>
+    <div class="spec-value">Hero de <code>home-page.tsx</code> uniquement. Pas dans les sections secondaires.</div>
+  </div>
+</div>
+
+<!-- UPGRADE 3: DOT GRID -->
+<div class="section-block">
+  <h2>3. Dot Grid — Section Pricing <span class="tag new">Nouveau</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">CSS</div>
+    <div class="spec-value"><code>background-image: radial-gradient(#CDD4DC 1px, transparent 1px); background-size: 20px 20px;</code></div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Couleur fond</div>
+    <div class="spec-value"><code>#F8F9FC</code> — le grid apparaît comme texture très subtile</div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">Aperçu dot grid</div>
+    <div class="mockup-body">
+      <div class="dot-grid-section">
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-number" id="stat1">0</div><div class="stat-label">projets lancés</div></div>
+          <div class="stat-box"><div class="stat-number" id="stat2">0</div><div class="stat-label">entrepreneurs actifs</div></div>
+          <div class="stat-box"><div class="stat-number" id="stat3">0</div><div class="stat-label">SaaS en ligne</div></div>
+        </div>
+        <p style="font-size:12px;color:#B2BBC5;text-align:center;margin-top:16px">← Chiffres animés au scroll</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE 4: TOOL STRIP -->
+<div class="section-block">
+  <h2>4. Tool Strip — Défilement infini <span class="tag new">Nouveau</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Outils</div>
+    <div class="spec-value">Claude AI, Claude Code, Supabase, Vercel, GitHub, Stripe, Resend, Framer Motion, Magic UI, PostHog (dupliqués pour boucle)</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Animation</div>
+    <div class="spec-value"><code>translateX(0 → -50%)</code>, durée <code>25s linear infinite</code> — pause au hover</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Placement</div>
+    <div class="spec-value">Entre section hero et section features, sur fond blanc avec borders top/bottom <code>#E6EAF0</code></div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">Aperçu défilement</div>
+    <div class="mockup-body" style="padding:0">
+      <div class="tool-strip">
+        <div class="tools-track" id="toolsTrack">
+          <div class="tool-chip"><div class="tool-dot"></div>Claude AI</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#22C55E"></div>Supabase</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#000"></div>Vercel</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#6366F1"></div>Stripe</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#E11D48"></div>Resend</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#F59E0B"></div>GitHub</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#8B5CF6"></div>Magic UI</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#0EA5E9"></div>PostHog</div>
+          <!-- duplicate -->
+          <div class="tool-chip"><div class="tool-dot"></div>Claude AI</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#22C55E"></div>Supabase</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#000"></div>Vercel</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#6366F1"></div>Stripe</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#E11D48"></div>Resend</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#F59E0B"></div>GitHub</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#8B5CF6"></div>Magic UI</div>
+          <div class="tool-chip"><div class="tool-dot" style="background:#0EA5E9"></div>PostHog</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE 5: SCROLL REVEAL -->
+<div class="section-block">
+  <h2>5. Scroll-Reveal — Tous les éléments <span class="tag upgrade">Upgrade animations</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Technique</div>
+    <div class="spec-value"><code>IntersectionObserver</code> — ajoute classe <code>.visible</code> quand l'élément entre dans le viewport</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Animation</div>
+    <div class="spec-value"><code>opacity: 0 → 1</code> + <code>translateY(20px → 0)</code>, durée <code>300ms</code>, easing <code>cubic-bezier(.25,.46,.45,.94)</code></div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Éléments ciblés</div>
+    <div class="spec-value">Cards features, headings de section, pricing cards, badges — tout sauf le hero (déjà visible)</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Délais</div>
+    <div class="spec-value"><code>delay: 0ms, 100ms, 200ms</code> pour les grilles (effet cascade)</div>
+  </div>
+</div>
+
+<!-- UPGRADE 6: FEATURE SECTIONS -->
+<div class="section-block">
+  <h2>6. Feature Sections — Layout 2 colonnes <span class="tag upgrade">Upgrade home-page.tsx</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Structure</div>
+    <div class="spec-value">Texte (left) + Visual mockup (right), alternance gauche/droite selon la section</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Titres</div>
+    <div class="spec-value">Left-aligned, <code>54px</code>, weight <code>400</code>, tracking <code>-0.73px</code> — comme Antigravity</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Cards hover</div>
+    <div class="spec-value"><code>scale(1.01)</code> + <code>border-color: #3279F9</code> + <code>box-shadow: 0 0 0 3px rgba(50,121,249,0.12)</code>, <code>200ms</code></div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">Aperçu 2-col feature</div>
+    <div class="mockup-body">
+      <div class="feature-row">
+        <div>
+          <div class="feature-label">Phase 1</div>
+          <div class="feature-title">Valide ton idée avec de vraies données</div>
+          <div class="feature-body">Claude analyse le marché, trouve les concurrents, évalue le potentiel. Tu as un score, une décision claire.</div>
+        </div>
+        <div class="product-card-mock">
+          <div class="screen-mock">Product Preview</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE 7: PARALLAX + MESH -->
+<div class="section-block">
+  <h2>7. Parallax Hero + Mesh Gradient <span class="tag new">Nouveau</span></h2>
+  <div class="spec-row">
+    <div class="spec-label">Mesh gradient</div>
+    <div class="spec-value"><code>radial-gradient(ellipse 80% 50% at 50% -10%, rgba(50,121,249,0.06) 0%, transparent 70%)</code> — ultra subtil sur blanc</div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Parallax</div>
+    <div class="spec-value">Au scroll: headline <code>translateY(scrollY * 0.1)</code>, particules <code>translateY(scrollY * 0.3)</code> — via <code>requestAnimationFrame</code></div>
+  </div>
+  <div class="spec-row">
+    <div class="spec-label">Note</div>
+    <div class="spec-value">Désactivé sur mobile (<code>prefers-reduced-motion</code> respecté)</div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">Aperçu mesh gradient</div>
+    <div class="mockup-body">
+      <div class="parallax-hero">
+        <div style="font-size:11px;color:#B2BBC5;margin-bottom:12px">← Gradient bleu quasi invisible en haut</div>
+        <div style="font-size:22px;font-weight:500;letter-spacing:-0.5px">Ton SaaS, de l'idée au live<span class="cursor"></span></div>
+        <div style="font-size:12px;color:#45474D;margin-top:8px">Buildrs Lab t'accompagne étape par étape</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section-block" style="background:#121317;border-color:#212226">
+  <h2 style="color:white">Résumé — 7 upgrades V1.5</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">① Particules rectangles multicolores</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">particles-background.tsx</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">② Blinking cursor H1 hero</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">home-page.tsx</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">③ Dot grid section pricing</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">pricing-page.tsx</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">④ Tool strip défilement infini</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">home-page.tsx + ToolStrip.tsx</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">⑤ Scroll-reveal IntersectionObserver</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">hooks/use-scroll-reveal.ts</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0;border-bottom:1px solid #212226">⑥ Feature sections 2-col + hover</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0;border-bottom:1px solid #212226">home-page.tsx</div>
+    <div style="color:#B2BBC5;font-size:13px;padding:10px 0">⑦ Parallax hero + mesh gradient</div>
+    <div style="color:#3279F9;font-size:12px;padding:10px 0">home-page.tsx</div>
+  </div>
+  <div class="effort-bar">
+    <div class="effort-item high">⏱ Durée estimée : 6-8h</div>
+    <div class="effort-item med">🎯 Fichiers touchés : 6</div>
+    <div class="effort-item low">⚡ Aucune dépendance backend</div>
+  </div>
+</div>
+
+<script>
+// Generate particles in hero
+const hero = document.getElementById('heroMock');
+const colors = ['#3279F9', '#7B6EF6', '#CDD4DC', '#3279F9', '#CDD4DC', '#CDD4DC'];
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle-rect';
+  p.style.cssText = `
+    width: 2px; height: 7px;
+    left: ${Math.random() * 100}%;
+    top: ${Math.random() * 100}%;
+    background: ${colors[Math.floor(Math.random() * colors.length)]};
+    transform: rotate(${(Math.random() - 0.5) * 40}deg);
+    animation: drift-float ${3 + Math.random() * 4}s ease-in-out infinite;
+    animation-delay: ${Math.random() * 3}s;
+  `;
+  hero.appendChild(p);
+}
+
+// Animate stats counter
+function animateCounter(el, target, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { el.textContent = target + '+'; clearInterval(timer); }
+    else el.textContent = Math.floor(start);
+  }, 16);
+}
+setTimeout(() => {
+  animateCounter(document.getElementById('stat1'), 247, 1500);
+  animateCounter(document.getElementById('stat2'), 89, 1200);
+  animateCounter(document.getElementById('stat3'), 34, 900);
+}, 500);
+</script>
+</body>
+</html>

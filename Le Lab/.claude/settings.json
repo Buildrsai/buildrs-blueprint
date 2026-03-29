@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_press_key",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "Read(//Users/alfredorsini/.claude/plugins/**)",
+      "Bash(/Users/alfredorsini/.claude/plugins/cache/superpowers-marketplace/superpowers/5.0.0/lib/brainstorm-server/start-server.sh --project-dir \"/Users/alfredorsini/CLAUDE/Le Lab\")",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

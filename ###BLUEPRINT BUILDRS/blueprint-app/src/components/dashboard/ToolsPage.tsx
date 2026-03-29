@@ -1,7 +1,7 @@
 import {
-  ExternalLink, Terminal, Mic, BookOpen, Wand2, Layers, Palette,
-  Layout, Paintbrush2, Scissors, Grid3x3, TrendingUp, Shield,
-  BarChart3, Search, ShoppingBag, DollarSign, Sparkles, Server, CreditCard,
+  ExternalLink, Terminal, Mic, Wand2, Palette,
+  Layout, TrendingUp, DollarSign, Sparkles, Server,
+  BarChart3, Search,
 } from 'lucide-react'
 import type { SVGProps } from 'react'
 import { BrandIcons } from '../ui/icons'
@@ -48,7 +48,7 @@ const CATEGORIES: Category[] = [
         name: 'Claude',
         desc: "L'IA principale du Blueprint. Code, architecture, debug, rédaction — ton associé IA au quotidien.",
         url: 'https://claude.ai',
-        icon: brand(BrandIcons.anthropic),
+        icon: brand(BrandIcons.claude),
       },
       {
         name: 'Claude Code',
@@ -72,7 +72,19 @@ const CATEGORIES: Category[] = [
         name: 'Notion',
         desc: 'Organisation, notes et documentation. Garde une trace de tes idées, briefs produits et décisions.',
         url: 'https://notion.so',
-        icon: lucide(BookOpen),
+        icon: brand(BrandIcons.notion),
+      },
+      {
+        name: 'Perplexity',
+        desc: 'Moteur de recherche IA. Recherche instantanée avec sources citées — idéal pour valider des niches et analyser la concurrence.',
+        url: 'https://perplexity.ai',
+        icon: brand(BrandIcons.perplexity),
+      },
+      {
+        name: 'NotebookLM',
+        desc: 'Analyse tes documents avec Google AI. Charge ton cahier des charges, tes notes ou tes PDFs et interroge-les avec l\'IA.',
+        url: 'https://notebooklm.google.com',
+        icon: brand(BrandIcons.notebooklm),
       },
     ],
   },
@@ -97,7 +109,7 @@ const CATEGORIES: Category[] = [
         name: 'Shadcn/ui',
         desc: 'Bibliothèque UI accessible et personnalisable. La base de tous les design systems modernes.',
         url: 'https://ui.shadcn.com',
-        icon: lucide(Layers),
+        icon: brand(BrandIcons.shadcn),
       },
       {
         name: 'Mobbin',
@@ -115,7 +127,7 @@ const CATEGORIES: Category[] = [
         name: 'Dribbble',
         desc: "Inspiration design des meilleurs créateurs du monde. Pour trouver ton style et te démarquer.",
         url: 'https://dribbble.com',
-        icon: lucide(Paintbrush2),
+        icon: brand(BrandIcons.dribbble),
       },
       {
         name: 'Stitch',
@@ -127,7 +139,7 @@ const CATEGORIES: Category[] = [
         name: 'Lucide Icons',
         desc: "Bibliothèque d'icônes SVG fines et cohérentes. Disponibles directement dans React.",
         url: 'https://lucide.dev',
-        icon: lucide(Grid3x3),
+        icon: brand(BrandIcons.lucideicons),
       },
       {
         name: 'Superwall',
@@ -139,7 +151,7 @@ const CATEGORIES: Category[] = [
   },
   {
     id: 'infra',
-    label: 'Infrastructure & Déploiement',
+    label: 'Infrastructure, Déploiement & Paiements',
     icon: Server,
     tools: [
       {
@@ -155,10 +167,10 @@ const CATEGORIES: Category[] = [
         icon: brand(BrandIcons.vercel),
       },
       {
-        name: 'Hostinger',
-        desc: 'Hébergement web alternatif. Idéal pour les sites vitrine ou si tu cherches un hébergeur simple et pas cher.',
-        url: 'https://hostinger.fr',
-        icon: brand(BrandIcons.hostinger),
+        name: 'Stripe',
+        desc: 'Paiements en ligne, abonnements, checkout. Le standard mondial, intégrable en moins de 30 min.',
+        url: 'https://stripe.com',
+        icon: brand(BrandIcons.stripe),
       },
       {
         name: 'GitHub',
@@ -166,24 +178,11 @@ const CATEGORIES: Category[] = [
         url: 'https://github.com',
         icon: brand(BrandIcons.github),
       },
-    ],
-  },
-  {
-    id: 'payments',
-    label: 'Paiements & Auth',
-    icon: CreditCard,
-    tools: [
       {
-        name: 'Stripe',
-        desc: 'Paiements en ligne, abonnements, checkout. Le standard mondial, intégrable en moins de 30 min.',
-        url: 'https://stripe.com',
-        icon: brand(BrandIcons.stripe),
-      },
-      {
-        name: 'Auth0',
-        desc: 'Authentification clé en main : email, Google, GitHub, SSO. Sécurisé, rapide à brancher.',
-        url: 'https://auth0.com',
-        icon: lucide(Shield),
+        name: 'Hostinger',
+        desc: 'Hébergement web alternatif. Idéal pour les sites vitrine ou si tu cherches un hébergeur simple et pas cher.',
+        url: 'https://hostinger.fr',
+        icon: brand(BrandIcons.hostinger),
       },
     ],
   },
@@ -202,7 +201,13 @@ const CATEGORIES: Category[] = [
         name: 'PostHog',
         desc: 'Analytics produit open-source. Suis les parcours utilisateurs, les funnels et les conversions.',
         url: 'https://posthog.com',
-        icon: lucide(BarChart3),
+        icon: brand(BrandIcons.posthog),
+      },
+      {
+        name: 'Google Analytics',
+        desc: 'Analyse le trafic de ton site. Comprends d\'où viennent tes visiteurs, quelles pages convertissent, et optimise ton acquisition.',
+        url: 'https://analytics.google.com',
+        icon: brand(BrandIcons.googleanalytics),
       },
     ],
   },
@@ -221,7 +226,7 @@ const CATEGORIES: Category[] = [
         name: 'Indie Hackers',
         desc: 'Communauté de solopreneurs. Les fondateurs partagent leurs MRR, leurs stratégies et leurs erreurs.',
         url: 'https://indiehackers.com',
-        icon: lucide(Search),
+        icon: brand(BrandIcons.indiehackers),
       },
       {
         name: 'Reddit',
@@ -233,7 +238,7 @@ const CATEGORIES: Category[] = [
         name: 'App Store',
         desc: "Analyse les reviews négatives des apps concurrentes. C'est là que se cachent les meilleures opportunités.",
         url: 'https://apps.apple.com',
-        icon: lucide(ShoppingBag),
+        icon: brand(BrandIcons.appstore),
       },
       {
         name: 'Flippa',

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 03 — Chef d'orchestre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #09090b;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #09090b;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid lines background */
+  .ad::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+    gap: 56px;
+  }
+
+  .statement {
+    font-size: 52px;
+    font-weight: 800;
+    color: #71717a;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .statement strong {
+    color: #fafafa;
+    display: block;
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+  }
+
+  .check-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check-mark svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .check-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fafafa;
+    letter-spacing: -0.02em;
+  }
+
+  .check-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: #52525b;
+    margin-left: 4px;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .offer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .offer-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #52525b;
+  }
+
+  .offer-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-btn {
+    background: #fafafa;
+    color: #09090b;
+    padding: 20px 36px;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <div class="content">
+    <div class="statement">
+      Plus besoin d'être<br>
+      un génie de la tech.<br>
+      <strong>Tu es un chef<br>d'orchestre IA.</strong>
+    </div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-mark">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8L6.5 11.5L13 5" stroke="#09090b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="check-text">Crée ton SaaS <span class="check-sub">— sans une ligne de code</span></span>
+      </div>
+      <div class="check-item">
+        <div class="check-mark">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8L6.5 11.5L13 5" stroke="#09090b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="check-text">Revenus récurrents <span class="check-sub">— dès le 1er mois</span></span>
+      </div>
+      <div class="check-item">
+        <div class="check-mark">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8L6.5 11.5L13 5" stroke="#09090b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="check-text">Bosser d'où tu veux <span class="check-sub">— quand tu veux</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="offer">
+      <span class="offer-label">Démarrer maintenant</span>
+      <span class="offer-name">Buildrs Blueprint</span>
+    </div>
+    <div class="cta-btn">27€ — buildrs.fr →</div>
+  </div>
+
+</div>
+</body>
+</html>

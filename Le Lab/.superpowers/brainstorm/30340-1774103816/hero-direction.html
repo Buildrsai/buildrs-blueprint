@@ -1,0 +1,98 @@
+<h2>Direction du hero — Landing page</h2>
+<p class="subtitle">Quelle ambiance pour la première section que l'utilisateur voit ?</p>
+
+<div class="cards">
+
+  <!-- Option A: Cinematic Dark Hero -->
+  <div class="card" data-choice="cinematic-dark" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#000; min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px; position:relative; overflow:hidden;">
+      <!-- fake particles -->
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 50%, rgba(50,121,249,0.12) 0%, transparent 60%), radial-gradient(circle at 70% 30%, rgba(50,121,249,0.08) 0%, transparent 50%)"></div>
+      <div style="display:inline-block;background:rgba(50,121,249,0.15);border:1px solid rgba(50,121,249,0.3);color:#3279F9;font-size:11px;padding:4px 12px;border-radius:999px;letter-spacing:0.1em;text-transform:uppercase;">Buildrs Lab · Beta</div>
+      <div style="font-size:clamp(32px,5vw,52px);font-weight:450;color:#fff;line-height:1.05;letter-spacing:-0.03em;text-align:center;position:relative;">
+        De l'idée au SaaS<br>
+        <span style="color:#3279F9;">sans savoir coder.</span>
+      </div>
+      <p style="color:#B2BBC5;font-size:14px;max-width:340px;text-align:center;line-height:1.6;position:relative;">Buildrs Lab est ton associé IA — de la validation à la mise en ligne.</p>
+      <div style="display:flex;gap:10px;position:relative;">
+        <div style="background:#fff;color:#000;padding:10px 20px;border-radius:999px;font-size:13px;font-weight:500;">Commencer gratuitement →</div>
+        <div style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:10px 20px;border-radius:999px;font-size:13px;">Essayer le Finder</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Cinématique Dark</h3>
+      <p>Fond noir dès l'arrivée, particules bleues, ambiance premium Vercel/Linear. Très impactant, très tech.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Light Hero + Dark CTA band -->
+  <div class="card" data-choice="light-hero" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#F8F9FC; min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; position:relative; overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 60%, rgba(200,210,220,0.4) 0%, transparent 70%)"></div>
+      <div style="display:inline-flex;align-items:center;gap:6px;background:#EFF2F7;color:#45474D;font-size:11px;padding:4px 12px;border-radius:999px;letter-spacing:0.08em;position:relative;">
+        <span style="width:6px;height:6px;background:#3279F9;border-radius:50%;display:inline-block;"></span>
+        Buildrs Lab · Beta
+      </div>
+      <div style="font-size:clamp(30px,4.5vw,48px);font-weight:450;color:#121317;line-height:1.05;letter-spacing:-0.03em;text-align:center;position:relative;">
+        De l'idée au SaaS<br>
+        <span style="background:linear-gradient(90deg,#3279F9,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">sans savoir coder.</span>
+      </div>
+      <p style="color:#45474D;font-size:13px;max-width:320px;text-align:center;line-height:1.6;position:relative;">Ton associé IA de la validation à la mise en ligne.</p>
+      <div style="display:flex;gap:10px;position:relative;">
+        <div style="background:#121317;color:#fff;padding:10px 20px;border-radius:999px;font-size:13px;font-weight:500;">Commencer gratuitement →</div>
+        <div style="background:transparent;border:1px solid #E6EAF0;color:#45474D;padding:10px 20px;border-radius:999px;font-size:13px;">Essayer le Finder</div>
+      </div>
+      <!-- stat band -->
+      <div style="display:flex;gap:24px;margin-top:6px;position:relative;">
+        <span style="font-size:11px;color:#B2BBC5;">✓ Gratuit pour commencer</span>
+        <span style="font-size:11px;color:#B2BBC5;">✓ Sans savoir coder</span>
+        <span style="font-size:11px;color:#B2BBC5;">✓ 8 phases guidées</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Hero Clair + Proof</h3>
+      <p>Fond gris bleuté, gradient text bleu, bandeau de réassurance. Plus accessible, plus "startup moderne".</p>
+    </div>
+  </div>
+
+  <!-- Option C: Hero with product mockup -->
+  <div class="card" data-choice="product-mockup" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#F8F9FC; min-height:220px; display:flex; align-items:center; justify-content:center; gap:20px; padding:24px; position:relative; overflow:hidden; flex-wrap:wrap;">
+      <!-- left text -->
+      <div style="flex:1;min-width:160px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:inline-block;background:#EFF2F7;color:#45474D;font-size:10px;padding:3px 10px;border-radius:999px;letter-spacing:0.08em;width:fit-content;">Buildrs Lab · Beta</div>
+        <div style="font-size:clamp(22px,3.5vw,34px);font-weight:450;color:#121317;line-height:1.1;letter-spacing:-0.03em;">
+          De l'idée au SaaS<br>
+          <span style="color:#3279F9;">sans coder.</span>
+        </div>
+        <p style="color:#45474D;font-size:12px;line-height:1.5;">Ton associé IA — 8 phases, de la validation au lancement.</p>
+        <div style="background:#121317;color:#fff;padding:8px 16px;border-radius:999px;font-size:12px;font-weight:500;width:fit-content;">Commencer →</div>
+      </div>
+      <!-- right product mockup -->
+      <div style="flex:1;min-width:160px;background:#18191D;border:1px solid #212226;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:10px;color:#B2BBC5;font-weight:500;">Phase 3 — Branding</div>
+        <div style="height:6px;background:#212226;border-radius:999px;overflow:hidden;">
+          <div style="width:35%;height:100%;background:#3279F9;border-radius:999px;"></div>
+        </div>
+        <div style="background:#121317;border:1px solid #212226;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#45474D;margin-bottom:4px;">Nom de marque généré</div>
+          <div style="font-size:13px;color:#fff;font-weight:500;">TaskFlow Pro</div>
+        </div>
+        <div style="background:#121317;border:1px solid #3279F9;border-radius:8px;padding:8px;">
+          <div style="font-size:9px;color:#3279F9;margin-bottom:4px;">Palette couleurs</div>
+          <div style="display:flex;gap:4px;">
+            <div style="width:14px;height:14px;border-radius:4px;background:#3279F9;"></div>
+            <div style="width:14px;height:14px;border-radius:4px;background:#121317;"></div>
+            <div style="width:14px;height:14px;border-radius:4px;background:#F8F9FC;"></div>
+          </div>
+        </div>
+        <div style="font-size:9px;color:#3279F9;text-align:right;">Générer avec le Lab →</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Hero + Aperçu Produit</h3>
+      <p>Split gauche/droite avec un vrai mockup du dashboard à droite. Montre immédiatement le produit. Plus SaaS B2B.</p>
+    </div>
+  </div>
+
+</div>

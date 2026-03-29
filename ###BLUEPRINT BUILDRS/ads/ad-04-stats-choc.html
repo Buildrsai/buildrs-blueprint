@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 04 — Stats choc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    position: relative;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 64px;
+  }
+
+  .headline {
+    font-size: 56px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .headline .muted {
+    color: #a1a1aa;
+  }
+
+  /* Stats grid — same pattern as LP */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid #e4e4e7;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #e4e4e7;
+    gap: 1px;
+  }
+
+  .stat {
+    background: #ffffff;
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stat-num {
+    font-size: 64px;
+    font-weight: 900;
+    color: #09090b;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #71717a;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tagline {
+    font-size: 22px;
+    font-weight: 600;
+    color: #09090b;
+    letter-spacing: -0.02em;
+  }
+
+  .tagline .muted {
+    color: #a1a1aa;
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .cta {
+    background: #09090b;
+    color: #ffffff;
+    padding: 20px 32px;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <div class="content">
+    <div class="headline">
+      Le business <span class="muted">le plus rentable</span><br>
+      à lancer avec l'IA en 2026.
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-num">72h</span>
+        <span class="stat-label">De l'idée au<br>MVP monétisé</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">27€</span>
+        <span class="stat-label">Pour tout<br>démarrer</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">+200</span>
+        <span class="stat-label">Builders ont<br>déjà lancé</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="tagline">
+      Sans coder. Revenus récurrents.
+      <span class="muted">Buildrs Blueprint — buildrs.fr</span>
+    </div>
+    <div class="cta">Commencer →</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -342,6 +342,273 @@ export const CURRICULUM: Module[] = [
       },
     ],
   },
+  // ── MODULE SETUP — Installer ton environnement ───────────────────────────
+  {
+    id: 'setup',
+    title: 'Installer ton environnement',
+    description: 'Configure tous tes outils avant de lancer le build.',
+    icon: 'Wrench',
+    lessons: [
+      {
+        id: 'setup.1',
+        title: 'Claude & Claude Code — ton IA principale',
+        duration: '5 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Claude est le moteur central de tout ce que tu vas construire. Il y a deux façons de l'utiliser : l'interface web (claude.ai) pour les conversations et la génération de contenu, et Claude Code (l'extension terminal) pour coder directement dans ton projet." },
+          { type: 'heading', level: 2, content: 'Configuration pas à pas' },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte claude.ai', desc: 'Va sur claude.ai → Créer un compte. Choisis le plan Pro (20$/mois) pour un accès illimité à Claude Opus et Sonnet — obligatoire pour coder sérieusement.' },
+              { label: 'Installer Claude Code', desc: 'Dans ton terminal : npm install -g @anthropic-ai/claude-code. Puis dans VS Code, installe l\'extension Claude depuis le marketplace.' },
+              { label: 'Tester la connexion', desc: 'Ouvre un terminal, tape claude. Tu dois voir une interface de chat directement dans le terminal. C\'est ton nouveau copilote.' },
+            ],
+          },
+          { type: 'callout', variant: 'tip', title: 'Conseil Pro', content: "Garde toujours un onglet claude.ai ouvert pendant que tu codes. Tu vas l'utiliser pour tout : rédiger des prompts, débugger, générer du contenu, planifier." },
+          {
+            type: 'links',
+            items: [
+              { label: 'Claude AI', url: 'https://claude.ai', icon: 'brain', desc: 'L\'interface web principale — conversations, génération de contenu, analyse.' },
+              { label: 'Claude Code', url: 'https://claude.ai/claude-code', icon: 'terminal', desc: 'L\'outil CLI pour coder depuis le terminal.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte claude.ai (plan Pro recommandé)',
+            'Installer Claude Code : npm install -g @anthropic-ai/claude-code',
+            'Tester la connexion en tapant claude dans le terminal',
+          ]},
+          { type: 'prompt', label: 'Premier prompt de démarrage', content: "Je commence un nouveau projet SaaS. Aide-moi à préparer le terrain.\n\nMon idée : [DÉCRIS TON IDÉE EN 2 PHRASES]\n\nCe que je veux :\n1. Un plan d'action pour les prochaines 72h\n2. Les premières étapes concrètes à faire aujourd'hui\n3. Les outils que je vais utiliser et pourquoi\n\nSois direct, concret, commence par ce qui a le plus d'impact." },
+        ],
+      },
+      {
+        id: 'setup.2',
+        title: 'VS Code — ton éditeur de code',
+        duration: '4 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "VS Code est l'éditeur de code utilisé par 70% des développeurs dans le monde. Il est gratuit, ultra-personnalisable, et s'intègre parfaitement avec Claude Code et GitHub." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Télécharger VS Code', desc: 'Va sur code.visualstudio.com → Download. Installe la version pour ton OS (Mac, Windows ou Linux).' },
+              { label: 'Installer les extensions essentielles', desc: 'Dans VS Code, ouvre le marketplace (Ctrl+Shift+X) et installe : ESLint, Prettier, Tailwind CSS IntelliSense, GitLens.' },
+              { label: 'Configurer l\'autosave', desc: 'File → Auto Save. Ton code sera sauvegardé automatiquement à chaque modification.' },
+            ],
+          },
+          { type: 'callout', variant: 'info', title: 'Alternative', content: "Si tu préfères travailler directement dans le navigateur, tu peux utiliser StackBlitz ou CodeSandbox — pas besoin d'installation locale." },
+          {
+            type: 'links',
+            items: [
+              { label: 'VS Code', url: 'https://code.visualstudio.com', icon: 'code', desc: 'L\'éditeur de code de référence — gratuit et open-source.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Télécharger et installer VS Code (code.visualstudio.com)',
+            'Installer l\'extension ESLint',
+            'Installer l\'extension Prettier',
+            'Installer l\'extension Tailwind CSS IntelliSense',
+            'Activer l\'autosave (File → Auto Save)',
+          ]},
+        ],
+      },
+      {
+        id: 'setup.3',
+        title: 'GitHub — versioning et sauvegarde',
+        duration: '5 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "GitHub = ton Google Drive pour le code. Il garde une copie de tout ton travail, te permet de revenir en arrière en cas d'erreur, et se connecte directement à Vercel pour le déploiement automatique." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte GitHub', desc: 'Va sur github.com → Sign up. Choisis un username professionnel — il sera visible dans l\'URL de ton code.' },
+              { label: 'Installer Git', desc: 'Sur Mac : brew install git. Sur Windows : télécharge Git from git-scm.com. Vérifie avec git --version dans le terminal.' },
+              { label: 'Créer ton premier repository', desc: 'Sur GitHub → New Repository → Donne-lui le nom de ton projet → Create. Copie l\'URL SSH pour l\'utiliser avec VS Code.' },
+              { label: 'Connecter VS Code', desc: 'Dans VS Code, ouvre le Source Control panel (Ctrl+Shift+G). Suis les instructions pour lier ton repository local à GitHub.' },
+            ],
+          },
+          { type: 'callout', variant: 'tip', title: 'Astuce', content: "Claude Code peut gérer tous tes commits automatiquement. Tu n'as jamais besoin de taper git add / git commit / git push — Claude le fait pour toi." },
+          {
+            type: 'links',
+            items: [
+              { label: 'GitHub', url: 'https://github.com', icon: 'git-branch', desc: 'Versioning du code — crée un compte gratuit.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte GitHub (github.com)',
+            'Installer Git localement (brew install git sur Mac)',
+            'Créer un repository pour ton projet',
+            'Connecter VS Code au repository GitHub',
+          ]},
+        ],
+      },
+      {
+        id: 'setup.4',
+        title: 'Supabase — ton backend clé en main',
+        duration: '6 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Supabase = PostgreSQL + Auth + Stockage + API en temps réel, le tout clé en main. C'est le cerveau de ton app : il stocke les données, gère les utilisateurs, et expose une API sécurisée automatiquement." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte Supabase', desc: 'Va sur supabase.com → Start for free. Connecte-toi avec ton compte GitHub pour simplifier.' },
+              { label: 'Créer un nouveau projet', desc: 'New Project → Donne un nom → Choisis une région EU (West) pour des latences optimales en Europe → Génère et note le mot de passe de la base de données.' },
+              { label: 'Récupérer tes clés API', desc: 'Settings → API → Copie ta Project URL et ton anon public key. Tu en auras besoin dans les variables d\'environnement de ton app.' },
+              { label: 'Tester la connexion', desc: 'Dans l\'interface Supabase, va dans le SQL Editor et exécute : SELECT now(); → Si tu vois une date/heure, tout fonctionne.' },
+            ],
+          },
+          { type: 'callout', variant: 'action', title: 'Variables d\'environnement', content: "Crée un fichier .env.local à la racine de ton projet avec : VITE_SUPABASE_URL=ta_url et VITE_SUPABASE_ANON_KEY=ta_clé. Ne commite jamais ce fichier sur GitHub." },
+          {
+            type: 'links',
+            items: [
+              { label: 'Supabase', url: 'https://supabase.com', icon: 'database', desc: 'Le backend clé en main — gratuit jusqu\'à 500 Mo.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte Supabase (supabase.com)',
+            'Créer un projet avec la région EU West',
+            'Copier la Project URL et l\'anon key',
+            'Créer le fichier .env.local avec VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY',
+          ]},
+          { type: 'prompt', label: 'Configurer Supabase dans mon projet', content: "Configure Supabase dans mon projet React + Vite.\n\nMon projet :\n- Framework : React 18 + TypeScript + Vite\n- Variables déjà créées : VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans .env.local\n\nCe que je veux :\n1. Installer @supabase/supabase-js\n2. Créer src/lib/supabase.ts avec le client initialisé\n3. Créer une table users avec : id (uuid), email (text), created_at (timestamptz), plan (text default 'free')\n4. Activer Row Level Security sur la table users\n5. Politique RLS : les utilisateurs ne voient que leur propre ligne\n\nGénère tout le code et les migrations SQL." },
+        ],
+      },
+      {
+        id: 'setup.5',
+        title: 'Vercel — déploiement en 2 minutes',
+        duration: '4 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Vercel = déploiement instantané. Tu connectes ton repository GitHub → Vercel surveille chaque push → ton app est automatiquement mise à jour en production. Zéro configuration." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte Vercel', desc: 'Va sur vercel.com → Continue with GitHub. C\'est l\'option la plus simple — tes repositories sont directement visibles.' },
+              { label: 'Importer ton projet', desc: 'Add New → Project → Sélectionne ton repository GitHub → Import. Vercel détecte automatiquement ton framework (React/Vite).' },
+              { label: 'Configurer les variables d\'environnement', desc: 'Project Settings → Environment Variables → Ajoute tes variables Supabase (URL + ANON_KEY). Elles seront disponibles en production.' },
+              { label: 'Déployer', desc: 'Clique Deploy. Ton app sera live sur une URL Vercel en moins de 2 minutes. Pour un domaine custom, va dans Settings → Domains.' },
+            ],
+          },
+          { type: 'callout', variant: 'tip', title: 'Preview deployments', content: "Chaque pull request GitHub génère automatiquement une Preview URL. Tu peux tester une nouvelle feature sans toucher la production." },
+          {
+            type: 'links',
+            items: [
+              { label: 'Vercel', url: 'https://vercel.com', icon: 'cloud', desc: 'Déploiement instantané — gratuit pour les projets personnels.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte Vercel (vercel.com) avec GitHub',
+            'Importer le repository GitHub dans Vercel',
+            'Configurer les variables d\'environnement Supabase dans Vercel',
+            'Déployer et vérifier que l\'app est live sur l\'URL Vercel',
+          ]},
+        ],
+      },
+      {
+        id: 'setup.6',
+        title: 'Stripe — paiements en 30 minutes',
+        duration: '5 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Stripe = le standard mondial des paiements en ligne. 99.99% d'uptime, conforme PCI DSS, disponible dans 135 pays. Tu peux accepter des paiements et créer des abonnements en moins de 30 minutes." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte Stripe', desc: 'Va sur stripe.com → Start now. Complète ton inscription avec les informations de ta micro-entreprise.' },
+              { label: 'Activer le mode test', desc: 'En haut à droite, assure-toi que "Test mode" est activé. Tu peux faire des paiements factices avec la carte 4242 4242 4242 4242.' },
+              { label: 'Créer un produit', desc: 'Products → Add Product → Renseigne le nom, prix et type (paiement unique ou abonnement). Copie le Price ID généré.' },
+              { label: 'Récupérer les clés API', desc: 'Developers → API Keys → Copie ta Publishable Key et ta Secret Key. La Secret Key ne va JAMAIS côté client — uniquement dans les variables d\'environnement serveur.' },
+            ],
+          },
+          { type: 'callout', variant: 'action', title: 'Checklist avant de passer en production', content: "1. Test un paiement complet avec la carte test 4242\n2. Vérifie que le webhook reçoit les événements\n3. Configure les emails de confirmation Stripe\n4. Passe en mode live dans le dashboard Stripe" },
+          {
+            type: 'links',
+            items: [
+              { label: 'Stripe', url: 'https://stripe.com', icon: 'credit-card', desc: 'Paiements en ligne — 1.4% + 0.25€ par transaction en Europe.' },
+              { label: 'Stripe Docs', url: 'https://docs.stripe.com', icon: 'book-open', desc: 'Documentation officielle avec exemples de code React/Node.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte Stripe (stripe.com)',
+            'Activer le mode test dans le dashboard',
+            'Créer un produit avec son prix (paiement unique ou abonnement)',
+            'Copier la Publishable Key et la Secret Key',
+            'Tester un paiement avec la carte 4242 4242 4242 4242',
+          ]},
+          { type: 'prompt', label: 'Intégrer Stripe dans mon app', content: "Intègre Stripe dans mon app pour gérer les paiements.\n\nMon setup :\n- App : React + Supabase + Vercel\n- Plan : [NOM DU PLAN] à [PRIX]€/mois\n- Price ID Stripe : [STRIPE_PRICE_ID]\n- Stripe Secret Key : dans les variables d'env (jamais côté client)\n\nCe que tu dois créer :\n1. Supabase Edge Function `create-checkout` : crée une session Stripe Checkout et retourne l'URL\n2. Supabase Edge Function `stripe-webhook` : écoute checkout.session.completed et met à jour le plan de l'utilisateur\n3. Page /pricing dans React avec bouton CTA qui appelle la Edge Function\n4. Hook usePlan() qui lit user.plan depuis Supabase\n\nLa clé secrète Stripe ne touche jamais le navigateur — uniquement dans les Edge Functions." },
+        ],
+      },
+      {
+        id: 'setup.7',
+        title: 'Resend — emails transactionnels',
+        duration: '3 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Resend = les emails de ton app : bienvenue, confirmation de paiement, relance, réinitialisation de mot de passe. API simple, excellent taux de délivrabilité, et 3 000 emails/mois gratuits." },
+          {
+            type: 'list',
+            style: 'bullets',
+            items: [
+              { label: 'Créer un compte Resend', desc: 'Va sur resend.com → Sign up. Connecte-toi avec GitHub pour simplifier.' },
+              { label: 'Vérifier ton domaine', desc: 'Domains → Add Domain → Entre ton domaine (ex: tondomaine.fr) → Suis les instructions DNS dans Cloudflare ou Hostinger.' },
+              { label: 'Créer une clé API', desc: 'API Keys → Create API Key → Copie la clé générée. Elle va dans tes variables d\'environnement serveur (jamais côté client).' },
+              { label: 'Envoyer un email test', desc: 'Dans le dashboard Resend, utilise le playground pour envoyer un email test à ton adresse. Vérifie qu\'il arrive (y compris dans les spams).' },
+            ],
+          },
+          { type: 'callout', variant: 'tip', title: 'Integration Supabase', content: "Supabase peut utiliser Resend comme provider SMTP pour les emails d'auth (confirmation d'email, reset mot de passe). Configure-le dans Supabase → Settings → Auth → SMTP Settings." },
+          {
+            type: 'links',
+            items: [
+              { label: 'Resend', url: 'https://resend.com', icon: 'mail', desc: 'Emails transactionnels — 3 000 emails/mois gratuits.' },
+            ],
+          },
+          { type: 'checklist', items: [
+            'Créer un compte Resend (resend.com)',
+            'Vérifier le domaine dans les DNS (Cloudflare ou Hostinger)',
+            'Créer une clé API Resend',
+            'Envoyer un email test depuis le dashboard',
+            'Configurer Resend comme SMTP dans Supabase Auth',
+          ]},
+          { type: 'prompt', label: 'Créer les emails transactionnels', content: "Crée les emails transactionnels pour mon SaaS avec Resend.\n\nMon stack : React + Supabase + Vercel + Resend\nNom du produit : [NOM DE TON APP]\nDomaine : [TON-DOMAINE.FR]\n\nEmails à créer (sous forme de Supabase Edge Functions) :\n1. Email de bienvenue — envoyé à l'inscription\n2. Confirmation de paiement — envoyé après Stripe checkout.session.completed\n3. Réinitialisation de mot de passe\n\nPour chaque email :\n- Template HTML responsive et professionnel\n- Variables dynamiques : prénom, email, lien d'action\n- Sender : noreply@[ton-domaine]\n- La clé API Resend dans les variables d'env serveur uniquement\n\nGénère le code complet des Edge Functions et les templates HTML." },
+        ],
+      },
+    ],
+    quizQuestions: [
+      {
+        id: 'setup-q1',
+        question: "Quelle est la différence entre Claude AI (claude.ai) et Claude Code ?",
+        options: [
+          "Ce sont deux IA différentes",
+          "Claude AI est l'interface web, Claude Code est l'outil terminal pour coder directement dans les projets",
+          "Claude Code est payant, Claude AI est gratuit",
+          "Il n'y a aucune différence",
+        ],
+        correctIndex: 1,
+        explanation: "Claude AI (claude.ai) est l'interface web pour les conversations et la génération de contenu. Claude Code est l'outil CLI qui s'intègre directement dans ton terminal et ton éditeur pour modifier, refactoriser et débugger ton code.",
+      },
+      {
+        id: 'setup-q2',
+        question: "Où doit-on mettre la Stripe Secret Key ?",
+        options: [
+          "Dans le code frontend directement",
+          "Dans localStorage du navigateur",
+          "Dans les variables d'environnement serveur uniquement — jamais côté client",
+          "Dans le repository GitHub",
+        ],
+        correctIndex: 2,
+        explanation: "La Stripe Secret Key ne doit JAMAIS être exposée côté client — elle donne accès complet à ton compte Stripe. Elle va uniquement dans les variables d'environnement serveur (Vercel, Edge Functions Supabase). La Publishable Key, elle, peut être côté client.",
+      },
+    ],
+  },
+
   {
     id: '01',
     title: 'Trouver & Valider',

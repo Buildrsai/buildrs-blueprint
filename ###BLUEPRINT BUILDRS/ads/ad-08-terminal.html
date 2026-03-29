@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 08 — Terminal Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Dot grid */
+  .ad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(9,9,11,0.055) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* ── BRAND ── */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    margin-bottom: 52px;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+  }
+
+  /* ── HEADLINE ── */
+  .headline-block {
+    z-index: 1;
+    margin-bottom: 44px;
+  }
+
+  .headline {
+    font-size: 64px;
+    font-weight: 900;
+    color: #09090b;
+    letter-spacing: -0.05em;
+    line-height: 1.0;
+  }
+
+  .headline .accent {
+    display: inline-block;
+    background: #09090b;
+    color: #ffffff;
+    padding: 0 10px 2px;
+    border-radius: 8px;
+  }
+
+  .sub {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #71717a;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+  }
+
+  /* ── TERMINAL ── */
+  .terminal-wrap {
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .terminal {
+    width: 100%;
+    background: #09090b;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  /* Terminal title bar */
+  .term-bar {
+    background: #111113;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+
+  .term-title {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    margin-left: 8px;
+  }
+
+  /* Terminal body */
+  .term-body {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-family: 'Geist Mono', monospace;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .line { display: flex; align-items: baseline; gap: 10px; }
+
+  .prompt-symbol { color: #22c55e; font-weight: 600; flex-shrink: 0; }
+  .cmd-text { color: #fafafa; }
+  .cmd-slash { color: #a78bfa; font-weight: 700; }
+  .cmd-arg { color: #fbbf24; }
+
+  .line-output { color: rgba(255,255,255,0.45); padding-left: 4px; }
+  .line-success { color: #22c55e; padding-left: 4px; }
+  .line-info { color: #60a5fa; padding-left: 4px; }
+  .line-claude { color: rgba(255,255,255,0.8); padding-left: 4px; }
+
+  .cursor {
+    display: inline-block;
+    width: 9px;
+    height: 17px;
+    background: #fafafa;
+    border-radius: 1px;
+    vertical-align: middle;
+    margin-left: 3px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .separator {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 10px 0;
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: 28px;
+  }
+
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f4f4f5;
+    border: 1px solid #e4e4e7;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #09090b;
+    white-space: nowrap;
+  }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #09090b; flex-shrink: 0; }
+
+  .cta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  @keyframes rainbow-glow {
+    0%   { filter: blur(10px) hue-rotate(0deg); }
+    100% { filter: blur(10px) hue-rotate(360deg); }
+  }
+
+  .cta-btn {
+    position: relative;
+    background: #09090b;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 13px;
+    background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.5;
+    animation: rainbow-glow 3s linear infinite;
+  }
+
+  .cta-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: #a1a1aa;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <!-- Brand -->
+  <div class="brand">
+    <svg width="22" height="22" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <!-- Headline -->
+  <div class="headline-block">
+    <div class="headline">
+      L'IA ne te remplacera pas<br>
+      si tu <span class="accent">t'y prends maintenant.</span>
+    </div>
+    <p class="sub">
+      Pendant que les autres regardent, toi tu construis.<br>
+      Claude comme associé IA. Toi comme chef d'orchestre.
+    </p>
+  </div>
+
+  <!-- Terminal -->
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="dots">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+        </div>
+        <span class="term-title">claude — ~/mon-saas</span>
+      </div>
+
+      <div class="term-body">
+
+        <div class="line">
+          <span class="prompt-symbol">$</span>
+          <span class="cmd-text"><span class="cmd-slash">/</span>construis-moi un SaaS qui génère <span class="cmd-arg">+3 000€/mois</span></span>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="line line-claude">● Analyse de ton idée en cours…</div>
+        <div class="line line-success">✓ Idée validée — Score 91/100 · Marché existant · Concurrence faible</div>
+        <div class="line line-info">→ Architecture générée : Supabase + Vercel + Stripe</div>
+        <div class="line line-claude">● Génération du code en cours…</div>
+        <div class="line line-success">✓ Dashboard utilisateur créé — 847 lignes</div>
+        <div class="line line-success">✓ Paiement Stripe branché — abonnement 49€/mois</div>
+        <div class="line line-success">✓ Emails automatiques configurés — Resend</div>
+        <div class="line line-info">→ Déploiement Vercel — <span style="color:#fbbf24">app.ton-saas.fr</span> en ligne</div>
+
+        <div class="separator"></div>
+
+        <div class="line">
+          <span class="prompt-symbol">$</span>
+          <span class="cmd-text" style="color: rgba(255,255,255,0.3);">_<span class="cursor"></span></span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="badges">
+      <div class="badge"><div class="badge-dot"></div>Sans savoir coder</div>
+      <div class="badge"><div class="badge-dot"></div>Moins de 50€ d'outils</div>
+      <div class="badge"><div class="badge-dot"></div>MVP en 72h</div>
+    </div>
+    <div class="cta-block">
+      <div class="cta-btn">Je commence maintenant →</div>
+      <span class="cta-sub">27€ · Offre de lancement · buildrs.fr</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

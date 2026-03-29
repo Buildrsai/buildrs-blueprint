@@ -1,0 +1,2 @@
+[    3752ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://eu.i.posthog.com/flags/?v=2&ip=0&_=1774612461418&ver=1.363.6&compression=base64:0
+[    3963ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/meta-pixel:0

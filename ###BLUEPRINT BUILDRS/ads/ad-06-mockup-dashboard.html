@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 06 — Mockup Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 68px 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle dot grid */
+  .ad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(9,9,11,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* Top brand */
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    margin-bottom: 32px;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+  }
+
+  /* Headline */
+  .headline-block { z-index: 1; margin-bottom: 20px; }
+
+  .headline {
+    font-size: 43px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  .subtitle {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #71717a;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+
+  /* Browser mockup container */
+  .mockup-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    perspective: 1400px;
+  }
+
+  .browser {
+    width: 840px;
+    height: 350px;
+    background: #09090b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px #e4e4e7,
+      0 8px 32px rgba(0,0,0,0.06);
+    transform: rotateX(7deg) rotateY(-2deg) translateZ(20px);
+  }
+
+  /* Browser bar */
+  .browser-bar {
+    background: #111113;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+
+  .url-bar {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 5px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 5px;
+  }
+  .url-lock {
+    width: 7px; height: 7px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .url-text {
+    font-size: 10px;
+    color: rgba(255,255,255,0.38);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* Layout */
+  .dashboard { display: flex; height: 314px; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 200px;
+    background: #0c0c0f;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    padding: 14px 0;
+    flex-shrink: 0;
+  }
+
+  .sb-logo {
+    padding: 0 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+  }
+
+  .sb-section { padding: 0 10px 6px; }
+  .sb-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    padding: 0 6px;
+    margin-bottom: 3px;
+  }
+
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin-bottom: 1px;
+  }
+  .sb-item.active { background: rgba(255,255,255,0.08); }
+
+  .sb-icon { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.35; }
+  .sb-item.active .sb-icon { opacity: 1; }
+
+  .sb-text {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.38);
+    letter-spacing: -0.01em;
+  }
+  .sb-item.active .sb-text { color: #fafafa; font-weight: 600; }
+
+  .sb-badge {
+    margin-left: auto;
+    font-size: 8px;
+    font-weight: 700;
+    color: #fafafa;
+    background: rgba(255,255,255,0.1);
+    border-radius: 99px;
+    padding: 1px 5px;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    background: #09090b;
+    display: flex;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* Left panel: autopilot */
+  .panel-left {
+    flex: 1;
+    padding: 16px 18px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: rgba(34,197,94,0.12);
+    color: #22c55e;
+    border: 1px solid rgba(34,197,94,0.25);
+  }
+
+  /* Project card */
+  .project-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fafafa;
+    letter-spacing: -0.02em;
+  }
+
+  .project-desc {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.4;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .ptag {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* Progress steps */
+  .steps { display: flex; flex-direction: column; gap: 5px; }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-icon {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 9px;
+  }
+  .step-icon.done { background: rgba(34,197,94,0.15); }
+  .step-icon.run  { background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.25); }
+  .step-icon.wait { background: rgba(255,255,255,0.04); }
+
+  .step-label {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.35);
+  }
+  .step-label.done-lbl { color: rgba(34,197,94,0.8); }
+  .step-label.run-lbl  { color: #fafafa; font-weight: 600; }
+
+  /* Prompt bar */
+  .prompt-bar {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 7px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .prompt-icon {
+    width: 14px; height: 14px;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .prompt-text {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Geist Mono', monospace;
+    flex: 1;
+  }
+
+  .prompt-send {
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Right panel: tools / score */
+  .panel-right {
+    width: 200px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .panel-right-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Score big */
+  .score-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .score-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .score-num {
+    font-size: 32px;
+    font-weight: 900;
+    color: #22c55e;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .score-sub {
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 500;
+  }
+
+  /* Mini tools */
+  .tool-list { display: flex; flex-direction: column; gap: 5px; }
+
+  .tool-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 7px;
+  }
+
+  .tool-icon {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: -0.01em;
+  }
+
+  .tool-status {
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 500;
+  }
+
+  .tool-status.live { color: #22c55e; }
+
+  /* MRR metric */
+  .mrr-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+
+  .mrr-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 4px;
+  }
+
+  .mrr-value {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .mrr-change {
+    font-size: 9px;
+    font-weight: 600;
+    color: #22c55e;
+    margin-top: 2px;
+  }
+
+  /* ── BADGES ── */
+  .badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 1;
+    margin-top: 16px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #f4f4f5;
+    border: 1px solid #e4e4e7;
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #09090b;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #09090b;
+    flex-shrink: 0;
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: 22px;
+  }
+
+  .offer-block { display: flex; flex-direction: column; gap: 2px; }
+
+  .offer-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+  }
+
+  .offer-name {
+    font-size: 26px;
+    font-weight: 900;
+    color: #09090b;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .offer-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: #71717a;
+  }
+
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  @keyframes rainbow-glow {
+    0%   { filter: blur(10px) hue-rotate(0deg); }
+    100% { filter: blur(10px) hue-rotate(360deg); }
+  }
+
+  .cta-btn {
+    position: relative;
+    background: #09090b;
+    color: #ffffff;
+    padding: 16px 28px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    border: 1.5px solid rgba(255,255,255,0.12);
+  }
+
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 13px;
+    background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.6;
+    animation: rainbow-glow 3s linear infinite;
+  }
+
+  .cta-url {
+    font-size: 13px;
+    font-weight: 500;
+    color: #a1a1aa;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <!-- Brand -->
+  <div class="top">
+    <svg width="22" height="22" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <!-- Headline -->
+  <div class="headline-block">
+    <div class="headline">
+      Tout ce qu'il te faut pour créer<br>
+      ton app, ton SaaS ou ton logiciel<br>
+      grâce à l'IA. En moins de 6 jours.
+    </div>
+    <p class="subtitle">
+      Claude comme moteur. Découvre le vibecoding. Deviens orchestrateur d'agents IA.<br>
+      Lance. Monétise. Utilise enfin l'IA comme il se doit.
+    </p>
+  </div>
+
+  <!-- Browser mockup -->
+  <div class="mockup-wrap">
+    <div class="browser">
+
+      <!-- Browser chrome -->
+      <div class="browser-bar">
+        <div class="dots">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+        </div>
+        <div class="url-bar">
+          <div class="url-lock"></div>
+          <span class="url-text">app.buildrs.fr/autopilot</span>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="dashboard">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+          <div class="sb-logo">
+            <svg width="14" height="14" viewBox="0 0 36 36" fill="none">
+              <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+              <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+              <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+              <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+            </svg>
+            Buildrs
+          </div>
+
+          <div class="sb-section">
+            <div class="sb-label">Construire</div>
+            <div class="sb-item active">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span class="sb-text">Autopilot IA</span>
+              <span class="sb-badge">ACTIF</span>
+            </div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+              <span class="sb-text">Mon parcours</span>
+            </div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              <span class="sb-text">Mes Idées</span>
+            </div>
+          </div>
+
+          <div class="sb-section" style="margin-top: 6px;">
+            <div class="sb-label">Outils IA</div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <span class="sb-text">Validateur d'idée</span>
+            </div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+              <span class="sb-text">Calculateur MRR</span>
+            </div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              <span class="sb-text">Checklist lancement</span>
+            </div>
+          </div>
+
+          <div class="sb-section" style="margin-top: 6px;">
+            <div class="sb-label">Ressources</div>
+            <div class="sb-item">
+              <svg class="sb-icon" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+              <span class="sb-text">Bibliothèque</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN: two panels -->
+        <div class="main">
+
+          <!-- LEFT: Autopilot -->
+          <div class="panel-left">
+            <div class="panel-header">
+              <div class="panel-title">
+                <div class="status-dot"></div>
+                Autopilot IA — en cours
+              </div>
+              <span class="tag">Claude actif</span>
+            </div>
+
+            <!-- Project card -->
+            <div class="project-card">
+              <div class="project-name">InvoiceAI — SaaS facturation auto</div>
+              <div class="project-desc">Génère des factures et relances automatiques pour les freelances. Branché sur Stripe + Resend.</div>
+              <div class="project-tags">
+                <span class="ptag">MRR</span>
+                <span class="ptag">Supabase</span>
+                <span class="ptag">Stripe</span>
+                <span class="ptag">MVP 72h</span>
+              </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="steps">
+              <div class="step">
+                <div class="step-icon done">
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="step-label done-lbl">Idée validée — Score 87/100</span>
+              </div>
+              <div class="step">
+                <div class="step-icon done">
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="step-label done-lbl">Architecture générée par Claude</span>
+              </div>
+              <div class="step">
+                <div class="step-icon run">
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" fill="#fafafa"/></svg>
+                </div>
+                <span class="step-label run-lbl">Build en cours — page dashboard utilisateur…</span>
+              </div>
+              <div class="step">
+                <div class="step-icon wait"></div>
+                <span class="step-label">Intégration Stripe Checkout</span>
+              </div>
+              <div class="step">
+                <div class="step-icon wait"></div>
+                <span class="step-label">Déploiement Vercel + domaine</span>
+              </div>
+            </div>
+
+            <!-- Prompt bar -->
+            <div class="prompt-bar">
+              <svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span class="prompt-text">Ajoute un système de relance automatique par email…</span>
+              <div class="prompt-send">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: stats + outils -->
+          <div class="panel-right">
+            <div class="panel-right-title">Mon projet</div>
+
+            <!-- Score -->
+            <div class="score-block">
+              <div class="score-label">Score de viabilité</div>
+              <div class="score-num">87</div>
+              <div class="score-sub">Idée fortement validée</div>
+            </div>
+
+            <!-- Tools -->
+            <div class="tool-list">
+              <div class="tool-row">
+                <div class="tool-icon" style="background: rgba(255,255,255,0.06);">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                </div>
+                <div class="tool-text">
+                  <div class="tool-name">Auth Supabase</div>
+                  <div class="tool-status live">Connecté</div>
+                </div>
+              </div>
+              <div class="tool-row">
+                <div class="tool-icon" style="background: rgba(99,91,255,0.12);">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(99,91,255,0.9)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+                <div class="tool-text">
+                  <div class="tool-name">Stripe</div>
+                  <div class="tool-status">En attente</div>
+                </div>
+              </div>
+              <div class="tool-row">
+                <div class="tool-icon" style="background: rgba(255,255,255,0.06);">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="tool-text">
+                  <div class="tool-name">Resend</div>
+                  <div class="tool-status">En attente</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MRR -->
+            <div class="mrr-block">
+              <div class="mrr-label">MRR estimé</div>
+              <div class="mrr-value">1 400€</div>
+              <div class="mrr-change">+∞ depuis 0€</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="badges">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Sans savoir coder
+    </div>
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Moins de 50€ d'outils
+    </div>
+    <div class="badge">
+      <div class="badge-dot"></div>
+      En solo, sans équipe
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="offer-block">
+      <span class="offer-label">Buildrs Blueprint</span>
+      <span class="offer-name">27€</span>
+      <span class="offer-sub">De l'idée au MVP monétisé</span>
+    </div>
+    <div class="cta-group">
+      <div class="cta-btn">Je démarre →</div>
+      <span class="cta-url">27€ · Offre de lancement · Paiement unique</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,3 +1,19 @@
+/* ── Geist — self-hosted (public/fonts, served with correct MIME type) ── */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -105,6 +121,26 @@
   filter: blur(12px);
   opacity: 0.55;
   animation: rainbow-glow 3s linear infinite;
+}
+
+/* ── WHITE RING BUTTON ── */
+@keyframes white-ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.cta-white-ring {
+  position: relative;
+}
+.cta-white-ring::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  background: conic-gradient(from 0deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.9) 100%);
+  z-index: -1;
+  filter: blur(5px);
+  opacity: 0.75;
+  animation: white-ring-spin 2.5s linear infinite;
 }
 
 /* ── COHORTE SPINNING BORDER ── */

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 01 — Question Hook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #09090b;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #09090b;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle noise texture */
+  .ad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* Top — Brand */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+  }
+
+  /* Middle — Content */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    z-index: 1;
+    padding: 40px 0;
+  }
+
+  .hook {
+    font-size: 72px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .hook em {
+    font-style: normal;
+    color: #a1a1aa;
+  }
+
+  .punch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .punch-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .punch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fafafa;
+    flex-shrink: 0;
+  }
+
+  .punch-text {
+    font-size: 28px;
+    font-weight: 600;
+    color: #fafafa;
+    letter-spacing: -0.02em;
+  }
+
+  .punch-text span {
+    color: #71717a;
+  }
+
+  /* Bottom — CTA */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .cta-badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fafafa;
+    color: #09090b;
+    padding: 20px 32px;
+    border-radius: 16px;
+  }
+
+  .cta-label {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-price {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-arrow {
+    font-size: 22px;
+  }
+
+  .cta-url {
+    font-size: 18px;
+    font-weight: 500;
+    color: #52525b;
+    letter-spacing: -0.01em;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <!-- Brand -->
+  <div class="brand">
+    <svg class="brand-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="hook">
+      Tu rêves de lancer<br>
+      un business IA<br>
+      <em>mais tu ne sais pas<br>par où commencer ?</em>
+    </div>
+
+    <div class="punch-list">
+      <div class="punch-item">
+        <div class="punch-dot"></div>
+        <span class="punch-text">SaaS · App · Logiciel <span>— sans coder</span></span>
+      </div>
+      <div class="punch-item">
+        <div class="punch-dot"></div>
+        <span class="punch-text">Rentable <span>dès le premier mois</span></span>
+      </div>
+      <div class="punch-item">
+        <div class="punch-dot"></div>
+        <span class="punch-text">Tes IA travaillent <span>pendant que tu dors</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="bottom">
+    <div class="cta-badge">
+      <span class="cta-label">Buildrs Blueprint</span>
+      <span class="cta-price">27€ →</span>
+    </div>
+    <span class="cta-url">buildrs.fr</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -17,6 +17,9 @@ interface Project {
   current_phase: number
   status: string
   idea_data: Record<string, string>
+  structure_data: Record<string, unknown> | null
+  branding_data: Record<string, unknown> | null
+  build_kit_data: Record<string, unknown> | null
   created_at: string
   updated_at: string
 }

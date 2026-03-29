@@ -1,0 +1,282 @@
+[    1787ms] [WARNING] [Warning] Please install/enable Redux devtools extension @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[   22195ms] [ERROR] Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR @ https://ss.supabase.com/4icgbaujh/7wnp?1c28fa44=L2d0YWcvanM%2FaWQ9Ry1YVzE4S0dLR05SJmN4PWMmZ3RtPTRlNjNwMQ%3D%3D:0
+[  395919ms] [WARNING] Tabs is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component. @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[  395929ms] [WARNING] Tabs is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component. @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 2104032ms] [ERROR] ConfigCat - ERROR - [1103] Unexpected error occurred while trying to fetch config JSON. It is most likely due to a local network issue. Please make sure your application can reach the ConfigCat CDN servers (or your proxy server) over HTTP.
+Error: Request failed due to a network or protocol error.
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.onerror (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100846)
+    at XMLHttpRequest.r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:10:5015) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 2104032ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://configcat.supabase.com/configuration-files/configcat-proxy/frontend-v2/config_v6.json?sdk=ConfigCat-JS/a-9.5.1&ccetag=W%2F%220579c09e4170c5386c093a03de3f0ab0%22:0
+[ 2105682ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774624069343&ver=1.357.0&compression=base64:0
+[ 2405682ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774624369343&ver=1.357.0&compression=base64:0
+[ 2524030ms] [ERROR] ConfigCat - ERROR - [1103] Unexpected error occurred while trying to fetch config JSON. It is most likely due to a local network issue. Please make sure your application can reach the ConfigCat CDN servers (or your proxy server) over HTTP.
+Error: Request failed due to a network or protocol error.
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.onerror (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100846)
+    at XMLHttpRequest.r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:10:5015) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 2524030ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://configcat.supabase.com/configuration-files/configcat-proxy/frontend-v2/config_v6.json?sdk=ConfigCat-JS/a-9.5.1&ccetag=W%2F%220579c09e4170c5386c093a03de3f0ab0%22:0
+[ 5074033ms] [ERROR] ConfigCat - ERROR - [1102] Request timed out while trying to fetch config JSON. Timeout value: 30000ms
+Error: Request timed out. Timeout value: 30000ms
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.ontimeout (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100729) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5163849ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5163850ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31436
+    at eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12399)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5223861ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5223861ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5283868ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5283869ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5343877ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5343877ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5403883ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5403883ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5463890ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5463891ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5494025ms] [ERROR] ConfigCat - ERROR - [1102] Request timed out while trying to fetch config JSON. Timeout value: 30000ms
+Error: Request timed out. Timeout value: 30000ms
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.ontimeout (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100729) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5523899ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5523899ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5583906ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5583907ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5643913ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5643913ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5703919ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5703919ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5763927ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5763929ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5823936ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5823936ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 5883941ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://auth.supabase.io/auth/v1/token?grant_type=refresh_token:0
+[ 5883941ms] [ERROR] TypeError: Failed to fetch (auth.supabase.io)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:13:1799
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:1:643
+    at https://ss.supabase.com/4icgbaujh.js?60a389s=aWQ9R1RNLVdDVlJMTU43&page=2:770:819
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:9362
+    at ed (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:14273)
+    at eh (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:6:13801)
+    at r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:24913)
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25175
+    at https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25252
+    at new Promise (<anonymous>)
+    at eB._refreshAccessToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:25106)
+    at eB._callRefreshToken (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:27844)
+    at eB.__loadSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:14159)
+    at async eB._useSession (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:12359)
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:31086
+    at async https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/2050672d7bd561fb.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:19:11673 @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 7805662ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774629769323&ver=1.357.0&compression=base64:0
+[ 7984038ms] [ERROR] ConfigCat - ERROR - [1103] Unexpected error occurred while trying to fetch config JSON. It is most likely due to a local network issue. Please make sure your application can reach the ConfigCat CDN servers (or your proxy server) over HTTP.
+Error: Request failed due to a network or protocol error.
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.onerror (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100846)
+    at XMLHttpRequest.r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:10:5015) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 7984038ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://configcat.supabase.com/configuration-files/configcat-proxy/frontend-v2/config_v6.json?sdk=ConfigCat-JS/a-9.5.1&ccetag=W%2F%220579c09e4170c5386c093a03de3f0ab0%22:0
+[ 8105662ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774630069324&ver=1.357.0&compression=base64:0
+[ 8404039ms] [ERROR] ConfigCat - ERROR - [1103] Unexpected error occurred while trying to fetch config JSON. It is most likely due to a local network issue. Please make sure your application can reach the ConfigCat CDN servers (or your proxy server) over HTTP.
+Error: Request failed due to a network or protocol error.
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.onerror (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100846)
+    at XMLHttpRequest.r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:10:5015) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 8404039ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://configcat.supabase.com/configuration-files/configcat-proxy/frontend-v2/config_v6.json?sdk=ConfigCat-JS/a-9.5.1&ccetag=W%2F%220579c09e4170c5386c093a03de3f0ab0%22:0
+[ 8405662ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774630369324&ver=1.357.0&compression=base64:0
+[ 8705661ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774630669323&ver=1.357.0&compression=base64:0
+[ 8824041ms] [ERROR] ConfigCat - ERROR - [1103] Unexpected error occurred while trying to fetch config JSON. It is most likely due to a local network issue. Please make sure your application can reach the ConfigCat CDN servers (or your proxy server) over HTTP.
+Error: Request failed due to a network or protocol error.
+    at new t (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:41528)
+    at s.onerror (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/7361059eb6f43f3b.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:5:100846)
+    at XMLHttpRequest.r (https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:10:5015) @ https://frontend-assets.supabase.com/studio/75e1bbb4a6c4/_next/static/chunks/d3d868edf1652212.js?dpl=dpl_GMVx3VCXk2FF12A56XhPrMz6NpVc:12
+[ 8824041ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://configcat.supabase.com/configuration-files/configcat-proxy/frontend-v2/config_v6.json?sdk=ConfigCat-JS/a-9.5.1&ccetag=W%2F%220579c09e4170c5386c093a03de3f0ab0%22:0
+[ 9005659ms] [ERROR] Failed to load resource: net::ERR_INTERNET_DISCONNECTED @ https://ph.supabase.com/flags/?v=2&ip=0&_=1774630969321&ver=1.357.0&compression=base64:0

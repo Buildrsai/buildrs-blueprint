@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 09 — Claude Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #09090b;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #09090b;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 80px 56px;
+    position: relative;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* dot grid */
+  .ad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* ── BRAND ── */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    margin-bottom: 28px;
+  }
+  .brand-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+  }
+
+  /* ── HEADLINE ── */
+  .headline {
+    z-index: 1;
+    font-size: 44px;
+    font-weight: 900;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .headline .line2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .headline .accent {
+    display: inline-block;
+    background: #ffffff;
+    color: #09090b;
+    padding: 4px 16px 6px;
+    border-radius: 10px;
+    line-height: 1;
+  }
+
+  /* ── CLAUDE MOCKUP ── */
+  .claude-wrap {
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .claude-app {
+    width: 100%;
+    background: #f5f4ef;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Claude top bar */
+  .claude-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 48px;
+    background: #f5f4ef;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    flex-shrink: 0;
+  }
+
+  .claude-dots { display: flex; gap: 6px; }
+  .c-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .c-dot-r { background: #ff5f57; }
+  .c-dot-y { background: #febc2e; }
+  .c-dot-g { background: #28c840; }
+
+  .claude-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.35);
+    letter-spacing: -0.01em;
+  }
+
+  .claude-model {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.35);
+  }
+
+  /* Claude body */
+  .claude-body {
+    flex: 1;
+    padding: 24px 32px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  /* Greeting */
+  .claude-greeting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 4px;
+  }
+
+  /* Claude asterisk SVG */
+  .claude-star {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .greeting-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.03em;
+  }
+
+  /* Question bubble */
+  .question-bubble {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 16px 18px 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .question-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .question-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .q-plus {
+    font-size: 20px;
+    color: rgba(0,0,0,0.25);
+    line-height: 1;
+    font-weight: 300;
+  }
+
+  .q-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .q-model {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .q-send {
+    width: 32px;
+    height: 32px;
+    background: #c96442;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Claude response */
+  .claude-response {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .resp-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .resp-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resp-text {
+    font-size: 14.5px;
+    color: #1a1a1a;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+  }
+
+  .resp-text strong {
+    font-weight: 700;
+    color: #09090b;
+  }
+
+  .resp-highlight {
+    display: inline;
+    background: rgba(201,100,66,0.12);
+    color: #c96442;
+    font-weight: 700;
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+
+  .resp-actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .resp-action {
+    width: 18px;
+    height: 18px;
+    opacity: 0.3;
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: 20px;
+  }
+
+  .left-block { display: flex; flex-direction: column; gap: 8px; }
+
+  .badges { display: flex; gap: 8px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fafafa;
+    white-space: nowrap;
+  }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #fafafa; flex-shrink: 0; }
+
+  .price-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .price-value {
+    font-size: 32px;
+    font-weight: 900;
+    color: #fafafa;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .price-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 500;
+  }
+
+  @keyframes rainbow-glow {
+    0%   { filter: blur(10px) hue-rotate(0deg); }
+    100% { filter: blur(10px) hue-rotate(360deg); }
+  }
+
+  .cta-btn {
+    position: relative;
+    background: #09090b;
+    color: #ffffff;
+    padding: 16px 26px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 13px;
+    background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.5;
+    animation: rainbow-glow 3s linear infinite;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <!-- Brand -->
+  <div class="brand">
+    <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <!-- Headline -->
+  <div class="headline">
+    <span>On a demandé à Claude comment</span>
+    <span class="line2">gagner <span class="accent">+3 000€/mois</span> avec l'IA.</span>
+
+  </div>
+
+  <!-- Claude mockup -->
+  <div class="claude-wrap">
+    <div class="claude-app">
+
+      <!-- Top bar -->
+      <div class="claude-topbar">
+        <div class="claude-dots">
+          <div class="c-dot c-dot-r"></div>
+          <div class="c-dot c-dot-y"></div>
+          <div class="c-dot c-dot-g"></div>
+        </div>
+        <span class="claude-title">claude.ai — Nouveau chat</span>
+        <div class="claude-model">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="#c96442"><circle cx="6" cy="6" r="6"/></svg>
+          Opus 4.6
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="claude-body">
+
+        <!-- Greeting -->
+        <div class="claude-greeting">
+          <!-- Claude asterisk -->
+          <svg class="claude-star" viewBox="0 0 40 40" fill="none">
+            <line x1="20" y1="4" x2="20" y2="36" stroke="#c96442" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="4" y1="20" x2="36" y2="20" stroke="#c96442" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="7.5" y1="7.5" x2="32.5" y2="32.5" stroke="#c96442" stroke-width="3.5" stroke-linecap="round"/>
+            <line x1="32.5" y1="7.5" x2="7.5" y2="32.5" stroke="#c96442" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+          <span class="greeting-text">Bonsoir, Boss.</span>
+        </div>
+
+        <!-- Question bubble -->
+        <div class="question-bubble">
+          <div class="question-text">
+            Comment gagner +3 000€/mois avec l'IA, en créant un business qui a du sens, en travaillant seul, d'où je veux, sans savoir coder, et avec un budget de moins de 100 euros ?
+          </div>
+          <div class="question-footer">
+            <span class="q-plus">+</span>
+            <div class="q-right">
+              <span class="q-model">
+                Opus 4.6
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+              <div class="q-send">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claude response -->
+        <div class="claude-response">
+          <svg class="resp-icon" viewBox="0 0 40 40" fill="none">
+            <line x1="20" y1="5" x2="20" y2="35" stroke="#c96442" stroke-width="3" stroke-linecap="round"/>
+            <line x1="5" y1="20" x2="35" y2="20" stroke="#c96442" stroke-width="3" stroke-linecap="round"/>
+            <line x1="8.8" y1="8.8" x2="31.2" y2="31.2" stroke="#c96442" stroke-width="3" stroke-linecap="round"/>
+            <line x1="31.2" y1="8.8" x2="8.8" y2="31.2" stroke="#c96442" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="resp-body">
+            <div class="resp-text">
+              La meilleure stratégie : <strong>créer un micro-SaaS avec le vibe coding.</strong> Tu décris ce que tu veux construire, Claude le code pour toi. Ton rôle : orchestrer les agents IA.<br><br>
+              Commence avec le <span class="resp-highlight">Buildrs Blueprint</span> — un plan d'action en 6 modules pour créer et monétiser ton premier SaaS en moins de 6 jours. <strong>Aucune compétence technique requise.</strong> Stack complet à moins de 50€. Et la vraie magie : des <strong>revenus récurrents</strong>, un actif que tu peux valoriser, revendre, ou céder à des entreprises.<br><br>
+              C'est la compétence la plus précieuse de 2026.
+            </div>
+            <div class="resp-actions">
+              <svg class="resp-action" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <svg class="resp-action" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+              <svg class="resp-action" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>
+              <svg class="resp-action" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="left-block">
+      <div class="badges">
+        <div class="badge"><div class="badge-dot"></div>Sans savoir coder</div>
+        <div class="badge"><div class="badge-dot"></div>Moins de 50€ d'outils</div>
+        <div class="badge"><div class="badge-dot"></div>MVP en 72h</div>
+      </div>
+      <div>
+        <div class="price-label">Buildrs Blueprint</div>
+        <div class="price-row">
+          <span class="price-value">27€</span>
+          <span class="price-sub">Offre de lancement · Paiement unique</span>
+        </div>
+      </div>
+    </div>
+    <div class="cta-btn">Je commence →</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router'
-import { LayoutDashboard, Settings, Users, ChevronRight, FolderPlus } from 'lucide-react'
+import { LayoutDashboard, Settings, Users, ChevronRight, FolderPlus, Layout, Database, DollarSign } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { PHASE_NAMES } from '@/lib/utils'
 
@@ -7,11 +7,19 @@ interface AppSidebarProps {
   currentProjectId?: string
   currentPhase?: number
   completedPhases?: number[]
+  structureData?: Record<string, unknown> | null
 }
+
+// Sous-étapes Phase 2
+const PHASE_2_SUB_STEPS = [
+  { key: 'pages_features', label: 'Pages & Features', icon: Layout, dataKey: 'pages' },
+  { key: 'data_model', label: 'Modèle de données', icon: Database, dataKey: 'data_model' },
+  { key: 'monetization', label: 'Monétisation', icon: DollarSign, dataKey: 'monetization' },
+]
 
 const PHASE_ICONS = ['💡', '🏗️', '🎨', '🔧', '⚙️', '🔨', '🚀', '📣']
 
-function AppSidebar({ currentProjectId, currentPhase, completedPhases = [] }: AppSidebarProps) {
+function AppSidebar({ currentProjectId, currentPhase, completedPhases = [], structureData }: AppSidebarProps) {
   const { pathname } = useLocation()
 
   const mainNav = [
@@ -67,29 +75,52 @@ function AppSidebar({ currentProjectId, currentPhase, completedPhases = [] }: Ap
                 const href = `/project/${currentProjectId}/phase/${phase}`
 
                 return (
-                  <Link
-                    key={phase}
-                    to={isLocked ? '#' : href}
-                    className={cn(
-                      'flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs',
-                      'transition-all duration-150',
-                      isCurrent && 'bg-[#F0F1F5] border border-[#3279F9]/30 text-[#121317]',
-                      isCompleted && !isCurrent && 'text-[#45474D] hover:text-[#121317] hover:bg-[#F0F1F5]',
-                      isLocked && 'opacity-30 cursor-not-allowed text-[#B2BBC5]',
-                      !isCurrent && !isLocked && 'text-[#45474D] hover:text-[#121317] hover:bg-[#F0F1F5]'
-                    )}
-                  >
-                    <span
+                  <div key={phase}>
+                    <Link
+                      to={isLocked ? '#' : href}
                       className={cn(
-                        'w-1 h-1 rounded-full flex-shrink-0',
-                        isCompleted ? 'bg-[#3279F9]' : isCurrent ? 'bg-[#3279F9]' : 'bg-[#E6EAF0]'
+                        'flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs',
+                        'transition-all duration-150',
+                        isCurrent && 'bg-[#F0F1F5] border border-[#3279F9]/30 text-[#121317]',
+                        isCompleted && !isCurrent && 'text-[#45474D] hover:text-[#121317] hover:bg-[#F0F1F5]',
+                        isLocked && 'opacity-30 cursor-not-allowed text-[#B2BBC5]',
+                        !isCurrent && !isLocked && 'text-[#45474D] hover:text-[#121317] hover:bg-[#F0F1F5]'
                       )}
-                    />
-                    <span className="flex-1 truncate">
-                      {PHASE_ICONS[phase - 1]} {PHASE_NAMES[phase]}
-                    </span>
-                    {isCurrent && <ChevronRight size={10} className="text-[#3279F9] flex-shrink-0" />}
-                  </Link>
+                    >
+                      <span
+                        className={cn(
+                          'w-1 h-1 rounded-full flex-shrink-0',
+                          isCompleted ? 'bg-[#3279F9]' : isCurrent ? 'bg-[#3279F9]' : 'bg-[#E6EAF0]'
+                        )}
+                      />
+                      <span className="flex-1 truncate">
+                        {PHASE_ICONS[phase - 1]} {PHASE_NAMES[phase]}
+                      </span>
+                      {isCurrent && <ChevronRight size={10} className="text-[#3279F9] flex-shrink-0" />}
+                    </Link>
+
+                    {/* Sous-étapes Phase 2 */}
+                    {phase === 2 && isCurrent && (
+                      <div className="ml-5 mt-1 flex flex-col gap-0.5 border-l border-[#E6EAF0] pl-3">
+                        {PHASE_2_SUB_STEPS.map(sub => {
+                          const Icon = sub.icon
+                          const isDone = !!(structureData as Record<string, unknown> | undefined)?.[sub.dataKey]
+                          return (
+                            <div
+                              key={sub.key}
+                              className="flex items-center gap-2 py-1.5 text-[11px]"
+                            >
+                              <Icon size={12} className={isDone ? 'text-[#22C55E]' : 'text-[#B2BBC5]'} />
+                              <span className={isDone ? 'text-[#45474D]' : 'text-[#B2BBC5]'}>
+                                {sub.label}
+                              </span>
+                              {isDone && <span className="text-[10px] text-[#22C55E]">✓</span>}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
                 )
               })}
             </nav>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Buildrs — Style Guide Visuel Complet</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #ffffff;
+      --fg:       #09090b;
+      --card:     #ffffff;
+      --secondary:#f4f4f5;
+      --border:   #e4e4e7;
+      --muted:    #71717a;
+      --radius:   0.75rem;
+    }
+
+    body {
+      font-family: 'Geist', 'Geist Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px 120px;
+    }
+
+    /* ── SYSTEM ── */
+    @keyframes rainbow-glow {
+      0%   { filter: blur(12px) hue-rotate(0deg); }
+      100% { filter: blur(12px) hue-rotate(360deg); }
+    }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @property --bump-angle {
+      syntax: '<angle>'; initial-value: 0deg; inherits: false;
+    }
+    @keyframes bump-spin { to { --bump-angle: 360deg; } }
+
+    .cta-rainbow { position: relative; }
+    .cta-rainbow::after {
+      content: ''; position: absolute; inset: -2px; border-radius: 12px;
+      background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+      z-index: -1; filter: blur(12px); opacity: 0.55;
+      animation: rainbow-glow 3s linear infinite;
+    }
+    .bump-neon {
+      padding: 2px; border-radius: 14px;
+      background: conic-gradient(from var(--bump-angle), #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+      animation: bump-spin 4s linear infinite;
+      position: relative;
+    }
+    .bump-neon::before {
+      content: ''; position: absolute; inset: -6px; border-radius: 20px;
+      background: conic-gradient(from var(--bump-angle), #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+      filter: blur(14px); opacity: 0.28; animation: bump-spin 4s linear infinite; z-index: -1;
+    }
+    .bump-inner { border-radius: 12px; background: var(--card); overflow: hidden; }
+
+    /* ── SECTION HEADERS ── */
+    .section-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 64px 0 24px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .row { display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+    .label {
+      font-size: 11px; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* ── COLORS ── */
+    .swatch-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    .swatch { display: flex; flex-direction: column; gap: 8px; }
+    .swatch-box { width: 80px; height: 56px; border-radius: 10px; border: 1px solid var(--border); }
+    .swatch-name { font-size: 11px; color: var(--muted); font-family: 'Geist Mono', monospace; }
+
+    /* ── TYPOGRAPHY ── */
+    .type-sample {
+      padding: 24px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    }
+    .type-meta { font-size: 11px; color: var(--muted); font-family: 'Geist Mono', monospace; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── NAV ── */
+    .nav-demo {
+      width: 100%; border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      display: flex; height: 60px; align-items: center;
+      justify-content: space-between; padding: 0 24px; gap: 16px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 8px; }
+    .nav-logo-text { font-size: 15px; font-weight: 700; letter-spacing: -0.03em; color: var(--fg); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link {
+      padding: 6px 12px; border-radius: 6px; font-size: 13px; font-weight: 450;
+      color: var(--muted); transition: background 0.15s;
+    }
+    .nav-link:hover { background: var(--secondary); color: var(--fg); }
+    .nav-cta {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--fg); color: var(--bg);
+      font-size: 13px; font-weight: 600; padding: 8px 16px;
+      border-radius: 8px; letter-spacing: -0.02em;
+    }
+
+    /* ── HERO SECTION ── */
+    .hero-demo {
+      text-align: center; padding: 80px 40px 60px;
+      border: 1px solid var(--border); border-radius: 16px;
+      position: relative; overflow: hidden;
+    }
+    .hero-gradient {
+      position: absolute; top: 0; left: 0; right: 0; height: 320px; pointer-events: none;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 6px 14px 6px 6px; font-size: 12px; color: var(--muted);
+      background: var(--bg); margin-bottom: 28px; position: relative; z-index: 1;
+    }
+    .hero-badge-icon {
+      width: 22px; height: 22px; border-radius: 50%; background: var(--secondary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-h1 {
+      font-size: clamp(52px, 7vw, 88px); font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1.05;
+      color: var(--fg); margin-bottom: 24px; position: relative; z-index: 1;
+    }
+    .hero-sub {
+      font-size: 18px; line-height: 1.65; color: var(--muted);
+      max-width: 540px; margin: 0 auto 36px; position: relative; z-index: 1;
+    }
+    .hero-sub strong { color: var(--fg); font-weight: 600; }
+    .hero-ctas {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      position: relative; z-index: 1;
+    }
+    .btn-primary {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--fg); color: var(--bg);
+      font-size: 15px; font-weight: 600; padding: 14px 28px;
+      border-radius: 10px; letter-spacing: -0.02em;
+    }
+    .btn-secondary {
+      display: flex; align-items: center; gap: 8px;
+      border: 1px solid var(--border); color: var(--fg);
+      font-size: 15px; font-weight: 500; padding: 13px 24px;
+      border-radius: 10px;
+    }
+    .hero-note {
+      margin-top: 16px; font-size: 12px; color: var(--muted);
+      opacity: 0.65; position: relative; z-index: 1;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-demo {
+      padding: 32px 0; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--secondary); overflow: hidden;
+    }
+    .marquee-label {
+      text-align: center; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .marquee-track { overflow: hidden; }
+    .marquee-inner {
+      display: flex; gap: 12px; width: max-content;
+      animation: marquee-scroll 22s linear infinite;
+    }
+    .marquee-chip {
+      display: flex; align-items: center; gap: 8px; white-space: nowrap;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg); padding: 8px 14px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+    }
+    .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fg); flex-shrink: 0; }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    }
+    .stat-cell {
+      padding: 28px 32px; border-right: 1px solid var(--border);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Geist Mono', monospace; font-size: 44px; font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1; color: var(--fg); margin-bottom: 6px;
+    }
+    .stat-desc { font-size: 14px; color: var(--muted); line-height: 1.4; }
+
+    /* ── CARDS ── */
+    .card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+      background: var(--card);
+    }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--secondary);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+    }
+    .card-title { font-size: 16px; font-weight: 700; color: var(--fg); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .card-body  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── FEATURE LIST ── */
+    .feature-list { display: flex; flex-direction: column; gap: 10px; }
+    .feature-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--fg); }
+    .check-circle {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      border: 1px solid #e4e4e7; background: #f4f4f5;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── PRICING CARD ── */
+    .pricing-card {
+      border: 1px solid var(--border); border-radius: 16px; padding: 36px;
+      background: var(--card); max-width: 400px;
+    }
+    .pricing-badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+    .pricing-name { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .pricing-desc { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
+    .pricing-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .price-old { font-family: 'Geist Mono', monospace; font-size: 18px; color: #a1a1aa; text-decoration: line-through; }
+    .price-main { font-family: 'Geist Mono', monospace; font-size: 52px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .price-note { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .pricing-cta {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; background: var(--fg); color: var(--bg);
+      font-size: 15px; font-weight: 700; padding: 16px 28px;
+      border-radius: 10px; letter-spacing: -0.02em;
+    }
+    .pricing-features { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+
+    /* ── ORDER BUMP ── */
+    .bump-demo { max-width: 480px; }
+    .bump-content {
+      padding: 28px 32px;
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+    .bump-icon {
+      width: 44px; height: 44px; border-radius: 10px; background: var(--secondary);
+      border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .bump-text-title { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .bump-text-sub   { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+    .bump-add-row { display: flex; align-items: center; justify-content: space-between; }
+    .bump-price { font-family: 'Geist Mono', monospace; font-size: 20px; font-weight: 800; }
+    .bump-btn {
+      font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px;
+      background: var(--fg); color: var(--bg);
+    }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .badge-green {
+      border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.06);
+      color: #16a34a; font-size: 12px; font-weight: 600;
+      padding: 5px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.8); }
+
+    /* ── ICONS INFO ── */
+    .icon-grid { display: flex; gap: 20px; flex-wrap: wrap; }
+    .icon-demo {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      width: 72px;
+    }
+    .icon-box {
+      width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 10px;
+      background: var(--secondary); display: flex; align-items: center; justify-content: center;
+    }
+    .icon-name { font-size: 10px; color: var(--muted); text-align: center; }
+
+    /* ── FOOTER NOTE ── */
+    .footer-note {
+      margin-top: 80px; padding: 24px; border: 1px solid var(--border); border-radius: 12px;
+      background: var(--secondary); font-size: 13px; color: var(--muted); line-height: 1.7;
+    }
+    .footer-note strong { color: var(--fg); }
+  </style>
+</head>
+<body>
+
+  <h1 style="font-size:32px;font-weight:800;letter-spacing:-0.04em;margin-bottom:8px">Buildrs — Style Guide</h1>
+  <p style="font-size:15px;color:#71717a;margin-bottom:8px">Référence visuelle complète pour Remotion et toute production créative.</p>
+  <p style="font-size:13px;font-family:'Geist Mono',monospace;color:#a1a1aa">buildrs.fr · Mars 2026</p>
+
+  <!-- ══════════════════ COLORS ══════════════════ -->
+  <div class="section-title">01 — Palette de couleurs</div>
+
+  <div class="label">Light Mode (LP principale — blanc dominant)</div>
+  <div class="swatch-grid" style="margin-bottom:28px">
+    <div class="swatch"><div class="swatch-box" style="background:#ffffff;"></div><div class="swatch-name">#ffffff<br>Background</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#09090b;"></div><div class="swatch-name">#09090b<br>Foreground</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#f4f4f5;"></div><div class="swatch-name">#f4f4f5<br>Secondary</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#e4e4e7;"></div><div class="swatch-name">#e4e4e7<br>Border</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#71717a;"></div><div class="swatch-name">#71717a<br>Muted</div></div>
+  </div>
+
+  <div class="label">Dark Mode (ads & vidéo)</div>
+  <div class="swatch-grid" style="margin-bottom:28px">
+    <div class="swatch"><div class="swatch-box" style="background:#09090b;border-color:rgba(255,255,255,0.15)"></div><div class="swatch-name">#09090b<br>Background</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#18181b;border-color:rgba(255,255,255,0.15)"></div><div class="swatch-name">#18181b<br>Card</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#fafafa;"></div><div class="swatch-name">#fafafa<br>Foreground</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:rgba(255,255,255,0.22);"></div><div class="swatch-name">rgba white<br>0.22 — muted</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)"></div><div class="swatch-name">rgba white<br>0.08 — border</div></div>
+  </div>
+
+  <div class="label">Fonctionnelles</div>
+  <div class="swatch-grid" style="margin-bottom:8px">
+    <div class="swatch"><div class="swatch-box" style="background:#22c55e;"></div><div class="swatch-name">#22c55e<br>Success/Live</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#ef4444;"></div><div class="swatch-name">#ef4444<br>Error</div></div>
+    <div class="swatch"><div class="swatch-box" style="background:#eab308;"></div><div class="swatch-name">#eab308<br>Warning</div></div>
+  </div>
+  <div class="label" style="margin-top:20px">Rainbow CTA (conic-gradient)</div>
+  <div style="width:100%;height:40px;border-radius:8px;background:conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);margin-bottom:8px"></div>
+  <div style="font-size:11px;font-family:'Geist Mono',monospace;color:#71717a">#ff6b6b → #ffd93d → #6bcb77 → #4d96ff → #cc5de8 → #ff6b6b</div>
+
+  <!-- ══════════════════ TYPOGRAPHY ══════════════════ -->
+  <div class="section-title">02 — Typographie (Geist Sans + Geist Mono)</div>
+
+  <div class="type-sample">
+    <div style="font-size:clamp(48px,6vw,80px);font-weight:800;letter-spacing:-0.04em;line-height:1.05">Hero Title</div>
+    <div class="type-meta">clamp(52px,8.5vw,96px) · 800 · -0.04em</div>
+  </div>
+  <div class="type-sample">
+    <div style="font-size:48px;font-weight:800;letter-spacing:-0.045em;line-height:0.95">Section Heading</div>
+    <div class="type-meta">48px · 800 · -0.045em</div>
+  </div>
+  <div class="type-sample">
+    <div style="font-size:28px;font-weight:700;letter-spacing:-0.03em">Card Title / H3</div>
+    <div class="type-meta">28px · 700 · -0.03em</div>
+  </div>
+  <div class="type-sample">
+    <div style="font-size:18px;font-weight:400;line-height:1.65;color:#71717a;max-width:500px">Corps de texte — Le plan d'action étape par étape pour maîtriser le vibecoding et lancer ton produit en 6 jours.</div>
+    <div class="type-meta">18px · 400 · 1.65lh</div>
+  </div>
+  <div class="type-sample">
+    <div style="font-size:13px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#71717a">CAPTION / LABEL</div>
+    <div class="type-meta">13px · 600 · 0.09em uppercase</div>
+  </div>
+  <div class="type-sample">
+    <div style="font-family:'Geist Mono',monospace;font-size:48px;font-weight:800;letter-spacing:-0.04em">27€</div>
+    <div class="type-meta">Geist Mono · 48px · 800 · prix/chiffres</div>
+  </div>
+
+  <!-- ══════════════════ NAV ══════════════════ -->
+  <div class="section-title">03 — Navigation</div>
+  <div class="nav-demo">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="9" fill="#f4f4f5"/>
+          <line x1="13.5" y1="6" x2="13.5" y2="30" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="22.5" y1="6" x2="22.5" y2="30" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="13.5" x2="30" y2="13.5" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="22.5" x2="30" y2="22.5" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="nav-logo-text">Buildrs</span>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link">Modules</span>
+        <span class="nav-link">Comment</span>
+        <span class="nav-link">Tarif</span>
+        <span class="nav-link">FAQ</span>
+      </div>
+      <div class="cta-rainbow">
+        <div class="nav-cta">Accéder au Blueprint →</div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:11px;font-family:'Geist Mono',monospace;color:#a1a1aa;margin-top:8px">position:fixed · border-b border-border · bg-background/85 · backdrop-blur-xl · h-[60px]</div>
+
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <div class="section-title">04 — Hero Section</div>
+  <div class="hero-demo">
+    <div class="hero-gradient"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="#71717a"/></svg>
+      </div>
+      Le système utilisé en interne chez Buildrs pour lancer des produits en 6 jours.
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>
+    <h1 class="hero-h1">Crée ton <em style="font-style:normal;text-decoration:underline;text-underline-offset:6px;">SaaS</em><br>avec l'IA. En 6 jours.</h1>
+    <p class="hero-sub">Le plan d'action étape par étape pour maîtriser le vibecoding, piloter Claude comme moteur, et lancer un produit digital — <strong>même si tu n'as jamais ouvert un éditeur de code.</strong></p>
+    <div class="hero-ctas">
+      <div class="cta-rainbow">
+        <div class="btn-primary">Accéder au Blueprint — 27€ →</div>
+      </div>
+      <div class="btn-secondary">Voir les modules</div>
+    </div>
+    <p class="hero-note">Offre de lancement · 82/100 places prises · Ensuite 297€</p>
+  </div>
+  <div style="font-size:11px;font-family:'Geist Mono',monospace;color:#a1a1aa;margin-top:8px">
+    Gradient top : radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)
+  </div>
+
+  <!-- ══════════════════ MARQUEE ══════════════════ -->
+  <div class="section-title">05 — Marquee Outils</div>
+  <div class="marquee-demo">
+    <div class="marquee-label">Les outils que tu vas maîtriser</div>
+    <div class="marquee-track">
+      <div class="marquee-inner">
+        <!-- doubled for seamless loop -->
+        <div class="marquee-chip"><div class="chip-dot"></div>Claude AI</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Supabase</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Stripe</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Vercel</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>GitHub</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Tailwind CSS</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Resend</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Cloudflare</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Claude AI</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Supabase</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Stripe</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Vercel</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>GitHub</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Tailwind CSS</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Resend</div>
+        <div class="marquee-chip"><div class="chip-dot"></div>Cloudflare</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ STATS ══════════════════ -->
+  <div class="section-title">06 — Stats Block</div>
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <div class="stat-num">6 jours</div>
+      <div class="stat-desc">De l'idée au produit live et monétisé</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">27€</div>
+      <div class="stat-desc">Prix de lancement · 82/100 places prises</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">6</div>
+      <div class="stat-desc">Modules actionnables pour lancer ton produit</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ CARDS ══════════════════ -->
+  <div class="section-title">07 — Cards (Pain Points / Features)</div>
+  <div class="row">
+    <div class="card" style="flex:1;min-width:240px">
+      <div class="card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      </div>
+      <div class="card-title">Tu scrolles depuis des mois sans rien lancer</div>
+      <div class="card-body">Des créateurs qui te promettent 10 000€/mois avec ChatGPT. Et toi tu watchlistes encore.</div>
+    </div>
+    <div class="card" style="flex:1;min-width:240px">
+      <div class="card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+      </div>
+      <div class="card-title">Les formations coûtent une fortune</div>
+      <div class="card-body">997€ pour apprendre la théorie sans jamais passer à l'action. Toujours rien de live à la fin.</div>
+    </div>
+  </div>
+  <div style="font-size:11px;font-family:'Geist Mono',monospace;color:#a1a1aa">border border-border rounded-xl p-6 · icon: Lucide strokeWidth={1.5} · hover:border-foreground/20</div>
+
+  <!-- ══════════════════ BUTTONS ══════════════════ -->
+  <div class="section-title">08 — Boutons & CTA</div>
+  <div class="row" style="align-items:center">
+    <div>
+      <div class="label">Primaire (rainbow glow)</div>
+      <div class="cta-rainbow" style="display:inline-block">
+        <div class="btn-primary">Accéder au Blueprint — 27€ →</div>
+      </div>
+    </div>
+    <div>
+      <div class="label">Secondaire</div>
+      <div class="btn-secondary" style="display:inline-flex">Voir les modules</div>
+    </div>
+    <div>
+      <div class="label">Ghost / Muted</div>
+      <button style="padding:8px 16px;border:1px solid #e4e4e7;border-radius:8px;font-size:13px;color:#71717a;background:transparent">En savoir plus</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════ BADGES ══════════════════ -->
+  <div class="section-title">09 — Badges & Tags</div>
+  <div class="row" style="align-items:center">
+    <div><div class="label">Neutre</div><div class="badge">buildrs.fr</div></div>
+    <div><div class="label">Live (vert)</div>
+      <div class="badge-green">
+        <div class="live-dot"></div>
+        Prix de lancement
+      </div>
+    </div>
+    <div><div class="label">Muted tag</div>
+      <div class="badge" style="color:#a1a1aa;border-color:#e4e4e7">82/100 places prises</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ PRICING ══════════════════ -->
+  <div class="section-title">10 — Pricing Card</div>
+  <div class="row">
+    <div class="pricing-card">
+      <div class="pricing-badge">Buildrs Blueprint</div>
+      <div class="pricing-name">Le système complet</div>
+      <div class="pricing-desc">6 modules actionnables · accès à vie · mises à jour incluses</div>
+      <div class="pricing-row">
+        <span class="price-old">197€</span>
+        <span class="price-main">27€</span>
+      </div>
+      <div class="price-note">Accès immédiat · Paiement unique · 82/100 places</div>
+      <div class="cta-rainbow">
+        <div class="pricing-cta">Accéder au Blueprint →</div>
+      </div>
+      <div class="pricing-features">
+        <div class="feature-item">
+          <div class="check-circle">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#09090b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          6 modules complets
+        </div>
+        <div class="feature-item">
+          <div class="check-circle">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#09090b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          Les prompts exacts à copier-coller
+        </div>
+        <div class="feature-item">
+          <div class="check-circle">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#09090b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          Accès à vie + mises à jour
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER BUMP -->
+    <div>
+      <div class="label">Order Bump (rainbow border animé)</div>
+      <div class="bump-neon bump-demo">
+        <div class="bump-inner">
+          <div class="bump-content">
+            <div class="bump-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L13.9 8.3H20.5L15.3 12.1L17.2 18.4L12 14.6L6.8 18.4L8.7 12.1L3.5 8.3H10.1L12 2Z"/></svg>
+            </div>
+            <div>
+              <div class="bump-text-title">Ajouter : Module Claude Complet</div>
+              <div class="bump-text-sub">Fais de Claude ton vrai associé IA. Skills, repos GitHub, paramétrage expert.</div>
+              <div class="bump-add-row">
+                <span class="bump-price">+20€</span>
+                <div class="bump-btn">Ajouter à ma commande</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ICONS ══════════════════ -->
+  <div class="section-title">11 — Icônes (Lucide · strokeWidth 1.5 · taille 18–20px)</div>
+  <div class="icon-grid">
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      </div>
+      <div class="icon-name">Clock</div>
+    </div>
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L13.9 8.3H20.5L15.3 12.1L17.2 18.4L12 14.6L6.8 18.4L8.7 12.1L3.5 8.3H10.1L12 2Z"/></svg>
+      </div>
+      <div class="icon-name">Star</div>
+    </div>
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="icon-name">Monitor</div>
+    </div>
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div class="icon-name">Layers</div>
+    </div>
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M22 2L11 13"/><path d="M16 2h6v6"/></svg>
+      </div>
+      <div class="icon-name">Zap</div>
+    </div>
+    <div class="icon-demo">
+      <div class="icon-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="1.5" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+      </div>
+      <div class="icon-name">Check</div>
+    </div>
+  </div>
+  <div style="font-size:11px;font-family:'Geist Mono',monospace;color:#a1a1aa;margin-top:12px">
+    strokeWidth={1.5} · size 18–20px · pas d'emoji · pas d'icône filled
+  </div>
+
+  <!-- ══════════════════ LOGO ══════════════════ -->
+  <div class="section-title">12 — Logo Buildrs</div>
+  <div class="row" style="align-items:center">
+    <div>
+      <div class="label">Light (sur blanc)</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:16px;border:1px solid #e4e4e7;border-radius:10px">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="9" fill="#f4f4f5"/>
+          <line x1="13.5" y1="6" x2="13.5" y2="30" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="22.5" y1="6" x2="22.5" y2="30" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="13.5" x2="30" y2="13.5" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="22.5" x2="30" y2="22.5" stroke="#09090b" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:18px;font-weight:700;letter-spacing:-0.03em">Buildrs</span>
+      </div>
+    </div>
+    <div>
+      <div class="label">Dark (sur #09090b)</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:16px;background:#09090b;border-radius:10px">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="9" fill="#18181b"/>
+          <line x1="13.5" y1="6" x2="13.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="22.5" y1="6" x2="22.5" y2="30" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="13.5" x2="30" y2="13.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="22.5" x2="30" y2="22.5" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:18px;font-weight:700;letter-spacing:-0.03em;color:#fafafa">Buildrs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ FOOTER NOTE ══════════════════ -->
+  <div class="footer-note">
+    <strong>Note pour Remotion :</strong> La LP buildrs.fr est en <strong>light mode par défaut</strong> (fond blanc #ffffff). Les ads Meta sont en <strong>dark mode</strong> (#09090b) pour l'impact visuel en feed. La vidéo promotionnelle devrait refléter la LP — blanc dominant, gradient violet subtil en haut, icônes Lucide légères, rainbow glow CTA. Le dark mode est réservé aux sections "produit en action" ou transitions dramatiques.
+    <br><br>
+    <strong>Règles absolues :</strong> Zéro emoji · Geist uniquement · Icônes Lucide strokeWidth 1.5 · CTA = rainbow glow · Prix = 27€ barré depuis 197€ · URL = buildrs.fr
+  </div>
+
+</body>
+</html>

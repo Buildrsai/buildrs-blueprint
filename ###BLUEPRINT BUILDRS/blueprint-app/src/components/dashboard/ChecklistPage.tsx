@@ -5,6 +5,7 @@ import { supabase } from '../../lib/supabase'
 
 const MODULE_COLORS: Record<string, string> = {
   '00': '#4d96ff',
+  'setup': '#22c55e',
   '01': '#22c55e',
   '02': '#cc5de8',
   '03': '#eab308',
@@ -15,6 +16,7 @@ const MODULE_COLORS: Record<string, string> = {
 
 const MODULE_LABELS: Record<string, string> = {
   '00': 'Fondations',
+  'setup': 'Installer ton environnement',
   '01': 'Trouver & Valider',
   '02': 'Préparer & Designer',
   '03': 'Architecture',

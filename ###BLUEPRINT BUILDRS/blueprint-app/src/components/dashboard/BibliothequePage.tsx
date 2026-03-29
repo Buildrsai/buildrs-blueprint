@@ -4,6 +4,7 @@ import { CURRICULUM } from '../../data/curriculum'
 
 const MODULE_COLORS: Record<string, string> = {
   '00': '#4d96ff',
+  'setup': '#22c55e',
   '01': '#22c55e',
   '02': '#cc5de8',
   '03': '#eab308',

@@ -58,6 +58,7 @@ function AppLayout() {
           currentProjectId={id}
           currentPhase={projectData.project?.current_phase}
           completedPhases={completedPhaseNumbers}
+          structureData={projectData.project?.structure_data}
         />
         <div className="flex-1 flex flex-col min-w-0">
           <AppHeader />

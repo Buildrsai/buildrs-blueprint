@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 05 — VibeCoding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #09090b;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #09090b;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Glow background */
+  .glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #a1a1aa;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    width: fit-content;
+    margin-bottom: 40px;
+  }
+
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fafafa;
+  }
+
+  .big-text {
+    font-size: 88px;
+    font-weight: 900;
+    color: #fafafa;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    margin-bottom: 48px;
+  }
+
+  .big-text .dim {
+    color: #3f3f46;
+  }
+
+  .description {
+    font-size: 26px;
+    font-weight: 500;
+    color: #71717a;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    max-width: 760px;
+  }
+
+  .description strong {
+    color: #fafafa;
+    font-weight: 600;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .price-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #52525b;
+  }
+
+  .price-value {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fafafa;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .price-sub {
+    font-size: 16px;
+    font-weight: 500;
+    color: #52525b;
+    letter-spacing: -0.01em;
+  }
+
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .cta-btn {
+    background: #fafafa;
+    color: #09090b;
+    padding: 22px 40px;
+    border-radius: 14px;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-url {
+    font-size: 15px;
+    font-weight: 500;
+    color: #52525b;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+  <div class="glow"></div>
+
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#fafafa"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <div class="content">
+    <div class="pill">
+      <div class="pill-dot"></div>
+      VibeCoding · Agents IA
+    </div>
+
+    <div class="big-text">
+      Tu décris.<br>
+      <span class="dim">L'IA</span> construit.<br>
+      Tu encaisses.
+    </div>
+
+    <p class="description">
+      <strong>Crée un SaaS, une app, un logiciel</strong> avec Claude comme moteur.<br>
+      Moins de 100€ de budget. Revenus récurrents.<br>
+      Bosser d'où tu veux, quand tu veux.
+    </p>
+  </div>
+
+  <div class="bottom">
+    <div class="price-block">
+      <span class="price-label">Buildrs Blueprint</span>
+      <span class="price-value">27€</span>
+      <span class="price-sub">De l'idée au MVP en 72h</span>
+    </div>
+    <div class="cta-group">
+      <div class="cta-btn">Je démarre →</div>
+      <span class="cta-url">buildrs.fr</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

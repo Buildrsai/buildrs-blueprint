@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 07 — Jensen Huang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 72px 80px 64px;
+    position: relative;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* Dot grid */
+  .ad::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(9,9,11,0.055) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* ── BRAND ── */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    margin-bottom: 36px;
+  }
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+  }
+
+  /* ── BIG HEADLINE ── */
+  .headline {
+    z-index: 1;
+    font-size: 72px;
+    font-weight: 900;
+    color: #09090b;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .headline .line1 {
+    display: block;
+  }
+
+  .headline .line2 {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .headline .accent {
+    display: inline-block;
+    background: #09090b;
+    color: #ffffff;
+    padding: 6px 18px 8px;
+    border-radius: 12px;
+    line-height: 1;
+  }
+
+  /* ── TWEET CARD ── */
+  .tweet {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 18px;
+    padding: 24px 28px;
+    z-index: 1;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .tweet-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .tweet-profile { display: flex; align-items: center; gap: 12px; }
+
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #09090b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.04em;
+    border: 2px solid #e4e4e7;
+  }
+
+  .tweet-meta { display: flex; flex-direction: column; gap: 1px; }
+
+  .tweet-name {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #09090b;
+    letter-spacing: -0.02em;
+  }
+
+  .verified { width: 17px; height: 17px; flex-shrink: 0; }
+  .tweet-handle { font-size: 13px; color: #71717a; }
+  .x-logo { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.6; }
+
+  .tweet-body {
+    font-size: 20px;
+    font-weight: 500;
+    color: #09090b;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .tweet-body .bold { font-weight: 800; }
+  .tweet-body .muted { color: #52525b; }
+
+  .tweet-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid #f4f4f5;
+  }
+
+  .tweet-date { font-size: 12px; color: #a1a1aa; }
+
+  .tweet-stats { display: flex; gap: 18px; }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #a1a1aa;
+    font-weight: 500;
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    margin-top: 24px;
+  }
+
+  .left-block { display: flex; flex-direction: column; gap: 10px; }
+
+  .buildrs-brand {
+    font-size: 13px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .badges { display: flex; gap: 8px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f4f4f5;
+    border: 1px solid #e4e4e7;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #09090b;
+    white-space: nowrap;
+  }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #09090b; flex-shrink: 0; }
+
+  .cta-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+
+  @keyframes rainbow-glow {
+    0%   { filter: blur(10px) hue-rotate(0deg); }
+    100% { filter: blur(10px) hue-rotate(360deg); }
+  }
+
+  .cta-btn {
+    position: relative;
+    background: #09090b;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .cta-btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 13px;
+    background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.5;
+    animation: rainbow-glow 3s linear infinite;
+  }
+
+  .cta-sub { font-size: 12px; font-weight: 500; color: #a1a1aa; }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <!-- Brand -->
+  <div class="brand">
+    <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <!-- Big headline -->
+  <div class="headline">
+    <span class="line1">T'es pas en retard sur l'IA.</span>
+    <span class="line2">Mais <span class="accent">agis maintenant.</span></span>
+  </div>
+
+  <!-- Tweet card -->
+  <div class="tweet">
+    <div>
+      <div class="tweet-header">
+        <div class="tweet-profile">
+          <div class="avatar">JH</div>
+          <div class="tweet-meta">
+            <div class="tweet-name">
+              Jensen Huang
+              <svg class="verified" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="11" fill="#1d9bf0"/>
+                <path d="M6.5 11l3 3 6-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="tweet-handle">@JensenHuang · PDG de NVIDIA</div>
+          </div>
+        </div>
+        <svg class="x-logo" viewBox="0 0 24 24" fill="#09090b">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+        </svg>
+      </div>
+
+      <div class="tweet-body">
+        <span class="bold">« L'IA va créer plus de millionnaires en cinq ans</span>
+        <span class="muted"> qu'internet en 20 ans. C'est le plus grand égalisateur technologique de l'histoire de l'humanité. »</span>
+      </div>
+    </div>
+
+    <div class="tweet-footer">
+      <span class="tweet-date">CES 2025 · Las Vegas</span>
+      <div class="tweet-stats">
+        <div class="stat-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          48.2K
+        </div>
+        <div class="stat-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          12.1K
+        </div>
+        <div class="stat-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          3.4K
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="left-block">
+      <div class="buildrs-brand">
+        <svg width="14" height="14" viewBox="0 0 36 36" fill="none">
+          <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+          <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+          <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+          <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+        </svg>
+        Buildrs Blueprint — L'IA comme levier. Le SaaS comme véhicule.
+      </div>
+      <div class="badges">
+        <div class="badge"><div class="badge-dot"></div>Sans savoir coder</div>
+        <div class="badge"><div class="badge-dot"></div>Moins de 50€ d'outils</div>
+        <div class="badge"><div class="badge-dot"></div>MVP en 72h</div>
+      </div>
+    </div>
+    <div class="cta-block">
+      <div class="cta-btn">Je commence →</div>
+      <span class="cta-sub">27€ · Paiement unique · buildrs.fr</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

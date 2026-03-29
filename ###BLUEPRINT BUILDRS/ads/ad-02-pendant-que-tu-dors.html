@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Ad 02 — Pendant que tu dors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ad {
+    width: 1080px;
+    height: 1080px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Top border accent */
+  .ad::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: #09090b;
+  }
+
+  /* Brand */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: auto;
+  }
+
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #09090b;
+    letter-spacing: -0.04em;
+  }
+
+  /* Hero text */
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #71717a;
+    margin-bottom: 32px;
+  }
+
+  .headline {
+    font-size: 96px;
+    font-weight: 900;
+    color: #09090b;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    margin-bottom: 48px;
+  }
+
+  .headline .highlight {
+    display: inline-block;
+    background: #09090b;
+    color: #ffffff;
+    padding: 0 12px;
+    border-radius: 8px;
+  }
+
+  .sub {
+    font-size: 24px;
+    font-weight: 500;
+    color: #52525b;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    max-width: 700px;
+  }
+
+  /* Bottom */
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 48px;
+    border-top: 1px solid #e4e4e7;
+  }
+
+  .tags {
+    display: flex;
+    gap: 12px;
+  }
+
+  .tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: #09090b;
+    background: #f4f4f5;
+    padding: 8px 16px;
+    border-radius: 999px;
+    letter-spacing: -0.01em;
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #09090b;
+    color: #ffffff;
+    padding: 18px 28px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+</style>
+</head>
+<body>
+<div class="ad">
+
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <rect x="13" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="20.5" y="4" width="2.5" height="28" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="13" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+      <rect x="4" y="20.5" width="28" height="2.5" rx="1.25" fill="#09090b"/>
+    </svg>
+    <span class="brand-name">Buildrs</span>
+  </div>
+
+  <div class="hero">
+    <p class="eyebrow">Le business IA de 2026</p>
+    <h1 class="headline">
+      Tes IA<br>
+      travaillent<br>
+      pendant que<br>
+      <span class="highlight">tu dors.</span>
+    </h1>
+    <p class="sub">
+      Crée ton SaaS, ton app, ton logiciel —<br>
+      sans coder. Revenus récurrents dès le 1er mois.
+    </p>
+  </div>
+
+  <div class="bottom">
+    <div class="tags">
+      <span class="tag">VibeCoding</span>
+      <span class="tag">Sans coder</span>
+      <span class="tag">Agents IA</span>
+    </div>
+    <div class="cta">Buildrs Blueprint — 27€ →</div>
+  </div>
+
+</div>
+</body>
+</html>
