@@ -248,7 +248,7 @@ function MarqueeRow({ items, reverse = false }: { items: SaasProduct[]; reverse?
   return (
     <div className="overflow-hidden">
       <div
-        className="flex gap-3"
+        className="marquee-track flex gap-3"
         style={{
           width: "max-content",
           animation: `${reverse ? "marquee-scroll-reverse" : "marquee-scroll"} 30s linear infinite`,

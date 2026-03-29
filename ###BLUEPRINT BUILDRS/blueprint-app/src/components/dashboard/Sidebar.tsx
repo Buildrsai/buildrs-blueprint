@@ -179,8 +179,6 @@ export function Sidebar({
             </div>
           )}
 
-          {/* Mes Idées */}
-          {navItem('#/dashboard/ideas', 'Mes Idées', Lightbulb)}
         </div>
       </div>
 

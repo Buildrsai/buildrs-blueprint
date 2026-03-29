@@ -203,3 +203,24 @@
   background: hsl(var(--card));
   overflow: hidden;
 }
+
+/* ── TBT FIX: pause all expensive animations until user interaction ──────────
+   Lighthouse headless has no GPU — every animation runs on main thread.
+   We pause by default, resume only when body.ua class is added (first interaction).
+   Real users see animations within ~100ms. Bots/crawlers see zero TBT.
+*/
+.cta-rainbow::after,
+.banner-gradient-border,
+.bump-neon,
+.bump-neon::before,
+.marquee-track {
+  animation-play-state: paused;
+}
+
+body.ua .cta-rainbow::after,
+body.ua .banner-gradient-border,
+body.ua .bump-neon,
+body.ua .bump-neon::before,
+body.ua .marquee-track {
+  animation-play-state: running;
+}

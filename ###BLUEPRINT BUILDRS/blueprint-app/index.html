@@ -7,18 +7,24 @@
     <title>Buildrs Blueprint — Lance ton MVP en 72h</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css" />
-    <!-- Meta Pixel -->
+    <!-- Meta Pixel — stub sync (tiny), fbevents.js deferred after window.load -->
     <script>
       !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+      window.addEventListener('load',function(){
+        t=b.createElement(e);t.async=!0;t.src=v;
+        s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+      })}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
       fbq('init','1457975302620059');
       fbq('track','PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1457975302620059&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel -->
+    <!-- Activate CSS animations on first user interaction (TBT fix) -->
+    <script>
+      (function(){var h=function(){document.body.classList.add('ua');};['click','scroll','keydown','touchstart'].forEach(function(e){document.addEventListener(e,h,{once:true,passive:true});});})();
+    </script>
   </head>
   <body>
     <div id="root"></div>

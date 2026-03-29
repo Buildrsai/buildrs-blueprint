@@ -45,19 +45,17 @@ function ScarcityCountdown({ className }: { className?: string }) {
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
 const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
-  { label: "Claude AI",        Icon: BrandIcons.claude },
-  { label: "Mobbin",           Icon: BrandIcons.mobbin },
-  { label: "Stitch",           Icon: BrandIcons.stitch },
-  { label: "21st.dev",         Icon: BrandIcons.twentyOneDev },
-  { label: "VS Code",          Icon: BrandIcons.vscode },
-  { label: "Supabase",         Icon: BrandIcons.supabase },
-  { label: "Vercel",           Icon: BrandIcons.vercel },
-  { label: "Resend",           Icon: BrandIcons.resend },
-  { label: "Stripe",           Icon: BrandIcons.stripe },
-  { label: "Hostinger",        Icon: BrandIcons.hostinger },
-  { label: "GitHub",           Icon: BrandIcons.github },
-  { label: "Google AI Studio", Icon: BrandIcons.googleAIStudio },
-  { label: "Kling AI",         Icon: BrandIcons.klingAI },
+  { label: "Claude AI",   Icon: BrandIcons.claude },
+  { label: "Lovable",     Icon: BrandIcons.lovable },
+  { label: "Stitch",      Icon: BrandIcons.stitch },
+  { label: "21st.dev",    Icon: BrandIcons.twentyOneDev },
+  { label: "VS Code",     Icon: BrandIcons.vscode },
+  { label: "Supabase",    Icon: BrandIcons.supabase },
+  { label: "Vercel",      Icon: BrandIcons.vercel },
+  { label: "Resend",      Icon: BrandIcons.resend },
+  { label: "Stripe",      Icon: BrandIcons.stripe },
+  { label: "Hostinger",   Icon: BrandIcons.hostinger },
+  { label: "GitHub",      Icon: BrandIcons.github },
 ]
 
 const stats = [
@@ -126,22 +124,25 @@ const faqs = [
 ]
 
 const features = [
-  "Accès au dashboard interactif Buildrs",
-  "7 modules : de l'idée à tes premiers revenus",
-  "Les instructions exactes à donner à l'IA à chaque étape",
-  "Tous les outils nécessaires avec guides de configuration pas à pas",
-  "Générateur d'idées de produits rentables",
-  "Checklist interactive — tu sais toujours où tu en es",
-  "Templates prêts à l'emploi (fiche produit, emails, page de vente)",
-  "Les bases pour piloter l'IA et créer des produits digitaux",
+  "Accès au Dashboard interactif Buildrs",
+  "Autopilot IA — ton copilote pour piloter tes projets SaaS en direct",
+  "7 modules de l'idée au lancement : process clairs, quiz et actions concrètes étape par étape",
+  "Checklist interactive — tu sais toujours exactement où tu en es",
+  "Les instructions exactes à donner à Claude à chaque étape du build",
+  "Pack de prompts prêts à copier-coller pour chaque situation",
+  "Le stack complet d'outils avec guides de configuration pas à pas",
   "3 stratégies de départ (copier, résoudre, découvrir)",
   "3 modèles de monétisation (revenus récurrents, revente, commande client)",
   "Accès à vie + mises à jour",
 ]
 
 const bonuses = [
-  "3 générateurs IA (idées, validation, MRR)",
-  "Accès au canal WhatsApp Buildrs",
+  "Générateur d'idées de SaaS — explore des centaines d'opportunités rentables en quelques clics",
+  "Validateur de marché — analyse ta niche et tes concurrents avant d'écrire la première ligne",
+  "Calculateur MRR & revenus — projette ta rentabilité avant de lancer",
+  "Canal WhatsApp privé Buildrs — accès direct à la communauté et aux mises à jour en avant-première",
+  "Boîte à outils IA — les meilleurs outils pour créer des revenus en ligne avec guide de config inclus",
+  "Templates prêts à l'emploi — landing page, fiche produit, séquence emails d'activation",
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
@@ -1045,47 +1046,25 @@ const SAAS_BUILT: SaasBuiltItem[] = [
     productName: "PriceFlow",
     handle: "@thomas_brd",
     founderName: "Thomas B.",
-    founderAvatar: "/Mec1.png",
+    founderAvatar: "/Mec1.webp",
     quote: "PriceFlow est un outil que je vends aux e-commerçants — il ajuste leurs prix en temps réel selon la concurrence et les stocks. Mes clients gagnaient des heures chaque semaine sur une tâche qu'ils faisaient à la main. J'ai sorti la v1 en 5 jours avec Blueprint.",
-    thumbnail: "/DASH1.png",
-  },
-  {
-    productName: "MeetYourCEO",
-    handle: "@alba_ceo",
-    founderName: "Alba",
-    founderAvatar: "/F5.png",
-    quote: "MeetYourCEO c'est une plateforme de matching pour entrepreneurs — trouver un associé, un mentor ou un co-founder selon son profil et son projet. Ce problème je l'avais vécu moi-même. J'ai construit la v1 avec Blueprint sans savoir coder.",
-    thumbnail: "/D5.png",
-  },
-  {
-    productName: "Trick2",
-    handle: "@skate_romain",
-    founderName: "Romain D.",
-    founderAvatar: "/F4.jpeg",
-    quote: "Trick2 permet de logger ses tricks, suivre sa progression et partager ses sessions. Aucune app n'existait vraiment pour ça dans la communauté skate. J'ai utilisé Blueprint pour construire la première version — beaucoup plus rapide que ce que j'espérais.",
+    thumbnail: "/DASH1.webp",
   },
   {
     productName: "Brew App",
     handle: "@julie_brew",
     founderName: "Julie D.",
-    founderAvatar: "/F3.jpeg",
+    founderAvatar: "/F3.webp",
     quote: "Brew App c'est un carnet de dégustation pour amateurs de café — noter les origines, les profils, les méthodes d'extraction. Je cherchais cet outil depuis longtemps sans le trouver. Blueprint m'a donné le cadre pour passer de l'idée au produit live.",
-    thumbnail: "/D3.png",
+    thumbnail: "/D3.webp",
   },
   {
     productName: "StayTrack",
     handle: "@marina_host",
     founderName: "Pierre L.",
-    founderAvatar: "/F2.jpeg",
+    founderAvatar: "/F2.webp",
     quote: "StayTrack centralise la gestion de mes locations — loyers, charges, taux d'occupation, alertes. Avec 8 biens, les tablettes Excel ça ne tenait plus. Je l'ai construit en une semaine via Blueprint, sans avoir à embaucher un dev.",
-    thumbnail: "/Dash2.png",
-  },
-  {
-    productName: "StockAlert",
-    handle: "@marine_ecom",
-    founderName: "Marine P.",
-    founderAvatar: "https://images.unsplash.com/photo-1499887142886-791eca5918cd?w=80&h=80&fit=crop&q=80",
-    quote: "StockAlert envoie des alertes en temps réel quand un produit passe sous le seuil de stock. Pour un e-commerçant qui gère des centaines de références, c'est critique. J'ai sorti la v1 rapidement avec Blueprint — sans toucher à une ligne de code.",
+    thumbnail: "/Dash2.webp",
   },
 ]
 
