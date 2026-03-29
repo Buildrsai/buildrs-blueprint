@@ -2,7 +2,7 @@ import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   Lightbulb, BookOpen, CheckSquare, FolderOpen, Wrench,
-  ShieldCheck, TrendingUp, Zap, ChevronRight, Settings,
+  ShieldCheck, TrendingUp, Zap, ChevronRight, Settings, Bot,
 } from 'lucide-react'
 import { BuildrsIcon, ClaudeIcon, WhatsAppIcon } from '../ui/icons'
 import { CURRICULUM } from '../../data/curriculum'
@@ -119,6 +119,29 @@ export function Sidebar({
               }}
             >
               ACTIF
+            </span>
+          </button>
+
+          {/* Mes agents IA */}
+          <button
+            onClick={() => navigate('#/dashboard/agents')}
+            className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+              currentPath === '#/dashboard/agents'
+                ? 'bg-foreground text-background'
+                : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+            }`}
+          >
+            <Bot size={13} strokeWidth={1.5} className="flex-shrink-0" />
+            <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Mes agents IA</span>
+            <span
+              className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
+              style={{
+                background: currentPath === '#/dashboard/agents' ? 'rgba(77,150,255,0.25)' : 'rgba(77,150,255,0.15)',
+                color: '#4d96ff',
+                border: '1px solid rgba(77,150,255,0.3)',
+              }}
+            >
+              BETA
             </span>
           </button>
 

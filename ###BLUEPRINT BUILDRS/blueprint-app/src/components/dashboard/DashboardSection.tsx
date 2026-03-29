@@ -27,6 +27,7 @@ const GeneratorMRR       = lazy(() => import('./GeneratorMRR').then(m => ({ defa
 const SettingsPage       = lazy(() => import('./SettingsPage').then(m => ({ default: m.SettingsPage })))
 const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ default: m.AutopilotPage })))
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
+const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
 
 interface DashboardRoute {
   type: string
@@ -124,6 +125,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'gen-mrr') return (<W><DashboardLayout {...layoutProps}><GeneratorMRR navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} /></DashboardLayout></W>)
   if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} /></DashboardLayout></W>)
 
   return null
 }
@@ -135,7 +137,7 @@ function getTitle(route: DashboardRoute): string {
     journal: 'Journal de bord', library: 'Bibliothèque', checklist: 'Checklist',
     project: 'Mes Projets', tools: 'Outils', 'gen-hub': 'Plugins IA',
     'gen-ideas': 'NicheFinder', 'gen-validate': 'MarketPulse',
-    'gen-mrr': 'FlipCalc', settings: 'Paramètres', offers: 'Nos Offres',
+    'gen-mrr': 'FlipCalc', settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
   }
   return titles[route.type] ?? 'Dashboard'
 }
