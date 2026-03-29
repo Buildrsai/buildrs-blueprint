@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react"
 
-import { Shield, Lock, Check, Flame, ChevronLeft, Star, Zap } from "lucide-react"
+import { Shield, Lock, Check, Flame, ChevronLeft, Star, Zap, ArrowUp } from "lucide-react"
 import { trackEvent } from '../lib/pixel'
 import { loadStripe } from "@stripe/stripe-js"
 import { BuildrsIcon, BrandIcons } from "./ui/icons"
+import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -448,6 +449,41 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
 
       </div>
 
+      {/* ─── PRE-FOOTER CTA ─────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden border-t border-border bg-background py-20 px-6 text-center">
+        {/* Subtle radial glow */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 55% 50% at 50% 50%, rgba(160,160,255,0.06) 0%, transparent 70%)' }}
+        />
+        <div className="relative mx-auto max-w-[640px]">
+          <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
+            Buildrs Blueprint
+          </p>
+          <h2
+            className="mb-5 text-foreground"
+            style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}
+          >
+            Prêt à créer un SaaS 100% autonome<br className="hidden sm:inline" /> qui te rapporte même quand tu dors ?
+          </h2>
+          <p className="mb-8 text-[15px] leading-[1.65] text-muted-foreground">
+            Rejoins les builders qui ont déjà lancé leur produit — sans coder, sans budget, sans expérience.
+          </p>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="cta-rainbow inline-flex items-center gap-2.5 rounded-[10px] bg-foreground px-8 py-4 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 cursor-pointer"
+          >
+            <ArrowUp size={16} strokeWidth={2} />
+            Voir l'offre — 27€ →
+          </button>
+          <p className="mt-4 text-[12px] text-muted-foreground/50">
+            Paiement sécurisé · Accès immédiat · Satisfait ou remboursé 30j
+          </p>
+        </div>
+      </div>
+
+      {/* ─── FOOTER ─────────────────────────────────────────────────────── */}
+      <StackedCircularFooter />
 
     </div>
   )
