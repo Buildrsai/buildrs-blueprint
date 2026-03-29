@@ -1,213 +1,316 @@
 import { useState } from 'react'
-import { Lightbulb, RefreshCw, Copy, Check, ChevronRight, Sparkles } from 'lucide-react'
+import { Lightbulb, RefreshCw, Copy, Check, ChevronRight, Sparkles, Zap } from 'lucide-react'
+import { supabase } from '../../lib/supabase'
 
-// ── Idea bank (filtered by niche + strategy) ─────────────────────────────
-
-interface IdeaTemplate {
+interface GeneratedIdea {
   name: string
+  tagline: string
   problem: string
   target: string
   price: string
-  mrr: string
-  tags: string[]
+  mrr_potential: string
+  difficulty: 'facile' | 'moyen' | 'difficile'
+  score: number
+  why_now: string
 }
 
-const IDEAS_BANK: IdeaTemplate[] = [
-  { name: 'FactureAI', problem: 'Créer et envoyer des factures professionnelles en 30 secondes', target: 'Freelances & consultants', price: '19€/mois', mrr: '1 500–5 000€', tags: ['finance', 'productivite', 'copy'] },
-  { name: 'RecrutBot', problem: 'Automatiser le tri des CVs et la rédaction de fiches de poste avec IA', target: 'PME & startups RH', price: '49€/mois', mrr: '3 000–10 000€', tags: ['rh', 'productivite', 'copy'] },
-  { name: 'ReviewSync', problem: "Centraliser et répondre aux avis Google/Trustpilot depuis un seul tableau de bord", target: 'Commerces locaux & restaurants', price: '29€/mois', mrr: '2 000–8 000€', tags: ['marketing', 'local', 'copy'] },
-  { name: 'ProposalPro', problem: 'Générer des devis et propositions commerciales personnalisées avec IA', target: 'Agences & prestataires B2B', price: '39€/mois', mrr: '2 500–7 000€', tags: ['vente', 'productivite', 'problem'] },
-  { name: 'OnboardMate', problem: "Automatiser l'onboarding des nouveaux employés avec des workflows personnalisés", target: "Équipes RH d'entreprises 10-200 personnes", price: '79€/mois', mrr: '5 000–15 000€', tags: ['rh', 'saas', 'copy'] },
-  { name: 'SEOLocal', problem: "Optimiser automatiquement le référencement Google de commerces locaux", target: 'Gérants de commerces locaux', price: '49€/mois', mrr: '3 000–12 000€', tags: ['marketing', 'local', 'copy'] },
-  { name: 'ContentPilot', problem: 'Générer et planifier du contenu LinkedIn/Instagram sur mesure avec IA', target: 'Entrepreneurs & coachs', price: '29€/mois', mrr: '2 000–6 000€', tags: ['marketing', 'contenu', 'problem'] },
-  { name: 'ContratAI', problem: 'Rédiger des contrats et CGV conformes au droit français en quelques minutes', target: 'Freelances & petites entreprises', price: '19€/mois', mrr: '1 500–5 000€', tags: ['juridique', 'productivite', 'copy'] },
-  { name: 'MeetingBot', problem: 'Transcrire, résumer et extraire les actions de chaque réunion automatiquement', target: 'Managers & équipes remote', price: '29€/mois', mrr: '2 000–8 000€', tags: ['productivite', 'saas', 'copy'] },
-  { name: 'PricingLab', problem: 'Analyser et optimiser ses prix par rapport à la concurrence en temps réel', target: 'E-commerce & SaaS', price: '99€/mois', mrr: '5 000–20 000€', tags: ['ecommerce', 'saas', 'problem'] },
-  { name: 'CourierTrack', problem: 'Centraliser le suivi de tous les colis clients sur une seule interface', target: 'E-commerçants Shopify/WooCommerce', price: '39€/mois', mrr: '2 500–10 000€', tags: ['ecommerce', 'logistique', 'copy'] },
-  { name: 'AuditSite', problem: 'Analyser les performances et erreurs SEO de son site en 1 clic avec rapport PDF', target: 'Agences digitales & freelances SEO', price: '49€/mois', mrr: '3 000–10 000€', tags: ['marketing', 'agence', 'copy'] },
-  { name: 'FormulAI', problem: 'Créer des formulaires intelligents qui adaptent les questions selon les réponses', target: 'PME & startups produit', price: '29€/mois', mrr: '2 000–7 000€', tags: ['saas', 'productivite', 'copy'] },
-  { name: 'ChurnAlert', problem: 'Détecter les clients SaaS sur le point de partir et déclencher des relances auto', target: 'Fondateurs SaaS B2B', price: '79€/mois', mrr: '5 000–15 000€', tags: ['saas', 'retention', 'problem'] },
-  { name: 'TalentScope', problem: "Qualifier et scorer automatiquement les candidats selon le poste avec IA", target: 'Recruteurs & DRH', price: '59€/mois', mrr: '4 000–12 000€', tags: ['rh', 'saas', 'copy'] },
-  { name: 'MediaKit', problem: 'Créer son media kit influenceur professionnel en 5 minutes avec IA', target: 'Créateurs de contenu & influenceurs', price: '9€/mois', mrr: '1 000–4 000€', tags: ['createur', 'contenu', 'problem'] },
-  { name: 'BriefBuilder', problem: 'Générer des briefs créatifs complets pour agences et graphistes en quelques clics', target: 'Directeurs artistiques & chefs de projet', price: '29€/mois', mrr: '2 000–6 000€', tags: ['agence', 'creatif', 'problem'] },
-  { name: 'VisaTrack', problem: "Suivre l'avancement de son dossier de visa et recevoir des alertes personnalisées", target: 'Expatriés & voyageurs longue durée', price: '9€/mois', mrr: '800–3 000€', tags: ['niche', 'problem', 'discover'] },
-  { name: 'MentionWatch', problem: "Recevoir une alerte dès que ta marque est mentionnée sur le web ou les réseaux", target: 'Marques & créateurs', price: '19€/mois', mrr: '1 500–5 000€', tags: ['marketing', 'copy'] },
-  { name: 'AppStats', problem: 'Agréger et analyser les stats de ses apps mobiles dans un seul dashboard', target: 'Développeurs indie & agences mobile', price: '29€/mois', mrr: '2 000–6 000€', tags: ['tech', 'copy'] },
+const DIFFICULTY_COLORS: Record<string, string> = {
+  facile: '#22c55e',
+  moyen: '#eab308',
+  difficile: '#ff6b6b',
+}
+
+const NIVEAUX = [
+  { value: 'débutant', label: 'Débutant — jamais codé' },
+  { value: 'intermédiaire', label: 'Intermédiaire — quelques projets' },
+  { value: 'avancé', label: 'Avancé — à l\'aise avec la tech' },
 ]
 
-const NICHES = [
-  { value: '', label: 'Toutes les niches' },
-  { value: 'marketing', label: 'Marketing & SEO' },
-  { value: 'rh', label: 'RH & Recrutement' },
-  { value: 'finance', label: 'Finance & Comptabilité' },
-  { value: 'ecommerce', label: 'E-commerce' },
-  { value: 'saas', label: 'SaaS B2B' },
-  { value: 'productivite', label: 'Productivité' },
-  { value: 'contenu', label: 'Créateurs de contenu' },
-  { value: 'agence', label: 'Agences' },
-  { value: 'local', label: 'Commerce local' },
+const BUDGETS = [
+  { value: '0€', label: '0€ — gratuit uniquement' },
+  { value: 'moins de 100€', label: 'Moins de 100€/mois' },
+  { value: '100–500€', label: '100–500€/mois' },
 ]
 
 const STRATEGIES = [
-  { value: '', label: 'Toutes les stratégies' },
-  { value: 'copy', label: 'Copier un SaaS existant' },
-  { value: 'problem', label: 'Résoudre mon problème' },
-  { value: 'discover', label: 'Découvrir des opportunités' },
+  { value: 'copier un SaaS existant', label: 'Copier un SaaS existant' },
+  { value: 'résoudre mon problème', label: 'Résoudre mon problème' },
+  { value: 'découvrir des opportunités', label: 'Découvrir des opportunités' },
 ]
 
 interface Props {
   navigate: (hash: string) => void
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5)
-}
+type Step = 'form' | 'loading' | 'results'
 
-export function GeneratorIdeas({ navigate: _navigate }: Props) {
-  const [niche, setNiche] = useState('')
-  const [strategy, setStrategy] = useState('')
-  const [results, setResults] = useState<IdeaTemplate[]>([])
-  const [generated, setGenerated] = useState(false)
-  const [copied, setCopied] = useState<string | null>(null)
+export function GeneratorIdeas({ navigate }: Props) {
+  const [step, setStep] = useState<Step>('form')
+  const [secteur, setSecteur] = useState('')
+  const [niveau, setNiveau] = useState('')
+  const [budget, setBudget] = useState('')
+  const [strategie, setStrategie] = useState('')
+  const [contexte, setContexte] = useState('')
+  const [ideas, setIdeas] = useState<GeneratedIdea[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
 
-  const generate = () => {
-    let filtered = IDEAS_BANK
-    if (niche) filtered = filtered.filter(i => i.tags.includes(niche))
-    if (strategy) filtered = filtered.filter(i => i.tags.includes(strategy))
-    if (filtered.length === 0) filtered = IDEAS_BANK
-    setResults(shuffle(filtered).slice(0, 5))
-    setGenerated(true)
+  const isFormValid = secteur.trim() && niveau && budget && strategie
+
+  const generate = async () => {
+    setError(null)
+    setStep('loading')
+
+    const { data, error: fnError } = await supabase.functions.invoke('generate-ideas', {
+      body: { secteur: secteur.trim(), niveau, budget, strategie, contexte: contexte.trim() || undefined },
+    })
+
+    if (fnError || !data?.ideas) {
+      const msg = data?.error === 'quota_exceeded'
+        ? 'Tu as atteint ta limite de 5 générations. Passe en Premium pour continuer.'
+        : 'Erreur IA. Vérifie ta connexion et réessaie.'
+      setError(msg)
+      setStep('form')
+      return
+    }
+
+    setIdeas(data.ideas as GeneratedIdea[])
+    setStep('results')
   }
 
-  const handleCopy = async (name: string, content: string) => {
-    await navigator.clipboard.writeText(content)
-    setCopied(name)
-    setTimeout(() => setCopied(null), 2000)
+  const reset = () => {
+    setStep('form')
+    setIdeas([])
+    setError(null)
   }
 
-  const claudePrompt = `Tu es un expert en micro-SaaS B2B. Génère 10 idées de micro-SaaS${niche ? ` dans la niche "${NICHES.find(n => n.value === niche)?.label}"` : ''} qui résolvent un problème réel, ont un potentiel MRR de 500-5000€/mois et sont constructibles en moins de 72h avec Lovable. Format pour chaque idée : nom du produit, problème résolu en 1 phrase, cible principale, prix mensuel suggéré, pourquoi ça marcherait en France.`
+  const claudePrompt = `Tu es un expert micro-SaaS. Génère 10 idées de micro-SaaS dans le secteur "${secteur}" pour un profil ${niveau}, budget ${budget}, stratégie : ${strategie}. Pour chaque idée : nom, problème, cible, prix mensuel, MRR potentiel, stack technique suggéré.`
 
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(claudePrompt)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  // ── Form ──────────────────────────────────────────────────────────────────
+  if (step === 'form') {
+    return (
+      <div className="p-7 max-w-3xl">
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-1.5">
+            <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+          </div>
+          <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
+            NicheFinder
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Décris ton profil. L'IA génère 5 idées de micro-SaaS sur mesure avec scoring.
+          </p>
+        </div>
+
+        <div className="border border-border rounded-xl p-5 flex flex-col gap-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Ton profil</p>
+
+          <div>
+            <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">
+              Ton secteur ou expertise *
+            </label>
+            <input
+              value={secteur}
+              onChange={e => setSecteur(e.target.value)}
+              placeholder="ex: comptabilité, RH, e-commerce, santé, immobilier..."
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/20"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">
+                Niveau technique *
+              </label>
+              <select
+                value={niveau}
+                onChange={e => setNiveau(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
+              >
+                <option value="">Choisir...</option>
+                {NIVEAUX.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">
+                Budget mensuel *
+              </label>
+              <select
+                value={budget}
+                onChange={e => setBudget(e.target.value)}
+                className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
+              >
+                <option value="">Choisir...</option>
+                {BUDGETS.map(b => <option key={b.value} value={b.value}>{b.label}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">
+              Stratégie *
+            </label>
+            <select
+              value={strategie}
+              onChange={e => setStrategie(e.target.value)}
+              className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
+            >
+              <option value="">Choisir...</option>
+              {STRATEGIES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">
+              Contexte (optionnel)
+            </label>
+            <textarea
+              value={contexte}
+              onChange={e => setContexte(e.target.value)}
+              placeholder="Un problème que tu as observé, une niche que tu veux cibler, une contrainte particulière..."
+              rows={3}
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/20 resize-none"
+            />
+          </div>
+
+          {error && (
+            <p className="text-xs font-medium" style={{ color: '#ff6b6b' }}>{error}</p>
+          )}
+
+          <button
+            onClick={generate}
+            disabled={!isFormValid}
+            className="flex items-center gap-2 bg-foreground text-background rounded-xl px-5 py-3 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed self-start"
+          >
+            <Sparkles size={14} strokeWidth={1.5} />
+            Générer 5 idées avec l'IA
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // ── Loading ───────────────────────────────────────────────────────────────
+  if (step === 'loading') {
+    return (
+      <div className="p-7 max-w-3xl">
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-1.5">
+            <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+          </div>
+          <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
+            NicheFinder
+          </h1>
+        </div>
+        <div className="border border-border rounded-xl p-8 text-center">
+          <div className="flex items-center justify-center gap-1.5 mb-3">
+            {[0, 1, 2].map(i => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-full bg-foreground/30"
+                style={{ animation: `bounce 1.2s ease infinite ${i * 0.2}s` }}
+              />
+            ))}
+          </div>
+          <p className="text-sm font-semibold text-foreground mb-1">Jarvis génère tes idées...</p>
+          <p className="text-xs text-muted-foreground">Analyse du marché en cours — 5 à 8 secondes</p>
+        </div>
+        <style>{`@keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} }`}</style>
+      </div>
+    )
+  }
+
+  // ── Results ───────────────────────────────────────────────────────────────
   return (
     <div className="p-7 max-w-3xl">
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center gap-2 mb-1.5">
           <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
         </div>
-        <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
-          NicheFinder
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Génère des idées filtrées par niche et stratégie. Prêtes à valider.
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
+            NicheFinder
+          </h1>
+          <button
+            onClick={reset}
+            className="flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-3 py-1.5"
+          >
+            <RefreshCw size={11} strokeWidth={1.5} />
+            Recommencer
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground mt-1">
+          Secteur : <span className="font-semibold text-foreground">{secteur}</span>
+          {' · '}Niveau : <span className="font-semibold text-foreground">{niveau}</span>
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="border border-border rounded-xl p-5 mb-6">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Paramètres</p>
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div>
-            <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">Niche</label>
-            <select
-              value={niche}
-              onChange={e => setNiche(e.target.value)}
-              className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
-            >
-              {NICHES.map(n => <option key={n.value} value={n.value}>{n.label}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="text-[11px] font-semibold text-muted-foreground block mb-1.5">Stratégie</label>
-            <select
-              value={strategy}
-              onChange={e => setStrategy(e.target.value)}
-              className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
-            >
-              {STRATEGIES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
-            </select>
-          </div>
-        </div>
-        <button
-          onClick={generate}
-          className="flex items-center gap-2 bg-foreground text-background rounded-xl px-5 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
-        >
-          <Sparkles size={14} strokeWidth={1.5} />
-          Générer 5 idées
-        </button>
+      <div className="flex flex-col gap-3 mb-8">
+        {ideas.map((idea, i) => {
+          const diffColor = DIFFICULTY_COLORS[idea.difficulty] ?? '#eab308'
+          const scoreColor = idea.score >= 75 ? '#22c55e' : idea.score >= 55 ? '#4d96ff' : '#eab308'
+          return (
+            <div key={i} className="border border-border rounded-xl px-5 py-4 hover:border-foreground/20 transition-colors">
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-[10px] font-bold text-muted-foreground tabular-nums">#{i + 1}</span>
+                    <span className="text-sm font-bold text-foreground">{idea.name}</span>
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style={{ color: scoreColor, background: `${scoreColor}18` }}>
+                      {idea.score}/100
+                    </span>
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full capitalize" style={{ color: diffColor, background: `${diffColor}18` }}>
+                      {idea.difficulty}
+                    </span>
+                  </div>
+                  <p className="text-xs font-medium text-foreground/80 mb-1">{idea.tagline}</p>
+                  <p className="text-[10px] text-muted-foreground mb-1">
+                    Cible : {idea.target} · <span className="font-semibold" style={{ color: '#22c55e' }}>{idea.price}</span> · MRR : <span className="font-semibold text-foreground">{idea.mrr_potential}</span>
+                  </p>
+                  <p className="text-[10px] text-muted-foreground italic">
+                    <Zap size={9} strokeWidth={1.5} className="inline mr-0.5 -mt-0.5" style={{ color: '#eab308' }} />
+                    {idea.why_now}
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate('#/dashboard/generator/validate')}
+                  className="flex items-center gap-1 text-[10px] font-semibold text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 mt-1"
+                >
+                  Valider
+                  <ChevronRight size={11} strokeWidth={1.5} />
+                </button>
+              </div>
+            </div>
+          )
+        })}
       </div>
 
-      {/* Results */}
-      {generated && (
-        <>
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Résultats</p>
-            <button
-              onClick={generate}
-              className="flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <RefreshCw size={11} strokeWidth={1.5} />
-              Regénérer
-            </button>
-          </div>
-
-          <div className="flex flex-col gap-3 mb-8">
-            {results.map((idea, i) => (
-              <div key={i} className="border border-border rounded-xl px-5 py-4 hover:border-foreground/20 transition-colors">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-bold text-muted-foreground tabular-nums">#{i + 1}</span>
-                      <span className="text-sm font-bold text-foreground">{idea.name}</span>
-                      <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style={{ color: '#22c55e', background: '#22c55e18' }}>
-                        {idea.price}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mb-1">{idea.problem}</p>
-                    <p className="text-[10px] text-muted-foreground">
-                      Cible : {idea.target} · MRR potentiel : <span className="font-semibold text-foreground">{idea.mrr}</span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => _navigate(`#/dashboard/generator/validate`)}
-                    className="flex items-center gap-1 text-[10px] font-semibold text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 mt-1"
-                  >
-                    Valider
-                    <ChevronRight size={11} strokeWidth={1.5} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Claude prompt */}
-          <div className="border border-border rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-2.5 bg-secondary/50 border-b border-border">
-              <span className="text-[11px] font-semibold text-foreground">Prompt Claude pour aller plus loin</span>
-              <button
-                onClick={() => handleCopy('prompt', claudePrompt)}
-                className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-secondary"
-              >
-                {copied === 'prompt'
-                  ? <><Check size={11} strokeWidth={2} style={{ color: '#22c55e' }} /><span style={{ color: '#22c55e' }}>Copié !</span></>
-                  : <><Copy size={11} strokeWidth={1.5} />Copier</>
-                }
-              </button>
-            </div>
-            <div className="px-4 py-3">
-              <p className="text-xs text-muted-foreground font-mono leading-relaxed">{claudePrompt}</p>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Empty state */}
-      {!generated && (
-        <div className="text-center py-16 border border-dashed border-border rounded-xl">
-          <Lightbulb size={32} strokeWidth={1} className="text-muted-foreground mx-auto mb-3" />
-          <p className="text-sm font-medium text-foreground mb-1">Aucune idée générée</p>
-          <p className="text-xs text-muted-foreground">Choisis tes filtres et clique sur "Générer 5 idées".</p>
+      <div className="border border-border rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-secondary/50 border-b border-border">
+          <span className="text-[11px] font-semibold text-foreground">Prompt Claude pour aller plus loin</span>
+          <button
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-secondary"
+          >
+            {copied
+              ? <><Check size={11} strokeWidth={2} style={{ color: '#22c55e' }} /><span style={{ color: '#22c55e' }}>Copié !</span></>
+              : <><Copy size={11} strokeWidth={1.5} />Copier</>
+            }
+          </button>
         </div>
-      )}
+        <div className="px-4 py-3">
+          <p className="text-xs text-muted-foreground font-mono leading-relaxed">{claudePrompt}</p>
+        </div>
+      </div>
     </div>
   )
 }
