@@ -2,14 +2,14 @@ import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   Lightbulb, BookOpen, CheckSquare, FolderOpen, Wrench,
-  ShieldCheck, TrendingUp, Zap, ChevronRight, Brain,
+  ShieldCheck, TrendingUp, Zap, ChevronRight, Settings,
 } from 'lucide-react'
-import { BuildrsIcon } from '../ui/icons'
+import { BuildrsIcon, ClaudeIcon, WhatsAppIcon } from '../ui/icons'
 import { CURRICULUM } from '../../data/curriculum'
 
 const MODULE_ICONS: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
-  '00': Layers, '01': Search, '02': Palette, '03': Building2,
-  '04': Hammer, '05': Rocket, '06': DollarSign, 'claude': Brain,
+  '00': Layers, 'setup': Settings, '01': Search, '02': Palette, '03': Building2,
+  '04': Hammer, '05': Rocket, '06': DollarSign, 'claude': ClaudeIcon,
 }
 
 interface Props {
@@ -25,9 +25,7 @@ interface Props {
 export function Sidebar({
   currentPath, navigate, globalPercent, moduleProgress, isDark, onToggleDark,
 }: Props) {
-  const [parcoursOpen, setParcoursOpen] = useState(
-    currentPath.includes('/dashboard/module/') || currentPath === '#/dashboard'
-  )
+  const [parcoursOpen, setParcoursOpen] = useState(false)
 
   const navItem = (hash: string, label: string, Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>) => {
     const active = currentPath === hash
@@ -111,7 +109,7 @@ export function Sidebar({
             }`}
           >
             <Zap size={13} strokeWidth={1.5} className="flex-shrink-0" />
-            <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Autopilot IA</span>
+            <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Jarvis IA</span>
             <span
               className="text-[8px] font-bold px-1.5 py-0.5 rounded"
               style={{
@@ -185,12 +183,12 @@ export function Sidebar({
       {/* ── OUTILS IA ── */}
       <div className="px-3 pt-3 pb-2">
         <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-1 mb-1.5">
-          Outils IA
+          Plugins IA
         </p>
         <div className="flex flex-col gap-0.5">
-          {navItem('#/dashboard/generator/ideas',    'Idées de SaaS',      Lightbulb)}
-          {navItem('#/dashboard/generator/validate', "Validateur d'idée",  ShieldCheck)}
-          {navItem('#/dashboard/generator/mrr',      'Calc. MRR & Revente', TrendingUp)}
+          {navItem('#/dashboard/generator/ideas',    'NicheFinder',   Lightbulb)}
+          {navItem('#/dashboard/generator/validate', 'MarketPulse',   ShieldCheck)}
+          {navItem('#/dashboard/generator/mrr',      'FlipCalc',      TrendingUp)}
         </div>
       </div>
 
@@ -209,7 +207,7 @@ export function Sidebar({
 
       {/* ── BONUS — Module Claude ── */}
       <div className="px-3 pt-3 pb-2">
-        <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] px-1 mb-1.5" style={{ color: '#cc5de8' }}>
+        <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-1 mb-1.5">
           Bonus
         </p>
         <div className="flex flex-col gap-0.5">
@@ -222,7 +220,7 @@ export function Sidebar({
             }`}
             style={currentPath.startsWith('#/dashboard/module/claude') ? { background: '#cc5de8' } : undefined}
           >
-            <Brain size={13} strokeWidth={1.5} className="flex-shrink-0" />
+            <ClaudeIcon size={13} className="flex-shrink-0" />
             <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Claude 360°</span>
             <span
               className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
@@ -231,6 +229,23 @@ export function Sidebar({
               BONUS
             </span>
           </button>
+
+          {/* WhatsApp privé */}
+          <a
+            href="https://wa.me/33744755735"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+          >
+            <WhatsAppIcon size={13} className="flex-shrink-0" />
+            <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">WhatsApp Buildrs</span>
+            <span
+              className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
+              style={{ background: 'rgba(37,211,102,0.15)', color: '#25D366', border: '1px solid rgba(37,211,102,0.3)' }}
+            >
+              BONUS
+            </span>
+          </a>
         </div>
       </div>
 

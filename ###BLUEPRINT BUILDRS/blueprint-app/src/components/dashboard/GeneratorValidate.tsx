@@ -84,10 +84,10 @@ export function GeneratorValidate({ navigate: _navigate }: Props) {
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-1.5">
           <ShieldCheck size={16} strokeWidth={1.5} className="text-muted-foreground" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Générateur</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
         </div>
         <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
-          Validation de SaaS
+          MarketPulse
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
           Score ton idée sur 5 critères. Résultat instantané.
@@ -205,7 +205,7 @@ export function GeneratorValidate({ navigate: _navigate }: Props) {
         className="mt-4 flex items-center gap-2 border border-border rounded-xl px-5 py-3 text-[13px] font-semibold text-foreground hover:bg-secondary transition-colors"
       >
         {saved ? <Check size={14} strokeWidth={2} style={{ color: '#22c55e' }} /> : <ShieldCheck size={14} strokeWidth={1.5} />}
-        {saved ? 'Score sauvegardé dans Autopilot' : 'Sauvegarder ce score dans Autopilot →'}
+        {saved ? 'Score sauvegardé dans Jarvis' : 'Sauvegarder ce score dans Jarvis →'}
       </button>
     </div>
   )

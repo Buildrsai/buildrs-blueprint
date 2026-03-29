@@ -7,7 +7,6 @@ import { DashboardPreview } from "./ui/dashboard-preview"
 import { OrbitalClaude } from "./ui/orbital-claude"
 import { WordRotate } from "./ui/word-rotate"
 import { SaasMarquee } from "./ui/saas-marquee"
-import { DottedSurface } from "./ui/dotted-surface"
 import { BGPattern } from "./ui/bg-pattern"
 
 // ── Countdown to launch end ───────────────────────────────────────────────────
@@ -55,6 +54,8 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
   { label: "Stripe",      Icon: BrandIcons.stripe },
   { label: "Hostinger",   Icon: BrandIcons.hostinger },
   { label: "GitHub",      Icon: BrandIcons.github },
+  { label: "Perplexity",  Icon: BrandIcons.perplexity },
+  { label: "NotebookLM",  Icon: BrandIcons.notebooklm },
 ]
 
 const stats = [
@@ -123,25 +124,24 @@ const faqs = [
 ]
 
 const features = [
-  "Accès au Dashboard interactif Buildrs",
-  "Autopilot IA — ton copilote pour piloter tes projets SaaS en direct",
-  "7 modules de l'idée au lancement : process clairs, quiz et actions concrètes étape par étape",
-  "Checklist interactive — tu sais toujours exactement où tu en es",
-  "Les instructions exactes à donner à Claude à chaque étape du build",
-  "Pack de prompts prêts à copier-coller pour chaque situation",
-  "Le stack complet d'outils avec guides de configuration pas à pas",
-  "3 stratégies de départ (copier, résoudre, découvrir)",
-  "3 modèles de monétisation (revenus récurrents, revente, commande client)",
-  "Accès à vie + mises à jour",
+  "Le Dashboard Buildrs — ton QG de lancement, tout au même endroit",
+  "Jarvis IA — ton copilote intelligent qui te guide en temps réel",
+  "7 modules opérationnels — de l'idée au MVP monétisé, étape par étape",
+  "50+ prompts testés à copier-coller — les instructions exactes à donner à Claude",
+  "Configuration guidée du stack complet — chaque outil installé pas à pas, zéro galère",
+  "Checklist de progression interactive — tu sais toujours exactement où tu en es",
+  "3 stratégies de départ : copier un SaaS qui marche, résoudre un problème réel, ou explorer les opportunités",
+  "3 modèles de monétisation : revenus récurrents (MRR), revente de SaaS, ou commande client",
+  "Accès à vie + toutes les mises à jour futures",
 ]
 
 const bonuses = [
-  "Générateur d'idées de SaaS — explore des centaines d'opportunités rentables en quelques clics",
-  "Validateur de marché — analyse ta niche et tes concurrents avant d'écrire la première ligne",
-  "Calculateur MRR & revenus — projette ta rentabilité avant de lancer",
-  "Accès au WhatsApp privé de Buildrs",
-  "Boîte à outils IA — les meilleurs outils pour créer des revenus en ligne avec guide de config inclus",
-  "Templates prêts à l'emploi — landing page, fiche produit, séquence emails d'activation",
+  "NicheFinder™ — génère des idées de micro-SaaS rentables en quelques clics",
+  "MarketPulse™ — analyse et valide ta niche · score tes concurrents avant de construire",
+  "FlipCalc™ — projette ton MRR (revenus mensuels) et ton prix de revente",
+  "Toolbox Pro — les meilleurs outils IA du vibecoder avec guide de config inclus",
+  "Blueprint Acquisition — le guide pour trouver tes 100 premiers utilisateurs",
+  "Accès WhatsApp Buildrs — le groupe privé en accès direct",
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
@@ -318,7 +318,7 @@ function HeroDashboardMockup() {
               <p className="text-[6px] font-bold uppercase tracking-[0.08em] px-1 mb-1" style={{ color: 'rgba(255,255,255,0.22)' }}>Construire</p>
               <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5" style={{ background: 'rgba(255,255,255,0.08)' }}>
                 <Zap size={8} strokeWidth={1.5} className="text-white flex-shrink-0" />
-                <span className="text-[7.5px] font-semibold text-white flex-1 truncate">Autopilot IA</span>
+                <span className="text-[7.5px] font-semibold text-white flex-1 truncate">Jarvis IA</span>
                 <span className="text-[5.5px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>ACTIF</span>
               </div>
               <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5">
@@ -456,7 +456,7 @@ function HeroDashboardMockup() {
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
-      <DottedSurface className="absolute inset-0 w-full h-full opacity-40" />
+      <div className="absolute inset-0 w-full h-full opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
@@ -837,7 +837,7 @@ function BeforeAfter() {
 const DASHBOARD_FEATURES = [
   {
     Icon: Zap,
-    title: 'Autopilot IA',
+    title: 'Jarvis IA',
     desc: 'Ton espace projet intelligent. Progression, fiche produit, outils configurés et revenus estimés — tout centralisé.',
   },
   {
@@ -847,8 +847,8 @@ const DASHBOARD_FEATURES = [
   },
   {
     Icon: Lightbulb,
-    title: 'Générateurs IA',
-    desc: '3 outils IA intégrés : générateur d\'idées, validateur de concept avec score, calculateur de revenus.',
+    title: 'Plugins IA',
+    desc: 'NicheFinder™, MarketPulse™, FlipCalc™ — plus tout l\'environnement Claude AI configuré plug & play pour chaque étape.',
   },
   {
     Icon: Copy,
@@ -870,7 +870,7 @@ const DASHBOARD_FEATURES = [
 function DashboardSection() {
   return (
     <section className="relative py-24 overflow-hidden">
-      <DottedSurface className="absolute inset-0 w-full h-full opacity-50" />
+      <div className="absolute inset-0 w-full h-full opacity-50 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="text-center mb-14">
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
@@ -1196,25 +1196,68 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             <hr className="mb-7 border-border" />
 
             {/* Features */}
-            <ul className="mb-6 flex flex-col gap-[10px] text-[14px] text-muted-foreground">
-              {features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5">
-                  <Check size={15} strokeWidth={2} className="mt-[1px] shrink-0 text-foreground" />
-                  {f}
-                </li>
-              ))}
+            <ul className="mb-6 flex flex-col gap-[10px] text-[14px]">
+              {features.map((f) => {
+                const isJarvis = f.startsWith('Jarvis IA')
+                const dashIdx = f.indexOf(' — ')
+                const colonIdx = f.indexOf(' : ')
+
+                let content: React.ReactNode
+
+                if (isJarvis) {
+                  // Gradient on "Jarvis IA", muted desc
+                  const desc = dashIdx !== -1 ? f.slice(dashIdx + 3) : null
+                  content = (
+                    <span className="text-muted-foreground">
+                      <span
+                        className="font-bold"
+                        style={{ background: 'linear-gradient(90deg, #cc5de8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+                      >Jarvis IA</span>
+                      {desc && <> — {desc}</>}
+                    </span>
+                  )
+                } else if (dashIdx !== -1) {
+                  // Lines with " — ": bold title, muted desc
+                  const title = f.slice(0, dashIdx)
+                  const desc = f.slice(dashIdx + 3)
+                  content = <span className="text-muted-foreground"><span className="font-bold text-foreground">{title}</span> — {desc}</span>
+                } else if (colonIdx !== -1) {
+                  // "3 stratégies…" / "3 modèles…": bold before " : ", muted rest
+                  const title = f.slice(0, colonIdx)
+                  const rest = f.slice(colonIdx + 3)
+                  content = <span className="text-muted-foreground"><span className="font-bold text-foreground">{title}</span> : {rest}</span>
+                } else {
+                  // "Accès à vie…": bold entire line
+                  content = <span className="font-bold text-foreground">{f}</span>
+                }
+
+                return (
+                  <li key={f} className="flex items-start gap-2.5">
+                    <Check size={15} strokeWidth={2} className="mt-[1px] shrink-0 text-foreground" />
+                    {content}
+                  </li>
+                )
+              })}
             </ul>
 
             {/* Bonuses */}
             <div className="mb-7 rounded-xl border border-dashed border-border bg-muted px-4 py-4">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Bonus inclus</p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Bonus inclus pour les 200 premiers</p>
               <ul className="flex flex-col gap-[10px]">
-                {bonuses.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-[14px] text-foreground font-medium">
-                    <Zap size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
-                    {b}
-                  </li>
-                ))}
+                {bonuses.map((b) => {
+                  const dashIdx = b.indexOf(' — ')
+                  const name = dashIdx !== -1 ? b.slice(0, dashIdx) : b
+                  const desc = dashIdx !== -1 ? b.slice(dashIdx + 3) : null
+                  return (
+                    <li key={b} className="flex items-start gap-2.5 text-[14px]">
+                      <Zap size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
+                      <span className="text-muted-foreground">
+                        <span className="font-bold text-foreground">{name}</span>
+                        {desc && <> — {desc}</>}
+                      </span>
+                    </li>
+                  )
+                })}
               </ul>
             </div>
 

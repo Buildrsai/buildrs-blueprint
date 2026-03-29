@@ -2,16 +2,16 @@ import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   ShieldCheck, TrendingUp, Check, Copy, Zap, ChevronRight,
-  BookOpen, CheckSquare, Wrench, ExternalLink,
+  BookOpen, CheckSquare, Wrench, ExternalLink, Lightbulb, FolderOpen,
 } from 'lucide-react'
-import { BuildrsIcon, BrandIcons } from './icons'
+import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from './icons'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type Tab = 'autopilot' | 'parcours' | 'generator' | 'bibliotheque' | 'checklist' | 'outils'
 
 const TABS: { id: Tab; label: string; short: string }[] = [
-  { id: 'autopilot',    label: 'Autopilot IA',   short: 'Autopilot'  },
+  { id: 'autopilot',    label: 'Jarvis IA',      short: 'Jarvis'     },
   { id: 'parcours',     label: 'Mon Parcours',    short: 'Parcours'   },
   { id: 'generator',    label: 'Générateurs IA',  short: 'Génér.'     },
   { id: 'bibliotheque', label: 'Bibliothèque',    short: 'Biblio'     },
@@ -44,7 +44,7 @@ function MiniSidebar({ tab }: { tab: Tab }) {
       <div className="px-2 pt-2.5">
         <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Construire</p>
         {([
-          { id: 'autopilot' as Tab, icon: Zap,      label: 'Autopilot IA',  badge: 'ACTIF' },
+          { id: 'autopilot' as Tab, icon: Zap,      label: 'Jarvis IA',     badge: 'ACTIF' },
           { id: 'parcours'  as Tab, icon: BookOpen,  label: 'Mon Parcours',  badge: null    },
         ]).map(({ id, icon: Icon, label, badge }) => (
           <div key={id} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
@@ -61,10 +61,11 @@ function MiniSidebar({ tab }: { tab: Tab }) {
 
       {/* OUTILS IA */}
       <div className="px-2 pt-2">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Outils IA</p>
+        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Plugins IA</p>
         {([
-          { id: 'generator'    as Tab, Icon: ShieldCheck, label: "Validateur d'idée" },
-          { id: null,                  Icon: TrendingUp,  label: 'Calc. MRR'         },
+          { id: 'generator' as Tab, Icon: Lightbulb,   label: 'NicheFinder'  },
+          { id: null,               Icon: ShieldCheck,  label: 'MarketPulse'  },
+          { id: null,               Icon: TrendingUp,   label: 'FlipCalc'     },
         ] as const).map(({ id, Icon, label }, i) => (
           <div key={i} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${id && active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
             <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
@@ -77,15 +78,41 @@ function MiniSidebar({ tab }: { tab: Tab }) {
       <div className="px-2 pt-2">
         <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Ressources</p>
         {([
-          { id: 'bibliotheque' as Tab, Icon: BookOpen,    label: 'Bibliothèque'    },
-          { id: 'checklist'    as Tab, Icon: CheckSquare, label: 'Checklist'       },
-          { id: 'outils'       as Tab, Icon: Wrench,      label: 'Boîte à outils'  },
-        ] as const).map(({ id, Icon, label }) => (
-          <div key={id} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
+          { id: null,                  Icon: FolderOpen,   label: 'Mes Projets'     },
+          { id: 'bibliotheque' as Tab, Icon: BookOpen,     label: 'Bibliothèque'    },
+          { id: 'checklist'    as Tab, Icon: CheckSquare,  label: 'Checklist'       },
+          { id: 'outils'       as Tab, Icon: Wrench,       label: 'Boîte à outils'  },
+        ] as const).map(({ id, Icon, label }, i) => (
+          <div key={i} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${id && active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
             <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
             <span className="text-[8px] font-medium truncate">{label}</span>
           </div>
         ))}
+      </div>
+
+      {/* BONUS */}
+      <div className="px-2 pt-2">
+        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Bonus</p>
+
+        {/* Claude 360° */}
+        <div
+          className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground"
+          style={{ background: 'rgba(204,93,232,0.08)' }}
+        >
+          <ClaudeIcon size={9} className="flex-shrink-0" style={{ color: '#cc5de8' }} />
+          <span className="text-[8px] font-medium flex-1 truncate" style={{ color: '#cc5de8' }}>Claude 360°</span>
+          <span className="text-[5.5px] font-bold px-1 py-0.5 rounded" style={{ background: 'rgba(204,93,232,0.15)', color: '#cc5de8', border: '1px solid rgba(204,93,232,0.3)' }}>BONUS</span>
+        </div>
+
+        {/* WhatsApp */}
+        <div
+          className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground"
+          style={{ background: 'rgba(37,211,102,0.08)' }}
+        >
+          <WhatsAppIcon size={9} className="flex-shrink-0" style={{ color: '#25D366' }} />
+          <span className="text-[8px] font-medium flex-1 truncate" style={{ color: '#25D366' }}>WhatsApp Buildrs</span>
+          <span className="text-[5.5px] font-bold px-1 py-0.5 rounded" style={{ background: 'rgba(37,211,102,0.15)', color: '#25D366', border: '1px solid rgba(37,211,102,0.3)' }}>BONUS</span>
+        </div>
       </div>
 
       <div className="mt-auto p-2.5">

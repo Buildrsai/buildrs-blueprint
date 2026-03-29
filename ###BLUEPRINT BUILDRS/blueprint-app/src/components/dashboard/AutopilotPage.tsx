@@ -184,13 +184,13 @@ export function AutopilotPage({ navigate, userId, userFirstName, moduleProgress:
     return (
       <div className="px-8 py-10 max-w-[700px]">
         <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-2">
-          Autopilot IA
+          Jarvis IA
         </p>
         <h1 className="text-foreground mb-3" style={{ fontSize: 'clamp(26px, 3vw, 36px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
           Salut {firstName}, définis ton projet
         </h1>
         <p className="text-[14px] text-muted-foreground leading-relaxed mb-8 max-w-[420px]">
-          Autopilot IA suit ta progression en temps réel. Commence par définir ton projet pour activer le suivi.
+          Jarvis IA suit ta progression en temps réel. Commence par définir ton projet pour activer le suivi.
         </p>
         <button
           onClick={() => navigate('#/dashboard/project')}
@@ -213,7 +213,7 @@ export function AutopilotPage({ navigate, userId, userFirstName, moduleProgress:
       {/* ── Header ── */}
       <div className="mb-8">
         <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-2">
-          Autopilot IA
+          Jarvis IA
         </p>
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>

@@ -92,10 +92,10 @@ export function GeneratorIdeas({ navigate: _navigate }: Props) {
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-1.5">
           <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Générateur</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
         </div>
         <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
-          Idées de micro-SaaS
+          NicheFinder
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
           Génère des idées filtrées par niche et stratégie. Prêtes à valider.

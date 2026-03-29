@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 
-import { Shield, Lock, Check, Flame, ChevronLeft, Star, Zap, Gift } from "lucide-react"
+import { Shield, Lock, Check, Flame, ChevronLeft, Star, Zap } from "lucide-react"
 import { trackEvent } from '../lib/pixel'
 import { loadStripe } from "@stripe/stripe-js"
 import { BuildrsIcon, BrandIcons } from "./ui/icons"
@@ -19,45 +19,48 @@ interface CheckoutPageProps {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const blueprintFeatures = [
-  "6 modules complets — de l'idée au produit monétisé",
-  "Dashboard interactif + prompts + outils + générateurs",
-  "Accès à vie · Mises à jour incluses",
+  "Dashboard interactif + Jarvis IA — ton copilote qui te guide en temps réel",
+  "7 modules opérationnels — de l'idée au MVP monétisé en 6 jours",
+  "50+ prompts testés + stack complet configuré pas à pas",
+  "Accès à vie + toutes les mises à jour futures",
 ]
 
 const blueprintBonuses = [
-  "3 générateurs IA (idées, validation, MRR)",
-  "Accès canal WhatsApp premium — 7 jours",
+  "NicheFinder™ · MarketPulse™ · FlipCalc™ — 3 plugins IA inclus",
+  "Toolbox Pro + Blueprint Acquisition — guides de config et d'acquisition",
+  "Accès WhatsApp Buildrs — groupe privé en accès direct",
 ]
 
 const claudePackFeatures = [
-  "Paramétrage complet de Claude (system prompt, mémoire, contexte projet)",
-  "Tous les prompts spécialisés par étape du Blueprint",
-  "Les Skills — des agents IA spécialisés à brancher (design, dev, archi, copy)",
-  "Les fichiers mémoire projet pour que Claude ne reparte jamais de zéro",
-  "Guide Claude Code + VS Code (opérationnel en 15 min)",
-  "Claude Cowork, Dispatch et Code expliqués simplement",
-  "Workflows et repos GitHub prêts à l'emploi — des sous-agents qui travaillent pour ton projet en parallèle",
+  "L'environnement Claude exact utilisé chez Buildrs — prêt à l'emploi en un téléchargement",
+  "System prompts, mémoire projet et contexte pré-configurés — Claude ne repart jamais de zéro",
+  "Les Skills (sous-agents spécialisés) : design, dev, archi, copy, debug — chacun expert dans son domaine",
+  "Connecteurs MCP : Supabase, GitHub, Stripe, Vercel, Figma — Claude accède directement à tes outils",
+  "Workflows multi-agents : des sous-agents qui travaillent en parallèle sur ton projet",
+  "Guide Claude Code + VS Code opérationnel en 15 min",
 ]
 
-const communitySaaS = [
+const socialProof = [
   {
-    name: "ResumeAI",
-    desc: "Générateur de CV optimisé par IA — 3 abonnés payants en 48h",
-    mrr: "147€/mois",
+    name: "Hugo",
+    role: "Étudiant → Builder",
+    text: "J'ai lancé un SaaS de prise de RDV pour les coiffeurs pendant mes cours. 300€/mois. Mes potes n'y croient toujours pas.",
   },
   {
-    name: "ScriptForge",
-    desc: "Générateur de scripts vidéo pour créateurs — lancé en 5 jours",
-    mrr: "289€/mois",
+    name: "Thomas",
+    role: "Consultant → Fondateur SaaS",
+    text: "Avec les prompts du module 4, j'avais une base complète en quelques heures. 23 clients payants aujourd'hui.",
   },
   {
-    name: "LeadPulse",
-    desc: "Outil d'enrichissement de leads B2B alimenté par Claude",
-    mrr: "612€/mois",
+    name: "Romain",
+    role: "Freelance → Product Builder",
+    text: "En 72h j'avais un outil fonctionnel en ligne. Pas parfait, mais live. Et ça change tout.",
   },
 ]
 
 // ─── Countdown ────────────────────────────────────────────────────────────────
+
+const LAUNCH_END = new Date('2026-04-01T23:59:59')
 
 function useCountdown(target: Date) {
   function getRemaining(t: Date) {
@@ -87,8 +90,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
   const checkoutRef = useRef<{ destroy: () => void } | null>(null)
   const mountRef = useRef<HTMLDivElement>(null)
 
-  const lotteryDeadline = new Date('2026-04-14T23:59:59')
-  const { d, h, m, s } = useCountdown(lotteryDeadline)
+  const { d, h, m, s } = useCountdown(LAUNCH_END)
 
   const basePrice = 27
   const bumpPrice = 37
@@ -198,8 +200,11 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
           <h1 className="text-foreground" style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.1 }}>
             Accède au Buildrs Blueprint
           </h1>
-          <p className="mx-auto mt-3 max-w-[420px] text-[15px] leading-[1.65] text-muted-foreground">
-            Un seul paiement. Accès à vie. Ton premier produit en 72h.
+          <p className="mx-auto mt-3 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
+            Le système guidé pour créer et monétiser ton premier produit digital grâce à l'IA et générer tes premiers revenus en autopilote — même si tu n'as jamais ouvert un éditeur de code de ta vie.
+          </p>
+          <p className="mx-auto mt-2 text-[13px] text-muted-foreground/60">
+            Un seul paiement · Accès à vie · Ton premier produit en 72h
           </p>
         </div>
 
@@ -208,7 +213,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
           {/* LEFT — Product + Order Bump */}
           <div className="flex flex-col gap-5">
 
-            {/* Blueprint card — même contenu que la LP */}
+            {/* Blueprint card */}
             <div className="bump-neon relative" style={{ borderRadius: 20 }}>
               <div className="bump-inner p-8 text-left" style={{ borderRadius: 18 }}>
 
@@ -248,7 +253,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
 
                 {/* Bonuses */}
                 <div className="rounded-xl border border-dashed border-border bg-muted px-4 py-4">
-                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Bonus inclus</p>
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Bonus inclus pour les 200 premiers</p>
                   <ul className="flex flex-col gap-[10px]">
                     {blueprintBonuses.map((b) => (
                       <li key={b} className="flex items-start gap-2.5 text-[14px] text-foreground font-medium">
@@ -259,14 +264,29 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                   </ul>
                 </div>
 
-                <p className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-foreground/70">
+                {/* Scarcity timer */}
+                <p className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-foreground/70 flex-wrap">
                   <Flame size={12} strokeWidth={1.5} />
-                  Offre de lancement — 82/100 places prises · Ensuite 297€
+                  <span>Offre de lancement — se termine dans </span>
+                  <span className="font-bold tabular-nums">{d}j {h}h {m}m {String(s).padStart(2, '0')}s</span>
+                  <span>· Ensuite 297€</span>
                 </p>
+
+                {/* Bonus counter bar */}
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Bonus réclamés</span>
+                    <span className="text-[11px] font-bold text-foreground tabular-nums">76 / 200</span>
+                  </div>
+                  <div className="h-[3px] rounded-full bg-border overflow-hidden">
+                    <div className="h-full rounded-full bg-foreground" style={{ width: '38%' }} />
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            {/* Order Bump */}
+            {/* Order Bump — Claude 360° */}
             <button
               onClick={() => setHasOrderBump(!hasOrderBump)}
               className={`w-full text-left rounded-2xl border-2 p-6 transition-all cursor-pointer ${
@@ -288,14 +308,14 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                     <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
                       Oui — ajouter
                     </span>
-                    <span className="text-[14px] font-bold text-foreground">Module Claude — +37€</span>
+                    <span className="text-[14px] font-bold text-foreground">Claude 360° — +37€</span>
                     <span className="rounded-full border border-border bg-secondary px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground">
-                      Fais de Claude une machine de production
+                      L'environnement IA complet de Buildrs, prêt à brancher
                     </span>
                   </div>
 
                   <p className="mb-3 text-[13px] text-muted-foreground leading-[1.55]">
-                    Un environnement Claude pré-configuré pour créer des SaaS et des apps. Un téléchargement, tout est prêt.
+                    Le setup exact qu'on utilise chez Buildrs pour construire des SaaS. Sous-agents, connecteurs MCP, mémoire projet — tout est inclus.
                   </p>
 
                   <ul className="flex flex-col gap-2">
@@ -342,7 +362,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                     </div>
                     {hasOrderBump && (
                       <div className="flex justify-between text-muted-foreground">
-                        <span>Module Claude</span>
+                        <span>Claude 360°</span>
                         <span className="font-medium text-foreground">+37€</span>
                       </div>
                     )}
@@ -400,18 +420,23 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                   </div>
                 </div>
 
-                {/* Social proof — SaaS lancés par la communauté */}
+                {/* Social proof — témoignages LP */}
                 <div className="flex flex-col gap-2">
                   <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60 px-1">
-                    SaaS IA lancés par la communauté
+                    Ils l'ont fait avec Blueprint
                   </p>
-                  {communitySaaS.map((s) => (
+                  {socialProof.map((s) => (
                     <div key={s.name} className="rounded-xl border border-border bg-card px-4 py-3">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[13px] font-bold text-foreground">{s.name}</span>
-                        <span className="text-[11px] font-semibold text-foreground/70">{s.mrr}</span>
+                      <div className="flex items-center gap-1 mb-1.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={10} strokeWidth={0} className="fill-foreground/80 text-foreground/80" />
+                        ))}
                       </div>
-                      <p className="text-[12px] text-muted-foreground leading-relaxed">{s.desc}</p>
+                      <p className="text-[12px] text-muted-foreground leading-relaxed mb-2">"{s.text}"</p>
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-[12px] font-bold text-foreground">{s.name}</span>
+                        <span className="text-[11px] text-muted-foreground/60">{s.role}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -420,126 +445,6 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
 
           </div>
         </div>
-
-        {/* ─── LOTTERY BLOCK ─────────────────────────────────────────────────── */}
-        <div className="relative mx-auto mt-14 max-w-[1000px] overflow-hidden rounded-3xl" style={{ background: 'hsl(var(--card))' }}>
-
-          {/* Purple glow top */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-px"
-            style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.6) 40%, rgba(168,85,247,0.6) 60%, transparent 100%)' }}
-          />
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-40"
-            style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 0%, rgba(168,85,247,0.12) 0%, transparent 100%)' }}
-          />
-
-          <div className="relative px-8 py-10 sm:px-12 sm:py-12">
-
-            {/* Top row */}
-            <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div>
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1" style={{ borderColor: 'rgba(168,85,247,0.35)', background: 'rgba(168,85,247,0.08)' }}>
-                  <Gift size={12} strokeWidth={1.5} style={{ color: 'rgba(168,85,247,0.9)' }} />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: 'rgba(168,85,247,0.9)' }}>Tirage au sort</span>
-                </div>
-                <h3 className="text-foreground" style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.15 }}>
-                  Gagne l'un des 2 lots<br />avant le 14 avril
-                </h3>
-                <p className="mt-2 text-[14px] text-muted-foreground">Participation automatique à l'achat — aucune démarche.</p>
-              </div>
-
-              {/* Countdown */}
-              <div className="shrink-0">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/50">Temps restant</p>
-                <div className="flex items-end gap-1.5">
-                  {([
-                    { label: 'J',  val: d },
-                    { label: 'H',  val: h },
-                    { label: 'M',  val: m },
-                    { label: 'S',  val: s },
-                  ] as const).map(({ label, val }, i) => (
-                    <div key={label} className="flex items-end gap-1.5">
-                      <div className="text-center">
-                        <div
-                          className="rounded-xl border border-border bg-background font-mono font-extrabold text-foreground flex items-center justify-center"
-                          style={{ fontSize: 'clamp(18px, 3vw, 26px)', letterSpacing: '-0.02em', width: 52, height: 52 }}
-                        >
-                          {String(val).padStart(2, '0')}
-                        </div>
-                        <p className="mt-1 text-[9px] font-bold uppercase tracking-wider text-muted-foreground/40">{label}</p>
-                      </div>
-                      {i < 3 && <span className="text-[18px] font-bold text-muted-foreground/25 pb-5">:</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Lots */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-              {/* Lot 1 */}
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-6">
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-2xl"
-                  style={{ background: 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(168,85,247,0.06) 0%, transparent 70%)' }}
-                />
-                <div className="relative">
-                  <div className="mb-3 flex items-center gap-2">
-                    <span
-                      className="inline-flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-extrabold"
-                      style={{ background: 'rgba(168,85,247,0.12)', color: 'rgba(168,85,247,0.9)' }}
-                    >1</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/50">Lot 1</span>
-                  </div>
-                  <p className="text-[16px] font-extrabold text-foreground leading-tight mb-2" style={{ letterSpacing: '-0.02em' }}>
-                    Micro-SaaS clé en main
-                  </p>
-                  <p className="text-[13px] leading-[1.6] text-muted-foreground">
-                    Construit et lancé par Buildrs — jusqu'à <span className="font-semibold text-foreground">1 000€ MRR</span> garanti au démarrage.
-                  </p>
-                </div>
-              </div>
-
-              {/* Lot 2 */}
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-background p-6">
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-2xl"
-                  style={{ background: 'radial-gradient(ellipse 80% 60% at 0% 0%, rgba(168,85,247,0.06) 0%, transparent 70%)' }}
-                />
-                <div className="relative">
-                  <div className="mb-3 flex items-center gap-2">
-                    <span
-                      className="inline-flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-extrabold"
-                      style={{ background: 'rgba(168,85,247,0.12)', color: 'rgba(168,85,247,0.9)' }}
-                    >2</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/50">Lot 2</span>
-                  </div>
-                  <p className="text-[16px] font-extrabold text-foreground leading-tight mb-2" style={{ letterSpacing: '-0.02em' }}>
-                    1 an de coaching avec Alfred
-                  </p>
-                  <p className="text-[13px] leading-[1.6] text-muted-foreground">
-                    Accompagnement direct avec <span className="font-semibold text-foreground">Alfred Orsini</span> pendant 12 mois complets.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Purple glow bottom line */}
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-            style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.3) 50%, transparent 100%)' }}
-          />
-        </div>
-
-        {/* Bottom note */}
-        <p className="mt-8 text-center text-[12px] text-muted-foreground/50 flex items-center justify-center gap-1.5">
-          <Flame size={12} strokeWidth={1.5} className="text-foreground/40" />
-          Offre de lancement · Places limitées
-        </p>
 
       </div>
 
