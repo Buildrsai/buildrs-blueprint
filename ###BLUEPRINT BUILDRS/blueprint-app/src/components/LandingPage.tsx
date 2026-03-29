@@ -46,7 +46,6 @@ function ScarcityCountdown({ className }: { className?: string }) {
 
 const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
   { label: "Claude AI",   Icon: BrandIcons.claude },
-  { label: "Lovable",     Icon: BrandIcons.lovable },
   { label: "Stitch",      Icon: BrandIcons.stitch },
   { label: "21st.dev",    Icon: BrandIcons.twentyOneDev },
   { label: "VS Code",     Icon: BrandIcons.vscode },
@@ -140,7 +139,7 @@ const bonuses = [
   "Générateur d'idées de SaaS — explore des centaines d'opportunités rentables en quelques clics",
   "Validateur de marché — analyse ta niche et tes concurrents avant d'écrire la première ligne",
   "Calculateur MRR & revenus — projette ta rentabilité avant de lancer",
-  "Canal WhatsApp privé Buildrs — accès direct à la communauté et aux mises à jour en avant-première",
+  "Accès au WhatsApp privé de Buildrs",
   "Boîte à outils IA — les meilleurs outils pour créer des revenus en ligne avec guide de config inclus",
   "Templates prêts à l'emploi — landing page, fiche produit, séquence emails d'activation",
 ]
