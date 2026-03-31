@@ -33,8 +33,7 @@ const Cookies          = lazy(() => import('./components/legal/Cookies').then(m 
 
 function ConfirmationPage({ onNavigate }: { onNavigate: () => void }) {
   useEffect(() => {
-    const isOrderBump = window.location.hash.includes('bump=1')
-    trackEvent('Purchase', { value: isOrderBump ? 64 : 27, currency: 'EUR', num_items: 1 })
+    // Purchase already tracked in UpsellCohortPage (arrival point from Stripe return_url)
   }, [])
 
   return (
@@ -75,6 +74,7 @@ function ConfirmationPage({ onNavigate }: { onNavigate: () => void }) {
 interface ParsedRoute {
   type:
     | 'landing'
+    | 'claude-landing'
     | 'checkout'
     | 'upsell-cohort'
     | 'confirmation'
@@ -91,15 +91,12 @@ interface ParsedRoute {
     | 'checklist'
     | 'project'
     | 'tools'
-    | 'gen-hub'
-    | 'gen-ideas'
-    | 'gen-validate'
-    | 'gen-mrr'
     | 'checkout-cohorte'
     | 'settings'
     | 'autopilot'
     | 'offers'
     | 'agents'
+    | 'agent-chat'
     | 'legal-mentions'
     | 'legal-cgv'
     | 'legal-confidentialite'
@@ -111,6 +108,7 @@ interface ParsedRoute {
 function parseHash(hash: string): ParsedRoute {
   const h = hash.replace(/^#\/?/, '')
   if (!h || h === 'landing' || h === '/') return { type: 'landing' }
+  if (h === 'claude') return { type: 'claude-landing' }
   if (h === 'legal/mentions') return { type: 'legal-mentions' }
   if (h === 'legal/cgv') return { type: 'legal-cgv' }
   if (h === 'legal/confidentialite') return { type: 'legal-confidentialite' }
@@ -128,15 +126,14 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/checklist') return { type: 'checklist' }
   if (h === 'dashboard/project') return { type: 'project' }
   if (h === 'dashboard/tools') return { type: 'tools' }
-  if (h === 'dashboard/generator') return { type: 'gen-hub' }
-  if (h === 'dashboard/generator/ideas') return { type: 'gen-ideas' }
-  if (h === 'dashboard/generator/validate') return { type: 'gen-validate' }
-  if (h === 'dashboard/generator/mrr') return { type: 'gen-mrr' }
   if (h === 'checkout-cohorte') return { type: 'checkout-cohorte' }
   if (h === 'dashboard/settings') return { type: 'settings' }
   if (h === 'dashboard/autopilot') return { type: 'autopilot' }
   if (h === 'dashboard/offers') return { type: 'offers' }
   if (h === 'dashboard/agents') return { type: 'agents' }
+
+  const agentChatMatch = h.match(/^dashboard\/agent\/([^/]+)$/)
+  if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
 
   const quizMatch = h.match(/^dashboard\/quiz\/([^/]+)$/)
   if (quizMatch) return { type: 'quiz', moduleId: quizMatch[1] }
@@ -166,6 +163,9 @@ function App() {
   const [route, setRoute] = useState<ParsedRoute>(parseHash(window.location.hash))
   const [isDark, setIsDark] = useState(true)
   const [hasOrderBump, setHasOrderBump] = useState(false)
+  const [hasAgentsBump, setHasAgentsBump] = useState(false)
+  const [hasAcquisitionBump, setHasAcquisitionBump] = useState(false)
+  const [funnelSource, setFunnelSource] = useState<'blueprint' | 'claude'>('blueprint')
 
   // Handle Supabase auth redirects (OAuth code, email confirmation token_hash)
   useEffect(() => {
@@ -212,6 +212,11 @@ function App() {
 
   const handleToggleDark = () => setIsDark(prev => !prev)
 
+  // Persist funnelSource for analytics at signup
+  useEffect(() => {
+    sessionStorage.setItem('funnelSource', funnelSource)
+  }, [funnelSource])
+
   // ---------------------------------------------------------------------------
   // Legal routes (lazy — public, rarely visited)
   // ---------------------------------------------------------------------------
@@ -227,7 +232,7 @@ function App() {
   // Landing (eager — primary route)
   // ---------------------------------------------------------------------------
   if (route.type === 'landing') {
-    return <LandingPage onCTAClick={() => navigate('#/checkout')} />
+    return <LandingPage onCTAClick={() => { setFunnelSource('blueprint'); navigate('#/checkout') }} />
   }
 
   // ---------------------------------------------------------------------------
@@ -239,6 +244,11 @@ function App() {
         <CheckoutPage
           hasOrderBump={hasOrderBump}
           setHasOrderBump={setHasOrderBump}
+          hasAgentsBump={hasAgentsBump}
+          setHasAgentsBump={setHasAgentsBump}
+          hasAcquisitionBump={hasAcquisitionBump}
+          setHasAcquisitionBump={setHasAcquisitionBump}
+          funnelSource={funnelSource}
           onPay={() => navigate('#/upsell-cohort')}
           onBack={() => navigate('#/landing')}
         />
@@ -297,7 +307,8 @@ function App() {
       <Suspense fallback={SpinnerFallback}>
         <OnboardingPage
           userId={user.id}
-          onComplete={() => navigate('#/dashboard')}
+          userFirstName={user.user_metadata?.first_name}
+          onComplete={() => navigate('#/dashboard/autopilot')}
           onSignOut={signOut}
           save={saveOnboarding}
           complete={completeOnboarding}
@@ -309,7 +320,7 @@ function App() {
   // ---------------------------------------------------------------------------
   // Dashboard routes — lazy via DashboardSection (isolates curriculum + hooks)
   // ---------------------------------------------------------------------------
-  const isDashboardRoute = ['dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas', 'checklist', 'project', 'tools', 'gen-hub', 'gen-ideas', 'gen-validate', 'gen-mrr', 'settings', 'autopilot', 'offers', 'agents'].includes(route.type)
+  const isDashboardRoute = ['dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas', 'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents', 'agent-chat'].includes(route.type)
 
   if (isDashboardRoute) {
     if (!user) { navigate('#/signin'); return null }
