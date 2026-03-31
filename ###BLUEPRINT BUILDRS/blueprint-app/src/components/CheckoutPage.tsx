@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { Shield, Lock, Check, Flame, ChevronLeft, Star, Zap, ArrowUp, ChevronDown } from "lucide-react"
 import { trackEvent } from '../lib/pixel'
 import { loadStripe } from "@stripe/stripe-js"
-import { BuildrsIcon, BrandIcons } from "./ui/icons"
+import { BuildrsIcon, BrandIcons, ClaudeIcon } from "./ui/icons"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -12,6 +12,11 @@ const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functio
 interface CheckoutPageProps {
   hasOrderBump: boolean
   setHasOrderBump: (v: boolean) => void
+  hasAgentsBump: boolean
+  setHasAgentsBump: (v: boolean) => void
+  hasAcquisitionBump: boolean
+  setHasAcquisitionBump: (v: boolean) => void
+  funnelSource: 'blueprint' | 'claude'
   onPay: () => void
   onBack: () => void
 }
@@ -20,33 +25,44 @@ interface CheckoutPageProps {
 
 // Détail complet identique LP (expanded)
 const blueprintFeaturesLP = [
-  "Le Dashboard Buildrs — ton QG de lancement, tout au même endroit",
-  "Jarvis IA — ton copilote intelligent qui te guide en temps réel",
+  "Le Dashboard Buildrs — ton espace projet, tes outils et ta progression au même endroit",
   "7 modules opérationnels — de l'idée au MVP monétisé, étape par étape",
-  "50+ prompts testés à copier-coller — les instructions exactes à donner à Claude",
+  "50+ prompts testés à copier-coller — les instructions exactes à donner à l'IA",
   "Configuration guidée du stack complet — chaque outil installé pas à pas, zéro galère",
-  "Checklist de progression interactive — tu sais toujours exactement où tu en es",
+  "Checklist de progression — tu ne seras jamais perdu, tu sais exactement quoi faire ensuite",
   "3 stratégies de départ : copier un SaaS qui marche, résoudre un problème réel, ou explorer les opportunités",
-  "3 modèles de monétisation : revenus récurrents (MRR), revente de SaaS, ou commande client",
+  "3 modèles de monétisation : abonnement mensuel, revente du SaaS, ou prestation client",
   "Accès à vie + toutes les mises à jour futures",
 ]
 
 const blueprintBonusesLP = [
-  "NicheFinder™ — génère des idées de micro-SaaS rentables en quelques clics",
-  "MarketPulse™ — analyse et valide ta niche · score tes concurrents avant de construire",
-  "FlipCalc™ — projette ton MRR (revenus mensuels) et ton prix de revente",
-  "Toolbox Pro — les meilleurs outils IA du vibecoder avec guide de config inclus",
-  "Blueprint Acquisition — le guide pour trouver tes 100 premiers utilisateurs",
-  "Accès WhatsApp Buildrs — le groupe privé en accès direct",
+  "Jarvis IA — ton copilote intelligent qui te guide à chaque étape en temps réel",
+  "Agent Validator — valide ton idée SaaS avant de coder · score /100 + analyse concurrence",
+  "Toolbox Pro — les meilleurs outils IA du marché expliqués, testés, avec les prompts et configs prêts à l'emploi",
+  "WhatsApp Buildrs — accès privé à Alfred & Jarvis via le canal WhatsApp Buildrs",
 ]
 
 const claudePackFeatures = [
   "L'environnement Claude exact utilisé chez Buildrs — prêt à l'emploi en un téléchargement",
-  "System prompts, mémoire projet et contexte pré-configurés — Claude ne repart jamais de zéro",
-  "Les Skills (sous-agents spécialisés) : design, dev, archi, copy, debug — chacun expert dans son domaine",
-  "Connecteurs MCP : Supabase, GitHub, Stripe, Vercel, Figma — Claude accède directement à tes outils",
-  "Workflows multi-agents : des sous-agents qui travaillent en parallèle sur ton projet",
-  "Guide Claude Code + VS Code opérationnel en 15 min",
+  "Mémoire projet et contexte pré-configurés — ton IA ne repart jamais de zéro",
+  "Guide Claude Code opérationnel en 15 min — tu es prêt à construire immédiatement",
+]
+
+const acquisitionFeatures = [
+  "Les 5 canaux d'acquisition qui marchent en 2026 pour les micro-SaaS",
+  "Templates de DM, emails et posts prêts à copier-coller",
+  "Séquence de lancement J-7 à J+30 — jour par jour",
+  "Les communautés exactes où trouver ta cible (Reddit, Indie Hackers, Product Hunt, Discord)",
+]
+
+const agentsPackFeatures = [
+  "Jarvis — chef d'orchestre IA · coordonne tous tes agents sur ton projet",
+  "Validator — trouve et valide ton prochain SaaS IA · score /100 + analyse marché",
+  "Planner — ta stratégie produit + cahier des charges généré en 15 minutes",
+  "Designer — ton identité visuelle sans ouvrir Figma",
+  "Architect — ta base de données, ton auth et ton CLAUDE.md prêts à coder",
+  "Builder — tes prompts Claude Code organisés phase par phase",
+  "Launcher — landing page, séquence emails et ads Meta en autopilote",
 ]
 
 const socialProof = [
@@ -66,6 +82,164 @@ const socialProof = [
     text: "En 72h j'avais un outil fonctionnel en ligne. Pas parfait, mais live. Et ça change tout.",
   },
 ]
+
+// ─── Bump sub-components ──────────────────────────────────────────────────────
+
+function ClaudeMockup() {
+  return (
+    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', padding: '14px 16px', fontFamily: 'Geist Mono, monospace', fontSize: 11, color: '#5b6078' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#eab308' }} />
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e' }} />
+        <span style={{ marginLeft: 6, color: '#3d405e', fontSize: 10 }}>claude-code — buildrs-project</span>
+      </div>
+      {[
+        { label: '> memory', val: 'project context loaded ✓', col: '#cc5de8' },
+        { label: '> skills', val: '12 skills active ✓', col: '#4d96ff' },
+        { label: '> sub-agents', val: 'validator, builder, launcher', col: '#22c55e' },
+        { label: '> context', val: 'ready — 0 cold starts', col: '#f97316' },
+      ].map(({ label, val, col }) => (
+        <div key={label} style={{ display: 'flex', gap: 8, marginBottom: 5 }}>
+          <span style={{ color: '#3d405e' }}>{label}</span>
+          <span style={{ color: col }}>{val}</span>
+        </div>
+      ))}
+      <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px solid #1e2030', color: '#22c55e' }}>
+        ● Environnement prêt en 15 min
+      </div>
+    </div>
+  )
+}
+
+function AcquisitionMockup() {
+  const weeks = [
+    { week: 'Semaine 1', channel: 'LinkedIn + DMs ciblés', result: 'premiers contacts', color: '#4d96ff' },
+    { week: 'Semaine 2', channel: 'Product Hunt + Reddit', result: 'premiers signups', color: '#cc5de8' },
+    { week: 'Semaine 3', channel: 'Séquence email', result: '100 users', color: '#22c55e' },
+  ]
+  return (
+    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', padding: '14px 16px' }}>
+      <p style={{ fontSize: 9, fontWeight: 700, color: '#3d405e', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist Mono, monospace', marginBottom: 10 }}>Plan acquisition J1→J21</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {weeks.map(({ week, channel, result, color }, i) => (
+          <div key={week} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${color}18`, border: `1px solid ${color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span style={{ fontSize: 9, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace' }}>{i + 1}</span>
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 10, fontWeight: 600, color: '#9399b2', fontFamily: 'Geist, sans-serif', lineHeight: 1.2 }}>{week} · <span style={{ color: '#5b6078' }}>{channel}</span></p>
+            </div>
+            <span style={{ fontSize: 10, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace', whiteSpace: 'nowrap' }}>→ {result}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: 10, paddingTop: 8, borderTop: '1px solid #1e2030', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+        <span style={{ fontSize: 18, fontWeight: 800, color: '#22c55e', fontFamily: 'Geist Mono, monospace', letterSpacing: '-0.04em' }}>100</span>
+        <span style={{ fontSize: 11, color: '#5b6078', fontFamily: 'Geist, sans-serif' }}>premiers utilisateurs</span>
+      </div>
+    </div>
+  )
+}
+
+interface BumpCardProps {
+  checked: boolean
+  onToggle: () => void
+  name: string
+  strikeprice: string
+  addprice: string
+  socialProof: string
+  title: string
+  description: string
+  detailOpen: boolean
+  onToggleDetail: () => void
+  features: string[]
+  mockup: React.ReactNode
+  accentColor: string
+}
+
+function BumpCard({ checked, onToggle, name, strikeprice, addprice, socialProof, title, description, detailOpen, onToggleDetail, features, mockup, accentColor }: BumpCardProps) {
+  return (
+    <div className={`rounded-2xl border-2 transition-all overflow-hidden ${checked ? 'border-foreground bg-card' : 'border-border bg-card'}`}>
+
+      {/* ── Header cliquable ── */}
+      <button onClick={onToggle} className="w-full text-left p-6 cursor-pointer hover:bg-secondary/20 transition-colors">
+        <div className="flex items-start gap-4">
+          {/* Checkbox */}
+          <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors ${checked ? 'border-foreground bg-foreground' : 'border-border bg-background'}`}>
+            {checked && <Check size={11} strokeWidth={3} className="text-background" />}
+          </div>
+
+          <div className="flex-1 text-left">
+            {/* Badges row */}
+            <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
+              <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
+                Oui — ajouter
+              </span>
+              <span className="text-[14px] font-bold text-foreground">{name}</span>
+              <span className="text-[13px] font-medium text-muted-foreground/50 line-through">{strikeprice}</span>
+              <span className="text-[14px] font-bold text-foreground">{addprice}</span>
+            </div>
+
+            {/* Social proof badge */}
+            <div className="mb-3">
+              <span
+                className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                style={{ background: `${accentColor}14`, color: accentColor, border: `1px solid ${accentColor}30` }}
+              >
+                {socialProof}
+              </span>
+            </div>
+
+            {/* Title */}
+            <p className="mb-2 text-[14px] font-bold text-foreground leading-[1.3]">{title}</p>
+
+            {/* Description */}
+            <p className="text-[13px] text-muted-foreground leading-[1.55]">{description}</p>
+          </div>
+        </div>
+      </button>
+
+      {/* ── Mockup ── */}
+      <div className="px-6 pb-4">
+        {mockup}
+      </div>
+
+      {/* ── Toggle détail ── */}
+      <div className="px-6 pb-4">
+        <button
+          onClick={onToggleDetail}
+          className="flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-3 py-1.5"
+        >
+          {detailOpen ? 'Réduire' : 'Voir le détail'}
+          <ChevronDown size={13} strokeWidth={2} className="transition-transform duration-200" style={{ transform: detailOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+        </button>
+      </div>
+
+      {/* ── Détail expandable ── */}
+      {detailOpen && (
+        <div className="border-t border-border px-6 pb-6 pt-5">
+          <ul className="flex flex-col gap-[10px]">
+            {features.map((f, i) => (
+              <li key={i} className="flex items-start gap-2.5">
+                <Check size={13} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
+                <span className="text-muted-foreground text-[13px]">{f}</span>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={onToggleDetail}
+            className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronDown size={13} strokeWidth={2} style={{ transform: 'rotate(180deg)' }} />
+            Réduire
+          </button>
+        </div>
+      )}
+
+    </div>
+  )
+}
 
 // ─── Countdown ────────────────────────────────────────────────────────────────
 
@@ -91,19 +265,24 @@ function useCountdown(target: Date) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: CheckoutPageProps) {
+export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _hasAgentsBump, setHasAgentsBump: _setHasAgentsBump, hasAcquisitionBump, setHasAcquisitionBump, funnelSource, onBack }: CheckoutPageProps) {
+  const isClaudeFunnel = funnelSource === 'claude'
   const [dark, setDark] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showStripe, setShowStripe] = useState(false)
   const [offerOpen, setOfferOpen] = useState(false)
   const [claudeOpen, setClaudeOpen] = useState(false)
+  const [acquisitionOpen, setAcquisitionOpen] = useState(false)
   const checkoutRef = useRef<{ destroy: () => void } | null>(null)
   const mountRef = useRef<HTMLDivElement>(null)
 
-  const basePrice = 27
-  const bumpPrice = 37
-  const total = hasOrderBump ? basePrice + bumpPrice : basePrice
+  const basePrice = isClaudeFunnel ? 47 : 27
+  const bumpPrice = isClaudeFunnel ? 27 : 37
+  const acquisitionPrice = 27
+  const total = isClaudeFunnel
+    ? basePrice + (hasOrderBump ? bumpPrice : 0)
+    : basePrice + (hasOrderBump ? bumpPrice : 0) + (hasAcquisitionBump ? acquisitionPrice : 0)
 
   // Cleanup embedded checkout on unmount
   useEffect(() => {
@@ -117,7 +296,11 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
       const res = await fetch(`${SUPABASE_FUNCTIONS_URL}/create-checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ has_order_bump: hasOrderBump }),
+        body: JSON.stringify({
+          source: funnelSource,
+          has_order_bump: hasOrderBump,
+          has_acquisition_bump: isClaudeFunnel ? false : hasAcquisitionBump,
+        }),
       })
       const data = await res.json()
       if (!res.ok || !data.clientSecret) throw new Error(data.error ?? 'Erreur de connexion à Stripe')
@@ -210,7 +393,9 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
             Rejoins Buildrs
           </h1>
           <p className="mx-auto mt-3 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
-            Le système guidé pour créer et monétiser ton premier SaaS IA en autopilote.
+            {isClaudeFunnel
+              ? "L'environnement Claude exact pour construire des SaaS et des apps rentables."
+              : "Le système guidé pour créer et monétiser ton premier SaaS IA en autopilote."}
           </p>
           <p className="mx-auto mt-2 text-[13px] text-muted-foreground/60">
             Un seul paiement · Accès à vie
@@ -230,7 +415,9 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                 <div className="p-6 sm:p-7">
                   {/* Row 1 : label + badge */}
                   <div className="flex items-center justify-between gap-3 mb-4">
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Buildrs Blueprint</p>
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+                      {isClaudeFunnel ? 'Claude Buildrs' : 'Buildrs Blueprint'}
+                    </p>
                     <span
                       className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold flex-shrink-0"
                       style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
@@ -243,10 +430,12 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
                   {/* Row 2 : prix + toggle */}
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-[14px] font-medium text-muted-foreground/50 line-through">297€</span>
+                      <span className="text-[14px] font-medium text-muted-foreground/50 line-through">
+                        {isClaudeFunnel ? '97€' : '297€'}
+                      </span>
                       <div className="flex items-baseline gap-0.5">
                         <span className="text-[16px] font-semibold text-muted-foreground">€</span>
-                        <span style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }} className="text-foreground">27</span>
+                        <span style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }} className="text-foreground">{basePrice}</span>
                       </div>
                       <span className="text-[12px] text-muted-foreground">· paiement unique</span>
                     </div>
@@ -342,93 +531,57 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
               </div>
             </div>
 
-            {/* Order Bump — Claude 360° */}
-            <div className={`rounded-2xl border-2 transition-all overflow-hidden ${
-              hasOrderBump ? 'border-foreground bg-card' : 'border-border bg-card'
-            }`}>
-
-              {/* ── BANDEAU : checkbox + titre + prix + 1ère feature ── */}
-              <button
-                onClick={() => setHasOrderBump(!hasOrderBump)}
-                className="w-full text-left p-6 cursor-pointer hover:bg-secondary/20 transition-colors"
-              >
-                <div className="flex items-start gap-4">
-                  {/* Checkbox */}
-                  <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors ${
-                    hasOrderBump ? 'border-foreground bg-foreground' : 'border-border bg-background'
-                  }`}>
-                    {hasOrderBump && <Check size={11} strokeWidth={3} className="text-background" />}
-                  </div>
-
-                  <div className="flex-1 text-left">
-                    {/* Title + prix */}
-                    <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
-                        Oui — ajouter
-                      </span>
-                      <span className="text-[14px] font-bold text-foreground">Claude 360°</span>
-                      <span className="text-[13px] font-medium text-muted-foreground/50 line-through">97€</span>
-                      <span className="text-[14px] font-bold text-foreground">+37€</span>
-                    </div>
-
-                    <p className="mb-3 text-[13px] text-muted-foreground leading-[1.55]">
-                      Le setup exact qu'on utilise chez Buildrs pour construire des SaaS. Sous-agents, connecteurs MCP, mémoire projet — tout est inclus.
-                    </p>
-
-                  </div>
-                </div>
-              </button>
-
-              {/* ── TOGGLE "Voir le détail" ── */}
-              <div className="px-6 pb-4">
-                <button
-                  onClick={() => setClaudeOpen(o => !o)}
-                  className="flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-3 py-1.5"
-                >
-                  {claudeOpen ? 'Réduire' : 'Voir le détail'}
-                  <ChevronDown
-                    size={13}
-                    strokeWidth={2}
-                    className="transition-transform duration-200"
-                    style={{ transform: claudeOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                  />
-                </button>
-              </div>
-
-              {/* ── DÉTAIL COMPLET — expandable ── */}
-              {claudeOpen && (
-                <div className="border-t border-border px-6 pb-6 pt-5">
-                  <ul className="flex flex-col gap-[10px]">
-                    {claudePackFeatures.map((f, i) => {
-                      const dashIdx = f.indexOf(' — ')
-                      const colonIdx = f.indexOf(' : ')
-                      let content: React.ReactNode
-                      if (dashIdx !== -1) {
-                        content = <span className="text-muted-foreground text-[13px]"><span className="font-bold text-foreground">{f.slice(0, dashIdx)}</span> — {f.slice(dashIdx + 3)}</span>
-                      } else if (colonIdx !== -1) {
-                        content = <span className="text-muted-foreground text-[13px]"><span className="font-bold text-foreground">{f.slice(0, colonIdx)}</span> : {f.slice(colonIdx + 3)}</span>
-                      } else {
-                        content = <span className="font-bold text-foreground text-[13px]">{f}</span>
-                      }
-                      return (
-                        <li key={i} className="flex items-start gap-2.5">
-                          <Check size={13} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
-                          {content}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                  <button
-                    onClick={() => setClaudeOpen(false)}
-                    className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <ChevronDown size={13} strokeWidth={2} style={{ transform: 'rotate(180deg)' }} />
-                    Réduire
-                  </button>
-                </div>
-              )}
-
-            </div>
+            {/* ─── ORDER BUMP — adapté au funnel ──────────────────────────────── */}
+            {isClaudeFunnel ? (
+              <BumpCard
+                checked={hasOrderBump}
+                onToggle={() => setHasOrderBump(!hasOrderBump)}
+                name="Blueprint SaaS"
+                strikeprice="297€"
+                addprice="+27€"
+                socialProof="8/10 ajoutent cet upgrade"
+                title="Tu as la machine de guerre. Voici le plan de bataille."
+                description="7 modules pour construire ton premier SaaS rentable avec Claude. De l'idée au premier client payant — prompts, checklist, templates."
+                detailOpen={claudeOpen}
+                onToggleDetail={() => setClaudeOpen(o => !o)}
+                features={blueprintFeaturesLP}
+                mockup={<ClaudeMockup />}
+                accentColor="#4d96ff"
+              />
+            ) : (
+              <>
+                <BumpCard
+                  checked={hasOrderBump}
+                  onToggle={() => setHasOrderBump(!hasOrderBump)}
+                  name="Claude 360°"
+                  strikeprice="97€"
+                  addprice="+37€"
+                  socialProof="8/10 ajoutent cet upgrade"
+                  title="Configure ton Claude comme un pro en 15 minutes"
+                  description="L'environnement Claude exact utilisé chez Buildrs. Skills, MCP, sub-agents, mémoire projet — prêt à l'emploi."
+                  detailOpen={claudeOpen}
+                  onToggleDetail={() => setClaudeOpen(o => !o)}
+                  features={claudePackFeatures}
+                  mockup={<ClaudeMockup />}
+                  accentColor="#cc5de8"
+                />
+                <BumpCard
+                  checked={hasAcquisitionBump}
+                  onToggle={() => setHasAcquisitionBump(!hasAcquisitionBump)}
+                  name="Blueprint Acquisition"
+                  strikeprice="97€"
+                  addprice="+27€"
+                  socialProof="8/10 ajoutent cet upgrade"
+                  title="Tes 100 premiers clients"
+                  description="Tu vas construire ton SaaS. Mais sans clients c'est un hobby. Ce module te donne le plan exact pour trouver tes 100 premiers utilisateurs — les canaux, les messages, les templates, les séquences. Avant même d'avoir fini de construire."
+                  detailOpen={acquisitionOpen}
+                  onToggleDetail={() => setAcquisitionOpen(o => !o)}
+                  features={acquisitionFeatures}
+                  mockup={<AcquisitionMockup />}
+                  accentColor="#22c55e"
+                />
+              </>
+            )}
 
           </div>
 
@@ -457,13 +610,19 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, onBack }: Checkout
 
                   <div className="flex flex-col gap-2.5 text-[13px]">
                     <div className="flex justify-between text-muted-foreground">
-                      <span>Buildrs Blueprint</span>
-                      <span className="font-medium text-foreground">27€</span>
+                      <span>{isClaudeFunnel ? 'Claude Buildrs' : 'Buildrs Blueprint'}</span>
+                      <span className="font-medium text-foreground">{basePrice}€</span>
                     </div>
                     {hasOrderBump && (
                       <div className="flex justify-between text-muted-foreground">
-                        <span>Claude 360°</span>
-                        <span className="font-medium text-foreground">+37€</span>
+                        <span>{isClaudeFunnel ? 'Blueprint SaaS' : 'Claude 360°'}</span>
+                        <span className="font-medium text-foreground">+{bumpPrice}€</span>
+                      </div>
+                    )}
+                    {!isClaudeFunnel && hasAcquisitionBump && (
+                      <div className="flex justify-between text-muted-foreground">
+                        <span>Blueprint Acquisition</span>
+                        <span className="font-medium text-foreground">+27€</span>
                       </div>
                     )}
                     <hr className="border-border my-1" />
