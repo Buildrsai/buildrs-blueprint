@@ -5,6 +5,7 @@ import {
 } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import { BuildrsLogo, BuildrsIcon } from "./ui/icons"
+import { trackEvent } from "../lib/pixel"
 
 const SUPABASE_FUNCTIONS_URL = "https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1"
 
@@ -62,6 +63,19 @@ export function UpsellCohortPage({ onDecline }: Props) {
   const { d, h, m, s } = useCountdown(deadline)
 
   useEffect(() => () => { checkoutRef.current?.destroy() }, [])
+
+  // Fire Purchase event when arriving here from Stripe (return_url = #/upsell-cohort)
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash.includes('session_id=')) return
+    const isClaude       = hash.includes('source=claude')
+    const hasBump        = hash.includes('bump=1')
+    const hasAcquisition = hash.includes('acquisition=1')
+    const value = isClaude
+      ? 47 + (hasBump ? 27 : 0)
+      : 27 + (hasBump ? 37 : 0) + (hasAcquisition ? 27 : 0)
+    trackEvent('Purchase', { value, currency: 'EUR', num_items: 1 })
+  }, [])
 
   const cohortPrice      = cohortMode === "once" ? 1497 : 499
   const cohortPriceLabel = cohortMode === "once" ? "1 497€" : "3 × 499€"
