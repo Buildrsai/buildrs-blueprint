@@ -20,14 +20,19 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json().catch(() => ({}))
-    const hasOrderBump: boolean = body.has_order_bump === true
+    const hasOrderBump: boolean       = body.has_order_bump === true
+    const hasAcquisitionBump: boolean = body.has_acquisition_bump === true
+    const source: 'blueprint' | 'claude' = body.source === 'claude' ? 'claude' : 'blueprint'
+    const isClaudeFunnel = source === 'claude'
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
         price_data: {
           currency: 'eur',
-          product_data: { name: 'Buildrs Blueprint' },
-          unit_amount: 2700,
+          product_data: {
+            name: isClaudeFunnel ? 'Claude Buildrs' : 'Buildrs Blueprint',
+          },
+          unit_amount: isClaudeFunnel ? 4700 : 2700,
         },
         quantity: 1,
       },
@@ -37,30 +42,49 @@ Deno.serve(async (req) => {
       lineItems.push({
         price_data: {
           currency: 'eur',
-          product_data: { name: 'Module Claude — Buildrs Blueprint' },
-          unit_amount: 3700,
+          product_data: {
+            name: isClaudeFunnel
+              ? 'Blueprint SaaS — Buildrs'
+              : 'Claude 360° — Buildrs Blueprint',
+          },
+          unit_amount: isClaudeFunnel ? 2700 : 3700,
         },
         quantity: 1,
       })
     }
 
-    const bumpParam = hasOrderBump ? '&bump=1' : ''
+    if (!isClaudeFunnel && hasAcquisitionBump) {
+      lineItems.push({
+        price_data: {
+          currency: 'eur',
+          product_data: { name: 'Blueprint Acquisition' },
+          unit_amount: 2700,
+        },
+        quantity: 1,
+      })
+    }
+
+    const sourceParam      = isClaudeFunnel    ? '&source=claude' : ''
+    const bumpParam        = hasOrderBump      ? '&bump=1'        : ''
+    const acquisitionParam = hasAcquisitionBump && !isClaudeFunnel ? '&acquisition=1' : ''
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       mode: 'payment',
       line_items: lineItems,
       metadata: {
-        product: 'blueprint',
-        has_order_bump: hasOrderBump ? 'true' : 'false',
+        product:              isClaudeFunnel ? 'claude' : 'blueprint',
+        has_order_bump:       hasOrderBump       ? 'true' : 'false',
+        has_acquisition_bump: hasAcquisitionBump ? 'true' : 'false',
       },
       payment_intent_data: {
         metadata: {
-          product: 'blueprint',
-          has_order_bump: hasOrderBump ? 'true' : 'false',
+          product:              isClaudeFunnel ? 'claude' : 'blueprint',
+          has_order_bump:       hasOrderBump       ? 'true' : 'false',
+          has_acquisition_bump: hasAcquisitionBump ? 'true' : 'false',
         },
       },
-      return_url: `${RETURN_BASE}/#/upsell-cohort?session_id={CHECKOUT_SESSION_ID}${bumpParam}`,
+      return_url: `${RETURN_BASE}/#/upsell-cohort?session_id={CHECKOUT_SESSION_ID}${sourceParam}${bumpParam}${acquisitionParam}`,
     })
 
     return new Response(
