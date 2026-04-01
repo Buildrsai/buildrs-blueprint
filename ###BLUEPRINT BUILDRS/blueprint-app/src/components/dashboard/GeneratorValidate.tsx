@@ -114,7 +114,7 @@ export function GeneratorValidate({ navigate: _navigate }: Props) {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <ShieldCheck size={16} strokeWidth={1.5} className="text-muted-foreground" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
           </div>
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
             MarketPulse
@@ -228,7 +228,7 @@ export function GeneratorValidate({ navigate: _navigate }: Props) {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <ShieldCheck size={16} strokeWidth={1.5} className="text-muted-foreground" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
           </div>
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
             MarketPulse
@@ -261,7 +261,7 @@ export function GeneratorValidate({ navigate: _navigate }: Props) {
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1.5">
           <ShieldCheck size={16} strokeWidth={1.5} className="text-muted-foreground" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>

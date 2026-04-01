@@ -5,7 +5,8 @@ const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!, {
   httpClient: Stripe.createFetchHttpClient(),
 })
 
-const RETURN_BASE = 'https://buildrs.fr'
+const ALLOWED_ORIGINS = ['https://buildrs.fr', 'https://claude.buildrs.fr']
+const DEFAULT_RETURN_BASE = 'https://buildrs.fr'
 const PUBLISHABLE_KEY = Deno.env.get('STRIPE_PUBLISHABLE_KEY')!
 
 const corsHeaders = {
@@ -24,6 +25,7 @@ Deno.serve(async (req) => {
     const hasAcquisitionBump: boolean = body.has_acquisition_bump === true
     const source: 'blueprint' | 'claude' = body.source === 'claude' ? 'claude' : 'blueprint'
     const isClaudeFunnel = source === 'claude'
+    const returnBase = ALLOWED_ORIGINS.includes(body.origin) ? body.origin : DEFAULT_RETURN_BASE
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       {
@@ -84,7 +86,7 @@ Deno.serve(async (req) => {
           has_acquisition_bump: hasAcquisitionBump ? 'true' : 'false',
         },
       },
-      return_url: `${RETURN_BASE}/#/upsell-cohort?session_id={CHECKOUT_SESSION_ID}${sourceParam}${bumpParam}${acquisitionParam}`,
+      return_url: `${returnBase}/#/upsell-cohort?session_id={CHECKOUT_SESSION_ID}${sourceParam}${bumpParam}${acquisitionParam}`,
     })
 
     return new Response(

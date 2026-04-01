@@ -86,57 +86,99 @@ const socialProof = [
 // ─── Bump sub-components ──────────────────────────────────────────────────────
 
 function ClaudeMockup() {
+  const sidebarItems = ['Profil', 'Général', 'Compte', 'Connecteurs', 'Claude Code']
+  const activeItem = 'Claude Code'
   return (
-    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', padding: '14px 16px', fontFamily: 'Geist Mono, monospace', fontSize: 11, color: '#5b6078' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#eab308' }} />
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e' }} />
-        <span style={{ marginLeft: 6, color: '#3d405e', fontSize: 10 }}>claude-code — buildrs-project</span>
+    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', overflow: 'hidden', fontFamily: 'Geist, sans-serif' }}>
+      {/* Title bar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 12px', borderBottom: '1px solid #1e2030', background: '#0a0a0d' }}>
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#ef4444' }} />
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#eab308' }} />
+        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e' }} />
+        <span style={{ marginLeft: 8, fontSize: 10, color: '#3d405e', fontFamily: 'Geist Mono, monospace' }}>Claude — Paramètres</span>
       </div>
-      {[
-        { label: '> memory', val: 'project context loaded ✓', col: '#cc5de8' },
-        { label: '> skills', val: '12 skills active ✓', col: '#4d96ff' },
-        { label: '> sub-agents', val: 'validator, builder, launcher', col: '#22c55e' },
-        { label: '> context', val: 'ready — 0 cold starts', col: '#f97316' },
-      ].map(({ label, val, col }) => (
-        <div key={label} style={{ display: 'flex', gap: 8, marginBottom: 5 }}>
-          <span style={{ color: '#3d405e' }}>{label}</span>
-          <span style={{ color: col }}>{val}</span>
+      <div style={{ display: 'flex', height: 148 }}>
+        {/* Sidebar */}
+        <div style={{ width: 100, borderRight: '1px solid #1e2030', padding: '10px 0', flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
+            {sidebarItems.map(item => (
+              <div key={item} style={{
+                padding: '5px 10px', fontSize: 10,
+                color: item === activeItem ? '#fff' : '#4a4d6a',
+                background: item === activeItem ? '#1a1a2e' : 'transparent',
+                fontWeight: item === activeItem ? 600 : 400,
+                borderLeft: item === activeItem ? '2px solid #e8682a' : '2px solid transparent',
+                cursor: 'default',
+              }}>{item}</div>
+            ))}
+          </div>
+          <div style={{ padding: '8px 10px', borderTop: '1px solid #1e2030' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'linear-gradient(135deg, #e8682a, #cc5de8)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 8, fontWeight: 700, color: '#fff' }}>A</span>
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: 8, fontWeight: 600, color: '#9399b2', margin: 0 }}>Alfred Orsini</p>
+                <p style={{ fontSize: 7, color: '#3d405e', margin: 0 }}>Buildrs Group</p>
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
-      <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px solid #1e2030', color: '#22c55e' }}>
-        ● Environnement prêt en 15 min
+        {/* Main */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 16px' }}>
+          <div style={{ width: 44, height: 44, borderRadius: 10, background: '#e8682a', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 18px rgba(232,104,42,0.35)' }}>
+            <ClaudeIcon size={26} style={{ color: '#fff' }} />
+          </div>
+          <p style={{ fontSize: 12, fontWeight: 700, color: '#e8e9f0', letterSpacing: '-0.02em', margin: 0 }}>claude.ai</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}>
+            {[
+              { label: 'Mémoire projet', val: 'active', color: '#22c55e' },
+              { label: 'Skills chargés', val: '12', color: '#4d96ff' },
+              { label: 'Sub-agents', val: '3', color: '#cc5de8' },
+            ].map(({ label, val, color }) => (
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: 9, color: '#4a4d6a', fontFamily: 'Geist Mono, monospace' }}>{label}</span>
+                <span style={{ fontSize: 9, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace' }}>{val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
 function AcquisitionMockup() {
-  const weeks = [
-    { week: 'Semaine 1', channel: 'LinkedIn + DMs ciblés', result: 'premiers contacts', color: '#4d96ff' },
-    { week: 'Semaine 2', channel: 'Product Hunt + Reddit', result: 'premiers signups', color: '#cc5de8' },
-    { week: 'Semaine 3', channel: 'Séquence email', result: '100 users', color: '#22c55e' },
+  const steps = [
+    { tag: 'J-7',  label: 'Ciblage',         sub: 'Reddit · IH · Discord',     color: '#4d96ff' },
+    { tag: 'J1',   label: 'DMs + posts',      sub: 'LinkedIn · X · forums',     color: '#4d96ff' },
+    { tag: 'J7',   label: 'Product Hunt',     sub: 'launch day',                color: '#cc5de8' },
+    { tag: 'J14',  label: 'Séquence email',   sub: 'onboarding → conversion',   color: '#f97316' },
+    { tag: 'J30',  label: '100 users',        sub: 'objectif',                  color: '#22c55e' },
   ]
   return (
-    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', padding: '14px 16px' }}>
-      <p style={{ fontSize: 9, fontWeight: 700, color: '#3d405e', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist Mono, monospace', marginBottom: 10 }}>Plan acquisition J1→J21</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {weeks.map(({ week, channel, result, color }, i) => (
-          <div key={week} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${color}18`, border: `1px solid ${color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <span style={{ fontSize: 9, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace' }}>{i + 1}</span>
+    <div style={{ borderRadius: 10, background: '#0d0d10', border: '1px solid #1e2030', padding: '14px 16px', fontFamily: 'Geist, sans-serif' }}>
+      <p style={{ fontSize: 9, fontWeight: 700, color: '#3d405e', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist Mono, monospace', margin: '0 0 10px' }}>Plan acquisition J-7→J+30</p>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}>
+        {steps.map(({ tag, label, sub, color }, i) => (
+          <div key={tag} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, width: '100%' }}>
+            {/* Timeline line + dot */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, width: 20 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: color, boxShadow: `0 0 6px ${color}80`, marginTop: 2 }} />
+              {i < steps.length - 1 && (
+                <div style={{ width: 1, height: 20, background: `linear-gradient(to bottom, ${color}60, ${steps[i+1].color}40)`, marginTop: 2 }} />
+              )}
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#9399b2', fontFamily: 'Geist, sans-serif', lineHeight: 1.2 }}>{week} · <span style={{ color: '#5b6078' }}>{channel}</span></p>
+            {/* Content */}
+            <div style={{ flex: 1, paddingBottom: i < steps.length - 1 ? 8 : 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ fontSize: 8, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace', background: `${color}18`, border: `1px solid ${color}30`, borderRadius: 3, padding: '1px 4px' }}>{tag}</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: '#9399b2' }}>{label}</span>
+              </div>
+              <p style={{ fontSize: 9, color: '#3d405e', margin: '2px 0 0', fontFamily: 'Geist Mono, monospace' }}>{sub}</p>
             </div>
-            <span style={{ fontSize: 10, fontWeight: 700, color, fontFamily: 'Geist Mono, monospace', whiteSpace: 'nowrap' }}>→ {result}</span>
           </div>
         ))}
-      </div>
-      <div style={{ marginTop: 10, paddingTop: 8, borderTop: '1px solid #1e2030', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-        <span style={{ fontSize: 18, fontWeight: 800, color: '#22c55e', fontFamily: 'Geist Mono, monospace', letterSpacing: '-0.04em' }}>100</span>
-        <span style={{ fontSize: 11, color: '#5b6078', fontFamily: 'Geist, sans-serif' }}>premiers utilisateurs</span>
       </div>
     </div>
   )
@@ -156,9 +198,11 @@ interface BumpCardProps {
   features: string[]
   mockup: React.ReactNode
   accentColor: string
+  icon?: React.ReactNode
+  colorBadge?: { text: string; color: string }
 }
 
-function BumpCard({ checked, onToggle, name, strikeprice, addprice, socialProof, title, description, detailOpen, onToggleDetail, features, mockup, accentColor }: BumpCardProps) {
+function BumpCard({ checked, onToggle, name, strikeprice, addprice, socialProof, title, description, detailOpen, onToggleDetail, features, mockup, accentColor, icon, colorBadge }: BumpCardProps) {
   return (
     <div className={`rounded-2xl border-2 transition-all overflow-hidden ${checked ? 'border-foreground bg-card' : 'border-border bg-card'}`}>
 
@@ -176,7 +220,16 @@ function BumpCard({ checked, onToggle, name, strikeprice, addprice, socialProof,
               <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
                 Oui — ajouter
               </span>
+              {icon && <span className="flex items-center">{icon}</span>}
               <span className="text-[14px] font-bold text-foreground">{name}</span>
+              {colorBadge && (
+                <span
+                  className="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider"
+                  style={{ background: `${colorBadge.color}18`, color: colorBadge.color, border: `1px solid ${colorBadge.color}40` }}
+                >
+                  {colorBadge.text}
+                </span>
+              )}
               <span className="text-[13px] font-medium text-muted-foreground/50 line-through">{strikeprice}</span>
               <span className="text-[14px] font-bold text-foreground">{addprice}</span>
             </div>
@@ -300,6 +353,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _ha
           source: funnelSource,
           has_order_bump: hasOrderBump,
           has_acquisition_bump: isClaudeFunnel ? false : hasAcquisitionBump,
+          origin: window.location.origin,
         }),
       })
       const data = await res.json()
@@ -414,8 +468,9 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _ha
                 {/* ── BANDEAU TOUJOURS VISIBLE ── */}
                 <div className="p-6 sm:p-7">
                   {/* Row 1 : label + badge */}
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <p className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+                      {isClaudeFunnel && <ClaudeIcon size={14} />}
                       {isClaudeFunnel ? 'Claude Buildrs' : 'Buildrs Blueprint'}
                     </p>
                     <span
@@ -556,7 +611,7 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _ha
                   name="Claude 360°"
                   strikeprice="97€"
                   addprice="+37€"
-                  socialProof="8/10 ajoutent cet upgrade"
+                  socialProof="9/10 ajoutent cet upgrade"
                   title="Configure ton Claude comme un pro en 15 minutes"
                   description="L'environnement Claude exact utilisé chez Buildrs. Skills, MCP, sub-agents, mémoire projet — prêt à l'emploi."
                   detailOpen={claudeOpen}
@@ -564,6 +619,8 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _ha
                   features={claudePackFeatures}
                   mockup={<ClaudeMockup />}
                   accentColor="#cc5de8"
+                  icon={<ClaudeIcon size={16} />}
+                  colorBadge={{ text: 'PLUG & PLAY', color: '#8b5cf6' }}
                 />
                 <BumpCard
                   checked={hasAcquisitionBump}
@@ -696,23 +753,34 @@ export function CheckoutPage({ hasOrderBump, setHasOrderBump, hasAgentsBump: _ha
         />
         <div className="relative mx-auto max-w-[640px]">
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
-            Buildrs Blueprint
+            {isClaudeFunnel ? (
+              <span className="flex items-center justify-center gap-1.5">
+                <ClaudeIcon size={13} />
+                Buildrs Claude
+              </span>
+            ) : 'Buildrs Blueprint'}
           </p>
           <h2
             className="mb-5 text-foreground"
             style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}
           >
-            Prêt à créer un SaaS 100% autonome<br className="hidden sm:inline" /> qui te rapporte même quand tu dors ?
+            {isClaudeFunnel
+              ? <>Prêt à installer l'environnement Claude<br className="hidden sm:inline" /> qui génère +25{"\u00a0"}000€/mois ?</>
+              : <>Prêt à créer un SaaS 100% autonome<br className="hidden sm:inline" /> qui te rapporte même quand tu dors ?</>
+            }
           </h2>
           <p className="mb-8 text-[15px] leading-[1.65] text-muted-foreground">
-            Rejoins les builders qui ont déjà lancé leur produit — sans coder, sans budget, sans expérience.
+            {isClaudeFunnel
+              ? "Le setup complet — Skills, MCP, CLAUDE.md, sub-agents. Opérationnel en une journée."
+              : "Rejoins les builders qui ont déjà lancé leur produit — sans coder, sans budget, sans expérience."
+            }
           </p>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="cta-white-ring inline-flex items-center gap-2.5 rounded-[10px] bg-foreground px-8 py-4 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 cursor-pointer"
           >
             <ArrowUp size={16} strokeWidth={2} />
-            Voir l'offre — 27€ →
+            {isClaudeFunnel ? "Voir l'offre — 47€ →" : "Voir l'offre — 27€ →"}
           </button>
           <p className="mt-4 text-[12px] text-muted-foreground/50">
             Paiement sécurisé · Accès immédiat · Satisfait ou remboursé 30j

@@ -29,6 +29,7 @@ interface Props {
   userFirstName?: string | undefined
   userAvatarUrl?: string | undefined
   onSignOut: () => void
+  hasPack?: boolean
 }
 
 export function DashboardLayout({
@@ -45,6 +46,7 @@ export function DashboardLayout({
   userFirstName,
   userAvatarUrl,
   onSignOut,
+  hasPack = false,
 }: Props) {
   const [moreOpen, setMoreOpen] = useState(false)
 
@@ -64,6 +66,7 @@ export function DashboardLayout({
         moduleProgress={moduleProgress}
         journalCount={journalCount}
         isDark={isDark}
+        hasPack={hasPack}
         onToggleDark={onToggleDark}
       />
 
@@ -98,12 +101,6 @@ export function DashboardLayout({
                 label: "Parcours",
                 active: currentPath.includes('/module/'),
                 onClick: () => go('#/dashboard/module/00'),
-              },
-              {
-                icon: Lightbulb,
-                label: "Outils IA",
-                active: currentPath.includes('/generator'),
-                onClick: () => go('#/dashboard/generator'),
               },
               {
                 icon: FolderOpen,
@@ -181,15 +178,6 @@ export function DashboardLayout({
                   </button>
                 )
               })}
-
-              {/* Outils IA */}
-              <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
-                Outils IA
-              </p>
-              <button onClick={() => go('#/dashboard/generator')} className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors ${currentPath.includes('/generator') ? 'bg-foreground text-background' : 'hover:bg-secondary/60 text-muted-foreground'}`}>
-                <Lightbulb size={14} strokeWidth={1.5} />
-                <span className="text-[13px] font-medium">Outils IA</span>
-              </button>
 
               {/* Ressources */}
               <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">

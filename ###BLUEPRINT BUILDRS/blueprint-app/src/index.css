@@ -94,6 +94,11 @@
   to   { transform: translateX(0); }
 }
 
+@keyframes marquee-scroll-third {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
 @keyframes particle-float {
   0%, 100% { transform: translateY(0px) scale(1); opacity: var(--op); }
   50%       { transform: translateY(-18px) scale(1.15); opacity: calc(var(--op) * 0.4); }
@@ -149,6 +154,12 @@
   to   { transform: rotate(360deg); }
 }
 
+/* ── AGENTS CTA BUTTON ── */
+.agents-cta-btn:hover {
+  border-color: rgba(255,255,255,0.28) !important;
+  box-shadow: 0 0 28px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.10) !important;
+}
+
 /* ── CURSOR BLINK ── */
 @keyframes cursor-blink {
   0%, 100% { opacity: 1; }
@@ -199,6 +210,29 @@
 @keyframes hero-float {
   0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
   50%       { transform: translateY(-14px) rotate(-1.5deg); }
+}
+
+@keyframes orbit-inner {
+  from { transform: rotate(0deg) translateX(72px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(72px) rotate(-360deg); }
+}
+@keyframes orbit-outer {
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+@keyframes orbit-outer-rev {
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to   { transform: rotate(-360deg) translateX(120px) rotate(360deg); }
+}
+
+/* Larger orbit keyframes for Claude LP */
+@keyframes orbit-inner-lg {
+  from { transform: rotate(0deg) translateX(115px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(115px) rotate(-360deg); }
+}
+@keyframes orbit-outer-lg {
+  from { transform: rotate(0deg) translateX(190px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(190px) rotate(-360deg); }
 }
 
 @keyframes bump-spin {

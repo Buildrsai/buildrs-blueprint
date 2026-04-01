@@ -1,22 +1,18 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
-import { ArrowUp, Paperclip } from 'lucide-react'
-import { cn } from '../../lib/utils'
-import { Textarea } from '../ui/textarea'
+import { Send } from 'lucide-react'
 
-// ── Quick-action suggestions ─────────────────────────────────────────────
+// ── Quick-action suggestions ───────────────────────────────────────────────────
 const SUGGESTIONS = [
-  { label: 'Mon projet',        message: 'Où en est mon projet ?' },
-  { label: 'Par où commencer',  message: 'Par où je commence ?' },
-  { label: 'Mes prompts',       message: 'Où sont les prompts ?' },
-  { label: 'Claude Code',       message: 'Comment utiliser Claude Code ?' },
-  { label: 'Ma checklist',      message: 'Montre-moi ma checklist' },
-  { label: 'Valider mon idée',  message: 'Comment valider mon idée ?' },
+  { label: 'Mon projet',       message: 'Où en est mon projet ?' },
+  { label: 'Par où commencer', message: 'Par où je commence ?' },
+  { label: 'Mes prompts',      message: 'Où sont les prompts ?' },
+  { label: 'Claude Code',      message: 'Comment utiliser Claude Code ?' },
+  { label: 'Ma checklist',     message: 'Montre-moi ma checklist' },
+  { label: 'Valider mon idée', message: 'Comment valider mon idée ?' },
 ]
 
-// ── Auto-resize hook ─────────────────────────────────────────────────────
-function useAutoResize(minHeight: number, maxHeight = 200) {
+function useAutoResize(minHeight: number, maxHeight = 180) {
   const ref = useRef<HTMLTextAreaElement>(null)
-
   const adjust = useCallback((reset?: boolean) => {
     const el = ref.current
     if (!el) return
@@ -24,21 +20,15 @@ function useAutoResize(minHeight: number, maxHeight = 200) {
     el.style.height = `${minHeight}px`
     el.style.height = `${Math.min(el.scrollHeight, maxHeight)}px`
   }, [minHeight, maxHeight])
-
-  useEffect(() => {
-    if (ref.current) ref.current.style.height = `${minHeight}px`
-  }, [minHeight])
-
+  useEffect(() => { if (ref.current) ref.current.style.height = `${minHeight}px` }, [minHeight])
   useEffect(() => {
     const onResize = () => adjust()
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [adjust])
-
   return { ref, adjust }
 }
 
-// ── Component ─────────────────────────────────────────────────────────────
 interface Props {
   onSend: (text: string) => void
   disabled: boolean
@@ -46,7 +36,7 @@ interface Props {
 
 export function JarvisInputBar({ onSend, disabled }: Props) {
   const [value, setValue] = useState('')
-  const { ref, adjust } = useAutoResize(52, 180)
+  const { ref, adjust } = useAutoResize(44, 180)
 
   const handleSend = useCallback(() => {
     const trimmed = value.trim()
@@ -57,93 +47,79 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
   }, [value, disabled, onSend, adjust])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
-    }
-  }
-
-  const handleSuggestion = (msg: string) => {
-    if (disabled) return
-    onSend(msg)
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
   }
 
   const hasValue = value.trim().length > 0
 
   return (
-    <div className="flex-shrink-0 px-4 pb-4 pt-2">
-
-      {/* ── Suggestions ── */}
-      <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+    <div style={{ flexShrink: 0, padding: '10px 20px 18px', borderTop: '1px solid #1e2030', background: '#0f1015' }}>
+      {/* Suggestions */}
+      <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' }}>
         {SUGGESTIONS.map(s => (
           <button
             key={s.label}
             type="button"
-            onClick={() => handleSuggestion(s.message)}
+            onClick={() => { if (!disabled) onSend(s.message) }}
             disabled={disabled}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary hover:bg-foreground/8 border border-border hover:border-foreground/20 rounded-full text-[11px] font-medium text-muted-foreground hover:text-foreground transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="jv-qa-btn"
+            style={{
+              padding: '6px 12px', background: '#15161d',
+              border: '1px solid #1e2030', borderRadius: 8,
+              fontSize: 11, fontWeight: 500, color: '#9399b2',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              opacity: disabled ? 0.4 : 1, transition: '.2s',
+              fontFamily: 'Geist, sans-serif',
+            }}
           >
             {s.label}
           </button>
         ))}
       </div>
 
-      {/* ── Input container ── */}
-      <div className="relative bg-secondary border border-border rounded-xl overflow-hidden focus-within:border-foreground/25 transition-colors">
-
-        {/* Textarea */}
-        <Textarea
+      {/* Input */}
+      <div style={{
+        display: 'flex', alignItems: 'flex-end', gap: 8,
+        background: '#15161d', border: '1px solid #1e2030',
+        borderRadius: 12, padding: '4px 6px 4px 16px', transition: '.25s',
+      }}>
+        <textarea
           ref={ref}
           value={value}
           onChange={e => { setValue(e.target.value); adjust() }}
           onKeyDown={handleKeyDown}
           disabled={disabled}
           placeholder="Pose ta question à Jarvis..."
-          className={cn(
-            'w-full px-4 py-3.5',
-            'resize-none',
-            'bg-transparent border-none shadow-none',
-            'text-foreground text-[13px]',
-            'focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0',
-            'placeholder:text-muted-foreground/60 placeholder:text-[13px]',
-            'min-h-[52px]',
-            'disabled:opacity-50',
-          )}
-          style={{ overflow: 'hidden' }}
+          rows={1}
+          style={{
+            flex: 1, resize: 'none', background: 'none', border: 'none', outline: 'none',
+            fontFamily: 'Geist, sans-serif', fontSize: 13, color: '#f0f0f5',
+            padding: '10px 0', lineHeight: 1.5, minHeight: 44, maxHeight: 180,
+            overflow: 'hidden', opacity: disabled ? 0.5 : 1,
+          }}
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
         />
-
-        {/* Bottom bar */}
-        <div className="flex items-center justify-between px-3 pb-3 pt-0">
-          {/* Left — attach */}
-          <button
-            type="button"
-            className="p-1.5 text-muted-foreground/50 hover:text-muted-foreground rounded-lg hover:bg-foreground/5 transition-colors"
-            tabIndex={-1}
-          >
-            <Paperclip size={14} strokeWidth={1.5} />
-          </button>
-
-          {/* Right — send */}
-          <button
-            type="button"
-            onClick={handleSend}
-            disabled={disabled || !hasValue}
-            className={cn(
-              'w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150',
-              hasValue && !disabled
-                ? 'bg-foreground text-background hover:opacity-85'
-                : 'bg-border text-muted-foreground/40 cursor-not-allowed',
-            )}
-            aria-label="Envoyer"
-          >
-            <ArrowUp size={13} strokeWidth={2} />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleSend}
+          disabled={disabled || !hasValue}
+          style={{
+            width: 34, height: 34, borderRadius: 8, flexShrink: 0,
+            background: hasValue && !disabled ? '#6366f1' : '#2a2d3e',
+            border: 'none', cursor: hasValue && !disabled ? 'pointer' : 'default',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: '.2s', color: 'white', opacity: disabled ? 0.5 : 1,
+          }}
+        >
+          <Send size={13} strokeWidth={2} />
+        </button>
       </div>
 
+      <style>{`
+        .jv-qa-btn:hover:not(:disabled) { border-color: rgba(99,102,241,0.4) !important; color: #6366f1 !important; background: rgba(99,102,241,0.06) !important; }
+      `}</style>
     </div>
   )
 }

@@ -101,9 +101,74 @@ interface Props {
   navigate: (hash: string) => void
   isCompleted: (moduleId: string, lessonId: string) => boolean
   markComplete: (moduleId: string, lessonId: string) => Promise<void>
+  hasPack?: boolean
+  module01Complete?: boolean
 }
 
-export function LessonPage({ moduleId, lessonId, navigate, isCompleted, markComplete }: Props) {
+const AGENT_CHIPS = [
+  { label: 'Planner',   color: '#3b82f6' },
+  { label: 'Designer',  color: '#f43f5e' },
+  { label: 'Architect', color: '#f97316' },
+  { label: 'Builder',   color: '#8b5cf6' },
+  { label: 'Launcher',  color: '#14b8a6' },
+]
+
+function PackAgentsCTA({ navigate, hasPack, module01Complete }: { navigate: (hash: string) => void; hasPack: boolean; module01Complete: boolean }) {
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    if (hasPack || !module01Complete) return
+    const KEY = 'buildrs_agents_upsell_shown'
+    if (sessionStorage.getItem(KEY)) return
+    sessionStorage.setItem(KEY, '1')
+    setShow(true)
+  }, [hasPack, module01Complete])
+
+  if (!show) return null
+
+  return (
+    <div className="mb-6 relative rounded-2xl overflow-hidden" style={{ padding: 2 }}>
+      <div className="absolute" style={{
+        inset: -40,
+        background: 'conic-gradient(#4d96ff, #8b5cf6, #f43f5e, #f97316, #14b8a6, #4d96ff)',
+        animation: 'cohorte-spin 4s linear infinite',
+      }} />
+      <div className="relative rounded-[14px] overflow-hidden" style={{ background: 'hsl(var(--background))' }}>
+        <div className="px-5 py-3" style={{ background: 'hsl(var(--foreground))' }}>
+          <p className="font-extrabold" style={{ fontSize: 14, letterSpacing: '-0.02em', color: 'hsl(var(--background))' }}>
+            Accélère ton build
+          </p>
+          <p style={{ fontSize: 11, color: 'hsl(var(--background) / 0.65)', marginTop: 2 }}>
+            5 agents IA spécialisés
+          </p>
+        </div>
+        <div className="p-4">
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {AGENT_CHIPS.map(({ label, color }) => (
+              <span key={label} className="text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: `${color}20`, color, border: `1px solid ${color}40` }}>
+                {label}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-baseline gap-1.5 mb-3">
+            <span className="text-foreground font-extrabold" style={{ fontSize: 24, letterSpacing: '-0.03em' }}>197€</span>
+            <span className="text-muted-foreground line-through" style={{ fontSize: 11 }}>497€</span>
+            <span className="text-muted-foreground" style={{ fontSize: 10 }}>une fois</span>
+          </div>
+          <button
+            onClick={() => navigate('#/dashboard/offers')}
+            className="cta-rainbow w-full relative rounded-xl font-semibold transition-opacity hover:opacity-90"
+            style={{ background: 'hsl(var(--foreground))', color: 'hsl(var(--background))', padding: '9px 18px', fontSize: 12 }}
+          >
+            Débloquer les Agents IA →
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function LessonPage({ moduleId, lessonId, navigate, isCompleted, markComplete, hasPack = false, module01Complete = false }: Props) {
   const lesson = getLesson(moduleId, lessonId)
   const mod = getModule(moduleId)
   const nextLesson = getNextLesson(moduleId, lessonId)
@@ -431,53 +496,7 @@ export function LessonPage({ moduleId, lessonId, navigate, isCompleted, markComp
       }
 
       case 'cohorte-cta':
-        return (
-          <div key={idx} className="mb-6 relative rounded-2xl overflow-hidden" style={{ padding: 2 }}>
-            {/* Spinning rainbow border */}
-            <div className="absolute" style={{
-              inset: -40,
-              background: 'conic-gradient(#ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b)',
-              animation: 'cohorte-spin 4s linear infinite',
-            }} />
-            {/* Content */}
-            <div className="relative rounded-[14px] overflow-hidden" style={{ background: 'hsl(var(--background))' }}>
-              {/* Header */}
-              <div className="px-5 py-3" style={{ background: 'hsl(var(--foreground))' }}>
-                <p className="font-extrabold" style={{ fontSize: 14, letterSpacing: '-0.02em', color: 'hsl(var(--background))' }}>
-                  Envie d'aller plus vite ?
-                </p>
-                <p style={{ fontSize: 11, color: 'hsl(var(--background) / 0.65)', marginTop: 2 }}>
-                  On construit avec toi
-                </p>
-              </div>
-              {/* Body — dual offer mini-cards */}
-              <div className="p-4">
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {/* Sprint */}
-                  <div className="rounded-xl border border-border bg-card p-3">
-                    <p className="font-bold text-foreground mb-0.5" style={{ fontSize: 12, letterSpacing: '-0.02em' }}>Sprint</p>
-                    <p className="text-muted-foreground mb-2" style={{ fontSize: 10, lineHeight: 1.4 }}>MVP livré en 72h</p>
-                    <p className="font-extrabold text-foreground" style={{ fontSize: 18, letterSpacing: '-0.03em' }}>497€</p>
-                    <p className="text-muted-foreground" style={{ fontSize: 9 }}>une fois</p>
-                  </div>
-                  {/* Cohorte */}
-                  <div className="rounded-xl border border-border bg-card p-3">
-                    <p className="font-bold text-foreground mb-0.5" style={{ fontSize: 12, letterSpacing: '-0.02em' }}>Cohorte</p>
-                    <p className="text-muted-foreground mb-2" style={{ fontSize: 10, lineHeight: 1.4 }}>60 jours ensemble</p>
-                    <p className="font-extrabold text-foreground" style={{ fontSize: 18, letterSpacing: '-0.03em' }}>499€</p>
-                    <p className="text-muted-foreground" style={{ fontSize: 9 }}>× 3 mois</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => navigate('#/dashboard/offers')}
-                  className="cta-rainbow w-full relative rounded-xl font-semibold transition-opacity hover:opacity-90"
-                  style={{ background: 'hsl(var(--foreground))', color: 'hsl(var(--background))', padding: '9px 18px', fontSize: 12 }}>
-                  Découvrir les offres →
-                </button>
-              </div>
-            </div>
-          </div>
-        )
+        return <PackAgentsCTA key={idx} navigate={navigate} hasPack={hasPack} module01Complete={module01Complete} />
 
       case 'cal-booking':
         return <CalBookingBlock key={idx} block={block} idx={idx} />

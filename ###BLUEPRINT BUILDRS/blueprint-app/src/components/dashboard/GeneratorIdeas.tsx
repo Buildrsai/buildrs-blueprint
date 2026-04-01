@@ -66,9 +66,10 @@ export function GeneratorIdeas({ navigate }: Props) {
     })
 
     if (fnError || !data?.ideas) {
+      const detail = fnError?.message ?? JSON.stringify(data) ?? ''
       const msg = data?.error === 'quota_exceeded'
         ? 'Tu as atteint ta limite de 5 générations. Passe en Premium pour continuer.'
-        : 'Erreur IA. Vérifie ta connexion et réessaie.'
+        : `Erreur IA. Vérifie ta connexion et réessaie. [${detail}]`
       setError(msg)
       setStep('form')
       return
@@ -99,7 +100,7 @@ export function GeneratorIdeas({ navigate }: Props) {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
           </div>
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
             NicheFinder
@@ -204,7 +205,7 @@ export function GeneratorIdeas({ navigate }: Props) {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1.5">
             <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
           </div>
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>
             NicheFinder
@@ -234,7 +235,7 @@ export function GeneratorIdeas({ navigate }: Props) {
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1.5">
           <Lightbulb size={16} strokeWidth={1.5} className="text-muted-foreground" />
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Plugin IA</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Outil IA</p>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>

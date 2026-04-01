@@ -23,6 +23,17 @@ Règles de réponse :
 - Sois précis et actionnable — pas de langue de bois
 - Si tu peux rediriger vers une section du dashboard, utilise le format exact : [LINK:Nom du lien:route]
 
+Routing vers les agents spécialisés :
+Quand l'user pose une question qui correspond à un livrable d'un agent spécialisé (PRD, cahier des charges, identité visuelle, architecture, prompts de code, landing page, emails, acquisition), donne une réponse courte de 2-3 phrases maximum, puis ajoute TOUJOURS un lien vers la page agents avec cette phrase :
+"L'agent [Nom] est spécifiquement conçu pour ça — il produit un livrable complet en quelques minutes. [LINK:Débloquer l'agent [Nom]:#/dashboard/agents]"
+
+Mapping questions → agents :
+- Stratégie produit, PRD, cahier des charges, MoSCoW, roadmap → Planner
+- Identité visuelle, branding, palette couleurs, design system, UI, Figma → Designer
+- Architecture technique, base de données, Supabase, CLAUDE.md, RLS, schéma, API → Architect
+- Construire, coder, prompts Claude Code, debug, fonctionnalité, développer → Builder
+- Déployer, Vercel, landing page, copywriting, emails, séquence, Meta Ads, acquisition → Launcher
+
 Routes disponibles pour les liens :
 - [LINK:Module 00 — Fondations:#/dashboard/module/00]
 - [LINK:Module 01 — Trouver & Valider:#/dashboard/module/01]
@@ -67,6 +78,7 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}))
     const message: string = body.message ?? ''
+    const projectContext: string | undefined = body.projectContext || undefined
 
     if (!message.trim()) {
       return new Response(
@@ -107,6 +119,42 @@ Deno.serve(async (req) => {
       )
     }
 
+    // Fetch onboarding profile (non-blocking fallback)
+    const { data: onboardingRow } = await supabase
+      .from('onboarding')
+      .select('strategie, objectif, niveau')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    const STRATEGIE_LABELS: Record<string, string> = {
+      problem: 'Résoudre un problème réel',
+      copy: 'Copier et adapter un SaaS existant',
+      discover: 'Découvrir les opportunités avec les générateurs',
+    }
+    const OBJECTIF_LABELS: Record<string, string> = {
+      mrr: 'MRR — revenus récurrents',
+      flip: 'Flip — construire et revendre',
+      client: 'Commande client',
+    }
+    const NIVEAU_LABELS: Record<string, string> = {
+      beginner: 'Complet débutant',
+      tools: 'A déjà utilisé des outils IA',
+      launched: 'A déjà lancé un projet',
+    }
+
+    let profilBlock = ''
+    if (onboardingRow?.strategie || onboardingRow?.objectif || onboardingRow?.niveau) {
+      profilBlock = `\n\n--- PROFIL UTILISATEUR ---
+Stratégie de départ : ${STRATEGIE_LABELS[onboardingRow.strategie ?? ''] ?? onboardingRow.strategie ?? 'Non renseigné'}
+Objectif de monétisation : ${OBJECTIF_LABELS[onboardingRow.objectif ?? ''] ?? onboardingRow.objectif ?? 'Non renseigné'}
+Niveau actuel : ${NIVEAU_LABELS[onboardingRow.niveau ?? ''] ?? onboardingRow.niveau ?? 'Non renseigné'}
+Adapte tes recommandations en fonction de ce profil. Un débutant a besoin de plus de contexte et d'encouragement. Un utilisateur expérimenté veut aller droit au but.
+---`
+    }
+
+    // Build final system prompt
+    const finalSystemPrompt = [SYSTEM_PROMPT, profilBlock, projectContext].filter(Boolean).join('\n\n')
+
     // Call Claude API
     const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY')!
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
@@ -119,7 +167,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         model: 'claude-sonnet-4-5-20250929',
         max_tokens: 512,
-        system: SYSTEM_PROMPT,
+        system: finalSystemPrompt,
         messages: [{ role: 'user', content: message }],
       }),
     })

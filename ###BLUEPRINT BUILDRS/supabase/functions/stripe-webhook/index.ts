@@ -107,6 +107,32 @@ Deno.serve(async (req) => {
 
   const session = event.data.object as Stripe.Checkout.Session
   const product = session.metadata?.product ?? 'unknown'
+  const email   = session.customer_details?.email ?? session.customer_email
+
+  // Pack Agents acheté depuis la page upsell (avant inscription)
+  // → stocker dans purchases pour réconcilier au premier login
+  if (product === 'agents_pack') {
+    if (email) {
+      await fetch(`${SUPABASE_URL}/rest/v1/purchases`, {
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'apikey':        SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          'Prefer':        'return=minimal',
+        },
+        body: JSON.stringify({
+          email,
+          product:          'agents_pack',
+          stripe_session_id: session.id,
+        }),
+      })
+      console.log(`Pack Agents enregistré pour ${email}`)
+    }
+    return new Response(JSON.stringify({ received: true, product: 'agents_pack' }), {
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
 
   // On ne lance la séquence Blueprint que sur l'achat Blueprint
   // (sprint et cohort ont leurs propres flows, pas de séquence drip)
@@ -117,8 +143,6 @@ Deno.serve(async (req) => {
     })
   }
 
-  // Récupérer l'email de l'acheteur
-  const email = session.customer_details?.email ?? session.customer_email
   if (!email) {
     console.error('Aucun email trouvé dans la session Stripe', session.id)
     return new Response(JSON.stringify({ received: true, error: 'no email' }), {

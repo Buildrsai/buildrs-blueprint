@@ -95,6 +95,7 @@ interface Props {
   userId: string | undefined
   userFirstName?: string
   moduleProgress: (id: string, total: number) => number
+  hasPack?: boolean
 }
 
 const STACK_ITEMS: {
@@ -285,20 +286,24 @@ function ProjectSidebar({
 }
 
 // ── Component ──────────────────────────────────────────────────────────────
-export function AutopilotPage({ navigate, userId, userFirstName: _userFirstName, moduleProgress: _moduleProgress }: Props) {
+export function AutopilotPage({ navigate, userId, userFirstName, moduleProgress: _moduleProgress, hasPack }: Props) {
   const [project, setProject] = useState<ProjectData | null>(null)
   const [loading, setLoading] = useState(true)
   const [stack, setStack] = useState<StackStatus>(DEFAULT_STACK)
   const [validatorScore, setValidatorScore] = useState<string | null>(null)
   const [mrrEstimate, setMrrEstimate] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [onboardingStrategie, setOnboardingStrategie] = useState<string | undefined>()
+  const [onboardingObjectif, setOnboardingObjectif] = useState<string | undefined>()
+  const [onboardingNiveau, setOnboardingNiveau] = useState<string | undefined>()
 
   useEffect(() => {
     if (!userId) { setLoading(false); return }
     Promise.all([
       supabase.from('projects').select('*').eq('user_id', userId).maybeSingle(),
       supabase.auth.getUser(),
-    ]).then(([{ data: projectData }, { data: authData }]) => {
+      supabase.from('onboarding').select('strategie, objectif, niveau').eq('user_id', userId).maybeSingle(),
+    ]).then(([{ data: projectData }, { data: authData }, { data: onboardingData }]) => {
       if (projectData) {
         setProject({
           name: projectData.name ?? '',
@@ -319,6 +324,11 @@ export function AutopilotPage({ navigate, userId, userFirstName: _userFirstName,
       if (meta.buildrs_stack) setStack(meta.buildrs_stack)
       if (meta.buildrs_validator_score != null) setValidatorScore(String(meta.buildrs_validator_score))
       if (meta.buildrs_mrr_estimate) setMrrEstimate(meta.buildrs_mrr_estimate)
+      if (onboardingData) {
+        setOnboardingStrategie(onboardingData.strategie ?? undefined)
+        setOnboardingObjectif(onboardingData.objectif ?? undefined)
+        setOnboardingNiveau(onboardingData.niveau ?? undefined)
+      }
       setLoading(false)
     }).catch(() => setLoading(false))
   }, [userId])
@@ -343,7 +353,15 @@ export function AutopilotPage({ navigate, userId, userFirstName: _userFirstName,
 
       {/* ── Chat principal ── */}
       <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">
-        <JarvisChat navigate={navigate} userId={userId} />
+        <JarvisChat
+          navigate={navigate}
+          userId={userId}
+          userFirstName={userFirstName}
+          onboardingStrategie={onboardingStrategie}
+          onboardingObjectif={onboardingObjectif}
+          onboardingNiveau={onboardingNiveau}
+          hasPack={hasPack}
+        />
       </div>
 
       {/* ── Sidebar projet — desktop ── */}

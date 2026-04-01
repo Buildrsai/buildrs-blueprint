@@ -1,4 +1,3 @@
-import { Bot } from 'lucide-react'
 import type { JarvisLink } from '../../data/jarvis-intents'
 
 export interface ChatMessage {
@@ -14,16 +13,38 @@ interface Props {
   navigate: (hash: string) => void
 }
 
-// Renders **bold** and `code` inline
+// ── Jarvis robot SVG (pixel-art, same as AgentsPage RobotJarvis) ──────────────
+function RobotJarvis({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="0" width="2" height="3" fill="#818cf8"/>
+      <rect x="15" y="0" width="2" height="3" fill="#818cf8"/>
+      <rect x="5" y="2" width="2" height="2" fill="#818cf8"/>
+      <rect x="17" y="2" width="2" height="2" fill="#818cf8"/>
+      <rect x="3" y="4" width="18" height="12" rx="2" fill="#6366f1"/>
+      <rect x="6" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
+      <rect x="14" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
+      <rect x="7" y="8" width="2" height="2" fill="#312e81"/>
+      <rect x="15" y="8" width="2" height="2" fill="#312e81"/>
+      <rect x="9" y="13" width="6" height="2" rx="1" fill="#4338ca"/>
+      <rect x="5" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
+      <rect x="15" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
+      <rect x="4" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
+      <rect x="17" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
+    </svg>
+  )
+}
+
+// ── Inline renderer ────────────────────────────────────────────────────────────
 function renderInline(text: string): React.ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>
+      return <strong key={i} style={{ fontWeight: 600, color: '#f0f0f5' }}>{part.slice(2, -2)}</strong>
     }
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
-        <code key={i} className="font-mono text-[10px] bg-foreground/10 rounded px-1 py-0.5">
+        <code key={i} style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, background: 'rgba(255,255,255,0.08)', borderRadius: 4, padding: '1px 5px', color: '#f0f0f5' }}>
           {part.slice(1, -1)}
         </code>
       )
@@ -46,28 +67,38 @@ export function JarvisMessageBubble({ message, navigate }: Props) {
 
   if (isJarvis) {
     return (
-      <div className="flex items-start gap-2.5 max-w-[85%]">
-        {/* Avatar */}
-        <div className="w-6 h-6 rounded-full bg-foreground flex items-center justify-center flex-shrink-0 mt-0.5">
-          <Bot size={12} strokeWidth={1.5} className="text-background" />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '85%', animation: 'jv-msgin .35s ease forwards' }}>
+        {/* Robot SVG — no background */}
+        <div style={{ flexShrink: 0, marginTop: 4 }}>
+          <RobotJarvis size={28} />
         </div>
-
-        <div className="flex flex-col gap-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {/* Bubble */}
-          <div className="bg-secondary border border-border rounded-xl rounded-tl-sm px-4 py-3">
-            <p className="text-[13px] text-foreground leading-relaxed">
+          <div style={{
+            background: '#15161d',
+            border: '1px solid #1e2030',
+            borderRadius: '2px 14px 14px 14px',
+            padding: '12px 16px',
+          }}>
+            <p style={{ fontSize: 13, color: '#9399b2', lineHeight: 1.75, margin: 0 }}>
               {renderText(message.text)}
             </p>
           </div>
-
           {/* Links */}
           {message.links && message.links.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pl-0">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {message.links.map((link, i) => (
                 <button
                   key={i}
                   onClick={() => navigate(link.route)}
-                  className="text-[11px] font-medium px-3 py-1.5 rounded-lg border border-border hover:bg-secondary hover:border-foreground/20 transition-all duration-150 text-foreground/70 hover:text-foreground text-left"
+                  style={{
+                    fontSize: 11, fontWeight: 500,
+                    padding: '6px 12px', borderRadius: 8,
+                    background: 'rgba(99,102,241,0.06)',
+                    border: '1px solid rgba(99,102,241,0.2)',
+                    color: '#6366f1', cursor: 'pointer',
+                    transition: '.2s', fontFamily: 'Geist, sans-serif',
+                  }}
                 >
                   {link.label} →
                 </button>
@@ -80,9 +111,15 @@ export function JarvisMessageBubble({ message, navigate }: Props) {
   }
 
   return (
-    <div className="flex justify-end">
-      <div className="max-w-[75%] bg-foreground text-background rounded-xl rounded-tr-sm px-4 py-3">
-        <p className="text-[13px] leading-relaxed">{message.text}</p>
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{
+        maxWidth: '75%',
+        background: 'rgba(99,102,241,0.06)',
+        border: '1px solid rgba(99,102,241,0.15)',
+        borderRadius: '14px 2px 14px 14px',
+        padding: '12px 16px',
+      }}>
+        <p style={{ fontSize: 13, lineHeight: 1.65, color: '#f0f0f5', margin: 0 }}>{message.text}</p>
       </div>
     </div>
   )

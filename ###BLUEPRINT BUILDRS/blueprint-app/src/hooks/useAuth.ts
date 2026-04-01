@@ -33,10 +33,13 @@ export function useAuth(): AuthState & AuthActions {
   }, [])
 
   const signUpEmail = async (email: string, password: string, firstName?: string) => {
+    const acquisitionSource = sessionStorage.getItem('funnelSource') ?? 'blueprint'
+    const data: Record<string, string> = { acquisition_source: acquisitionSource }
+    if (firstName) data.first_name = firstName
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: firstName ? { data: { first_name: firstName } } : undefined,
+      options: { data },
     })
     return { error: error?.message ?? null }
   }

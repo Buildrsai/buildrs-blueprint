@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { Check, X, ChevronRight, RotateCcw, ArrowLeft } from 'lucide-react'
 import { getModule } from '../../data/curriculum'
+import { AgentHandoffBlock } from './AgentHandoffBlock'
 
 interface Props {
   moduleId: string
   navigate: (hash: string) => void
+  hasPack?: boolean
+  module01Complete?: boolean
 }
 
 type Phase = 'intro' | 'quiz' | 'results'
 
-export function QuizPage({ moduleId, navigate }: Props) {
+export function QuizPage({ moduleId, navigate, hasPack = false, module01Complete: _module01Complete = false }: Props) {
   const mod = getModule(moduleId)
   const [phase, setPhase] = useState<Phase>('intro')
   const [current, setCurrent] = useState(0)
@@ -210,6 +213,11 @@ export function QuizPage({ moduleId, navigate }: Props) {
               Retour au module →
             </button>
           </div>
+
+          {/* Agent handoff — always visible when quiz passed */}
+          {passed && (
+            <AgentHandoffBlock moduleId={moduleId} hasPack={hasPack} navigate={navigate} />
+          )}
         </div>
       </div>
     )

@@ -46,7 +46,7 @@ export function useProgress(userId: string | undefined) {
   const globalPercent = () => {
     const total = getTotalLessons()
     const done = progress.filter(p => p.completed).length
-    return total > 0 ? Math.round((done / total) * 100) : 0
+    return total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0
   }
 
   return { progress, loading, markComplete, isCompleted, moduleProgress, globalPercent }
