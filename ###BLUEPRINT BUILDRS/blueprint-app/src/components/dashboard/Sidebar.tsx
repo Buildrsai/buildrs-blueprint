@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
-  Lightbulb, BookOpen, CheckSquare, FolderOpen, Wrench,
-  ShieldCheck, TrendingUp, Zap, ChevronRight, Settings, Bot,
+  BookOpen, CheckSquare, FolderOpen, Wrench,
+  Zap, ChevronRight, Settings, Bot,
 } from 'lucide-react'
 import { BuildrsIcon, ClaudeIcon, WhatsAppIcon } from '../ui/icons'
 import { CURRICULUM } from '../../data/curriculum'
@@ -20,10 +20,11 @@ interface Props {
   journalCount: number
   isDark: boolean
   onToggleDark: () => void
+  hasPack?: boolean
 }
 
 export function Sidebar({
-  currentPath, navigate, globalPercent, moduleProgress, isDark, onToggleDark,
+  currentPath, navigate, globalPercent, moduleProgress, isDark, onToggleDark, hasPack = false,
 }: Props) {
   const [parcoursOpen, setParcoursOpen] = useState(false)
 
@@ -203,27 +204,15 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* ── OUTILS IA ── */}
-      <div className="px-3 pt-3 pb-2">
-        <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-1 mb-1.5">
-          Plugins IA
-        </p>
-        <div className="flex flex-col gap-0.5">
-          {navItem('#/dashboard/generator/ideas',    'NicheFinder',   Lightbulb)}
-          {navItem('#/dashboard/generator/validate', 'MarketPulse',   ShieldCheck)}
-          {navItem('#/dashboard/generator/mrr',      'FlipCalc',      TrendingUp)}
-        </div>
-      </div>
-
       {/* ── RESSOURCES ── */}
       <div className="px-3 pt-3 pb-2">
         <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-1 mb-1.5">
           Ressources
         </p>
         <div className="flex flex-col gap-0.5">
-          {navItem('#/dashboard/project',   'Mes Projets',   FolderOpen)}
-          {navItem('#/dashboard/library',   'Bibliothèque',  BookOpen)}
-          {navItem('#/dashboard/checklist', 'Checklist',     CheckSquare)}
+          {navItem('#/dashboard/project',   'Mes Projets',    FolderOpen)}
+          {navItem('#/dashboard/library',   'Bibliothèque',   BookOpen)}
+          {navItem('#/dashboard/checklist', 'Checklist',      CheckSquare)}
           {navItem('#/dashboard/tools',     'Boîte à outils', Wrench)}
         </div>
       </div>
@@ -235,19 +224,19 @@ export function Sidebar({
         </p>
         <div className="flex flex-col gap-0.5">
           <button
-            onClick={() => navigate('#/dashboard/module/claude')}
+            onClick={() => navigate('#/dashboard/claude')}
             className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
-              currentPath.startsWith('#/dashboard/module/claude')
+              currentPath.startsWith('#/dashboard/claude')
                 ? 'text-background'
                 : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
             }`}
-            style={currentPath.startsWith('#/dashboard/module/claude') ? { background: '#cc5de8' } : undefined}
+            style={currentPath.startsWith('#/dashboard/claude') ? { background: '#cc5de8' } : undefined}
           >
             <ClaudeIcon size={13} className="flex-shrink-0" />
             <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Claude 360°</span>
             <span
               className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-              style={{ background: 'rgba(204,93,232,0.15)', color: '#cc5de8', border: '1px solid rgba(204,93,232,0.3)' }}
+              style={{ background: 'transparent', color: 'hsl(var(--foreground))', border: '1px solid hsl(var(--foreground) / 0.4)' }}
             >
               BONUS
             </span>
@@ -264,7 +253,7 @@ export function Sidebar({
             <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">WhatsApp Buildrs</span>
             <span
               className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-              style={{ background: 'rgba(37,211,102,0.15)', color: '#25D366', border: '1px solid rgba(37,211,102,0.3)' }}
+              style={{ background: 'transparent', color: 'hsl(var(--foreground))', border: '1px solid hsl(var(--foreground) / 0.4)' }}
             >
               BONUS
             </span>
@@ -272,30 +261,40 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* CTA Cohorte */}
-      <div className="mt-auto p-3">
-        <div className="relative rounded-[14px] overflow-hidden" style={{ padding: 2 }}>
-          <div className="absolute" style={{
-            inset: -40,
-            background: 'conic-gradient(#ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b)',
-            animation: 'cohorte-spin 4s linear infinite',
-          }} />
-          <button
-            onClick={() => navigate('#/dashboard/offers')}
-            className="relative w-full text-left rounded-xl px-3.5 py-3 transition-all duration-150 hover:opacity-90"
-            style={{ background: 'hsl(var(--background))' }}
-          >
-            <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1" style={{ color: '#ff6b6b' }}>
-              Envie d'aller plus vite ?
-            </p>
-            <p className="font-extrabold text-foreground tracking-tight leading-tight" style={{ fontSize: 12, letterSpacing: '-0.02em' }}>
-              Accélérer mon projet →
-            </p>
-            <p className="text-muted-foreground mt-0.5" style={{ fontSize: 10 }}>
-              On construit avec toi
-            </p>
-          </button>
-        </div>
+      {/* CTA bottom */}
+      <div className="mt-auto p-3 flex flex-col gap-1.5">
+        {!hasPack && (
+          <>
+            <div className="relative rounded-[14px] overflow-hidden" style={{ padding: 2 }}>
+              <div className="absolute" style={{
+                inset: -40,
+                background: 'conic-gradient(#4d96ff, #8b5cf6, #f43f5e, #f97316, #14b8a6, #4d96ff)',
+                animation: 'cohorte-spin 4s linear infinite',
+              }} />
+              <button
+                onClick={() => navigate('#/dashboard/offers')}
+                className="relative w-full text-left rounded-xl px-3.5 py-3 transition-all duration-150 hover:opacity-90"
+                style={{ background: 'hsl(var(--background))' }}
+              >
+                <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1" style={{ color: '#8b5cf6' }}>
+                  Envie d'aller plus vite ?
+                </p>
+                <p className="font-extrabold text-foreground tracking-tight leading-tight" style={{ fontSize: 12, letterSpacing: '-0.02em' }}>
+                  Débloquer les Agents IA →
+                </p>
+                <p className="text-muted-foreground mt-0.5" style={{ fontSize: 10 }}>
+                  5 agents · 197€ one-shot
+                </p>
+              </button>
+            </div>
+            <button
+              onClick={() => navigate('#/dashboard/offers')}
+              className="text-[10px] text-muted-foreground/45 hover:text-muted-foreground transition-colors text-center py-0.5"
+            >
+              Voir nos offres Sprint & Cohorte
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

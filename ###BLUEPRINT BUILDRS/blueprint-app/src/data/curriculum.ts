@@ -2215,9 +2215,6 @@ export const CURRICULUM: Module[] = [
   },
 ]
 
-import { MODULE_CLAUDE } from './module-claude'
-CURRICULUM.push(MODULE_CLAUDE)
-
 export const getTotalLessons = () =>
   CURRICULUM.reduce((acc, m) => acc + m.lessons.length, 0)
 

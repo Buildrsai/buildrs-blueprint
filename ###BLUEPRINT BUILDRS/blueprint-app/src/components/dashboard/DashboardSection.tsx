@@ -4,11 +4,13 @@
  *
  * By isolating these here, the main bundle (LP visitors) never loads curriculum.ts.
  */
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { BouncingDots } from '../ui/bouncing-dots'
 import type { User } from '@supabase/supabase-js'
 import { useProgress } from '../../hooks/useProgress'
 import { useJournal } from '../../hooks/useJournal'
+import { getModule } from '../../data/curriculum'
+import { supabase } from '../../lib/supabase'
 
 // All page components — lazy so each route only loads what it needs
 const DashboardLayout    = lazy(() => import('./DashboardLayout').then(m => ({ default: m.DashboardLayout })))
@@ -20,14 +22,15 @@ const BibliothequePage   = lazy(() => import('./BibliothequePage').then(m => ({ 
 const ChecklistPage      = lazy(() => import('./ChecklistPage').then(m => ({ default: m.ChecklistPage })))
 const ProjectPage        = lazy(() => import('./ProjectPage').then(m => ({ default: m.ProjectPage })))
 const ToolsPage          = lazy(() => import('./ToolsPage').then(m => ({ default: m.ToolsPage })))
-const GeneratorHubPage   = lazy(() => import('./GeneratorHubPage').then(m => ({ default: m.GeneratorHubPage })))
-const GeneratorIdeas     = lazy(() => import('./GeneratorIdeas').then(m => ({ default: m.GeneratorIdeas })))
-const GeneratorValidate  = lazy(() => import('./GeneratorValidate').then(m => ({ default: m.GeneratorValidate })))
-const GeneratorMRR       = lazy(() => import('./GeneratorMRR').then(m => ({ default: m.GeneratorMRR })))
 const SettingsPage       = lazy(() => import('./SettingsPage').then(m => ({ default: m.SettingsPage })))
 const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ default: m.AutopilotPage })))
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
 const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
+const AgentChatPage      = lazy(() => import('./AgentChatPage').then(m => ({ default: m.AgentChatPage })))
+const ClaudeDashPage     = lazy(() => import('./claude/ClaudeDashPage').then(m => ({ default: m.ClaudeDashPage })))
+const ClaudeModulePage   = lazy(() => import('./claude/ClaudeModulePage').then(m => ({ default: m.ClaudeModulePage })))
+const ClaudeLessonPage   = lazy(() => import('./claude/ClaudeLessonPage').then(m => ({ default: m.ClaudeLessonPage })))
+const ClaudeConsolePage  = lazy(() => import('./claude/ClaudeConsolePage').then(m => ({ default: m.ClaudeConsolePage })))
 
 interface DashboardRoute {
   type: string
@@ -48,6 +51,36 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   const { markComplete, isCompleted, moduleProgress, globalPercent } = useProgress(user.id)
   const { entries } = useJournal(user.id)
 
+  const hasPack = user.user_metadata?.has_agents_pack === true
+
+  // Réconciliation : si l'user a acheté le Pack Agents avant de s'inscrire,
+  // la table `purchases` le contient — on met à jour user_metadata une fois
+  useEffect(() => {
+    if (hasPack) return
+    const email = user.email
+    if (!email) return
+    ;(async () => {
+      const { data } = await supabase
+        .from('purchases')
+        .select('id')
+        .eq('email', email)
+        .eq('product', 'agents_pack')
+        .eq('applied', false)
+        .limit(1)
+        .maybeSingle()
+      if (!data) return
+      // Met à jour user_metadata + marque comme appliqué
+      await supabase.auth.updateUser({ data: { has_agents_pack: true } })
+      await supabase.from('purchases').update({ applied: true }).eq('id', data.id)
+      // Recharge la session pour que hasPack soit true immédiatement
+      await supabase.auth.refreshSession()
+      window.location.reload()
+    })()
+  }, [user.id])
+
+  const mod01 = getModule('01')
+  const module01Complete = mod01 ? moduleProgress('01', mod01.lessons.length) === 100 : false
+
   const currentPath = window.location.hash
 
   const layoutProps = {
@@ -63,6 +96,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     userFirstName: user.user_metadata?.first_name,
     userAvatarUrl: user.user_metadata?.avatar_url,
     onSignOut,
+    hasPack,
   }
 
   const LazyFallback = (
@@ -84,6 +118,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
             userId={user.id}
             userFirstName={user.user_metadata?.first_name}
             moduleProgress={moduleProgress}
+            hasPack={hasPack}
           />
         </DashboardLayout>
       </W>
@@ -101,7 +136,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'lesson' && route.moduleId && route.lessonId) {
     return (
       <W><DashboardLayout {...layoutProps}>
-        <LessonPage moduleId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markComplete} />
+        <LessonPage moduleId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markComplete} hasPack={hasPack} module01Complete={module01Complete} />
       </DashboardLayout></W>
     )
   }
@@ -109,7 +144,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'quiz' && route.moduleId) {
     return (
       <W><DashboardLayout {...layoutProps}>
-        <QuizPage moduleId={route.moduleId} navigate={navigate} />
+        <QuizPage moduleId={route.moduleId} navigate={navigate} hasPack={hasPack} module01Complete={module01Complete} />
       </DashboardLayout></W>
     )
   }
@@ -119,13 +154,19 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'checklist') return (<W><DashboardLayout {...layoutProps}><ChecklistPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'project' || route.type === 'ideas') return (<W><DashboardLayout {...layoutProps}><ProjectPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'tools') return (<W><DashboardLayout {...layoutProps}><ToolsPage navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'gen-hub') return (<W><DashboardLayout {...layoutProps}><GeneratorHubPage navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'gen-ideas') return (<W><DashboardLayout {...layoutProps}><GeneratorIdeas navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'gen-validate') return (<W><DashboardLayout {...layoutProps}><GeneratorValidate navigate={navigate} userId={user.id} /></DashboardLayout></W>)
-  if (route.type === 'gen-mrr') return (<W><DashboardLayout {...layoutProps}><GeneratorMRR navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} /></DashboardLayout></W>)
-  if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
+  if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
+  if (route.type === 'agent-chat' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><AgentChatPage agentId={route.moduleId} navigate={navigate} userId={user.id} hasPack={hasPack} /></DashboardLayout></W>)
+
+  // Claude 360° sub-dashboard
+  const hasClaudeCodeOb = user.user_metadata?.has_claude_code_ob === true
+  const hasClaudeCoworkOb = user.user_metadata?.has_claude_cowork_ob === true
+
+  if (route.type === 'claude-dash') return (<W><DashboardLayout {...layoutProps}><ClaudeDashPage navigate={navigate} userId={user.id} markComplete={markComplete} isCompleted={isCompleted} moduleProgress={moduleProgress} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} /></DashboardLayout></W>)
+  if (route.type === 'claude-module' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><ClaudeModulePage modId={route.moduleId} navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} /></DashboardLayout></W>)
+  if (route.type === 'claude-lesson' && route.moduleId && route.lessonId) return (<W><DashboardLayout {...layoutProps}><ClaudeLessonPage modId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markComplete} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} /></DashboardLayout></W>)
+  if (route.type === 'claude-console') return (<W><DashboardLayout {...layoutProps}><ClaudeConsolePage tab={route.moduleId} navigate={navigate} userId={user.id} isCompleted={isCompleted} markComplete={markComplete} /></DashboardLayout></W>)
 
   return null
 }
@@ -135,9 +176,11 @@ function getTitle(route: DashboardRoute): string {
     dashboard: 'Mon parcours', autopilot: 'Jarvis IA',
     module: `Module ${route.moduleId ?? ''}`, lesson: 'Leçon', quiz: 'Quiz',
     journal: 'Journal de bord', library: 'Bibliothèque', checklist: 'Checklist',
-    project: 'Mes Projets', tools: 'Outils', 'gen-hub': 'Plugins IA',
-    'gen-ideas': 'NicheFinder', 'gen-validate': 'MarketPulse',
-    'gen-mrr': 'FlipCalc', settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
+    project: 'Mes Projets', tools: 'Outils',
+    settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
+    'agent-chat': 'Agent IA',
+    'claude-dash': 'Claude 360°', 'claude-module': 'Claude 360°',
+    'claude-lesson': 'Claude 360°', 'claude-console': 'Console Claude',
   }
   return titles[route.type] ?? 'Dashboard'
 }

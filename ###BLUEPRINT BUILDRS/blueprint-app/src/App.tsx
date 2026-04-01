@@ -14,6 +14,7 @@ import { useOnboarding } from './hooks/useOnboarding'
 
 // ── Lazy imports (split into separate chunks — not needed on LP) ─────────────
 const CheckoutPage        = lazy(() => import('./components/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
+const ClaudeLandingPage   = lazy(() => import('./components/ClaudeLandingPage').then(m => ({ default: m.ClaudeLandingPage })))
 const UpsellCohortPage    = lazy(() => import('./components/UpsellCohortPage').then(m => ({ default: m.UpsellCohortPage })))
 const CohorteCheckoutPage = lazy(() => import('./components/CohorteCheckoutPage').then(m => ({ default: m.CohorteCheckoutPage })))
 const SignupPage           = lazy(() => import('./components/auth/SignupPage').then(m => ({ default: m.SignupPage })))
@@ -97,6 +98,10 @@ interface ParsedRoute {
     | 'offers'
     | 'agents'
     | 'agent-chat'
+    | 'claude-dash'
+    | 'claude-module'
+    | 'claude-lesson'
+    | 'claude-console'
     | 'legal-mentions'
     | 'legal-cgv'
     | 'legal-confidentialite'
@@ -135,6 +140,19 @@ function parseHash(hash: string): ParsedRoute {
   const agentChatMatch = h.match(/^dashboard\/agent\/([^/]+)$/)
   if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
 
+  // Claude sub-dashboard routes
+  if (h === 'dashboard/claude') return { type: 'claude-dash' }
+  if (h === 'dashboard/claude/console') return { type: 'claude-console' }
+
+  const claudeConsoleTabMatch = h.match(/^dashboard\/claude\/console\/([^/]+)$/)
+  if (claudeConsoleTabMatch) return { type: 'claude-console', moduleId: claudeConsoleTabMatch[1] }
+
+  const claudeLessonMatch = h.match(/^dashboard\/claude\/module\/([^/]+)\/lesson\/([^/]+)$/)
+  if (claudeLessonMatch) return { type: 'claude-lesson', moduleId: claudeLessonMatch[1], lessonId: claudeLessonMatch[2] }
+
+  const claudeModuleMatch = h.match(/^dashboard\/claude\/module\/([^/]+)$/)
+  if (claudeModuleMatch) return { type: 'claude-module', moduleId: claudeModuleMatch[1] }
+
   const quizMatch = h.match(/^dashboard\/quiz\/([^/]+)$/)
   if (quizMatch) return { type: 'quiz', moduleId: quizMatch[1] }
 
@@ -159,13 +177,20 @@ const SpinnerFallback = (
 // ---------------------------------------------------------------------------
 // App
 // ---------------------------------------------------------------------------
+const isClaudeDomain = window.location.hostname === 'claude.buildrs.fr'
+
 function App() {
+  // On claude.buildrs.fr with no hash → redirect to #/claude automatically
+  if (isClaudeDomain && !window.location.hash) {
+    window.location.hash = '/claude'
+  }
+
   const [route, setRoute] = useState<ParsedRoute>(parseHash(window.location.hash))
   const [isDark, setIsDark] = useState(true)
   const [hasOrderBump, setHasOrderBump] = useState(false)
   const [hasAgentsBump, setHasAgentsBump] = useState(false)
   const [hasAcquisitionBump, setHasAcquisitionBump] = useState(false)
-  const [funnelSource, setFunnelSource] = useState<'blueprint' | 'claude'>('blueprint')
+  const [funnelSource, setFunnelSource] = useState<'blueprint' | 'claude'>(isClaudeDomain ? 'claude' : 'blueprint')
 
   // Handle Supabase auth redirects (OAuth code, email confirmation token_hash)
   useEffect(() => {
@@ -235,6 +260,14 @@ function App() {
     return <LandingPage onCTAClick={() => { setFunnelSource('blueprint'); navigate('#/checkout') }} />
   }
 
+  if (route.type === 'claude-landing') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <ClaudeLandingPage onCTAClick={() => { setFunnelSource('claude'); navigate('#/checkout') }} />
+      </Suspense>
+    )
+  }
+
   // ---------------------------------------------------------------------------
   // Funnel routes (lazy)
   // ---------------------------------------------------------------------------
@@ -250,7 +283,7 @@ function App() {
           setHasAcquisitionBump={setHasAcquisitionBump}
           funnelSource={funnelSource}
           onPay={() => navigate('#/upsell-cohort')}
-          onBack={() => navigate('#/landing')}
+          onBack={() => navigate(funnelSource === 'claude' ? '#/claude' : '#/landing')}
         />
       </Suspense>
     )
@@ -320,7 +353,7 @@ function App() {
   // ---------------------------------------------------------------------------
   // Dashboard routes — lazy via DashboardSection (isolates curriculum + hooks)
   // ---------------------------------------------------------------------------
-  const isDashboardRoute = ['dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas', 'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents', 'agent-chat'].includes(route.type)
+  const isDashboardRoute = ['dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas', 'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents', 'agent-chat', 'claude-dash', 'claude-module', 'claude-lesson', 'claude-console'].includes(route.type)
 
   if (isDashboardRoute) {
     if (!user) { navigate('#/signin'); return null }
