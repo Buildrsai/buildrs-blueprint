@@ -1,108 +1,82 @@
-import { useState, useRef, useEffect } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
-import type { StripeEmbeddedCheckout } from '@stripe/stripe-js'
+import { useState, useEffect } from 'react'
+import { Lock } from 'lucide-react'
 import { Modal } from '../ui/Modal'
-import { PRODUCTS_CATALOG, formatPrice } from '../../data/products-catalog'
-import type { AccessContext } from '../../hooks/useAccess'
 
-const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1'
+const V3_UNLOCK = new Date('2026-04-07T00:00:00+02:00').getTime()
+
+function computeCountdown(): string {
+  const diff = V3_UNLOCK - Date.now()
+  if (diff <= 0) return 'Bientôt disponible'
+  const days  = Math.floor(diff / 86_400_000)
+  const hours = Math.floor((diff % 86_400_000) / 3_600_000)
+  const mins  = Math.floor((diff % 3_600_000) / 60_000)
+  const secs  = Math.floor((diff % 60_000) / 1_000)
+  if (days > 0) return `${days}j ${hours}h ${String(mins).padStart(2,'0')}min`
+  if (hours > 0) return `${hours}h ${String(mins).padStart(2,'0')}min ${String(secs).padStart(2,'0')}s`
+  return `${mins}min ${String(secs).padStart(2,'0')}s`
+}
 
 interface Props {
   productSlug: string
   userId: string
-  access: AccessContext
+  access: unknown
   onClose: () => void
 }
 
-export function PurchaseModal({ productSlug, userId, access: _access, onClose }: Props) {
-  const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState<string | null>(null)
-  const [showStripe, setShowStripe] = useState(false)
-  const mountRef    = useRef<HTMLDivElement>(null)
-  const checkoutRef = useRef<StripeEmbeddedCheckout | null>(null)
-
-  const product = PRODUCTS_CATALOG.find(p => p.slug === productSlug)
-  const Icon    = product?.icon
+export function PurchaseModal({ onClose }: Props) {
+  const [countdown, setCountdown] = useState(computeCountdown)
 
   useEffect(() => {
-    return () => { checkoutRef.current?.destroy() }
+    const id = setInterval(() => setCountdown(computeCountdown()), 1_000)
+    return () => clearInterval(id)
   }, [])
 
-  const startCheckout = async (slugs: string[]) => {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(`${SUPABASE_FUNCTIONS_URL}/create-product-checkout`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ product_slug: slugs[0], user_id: userId }),
-      })
-      const data = await res.json()
-      if (!res.ok || !data.clientSecret) throw new Error(data.error ?? 'Erreur Stripe')
-
-      const stripe = await loadStripe(data.publishableKey)
-      if (!stripe) throw new Error('Stripe indisponible')
-      checkoutRef.current?.destroy()
-      const checkout = await stripe.initEmbeddedCheckout({ clientSecret: data.clientSecret })
-      setShowStripe(true)
-      setTimeout(() => {
-        if (mountRef.current) { checkout.mount(mountRef.current); checkoutRef.current = checkout }
-      }, 50)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur inconnue')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <Modal onClose={onClose} maxWidth={520}>
-      {!showStripe ? (
-        <div className="p-6">
-          {/* Product header */}
-          <div className="flex items-center gap-3 mb-5">
-            {Icon && (
-              <div className="w-10 h-10 rounded-xl border border-border flex items-center justify-center flex-shrink-0"
-                style={{ background: 'hsl(var(--secondary))' }}>
-                <Icon size={18} strokeWidth={1.5} className="text-foreground" />
-              </div>
-            )}
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">
-                Buildrs
-              </p>
-              <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">
-                {product?.name}
-              </h2>
-            </div>
-          </div>
+    <Modal onClose={onClose} maxWidth={420}>
+      <div className="p-8 flex flex-col items-center text-center">
 
-          <p className="text-[13px] text-muted-foreground leading-relaxed mb-6">
-            {product?.description}
+        {/* Lock icon */}
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5"
+          style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)' }}
+        >
+          <Lock size={22} strokeWidth={1.5} style={{ color: '#8b5cf6' }} />
+        </div>
+
+        {/* Label */}
+        <p className="text-[9.5px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: '#8b5cf6' }}>
+          Disponible avec la V3
+        </p>
+
+        <h2 className="text-[20px] font-extrabold text-foreground tracking-tight mb-2" style={{ letterSpacing: '-0.03em' }}>
+          Ouverture le 7 avril
+        </h2>
+
+        <p className="text-[13px] text-muted-foreground leading-relaxed mb-7 max-w-[300px]">
+          Cette fonctionnalité sera débloquée avec la mise à jour V3 du dashboard Buildrs.
+        </p>
+
+        {/* Countdown */}
+        <div
+          className="w-full rounded-xl px-5 py-4 mb-6"
+          style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}
+        >
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-1">
+            Ouverture dans
           </p>
-
-          {/* Price + CTA */}
-          <button
-            onClick={() => startCheckout([productSlug])}
-            disabled={loading}
-            className="w-full rounded-xl py-3.5 text-[14px] font-bold transition-all duration-150"
-            style={{
-              background: loading ? 'hsl(var(--secondary))' : 'hsl(var(--foreground))',
-              color: loading ? 'hsl(var(--muted-foreground))' : 'hsl(var(--background))',
-            }}
-          >
-            {loading ? 'Chargement...' : `Débloquer — ${formatPrice(product?.priceCents ?? 0)}`}
-          </button>
-
-          {error && (
-            <p className="mt-3 text-[12px] text-center" style={{ color: '#ef4444' }}>{error}</p>
-          )}
+          <p className="text-[22px] font-extrabold text-foreground tabular-nums" style={{ letterSpacing: '-0.03em' }}>
+            {countdown}
+          </p>
         </div>
-      ) : (
-        <div className="p-4">
-          <div ref={mountRef} />
-        </div>
-      )}
+
+        <button
+          onClick={onClose}
+          className="w-full rounded-xl py-3 text-[13px] font-semibold border border-border hover:border-foreground/20 transition-colors"
+          style={{ background: 'transparent', color: 'hsl(var(--foreground))' }}
+        >
+          Fermer
+        </button>
+      </div>
     </Modal>
   )
 }
