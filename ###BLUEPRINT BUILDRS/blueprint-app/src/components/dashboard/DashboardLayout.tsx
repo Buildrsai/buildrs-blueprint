@@ -1,14 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import {
-  Zap, BookOpen, Lightbulb, FolderOpen, MoreHorizontal,
+  Zap, BookOpen, Lightbulb, FolderOpen, MoreHorizontal, Home,
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   CheckSquare, Wrench, Settings, LogOut, X, Brain,
+  RefreshCw, Terminal, Lock, MessageSquare, Users,
 } from 'lucide-react'
+
+// ── V3 countdown (shared avec Sidebar) ───────────────────────────────────────
+const V3_UNLOCK = new Date('2026-04-07T00:00:00+02:00').getTime()
+function computeV3Label(): string {
+  const diff = V3_UNLOCK - Date.now()
+  if (diff <= 0) return 'V3 Bientôt'
+  const days  = Math.floor(diff / 86_400_000)
+  const hours = Math.floor((diff % 86_400_000) / 3_600_000)
+  const mins  = Math.floor((diff % 3_600_000) / 60_000)
+  if (days > 0) return `V3 · ${days}j${hours}h`
+  if (hours > 0) return `V3 · ${hours}h${String(mins).padStart(2,'0')}`
+  return `V3 · ${mins}min`
+}
+function useV3Countdown() {
+  const [label, setLabel] = useState(computeV3Label)
+  useEffect(() => {
+    const id = setInterval(() => setLabel(computeV3Label()), 60_000)
+    return () => clearInterval(id)
+  }, [])
+  return label
+}
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
 import { Dock } from '../ui/dock'
+import { PurchaseModal } from './PurchaseModal'
 import { CURRICULUM } from '../../data/curriculum'
+import type { AccessContext } from '../../hooks/useAccess'
+import type { BuildrsProfile } from '../../hooks/useProfile'
+import { ClaudeIcon } from '../ui/icons'
 
 const MODULE_ICONS: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
   '00': Layers, '01': Search, '02': Palette, '03': Building2,
@@ -28,8 +54,12 @@ interface Props {
   userEmail: string | undefined
   userFirstName?: string | undefined
   userAvatarUrl?: string | undefined
+  userId?: string
   onSignOut: () => void
   hasPack?: boolean
+  access?: AccessContext
+  contentRows?: { brick_id: string; completed: boolean }[]
+  profile?: BuildrsProfile | null
 }
 
 export function DashboardLayout({
@@ -45,15 +75,35 @@ export function DashboardLayout({
   userEmail,
   userFirstName,
   userAvatarUrl,
+  userId,
   onSignOut,
   hasPack = false,
+  access,
+  contentRows = [],
+  profile,
 }: Props) {
   const [moreOpen, setMoreOpen] = useState(false)
+  const [purchaseSlug, setPurchaseSlug] = useState<string | null>(null)
+  const v3Label = useV3Countdown()
 
   const go = (hash: string) => { navigate(hash); setMoreOpen(false) }
 
+  // Helper V3 locked item pour mobile
+  const mobileV3Item = (label: string, Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>) => (
+    <div key={label} className="flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl cursor-not-allowed" style={{ opacity: 0.38 }}>
+      <Icon size={14} strokeWidth={1.5} />
+      <span className="text-[13px] font-medium flex-1 truncate">{label}</span>
+      <span className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 tabular-nums"
+        style={{ background: 'rgba(139,92,246,0.12)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.25)', whiteSpace: 'nowrap' }}>
+        {v3Label}
+      </span>
+      <Lock size={10} strokeWidth={1.5} className="flex-shrink-0" />
+    </div>
+  )
+
   const isActive = (hash: string) => currentPath === hash
-  const isAutopilot = currentPath === '#/dashboard/autopilot' || currentPath === '#/dashboard'
+  const isHome = currentPath === '#/dashboard'
+  const isAutopilot = currentPath === '#/dashboard/autopilot'
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
@@ -68,6 +118,10 @@ export function DashboardLayout({
         isDark={isDark}
         hasPack={hasPack}
         onToggleDark={onToggleDark}
+        access={access}
+        contentRows={contentRows}
+        onRequestPurchase={setPurchaseSlug}
+        profile={profile}
       />
 
       {/* ── MAIN CONTENT ── */}
@@ -77,6 +131,7 @@ export function DashboardLayout({
           userEmail={userEmail}
           userFirstName={userFirstName}
           userAvatarUrl={userAvatarUrl}
+          userId={userId}
           onSignOut={onSignOut}
           navigate={navigate}
         />
@@ -91,8 +146,14 @@ export function DashboardLayout({
           <Dock
             items={[
               {
-                icon: Zap,
+                icon: Home,
                 label: "Accueil",
+                active: isHome,
+                onClick: () => go('#/dashboard'),
+              },
+              {
+                icon: Zap,
+                label: "Jarvis",
                 active: isAutopilot,
                 onClick: () => go('#/dashboard/autopilot'),
               },
@@ -101,12 +162,6 @@ export function DashboardLayout({
                 label: "Parcours",
                 active: currentPath.includes('/module/'),
                 onClick: () => go('#/dashboard/module/00'),
-              },
-              {
-                icon: FolderOpen,
-                label: "Projets",
-                active: isActive('#/dashboard/project'),
-                onClick: () => go('#/dashboard/project'),
               },
               {
                 icon: MoreHorizontal,
@@ -179,6 +234,14 @@ export function DashboardLayout({
                 )
               })}
 
+              {/* Environnement Claude — V3 lock */}
+              <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
+                Environnement Claude
+              </p>
+              {mobileV3Item('Claude AI',     ClaudeIcon)}
+              {mobileV3Item('Claude Code',   Terminal)}
+              {mobileV3Item('Claude Cowork', RefreshCw)}
+
               {/* Ressources */}
               <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
                 Ressources
@@ -200,6 +263,13 @@ export function DashboardLayout({
                 <span className="text-[13px] font-medium">Boîte à outils</span>
               </button>
 
+              {/* Communauté — V3 lock */}
+              <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
+                Communauté
+              </p>
+              {mobileV3Item('Feed',    MessageSquare)}
+              {mobileV3Item('Membres', Users)}
+
               {/* Compte */}
               <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
                 Compte
@@ -219,6 +289,16 @@ export function DashboardLayout({
             </div>
           </div>
         </>
+      )}
+
+      {/* ── PURCHASE MODAL ── */}
+      {purchaseSlug && userId && access && (
+        <PurchaseModal
+          productSlug={purchaseSlug}
+          userId={userId}
+          access={access}
+          onClose={() => setPurchaseSlug(null)}
+        />
       )}
 
     </div>

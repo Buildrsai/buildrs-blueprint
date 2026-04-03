@@ -9,7 +9,20 @@ import { BouncingDots } from '../ui/bouncing-dots'
 import type { User } from '@supabase/supabase-js'
 import { useProgress } from '../../hooks/useProgress'
 import { useJournal } from '../../hooks/useJournal'
+import { usePurchases } from '../../hooks/usePurchases'
+import { useAccess } from '../../hooks/useAccess'
+import { useContentProgress } from '../../hooks/useContentProgress'
+import { useProfile } from '../../hooks/useProfile'
 import { getModule } from '../../data/curriculum'
+import { CLAUDE_CURRICULUM } from '../../data/claude-curriculum'
+
+// Seuls les modules avec du vrai contenu (pas de stubs "Contenu a venir")
+const CLAUDE_AI_IDS     = ['claude-1','claude-2','claude-3','claude-4','claude-7']
+const CLAUDE_CODE_IDS   = ['claude-5']
+const CLAUDE_COWORK_IDS = ['claude-6']
+const CLAUDE_AI_MODULES     = CLAUDE_CURRICULUM.filter(m => CLAUDE_AI_IDS.includes(m.id))
+const CLAUDE_CODE_MODULES   = CLAUDE_CURRICULUM.filter(m => CLAUDE_CODE_IDS.includes(m.id))
+const CLAUDE_COWORK_MODULES = CLAUDE_CURRICULUM.filter(m => CLAUDE_COWORK_IDS.includes(m.id))
 import { supabase } from '../../lib/supabase'
 
 // All page components — lazy so each route only loads what it needs
@@ -27,10 +40,19 @@ const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ def
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
 const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
 const AgentChatPage      = lazy(() => import('./AgentChatPage').then(m => ({ default: m.AgentChatPage })))
-const ClaudeDashPage     = lazy(() => import('./claude/ClaudeDashPage').then(m => ({ default: m.ClaudeDashPage })))
+const ClaudeEnvPage      = lazy(() => import('./claude/ClaudeEnvPage').then(m => ({ default: m.ClaudeEnvPage })))
 const ClaudeModulePage   = lazy(() => import('./claude/ClaudeModulePage').then(m => ({ default: m.ClaudeModulePage })))
 const ClaudeLessonPage   = lazy(() => import('./claude/ClaudeLessonPage').then(m => ({ default: m.ClaudeLessonPage })))
-const ClaudeConsolePage  = lazy(() => import('./claude/ClaudeConsolePage').then(m => ({ default: m.ClaudeConsolePage })))
+const HomePage           = lazy(() => import('./HomePage').then(m => ({ default: m.HomePage })))
+const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
+const MarketplaceIdeasPage = lazy(() => import('./MarketplaceIdeasPage').then(m => ({ default: m.MarketplaceIdeasPage })))
+const IdeaDetailPage     = lazy(() => import('./IdeaDetailPage').then(m => ({ default: m.IdeaDetailPage })))
+
+const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
+const MembersPage        = lazy(() => import('./MembersPage').then(m => ({ default: m.MembersPage })))
+const TemplatesPage      = lazy(() => import('./TemplatesPage').then(m => ({ default: m.TemplatesPage })))
+const CollaboratorsPage  = lazy(() => import('./CollaboratorsPage').then(m => ({ default: m.CollaboratorsPage })))
+const NotificationsPage  = lazy(() => import('./NotificationsPage').then(m => ({ default: m.NotificationsPage })))
 
 interface DashboardRoute {
   type: string
@@ -50,10 +72,24 @@ interface Props {
 export function DashboardSection({ route, user, navigate, isDark, onToggleDark, onSignOut }: Props) {
   const { markComplete, isCompleted, moduleProgress, globalPercent } = useProgress(user.id)
   const { entries } = useJournal(user.id)
+  const { purchases } = usePurchases(user.id)
+  const access = useAccess(user, purchases)
+  const { rows: contentRows, isBrickCompleted, markBrickComplete } = useContentProgress(user.id)
+  const { profile, addXP } = useProfile(user.id)
 
-  const hasPack = user.user_metadata?.has_agents_pack === true
+  // XP-wrapped completion helpers
+  const markCompleteWithXP = async (moduleId: string, lessonId: string) => {
+    await markComplete(moduleId, lessonId)
+    void addXP('bloc_complete')
+  }
+  const markBrickCompleteWithXP = async (id: string) => {
+    await markBrickComplete(id)
+    void addXP('brick_complete')
+  }
 
-  // Réconciliation : si l'user a acheté le Pack Agents avant de s'inscrire,
+  const { hasPack, hasClaudeCodeOb, hasClaudeCoworkOb } = access
+
+  // Réconciliation legacy : si l'user a acheté le Pack Agents avant de s'inscrire,
   // la table `purchases` le contient — on met à jour user_metadata une fois
   useEffect(() => {
     if (hasPack) return
@@ -78,6 +114,44 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     })()
   }, [user.id])
 
+  // Réconciliation user_purchases : sync les metadata legacy vers la nouvelle table
+  useEffect(() => {
+    const meta = user.user_metadata ?? {}
+    ;(async () => {
+      const legacyMap: { flag: boolean; slug: string }[] = [
+        { flag: !!meta.has_agents_pack,      slug: 'agents-ia'   },
+        { flag: !!meta.has_claude_code_ob,   slug: 'claude-code' },
+        { flag: !!meta.has_claude_cowork_ob, slug: 'claude-cowork' },
+      ]
+      for (const { flag, slug } of legacyMap) {
+        if (!flag) continue
+        // Vérifie si déjà dans user_purchases
+        const { data } = await supabase
+          .from('user_purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('product_slug', slug)
+          .maybeSingle()
+        if (data) continue
+        // Insert si absent
+        await supabase.from('user_purchases').insert({
+          user_id:      user.id,
+          product_slug: slug,
+        })
+      }
+      // Blueprint inclus pour tout user authentifié
+      const { data: bp } = await supabase
+        .from('user_purchases')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('product_slug', 'blueprint')
+        .maybeSingle()
+      if (!bp) {
+        await supabase.from('user_purchases').insert({ user_id: user.id, product_slug: 'blueprint' })
+      }
+    })()
+  }, [user.id])
+
   const mod01 = getModule('01')
   const module01Complete = mod01 ? moduleProgress('01', mod01.lessons.length) === 100 : false
 
@@ -95,8 +169,12 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     userEmail: user.email,
     userFirstName: user.user_metadata?.first_name,
     userAvatarUrl: user.user_metadata?.avatar_url,
+    userId: user.id,
     onSignOut,
     hasPack,
+    access,
+    contentRows,
+    profile,
   }
 
   const LazyFallback = (
@@ -108,6 +186,25 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   const W = ({ children }: { children: React.ReactNode }) => (
     <Suspense fallback={LazyFallback}>{children}</Suspense>
   )
+
+  if (route.type === 'home') {
+    return (
+      <W>
+        <DashboardLayout {...layoutProps}>
+          <HomePage
+            navigate={navigate}
+            userId={user.id}
+            userFirstName={user.user_metadata?.first_name}
+            globalPercent={globalPercent()}
+            moduleProgress={moduleProgress}
+            hasPack={hasPack}
+            access={access}
+            profile={profile}
+          />
+        </DashboardLayout>
+      </W>
+    )
+  }
 
   if (route.type === 'autopilot' || route.type === 'dashboard') {
     return (
@@ -128,7 +225,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'module' && route.moduleId) {
     return (
       <W><DashboardLayout {...layoutProps}>
-        <ModulePage moduleId={route.moduleId} navigate={navigate} isCompleted={isCompleted} />
+        <ModulePage moduleId={route.moduleId} navigate={navigate} isCompleted={isCompleted} hasPack={hasPack} />
       </DashboardLayout></W>
     )
   }
@@ -136,7 +233,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'lesson' && route.moduleId && route.lessonId) {
     return (
       <W><DashboardLayout {...layoutProps}>
-        <LessonPage moduleId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markComplete} hasPack={hasPack} module01Complete={module01Complete} />
+        <LessonPage moduleId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markCompleteWithXP} hasPack={hasPack} module01Complete={module01Complete} />
       </DashboardLayout></W>
     )
   }
@@ -159,28 +256,77 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agent-chat' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><AgentChatPage agentId={route.moduleId} navigate={navigate} userId={user.id} hasPack={hasPack} /></DashboardLayout></W>)
 
-  // Claude 360° sub-dashboard
-  const hasClaudeCodeOb = user.user_metadata?.has_claude_code_ob === true
-  const hasClaudeCoworkOb = user.user_metadata?.has_claude_cowork_ob === true
+  // Claude — pages modules et lecons
+  if (route.type === 'claude-module' && route.moduleId) {
+    const parentRoute = CLAUDE_CODE_IDS.includes(route.moduleId) ? '#/dashboard/claude/code'
+      : CLAUDE_COWORK_IDS.includes(route.moduleId) ? '#/dashboard/claude/cowork'
+      : '#/dashboard/claude/ai'
+    return (<W><DashboardLayout {...layoutProps}><ClaudeModulePage modId={route.moduleId} navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} parentRoute={parentRoute} /></DashboardLayout></W>)
+  }
+  if (route.type === 'claude-lesson' && route.moduleId && route.lessonId) {
+    const parentRoute = CLAUDE_CODE_IDS.includes(route.moduleId) ? '#/dashboard/claude/code'
+      : CLAUDE_COWORK_IDS.includes(route.moduleId) ? '#/dashboard/claude/cowork'
+      : '#/dashboard/claude/ai'
+    return (<W><DashboardLayout {...layoutProps}><ClaudeLessonPage modId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markCompleteWithXP} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} parentRoute={parentRoute} /></DashboardLayout></W>)
+  }
 
-  if (route.type === 'claude-dash') return (<W><DashboardLayout {...layoutProps}><ClaudeDashPage navigate={navigate} userId={user.id} markComplete={markComplete} isCompleted={isCompleted} moduleProgress={moduleProgress} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} /></DashboardLayout></W>)
-  if (route.type === 'claude-module' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><ClaudeModulePage modId={route.moduleId} navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} /></DashboardLayout></W>)
-  if (route.type === 'claude-lesson' && route.moduleId && route.lessonId) return (<W><DashboardLayout {...layoutProps}><ClaudeLessonPage modId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markComplete} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} /></DashboardLayout></W>)
-  if (route.type === 'claude-console') return (<W><DashboardLayout {...layoutProps}><ClaudeConsolePage tab={route.moduleId} navigate={navigate} userId={user.id} isCompleted={isCompleted} markComplete={markComplete} /></DashboardLayout></W>)
+  // V2 routes
+  if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
+  if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplaceIdeasPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'idea-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><IdeaDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+
+  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} /></DashboardLayout></W>)
+  if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'templates') return (<W><DashboardLayout {...layoutProps}><TemplatesPage navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'collaborators') return (<W><DashboardLayout {...layoutProps}><CollaboratorsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'notifications') return (<W><DashboardLayout {...layoutProps}><NotificationsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+
+  // Environnement Claude — 3 pages dédiées
+  if (route.type === 'claude-ai') return (
+    <W><DashboardLayout {...layoutProps}>
+      <ClaudeEnvPage
+        config={{ title: 'Claude AI', subtitle: 'Configurer Claude comme un outil de création de SaaS IA de pointe.', accentColor: '#cc5de8', leftTitle: 'Configurer mon environnement Claude', modules: CLAUDE_AI_MODULES }}
+        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCodeOb}
+      />
+    </DashboardLayout></W>
+  )
+  if (route.type === 'claude-code') return (
+    <W><DashboardLayout {...layoutProps}>
+      <ClaudeEnvPage
+        config={{ title: 'Claude Code', subtitle: 'Installer et configurer Claude Code pour builder des produits en mode pro.', accentColor: '#4d96ff', leftTitle: 'Configurer mon environnement Claude Code', modules: CLAUDE_CODE_MODULES }}
+        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCodeOb}
+      />
+    </DashboardLayout></W>
+  )
+  if (route.type === 'claude-cowork') return (
+    <W><DashboardLayout {...layoutProps}>
+      <ClaudeEnvPage
+        config={{ title: 'Claude Cowork', subtitle: 'Installer mes 5 workflows autonomes pour faire tourner Claude en pilote auto.', accentColor: '#14b8a6', leftTitle: 'Configurer mes agents Cowork autonomes', modules: CLAUDE_COWORK_MODULES }}
+        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCoworkOb}
+      />
+    </DashboardLayout></W>
+  )
 
   return null
 }
 
 function getTitle(route: DashboardRoute): string {
   const titles: Record<string, string> = {
-    dashboard: 'Mon parcours', autopilot: 'Jarvis IA',
+    home: 'Accueil', dashboard: 'Mon parcours', autopilot: 'Jarvis IA',
     module: `Module ${route.moduleId ?? ''}`, lesson: 'Leçon', quiz: 'Quiz',
     journal: 'Journal de bord', library: 'Bibliothèque', checklist: 'Checklist',
     project: 'Mes Projets', tools: 'Outils',
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
-    'claude-dash': 'Claude 360°', 'claude-module': 'Claude 360°',
-    'claude-lesson': 'Claude 360°', 'claude-console': 'Console Claude',
+    'claude-module': 'Claude 360°',
+    'claude-lesson': 'Claude 360°',
+    'kanban': 'Mon Pipeline', 'marketplace': 'Idees SaaS',
+    'idea-detail': 'Idee SaaS',
+    'community': 'Communaute', 'members': 'Membres',
+    'templates': 'Templates',
+    'collaborators': 'Collaborateurs',
+    'notifications': 'Notifications',
+    'claude-ai': 'Claude AI', 'claude-code': 'Claude Code', 'claude-cowork': 'Claude Cowork',
   }
   return titles[route.type] ?? 'Dashboard'
 }

@@ -12,11 +12,18 @@ import { LandingPage } from './components/LandingPage'
 import { useAuth } from './hooks/useAuth'
 import { useOnboarding } from './hooks/useOnboarding'
 
+// ── Ads preview (dev only — lazy) ────────────────────────────────────────────
+const AdsPreviewPage  = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdsPreviewPage })))
+const AdFullscreenA   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenA })))
+const AdFullscreenB   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenB })))
+
 // ── Lazy imports (split into separate chunks — not needed on LP) ─────────────
 const CheckoutPage        = lazy(() => import('./components/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
 const ClaudeLandingPage   = lazy(() => import('./components/ClaudeLandingPage').then(m => ({ default: m.ClaudeLandingPage })))
 const UpsellCohortPage    = lazy(() => import('./components/UpsellCohortPage').then(m => ({ default: m.UpsellCohortPage })))
 const CohorteCheckoutPage = lazy(() => import('./components/CohorteCheckoutPage').then(m => ({ default: m.CohorteCheckoutPage })))
+const ClaudeCheckoutPage  = lazy(() => import('./components/ClaudeCheckoutPage').then(m => ({ default: m.ClaudeCheckoutPage })))
+const ClaudeOTOPage       = lazy(() => import('./components/ClaudeOTOPage').then(m => ({ default: m.ClaudeOTOPage })))
 const SignupPage           = lazy(() => import('./components/auth/SignupPage').then(m => ({ default: m.SignupPage })))
 const SigninPage           = lazy(() => import('./components/auth/SigninPage').then(m => ({ default: m.SigninPage })))
 const OnboardingPage      = lazy(() => import('./components/onboarding/OnboardingPage').then(m => ({ default: m.OnboardingPage })))
@@ -82,6 +89,7 @@ interface ParsedRoute {
     | 'signup'
     | 'signin'
     | 'onboarding'
+    | 'home'
     | 'dashboard'
     | 'module'
     | 'lesson'
@@ -98,16 +106,30 @@ interface ParsedRoute {
     | 'offers'
     | 'agents'
     | 'agent-chat'
-    | 'claude-dash'
+    | 'claude-ai'
+    | 'claude-code'
+    | 'claude-cowork'
     | 'claude-module'
     | 'claude-lesson'
-    | 'claude-console'
+    | 'kanban'
+    | 'marketplace'
+    | 'idea-detail'
+
+    | 'community'
+    | 'members'
+    | 'templates'
+    | 'collaborators'
     | 'legal-mentions'
     | 'legal-cgv'
     | 'legal-confidentialite'
     | 'legal-cookies'
-  moduleId?: string
-  lessonId?: string
+    | 'claude-checkout'
+    | 'merci-claude'
+    | 'ads-preview'
+    | 'ads-full-a'
+    | 'ads-full-b'
+  moduleId?: string   // also used as productSlug for 'produit'/'brick'
+  lessonId?: string   // also used as brickId for 'brick'
 }
 
 function parseHash(hash: string): ParsedRoute {
@@ -119,12 +141,17 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'legal/confidentialite') return { type: 'legal-confidentialite' }
   if (h === 'legal/cookies') return { type: 'legal-cookies' }
   if (h === 'checkout') return { type: 'checkout' }
+  if (h === 'claude-checkout') return { type: 'claude-checkout' }
+  if (h === 'merci-claude' || h.startsWith('merci-claude?')) return { type: 'merci-claude' }
+  if (h === 'ads-preview') return { type: 'ads-preview' }
+  if (h === 'ads-full-a')  return { type: 'ads-full-a' }
+  if (h === 'ads-full-b')  return { type: 'ads-full-b' }
   if (h === 'upsell-cohort' || h.startsWith('upsell-cohort?')) return { type: 'upsell-cohort' }
   if (h === 'confirmation' || h.startsWith('confirmation?')) return { type: 'confirmation' }
   if (h === 'signup') return { type: 'signup' }
   if (h === 'signin') return { type: 'signin' }
   if (h === 'onboarding') return { type: 'onboarding' }
-  if (h === 'dashboard') return { type: 'dashboard' }
+  if (h === 'dashboard') return { type: 'home' }
   if (h === 'dashboard/journal') return { type: 'journal' }
   if (h === 'dashboard/library') return { type: 'library' }
   if (h === 'dashboard/ideas') return { type: 'ideas' }
@@ -135,17 +162,30 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/settings') return { type: 'settings' }
   if (h === 'dashboard/autopilot') return { type: 'autopilot' }
   if (h === 'dashboard/offers') return { type: 'offers' }
-  if (h === 'dashboard/agents') return { type: 'agents' }
+  if (h === 'dashboard/agents')        return { type: 'agents' }
+  if (h === 'dashboard/kanban')        return { type: 'kanban' }
+  if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
 
+  if (h === 'dashboard/community')     return { type: 'community' }
+  if (h === 'dashboard/members')       return { type: 'members' }
+  if (h === 'dashboard/templates')     return { type: 'templates' }
+  if (h === 'dashboard/products')      return { type: 'offers' }
+  if (h === 'dashboard/collaborators') return { type: 'collaborators' }
+  if (h === 'dashboard/notifications') return { type: 'notifications' }
+  const marketplaceIdeaMatch = h.match(/^dashboard\/marketplace\/([^/]+)$/)
+  if (marketplaceIdeaMatch) return { type: 'idea-detail', moduleId: marketplaceIdeaMatch[1] }
   const agentChatMatch = h.match(/^dashboard\/agent\/([^/]+)$/)
   if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
 
-  // Claude sub-dashboard routes
-  if (h === 'dashboard/claude') return { type: 'claude-dash' }
-  if (h === 'dashboard/claude/console') return { type: 'claude-console' }
+  // Claude sub-dashboard routes — anciennes routes redirigent vers claude-ai
+  if (h === 'dashboard/claude') return { type: 'claude-ai' }
+  if (h === 'dashboard/claude/ai') return { type: 'claude-ai' }
+  if (h === 'dashboard/claude/code') return { type: 'claude-code' }
+  if (h === 'dashboard/claude/cowork') return { type: 'claude-cowork' }
+  if (h === 'dashboard/claude/console') return { type: 'claude-ai' }
 
   const claudeConsoleTabMatch = h.match(/^dashboard\/claude\/console\/([^/]+)$/)
-  if (claudeConsoleTabMatch) return { type: 'claude-console', moduleId: claudeConsoleTabMatch[1] }
+  if (claudeConsoleTabMatch) return { type: 'claude-ai' }
 
   const claudeLessonMatch = h.match(/^dashboard\/claude\/module\/([^/]+)\/lesson\/([^/]+)$/)
   if (claudeLessonMatch) return { type: 'claude-lesson', moduleId: claudeLessonMatch[1], lessonId: claudeLessonMatch[2] }
@@ -191,6 +231,9 @@ function App() {
   const [hasAgentsBump, setHasAgentsBump] = useState(false)
   const [hasAcquisitionBump, setHasAcquisitionBump] = useState(false)
   const [funnelSource, setFunnelSource] = useState<'blueprint' | 'claude'>(isClaudeDomain ? 'claude' : 'blueprint')
+  // LP2 — Claude funnel checkout bumps
+  const [hasCoworkBump, setHasCoworkBump] = useState(false)
+  const [hasBlueprintBump, setHasBlueprintBump] = useState(false)
 
   // Handle Supabase auth redirects (OAuth code, email confirmation token_hash)
   useEffect(() => {
@@ -263,7 +306,7 @@ function App() {
   if (route.type === 'claude-landing') {
     return (
       <Suspense fallback={SpinnerFallback}>
-        <ClaudeLandingPage onCTAClick={() => { setFunnelSource('claude'); navigate('#/checkout') }} />
+        <ClaudeLandingPage onCTAClick={() => { setFunnelSource('claude'); navigate('#/claude-checkout') }} />
       </Suspense>
     )
   }
@@ -298,6 +341,27 @@ function App() {
     return <ConfirmationPage onNavigate={() => navigate('#/signup')} />
   }
 
+  // ── LP2 — Claude funnel ────────────────────────────────────────────────────
+  if (route.type === 'claude-checkout') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <ClaudeCheckoutPage
+          hasCoworkBump={hasCoworkBump}
+          setHasCoworkBump={setHasCoworkBump}
+          hasBlueprintBump={hasBlueprintBump}
+          setHasBlueprintBump={setHasBlueprintBump}
+          onBack={() => navigate('#/claude')}
+        />
+      </Suspense>
+    )
+  }
+  if (route.type === 'merci-claude') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <ClaudeOTOPage onDecline={() => navigate('#/signup?welcome=lp2')} />
+      </Suspense>
+    )
+  }
   // ---------------------------------------------------------------------------
   // Auth routes (lazy)
   // ---------------------------------------------------------------------------
@@ -345,6 +409,7 @@ function App() {
           onSignOut={signOut}
           save={saveOnboarding}
           complete={completeOnboarding}
+          navigate={navigate}
         />
       </Suspense>
     )
@@ -353,7 +418,14 @@ function App() {
   // ---------------------------------------------------------------------------
   // Dashboard routes — lazy via DashboardSection (isolates curriculum + hooks)
   // ---------------------------------------------------------------------------
-  const isDashboardRoute = ['dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas', 'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents', 'agent-chat', 'claude-dash', 'claude-module', 'claude-lesson', 'claude-console'].includes(route.type)
+  const isDashboardRoute = [
+    'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
+    'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
+    'agent-chat', 'claude-ai', 'claude-code', 'claude-cowork',
+    'claude-module', 'claude-lesson',
+    'kanban', 'marketplace', 'idea-detail', 'community', 'members',
+    'templates', 'collaborators',
+  ].includes(route.type)
 
   if (isDashboardRoute) {
     if (!user) { navigate('#/signin'); return null }
@@ -372,6 +444,11 @@ function App() {
       </Suspense>
     )
   }
+
+  // ── Ads preview routes (dev only) ───────────────────────────────────────────
+  if (route.type === 'ads-preview') return <Suspense fallback={SpinnerFallback}><AdsPreviewPage /></Suspense>
+  if (route.type === 'ads-full-a')  return <Suspense fallback={SpinnerFallback}><AdFullscreenA /></Suspense>
+  if (route.type === 'ads-full-b')  return <Suspense fallback={SpinnerFallback}><AdFullscreenB /></Suspense>
 
   // Fallback
   return <LandingPage onCTAClick={() => navigate('#/checkout')} />

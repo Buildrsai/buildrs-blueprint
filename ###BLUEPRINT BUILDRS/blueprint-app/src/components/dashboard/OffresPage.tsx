@@ -4,9 +4,6 @@ import {
   Users, ChevronLeft, Package, Clock, AlertCircle, Wrench,
 } from 'lucide-react'
 import { loadStripe } from '@stripe/stripe-js'
-import {
-  RobotPlanner, RobotDesigner, RobotArchitect, RobotBuilder, RobotLauncher,
-} from '../ui/agent-robots'
 
 const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1'
 
@@ -18,14 +15,6 @@ const sprintItems = [
   { icon: Shield,        text: 'Auth, BDD Supabase, déploiement Vercel — tout configuré' },
   { icon: Package,       text: 'Architecture propre, maintenable, prête à évoluer' },
   { icon: Zap,           text: 'Code source GitHub + documentation technique complète' },
-]
-
-const agentItems = [
-  { id: 'planner',   label: 'Planner',   desc: 'PRD · Roadmap · MoSCoW',           color: '#3b82f6', Robot: RobotPlanner   },
-  { id: 'designer',  label: 'Designer',  desc: 'Brand · Palette · Design system',   color: '#f43f5e', Robot: RobotDesigner  },
-  { id: 'architect', label: 'Architect', desc: 'CLAUDE.md · BDD · RLS',             color: '#f97316', Robot: RobotArchitect },
-  { id: 'builder',   label: 'Builder',   desc: 'Prompts Claude Code · 8 phases',    color: '#8b5cf6', Robot: RobotBuilder   },
-  { id: 'launcher',  label: 'Launcher',  desc: 'Landing · Emails · Plan J-7/J+30',  color: '#14b8a6', Robot: RobotLauncher  },
 ]
 
 const cohortItems = [
@@ -108,8 +97,8 @@ function CalWidget() {
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
-export function OffresPage({ navigate: _navigate, hasPack = false }: Props) {
-  const [selected, setSelected]     = useState<'agents' | 'sprint' | 'cohort' | null>(null)
+export function OffresPage({ navigate: _navigate }: Props) {
+  const [selected, setSelected]     = useState<'sprint' | 'cohort' | null>(null)
   const [cohortMode, setCohortMode] = useState<'once' | 'three'>('once')
   const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState<string | null>(null)
@@ -121,10 +110,9 @@ export function OffresPage({ navigate: _navigate, hasPack = false }: Props) {
 
   const cohortPriceLabel = cohortMode === 'once' ? '1 497€' : '3 × 499€'
 
-  const handlePay = async (type: 'agents' | 'sprint' | 'cohort') => {
+  const handlePay = async (type: 'sprint' | 'cohort') => {
     setLoading(true); setError(null)
     const endpoint =
-      type === 'agents' ? 'create-agents-checkout' :
       type === 'sprint' ? 'create-sprint-checkout' :
       'create-cohort-checkout'
     try {
@@ -170,7 +158,7 @@ export function OffresPage({ navigate: _navigate, hasPack = false }: Props) {
               Retour
             </button>
             <span className="text-[14px] font-bold text-foreground">
-              {selected === 'agents' ? 'Pack Agents IA — 197€' : selected === 'sprint' ? 'Sprint — 497€' : `Cohorte — ${cohortPriceLabel}`}
+              {selected === 'sprint' ? 'Sprint — 497€' : `Cohorte — ${cohortPriceLabel}`}
             </span>
           </div>
           <div ref={mountRef} />
@@ -179,144 +167,6 @@ export function OffresPage({ navigate: _navigate, hasPack = false }: Props) {
 
       {!showStripe && (
         <>
-          {/* ── PACK AGENTS ── */}
-          <div
-            className={`relative mb-6 overflow-hidden rounded-2xl border transition-colors ${
-              !hasPack && selected === 'agents' ? 'border-foreground' : hasPack ? 'border-border' : 'border-border hover:border-foreground/30'
-            }`}
-            style={{ background: 'hsl(var(--card))' }}
-          >
-            {/* Gradient accent bar */}
-            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, #4d96ff, #8b5cf6, #f43f5e, #f97316, #14b8a6)' }} />
-
-            <div className="p-6 sm:p-8">
-              {/* Badges */}
-              <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="rounded-full border border-border bg-muted px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
-                  Pack Agents IA
-                </span>
-                {hasPack ? (
-                  <span className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em]"
-                    style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e' }}>
-                    ACTIF
-                  </span>
-                ) : (
-                  <>
-                    <span className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em]"
-                      style={{ background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.3)', color: '#8b5cf6' }}>
-                      5 agents spécialisés
-                    </span>
-                    <span className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em]"
-                      style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', color: 'rgba(34,197,94,0.9)' }}>
-                      Accès à vie
-                    </span>
-                  </>
-                )}
-              </div>
-
-              <h2
-                className="text-foreground mb-2"
-                style={{ fontSize: 'clamp(20px, 2.5vw, 26px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.1 }}
-              >
-                5 agents IA. Un livrable par phase.
-              </h2>
-              <p className="text-[13px] leading-[1.7] text-muted-foreground mb-5 max-w-[580px]">
-                {hasPack
-                  ? 'Tes agents sont actifs. Jarvis et Validator sont illimités. Les 5 agents spécialisés produisent tes livrables à la demande.'
-                  : 'Débloque 5 agents spécialisés + passe Jarvis et Validator en illimité. Chaque agent produit un livrable complet en quelques minutes — de la stratégie au lancement.'}
-              </p>
-
-              {/* Agents list with robots */}
-              <div className="flex flex-col gap-2 mb-5">
-                {agentItems.map(({ id, label, desc, color, Robot }) => (
-                  <div
-                    key={id}
-                    className="flex items-center gap-3 rounded-xl border px-3.5 py-2.5"
-                    style={{ borderColor: `${color}25`, background: `${color}08` }}
-                  >
-                    <Robot size={24} />
-                    <span className="text-[12px] font-semibold" style={{ color }}>{label}</span>
-                    <span className="text-[11px] text-muted-foreground">— {desc}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Bonus section */}
-              <div className="rounded-xl border border-border px-4 py-3 mb-5" style={{ background: 'hsl(var(--secondary))' }}>
-                <p className="text-[9px] font-bold uppercase tracking-[0.08em] text-muted-foreground mb-2">Inclus en bonus</p>
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center gap-2 text-[12px] font-medium" style={{ color: '#6366f1' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#6366f1' }} />
-                    Jarvis illimité
-                  </div>
-                  <div className="flex items-center gap-2 text-[12px] font-medium" style={{ color: '#22c55e' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#22c55e' }} />
-                    Validator illimité <span className="text-muted-foreground font-normal ml-1">(au lieu de 3/mois)</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Price + CTA */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                {!hasPack && (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-[14px] font-medium text-muted-foreground/40 line-through">497€</span>
-                    <span className="text-foreground" style={{ fontSize: 36, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }}>
-                      197€
-                    </span>
-                    <span className="text-[12px] text-muted-foreground">une fois</span>
-                  </div>
-                )}
-
-                <div className={!hasPack ? 'sm:ml-auto flex flex-col items-start sm:items-end' : ''}>
-                  {hasPack ? (
-                    <div className="flex items-center gap-2 rounded-xl border border-border/50 px-5 py-3" style={{ background: 'hsl(var(--secondary))' }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                      <span className="text-[13px] font-semibold text-foreground">Tes agents sont débloqués</span>
-                    </div>
-                  ) : (
-                    <>
-                      {error && selected === 'agents' && (
-                        <p className="mb-2 text-[12px] text-red-500">{error}</p>
-                      )}
-                      <button
-                        onClick={() => { setSelected('agents'); handlePay('agents') }}
-                        disabled={loading && selected === 'agents'}
-                        className="cta-rainbow rounded-[10px] py-3 px-8 text-[13px] font-semibold transition-opacity hover:opacity-90 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                        style={{ background: 'hsl(var(--foreground))', color: 'hsl(var(--background))' }}
-                      >
-                        {loading && selected === 'agents' ? (
-                          <span className="flex items-center justify-center gap-2">
-                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                            </svg>
-                            Chargement…
-                          </span>
-                        ) : 'Débloquer les Agents IA →'}
-                      </button>
-                      <div className="mt-2 flex items-center gap-1.5">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 6 9 17l-5-5" />
-                        </svg>
-                        <span className="text-[10px] text-muted-foreground">Paiement sécurisé · Stripe</span>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ── SEPARATOR ── */}
-          <div className="flex items-center gap-5 my-8">
-            <div className="flex-1 h-px border-t border-border" />
-            <p className="text-sm font-semibold text-muted-foreground whitespace-nowrap">Tu veux qu'on construise avec toi ?</p>
-            <div className="flex-1 h-px border-t border-border" />
-          </div>
-
           {/* Header */}
           <div className="mb-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-3">
