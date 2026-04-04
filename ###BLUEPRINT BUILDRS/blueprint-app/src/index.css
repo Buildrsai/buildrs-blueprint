@@ -172,6 +172,11 @@
   50%       { opacity: 0.4; transform: scale(0.75); }
 }
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
 /* ── BANNER GRADIENT BORDER ── */
 
 @property --banner-angle {
@@ -231,8 +236,20 @@
   to   { transform: rotate(360deg) translateX(115px) rotate(-360deg); }
 }
 @keyframes orbit-outer-lg {
-  from { transform: rotate(0deg) translateX(190px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(190px) rotate(-360deg); }
+  from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+}
+
+/* Smaller orbit for mobile — overrides above on small screens */
+@media (max-width: 639px) {
+  @keyframes orbit-inner-lg {
+    from { transform: rotate(0deg) translateX(82px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(82px) rotate(-360deg); }
+  }
+  @keyframes orbit-outer-lg {
+    from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+  }
 }
 
 @keyframes bump-spin {

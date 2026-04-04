@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
-import { Settings, User, Lock, Camera, Check, AlertCircle } from 'lucide-react'
+import { Settings, User, Lock, Camera, Check, AlertCircle, ArrowLeft } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface Props {
   user: SupabaseUser | null
+  navigate?: (hash: string) => void
 }
 
-export function SettingsPage({ user }: Props) {
+export function SettingsPage({ user, navigate }: Props) {
   const [firstName, setFirstName] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
   const [avatarUploading, setAvatarUploading] = useState(false)
@@ -52,8 +53,12 @@ export function SettingsPage({ user }: Props) {
     if (error) {
       setProfileMsg({ type: 'error', text: error.message })
     } else {
-      setProfileMsg({ type: 'success', text: 'Profil mis à jour.' })
-      setTimeout(() => setProfileMsg(null), 3000)
+      setProfileMsg({ type: 'success', text: 'Profil mis à jour. Retour à l\'accueil...' })
+      if (navigate) {
+        setTimeout(() => navigate('#/dashboard/home'), 1500)
+      } else {
+        setTimeout(() => setProfileMsg(null), 3000)
+      }
     }
   }
 

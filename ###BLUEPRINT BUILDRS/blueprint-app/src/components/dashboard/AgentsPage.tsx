@@ -160,8 +160,11 @@ interface Props {
   hasPack?: boolean
 }
 
+const V3_UNLOCK = new Date('2026-04-07T00:00:00+02:00').getTime()
+
 export function AgentsPage({ navigate, hasPack = false }: Props) {
   const [lockedModal, setLockedModal] = useState<Agent | null>(null)
+  const isV3Live = Date.now() >= V3_UNLOCK
 
   const handleUnlock = () => {
     navigate('#/dashboard/offers')
@@ -240,12 +243,12 @@ export function AgentsPage({ navigate, hasPack = false }: Props) {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {AGENTS.map(agent => {
-              const unlocked = agent.free || hasPack
+              const unlocked = agent.free || (hasPack && isV3Live)
               const { Robot } = agent
               return (
                 <div
                   key={agent.id}
-                  onClick={unlocked ? () => navigate(`#/dashboard/agent/${agent.id}`) : () => setLockedModal(agent)}
+                  onClick={unlocked ? () => navigate(`#/dashboard/agent-chat/${agent.id}`) : () => setLockedModal(agent)}
                   className={`border border-border rounded-xl p-4 transition-all duration-150 cursor-pointer ${
                     unlocked ? 'hover:border-foreground/30' : 'hover:border-foreground/20'
                   }`}
@@ -297,31 +300,45 @@ export function AgentsPage({ navigate, hasPack = false }: Props) {
           </div>
         </div>
 
-        {/* CTA dark — thin silver border, subtle glow */}
-        {!hasPack && (
-          <div className="mt-6 rounded-2xl px-6 py-6" style={{ background: '#09090b', border: '1px solid rgba(255,255,255,0.10)' }}>
-              <p className="text-[9px] font-bold uppercase tracking-[0.12em] mb-2" style={{ color: '#52525b' }}>
-                Pack Agents
-              </p>
-              <h3 className="text-lg font-extrabold text-white mb-1.5" style={{ letterSpacing: '-0.03em' }}>
-                Tu as appris. Maintenant, exécute.
-              </h3>
-              <p className="text-sm leading-relaxed mb-5 max-w-lg" style={{ color: '#71717a' }}>
-                Le Blueprint t'a donné le plan. Les agents font le travail. Débloque tes 5 agents IA spécialisés.
-              </p>
-              <button
-                onClick={handleUnlock}
-                className="agents-cta-btn px-5 py-2 rounded-xl text-xs font-bold text-white transition-all"
-                style={{
-                  background: '#09090b',
-                  border: '1px solid rgba(255,255,255,0.18)',
-                  boxShadow: '0 0 18px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)',
-                }}
-              >
-                Débloquer le Pack Agents — 197€
-              </button>
+        {/* CTA / V3 waiting block */}
+        {hasPack && !isV3Live ? (
+          /* Acheteur pack — en attente V3 */
+          <div className="mt-6 rounded-2xl px-6 py-6" style={{ background: '#09090b', border: '1px solid rgba(139,92,246,0.3)' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] mb-2" style={{ color: '#8b5cf6' }}>
+              Pack Agents · Accès confirmé
+            </p>
+            <h3 className="text-lg font-extrabold text-white mb-1.5" style={{ letterSpacing: '-0.03em' }}>
+              Tes agents arrivent le 07 Avril.
+            </h3>
+            <p className="text-sm leading-relaxed" style={{ color: '#71717a' }}>
+              Ton accès est actif. Les agents se déploient avec la V3 le 07.04.2026 à 00h00. Tu seras parmi les premiers à les utiliser.
+            </p>
           </div>
-        )}
+        ) : !hasPack ? (
+          /* Non acheteur — CTA achat */
+          <div className="mt-6 rounded-2xl px-6 py-6" style={{ background: '#09090b', border: '1px solid rgba(255,255,255,0.10)' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] mb-2" style={{ color: '#52525b' }}>
+              Pack Agents
+            </p>
+            <h3 className="text-lg font-extrabold text-white mb-1.5" style={{ letterSpacing: '-0.03em' }}>
+              Tu as appris. Maintenant, exécute.
+            </h3>
+            <p className="text-sm leading-relaxed mb-5 max-w-lg" style={{ color: '#71717a' }}>
+              Le Blueprint t'a donné le plan. Les agents font le travail. Débloque tes 5 agents IA spécialisés.
+            </p>
+            <button
+              onClick={handleUnlock}
+              className="agents-cta-btn px-5 py-2 rounded-xl text-xs font-bold text-white transition-all"
+              style={{
+                background: '#09090b',
+                border: '1px solid rgba(255,255,255,0.18)',
+                boxShadow: '0 0 18px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)',
+              }}
+            >
+              Débloquer le Pack Agents — 197€
+            </button>
+          </div>
+        ) : null}
 
       </div>
 

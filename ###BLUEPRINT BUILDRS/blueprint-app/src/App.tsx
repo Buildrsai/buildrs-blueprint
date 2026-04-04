@@ -106,11 +106,7 @@ interface ParsedRoute {
     | 'offers'
     | 'agents'
     | 'agent-chat'
-    | 'claude-ai'
-    | 'claude-code'
-    | 'claude-cowork'
-    | 'claude-module'
-    | 'claude-lesson'
+    | 'claude-os'
     | 'kanban'
     | 'marketplace'
     | 'idea-detail'
@@ -174,24 +170,11 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/notifications') return { type: 'notifications' }
   const marketplaceIdeaMatch = h.match(/^dashboard\/marketplace\/([^/]+)$/)
   if (marketplaceIdeaMatch) return { type: 'idea-detail', moduleId: marketplaceIdeaMatch[1] }
-  const agentChatMatch = h.match(/^dashboard\/agent\/([^/]+)$/)
+  const agentChatMatch = h.match(/^dashboard\/agent(?:-chat)?\/([^/]+)$/)
   if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
 
-  // Claude sub-dashboard routes — anciennes routes redirigent vers claude-ai
-  if (h === 'dashboard/claude') return { type: 'claude-ai' }
-  if (h === 'dashboard/claude/ai') return { type: 'claude-ai' }
-  if (h === 'dashboard/claude/code') return { type: 'claude-code' }
-  if (h === 'dashboard/claude/cowork') return { type: 'claude-cowork' }
-  if (h === 'dashboard/claude/console') return { type: 'claude-ai' }
-
-  const claudeConsoleTabMatch = h.match(/^dashboard\/claude\/console\/([^/]+)$/)
-  if (claudeConsoleTabMatch) return { type: 'claude-ai' }
-
-  const claudeLessonMatch = h.match(/^dashboard\/claude\/module\/([^/]+)\/lesson\/([^/]+)$/)
-  if (claudeLessonMatch) return { type: 'claude-lesson', moduleId: claudeLessonMatch[1], lessonId: claudeLessonMatch[2] }
-
-  const claudeModuleMatch = h.match(/^dashboard\/claude\/module\/([^/]+)$/)
-  if (claudeModuleMatch) return { type: 'claude-module', moduleId: claudeModuleMatch[1] }
+  const claudeOsMatch = h.match(/^dashboard\/claude-os(\/.*)?$/)
+  if (claudeOsMatch) return { type: 'claude-os', moduleId: claudeOsMatch[1]?.replace(/^\//, '') || '' }
 
   const quizMatch = h.match(/^dashboard\/quiz\/([^/]+)$/)
   if (quizMatch) return { type: 'quiz', moduleId: quizMatch[1] }
@@ -421,10 +404,9 @@ function App() {
   const isDashboardRoute = [
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
-    'agent-chat', 'claude-ai', 'claude-code', 'claude-cowork',
-    'claude-module', 'claude-lesson',
+    'agent-chat', 'claude-os',
     'kanban', 'marketplace', 'idea-detail', 'community', 'members',
-    'templates', 'collaborators',
+    'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 
   if (isDashboardRoute) {

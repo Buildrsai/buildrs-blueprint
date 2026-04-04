@@ -234,13 +234,12 @@ export function DashboardLayout({
                 )
               })}
 
-              {/* Environnement Claude — V3 lock */}
-              <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">
-                Environnement Claude
-              </p>
-              {mobileV3Item('Claude AI',     ClaudeIcon)}
-              {mobileV3Item('Claude Code',   Terminal)}
-              {mobileV3Item('Claude Cowork', RefreshCw)}
+              {/* Claude OS */}
+              <button onClick={() => go('#/dashboard/claude-os')} className={`flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-xl transition-colors ${isActive('#/dashboard/claude-os') || currentPath.startsWith('#/dashboard/claude-os') ? 'bg-foreground text-background' : 'hover:bg-secondary/60 text-muted-foreground'}`}>
+                <ClaudeIcon size={14} strokeWidth={1.5} />
+                <span className="text-[13px] font-medium flex-1 truncate">Claude OS</span>
+                <span className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(139,92,246,0.12)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.25)' }}>V3</span>
+              </button>
 
               {/* Ressources */}
               <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 px-2 mb-1 mt-3">

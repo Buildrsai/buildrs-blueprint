@@ -14,15 +14,6 @@ import { useAccess } from '../../hooks/useAccess'
 import { useContentProgress } from '../../hooks/useContentProgress'
 import { useProfile } from '../../hooks/useProfile'
 import { getModule } from '../../data/curriculum'
-import { CLAUDE_CURRICULUM } from '../../data/claude-curriculum'
-
-// Seuls les modules avec du vrai contenu (pas de stubs "Contenu a venir")
-const CLAUDE_AI_IDS     = ['claude-1','claude-2','claude-3','claude-4','claude-7']
-const CLAUDE_CODE_IDS   = ['claude-5']
-const CLAUDE_COWORK_IDS = ['claude-6']
-const CLAUDE_AI_MODULES     = CLAUDE_CURRICULUM.filter(m => CLAUDE_AI_IDS.includes(m.id))
-const CLAUDE_CODE_MODULES   = CLAUDE_CURRICULUM.filter(m => CLAUDE_CODE_IDS.includes(m.id))
-const CLAUDE_COWORK_MODULES = CLAUDE_CURRICULUM.filter(m => CLAUDE_COWORK_IDS.includes(m.id))
 import { supabase } from '../../lib/supabase'
 
 // All page components — lazy so each route only loads what it needs
@@ -40,9 +31,7 @@ const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ def
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
 const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
 const AgentChatPage      = lazy(() => import('./AgentChatPage').then(m => ({ default: m.AgentChatPage })))
-const ClaudeEnvPage      = lazy(() => import('./claude/ClaudeEnvPage').then(m => ({ default: m.ClaudeEnvPage })))
-const ClaudeModulePage   = lazy(() => import('./claude/ClaudeModulePage').then(m => ({ default: m.ClaudeModulePage })))
-const ClaudeLessonPage   = lazy(() => import('./claude/ClaudeLessonPage').then(m => ({ default: m.ClaudeLessonPage })))
+const ClaudeOSPage       = lazy(() => import('./ClaudeOSPage').then(m => ({ default: m.ClaudeOSPage })))
 const HomePage           = lazy(() => import('./HomePage').then(m => ({ default: m.HomePage })))
 const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
 const MarketplaceIdeasPage = lazy(() => import('./MarketplaceIdeasPage').then(m => ({ default: m.MarketplaceIdeasPage })))
@@ -87,7 +76,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     void addXP('brick_complete')
   }
 
-  const { hasPack, hasClaudeCodeOb, hasClaudeCoworkOb } = access
+  const { hasPack } = access
 
   // Réconciliation legacy : si l'user a acheté le Pack Agents avant de s'inscrire,
   // la table `purchases` le contient — on met à jour user_metadata une fois
@@ -251,24 +240,11 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'checklist') return (<W><DashboardLayout {...layoutProps}><ChecklistPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'project' || route.type === 'ideas') return (<W><DashboardLayout {...layoutProps}><ProjectPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'tools') return (<W><DashboardLayout {...layoutProps}><ToolsPage navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} /></DashboardLayout></W>)
+  if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agent-chat' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><AgentChatPage agentId={route.moduleId} navigate={navigate} userId={user.id} hasPack={hasPack} /></DashboardLayout></W>)
-
-  // Claude — pages modules et lecons
-  if (route.type === 'claude-module' && route.moduleId) {
-    const parentRoute = CLAUDE_CODE_IDS.includes(route.moduleId) ? '#/dashboard/claude/code'
-      : CLAUDE_COWORK_IDS.includes(route.moduleId) ? '#/dashboard/claude/cowork'
-      : '#/dashboard/claude/ai'
-    return (<W><DashboardLayout {...layoutProps}><ClaudeModulePage modId={route.moduleId} navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} parentRoute={parentRoute} /></DashboardLayout></W>)
-  }
-  if (route.type === 'claude-lesson' && route.moduleId && route.lessonId) {
-    const parentRoute = CLAUDE_CODE_IDS.includes(route.moduleId) ? '#/dashboard/claude/code'
-      : CLAUDE_COWORK_IDS.includes(route.moduleId) ? '#/dashboard/claude/cowork'
-      : '#/dashboard/claude/ai'
-    return (<W><DashboardLayout {...layoutProps}><ClaudeLessonPage modId={route.moduleId} lessonId={route.lessonId} navigate={navigate} isCompleted={isCompleted} markComplete={markCompleteWithXP} hasClaudeCodeOb={hasClaudeCodeOb} hasClaudeCoworkOb={hasClaudeCoworkOb} parentRoute={parentRoute} /></DashboardLayout></W>)
-  }
+  if (route.type === 'claude-os') return (<W><DashboardLayout {...layoutProps}><ClaudeOSPage subPath={route.moduleId ?? ''} navigate={navigate} userEmail={user.email} /></DashboardLayout></W>)
 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
@@ -281,32 +257,6 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'collaborators') return (<W><DashboardLayout {...layoutProps}><CollaboratorsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'notifications') return (<W><DashboardLayout {...layoutProps}><NotificationsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
-  // Environnement Claude — 3 pages dédiées
-  if (route.type === 'claude-ai') return (
-    <W><DashboardLayout {...layoutProps}>
-      <ClaudeEnvPage
-        config={{ title: 'Claude AI', subtitle: 'Configurer Claude comme un outil de création de SaaS IA de pointe.', accentColor: '#cc5de8', leftTitle: 'Configurer mon environnement Claude', modules: CLAUDE_AI_MODULES }}
-        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCodeOb}
-      />
-    </DashboardLayout></W>
-  )
-  if (route.type === 'claude-code') return (
-    <W><DashboardLayout {...layoutProps}>
-      <ClaudeEnvPage
-        config={{ title: 'Claude Code', subtitle: 'Installer et configurer Claude Code pour builder des produits en mode pro.', accentColor: '#4d96ff', leftTitle: 'Configurer mon environnement Claude Code', modules: CLAUDE_CODE_MODULES }}
-        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCodeOb}
-      />
-    </DashboardLayout></W>
-  )
-  if (route.type === 'claude-cowork') return (
-    <W><DashboardLayout {...layoutProps}>
-      <ClaudeEnvPage
-        config={{ title: 'Claude Cowork', subtitle: 'Installer mes 5 workflows autonomes pour faire tourner Claude en pilote auto.', accentColor: '#14b8a6', leftTitle: 'Configurer mes agents Cowork autonomes', modules: CLAUDE_COWORK_MODULES }}
-        navigate={navigate} isCompleted={isCompleted} moduleProgress={moduleProgress} isUnlocked={hasClaudeCoworkOb}
-      />
-    </DashboardLayout></W>
-  )
-
   return null
 }
 
@@ -318,15 +268,13 @@ function getTitle(route: DashboardRoute): string {
     project: 'Mes Projets', tools: 'Outils',
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
-    'claude-module': 'Claude 360°',
-    'claude-lesson': 'Claude 360°',
+    'claude-os': 'Claude OS',
     'kanban': 'Mon Pipeline', 'marketplace': 'Idees SaaS',
     'idea-detail': 'Idee SaaS',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',
     'collaborators': 'Collaborateurs',
     'notifications': 'Notifications',
-    'claude-ai': 'Claude AI', 'claude-code': 'Claude Code', 'claude-cowork': 'Claude Cowork',
   }
   return titles[route.type] ?? 'Dashboard'
 }

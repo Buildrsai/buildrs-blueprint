@@ -55,10 +55,6 @@ const MODULE_ICONS: Record<string, React.ComponentType<{ size?: number; strokeWi
   'valider': CheckCircle, 'offre': Tag, 'scaler': TrendingUp,
 }
 
-// ── Claude section module IDs (for progress badges) ──
-const CLAUDE_ENV_IDS  = ['claude-1','claude-2','claude-3','claude-4','claude-5','claude-6','claude-7']
-const CLAUDE_CODE_IDS = ['claude-cc-1','claude-cc-2','claude-cc-3','claude-cc-4','claude-cc-5','claude-cc-6','claude-cc-7','claude-cc-8']
-const CLAUDE_CW_IDS   = ['claude-p1-2','claude-p1-6','claude-p1-7']
 
 interface Props {
   currentPath: string
@@ -98,7 +94,6 @@ export function Sidebar({
   // Sections
   const [parcoursOpen, toggleParcours] = useSectionOpen('parcours',   true)
   const [projetOpen,  toggleProjet]  = useSectionOpen('projet',    false)
-  const [claudeOpen,  toggleClaude]  = useSectionOpen('claude',    false)
   const [outilsOpen,  toggleOutils]  = useSectionOpen('outils',    false)
   const [commuOpen,   toggleCommu]   = useSectionOpen('communaute', false)
   const [accesOpen,   toggleAcces]   = useSectionOpen('acces',     false)
@@ -287,7 +282,7 @@ export function Sidebar({
       )}
 
       {/* ── Accueil — bouton sans label section ────────────────────────────── */}
-      <div className="px-3 pt-4 pb-1">
+      <div className="px-3 pt-4 pb-1 flex flex-col gap-0.5">
         <button
           onClick={() => navigate('#/dashboard')}
           className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
@@ -296,6 +291,21 @@ export function Sidebar({
         >
           <Home size={13} strokeWidth={1.5} className="flex-shrink-0" />
           <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Accueil</span>
+        </button>
+        <button
+          onClick={() => navigate('#/dashboard/claude-os')}
+          className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+            isPrefix('#/dashboard/claude-os') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+          }`}
+        >
+          <ClaudeIcon size={13} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Claude OS</span>
+          <span
+            className="text-[7.5px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
+            style={{ background: 'rgba(139,92,246,0.12)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.25)' }}
+          >
+            V3
+          </span>
         </button>
       </div>
 
@@ -355,19 +365,7 @@ export function Sidebar({
         )}
       </div>
 
-      {/* ── 3. ENVIRONNEMENT CLAUDE ─ fermé par défaut ─────────────────────── */}
-      <div className="px-3 pt-3 pb-1">
-        {sectionHeader('Environnement Claude', claudeOpen, toggleClaude)}
-        {claudeOpen && (
-          <div className="flex flex-col gap-0.5">
-            {v3Item('Claude AI',    ClaudeIcon)}
-            {v3Item('Claude Code',  Terminal)}
-            {v3Item('Claude Cowork', RefreshCw)}
-          </div>
-        )}
-      </div>
-
-      {/* ── 4. OUTILS ─ fermé par défaut ───────────────────────────────────── */}
+      {/* ── 3. OUTILS ─ fermé par défaut ───────────────────────────────────── */}
       <div className="px-3 pt-3 pb-1">
         {sectionHeader('Outils', outilsOpen, toggleOutils)}
         {outilsOpen && (
