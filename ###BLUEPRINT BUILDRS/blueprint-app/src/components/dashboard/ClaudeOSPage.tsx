@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import {
   BookOpen, Package, Sparkles, Zap, ArrowLeft, ChevronRight,
-  Layers, Terminal, FileCode, Settings, Cpu, Code,
-  Bot, Plug, Wrench, Star, Rocket, Copy, Mail,
-  MessageSquare, GitBranch, Bug, Brain, Construction,
+  Terminal, FileCode, Settings, Cpu,
+  Bot, Plug, Wrench, Rocket, Copy, Mail,
+  MessageSquare, Bug, Brain, Construction, Monitor, Users,
 } from 'lucide-react'
 import { ClaudeIcon } from '../ui/icons'
 
@@ -19,6 +19,14 @@ interface BadgeDef {
 }
 
 interface CardDef {
+  id: string
+  title: string
+  desc: string
+  badges: BadgeDef[]
+  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>
+}
+
+interface HubCardDef {
   id: string
   title: string
   desc: string
@@ -46,180 +54,192 @@ const BADGE_VIOLET: BadgeDef = {
   bg: 'rgba(139,92,246,0.12)',
   border: 'rgba(139,92,246,0.25)',
 }
+const BADGE_GUIDE: BadgeDef = {
+  label: 'Guide',
+  color: '#f59e0b',
+  bg: 'rgba(245,158,11,0.12)',
+  border: 'rgba(245,158,11,0.25)',
+}
+const BADGE_HACK: BadgeDef = {
+  label: 'Hack',
+  color: '#06b6d4',
+  bg: 'rgba(6,182,212,0.12)',
+  border: 'rgba(6,182,212,0.25)',
+}
 
 // ── Cards per tab ─────────────────────────────────────────────────────────────
 
 const CARDS: Record<TabId, CardDef[]> = {
   apprendre: [
     {
-      id: '3-couches',
-      title: 'Les 3 Couches',
-      desc: 'Plugins, MCP Servers et Skills — comprendre la structure avant d\'installer quoi que ce soit.',
-      badge: BADGE_BLUE,
-      Icon: Layers,
+      id: 'claude-code',
+      title: 'Claude Code',
+      desc: "Ton terminal qui code, déploie et debug.",
+      badges: [BADGE_BLUE],
+      Icon: ClaudeIcon,
     },
     {
-      id: 'framework',
-      title: 'Le Framework Buildrs',
-      desc: 'Le process en 10 étapes pour construire un SaaS de l\'idée au MRR avec Claude.',
-      badge: BADGE_BLUE,
-      Icon: GitBranch,
+      id: 'claude-cowork',
+      title: 'Claude Cowork',
+      desc: "L'agent qui gère ton business pendant que tu build.",
+      badges: [BADGE_BLUE],
+      Icon: Monitor,
     },
     {
-      id: 'claude-md',
-      title: 'CLAUDE.md Parfait',
-      desc: 'Structure et template du CLAUDE.md Buildrs. La mémoire permanente de ton projet.',
-      badge: BADGE_GREEN,
-      Icon: FileCode,
-    },
-    {
-      id: 'system-prompt',
-      title: 'System Prompt Buildrs',
-      desc: 'Le template de system prompt utilisé par Alfred pour chaque nouveau projet SaaS.',
-      badge: BADGE_GREEN,
+      id: 'prompts',
+      title: 'Prompts',
+      desc: "La compétence n°1. Bon prompt = résultat 10x.",
+      badges: [BADGE_BLUE, BADGE_VIOLET],
       Icon: Terminal,
     },
     {
-      id: 'slash-commands',
-      title: 'Slash Commands',
-      desc: 'Référence complète de toutes les commandes slash disponibles dans l\'environnement Buildrs.',
-      badge: BADGE_BLUE,
-      Icon: Code,
+      id: 'claude-md',
+      title: 'CLAUDE.md',
+      desc: "Sans ça, Claude oublie tout. Avec, il connaît ton projet.",
+      badges: [BADGE_BLUE, BADGE_VIOLET],
+      Icon: FileCode,
     },
     {
-      id: 'plan-mode',
-      title: 'Plan Mode & Opus',
-      desc: 'Quand utiliser Plan Mode vs Sonnet vs Opus. Gestion des modèles selon la complexité.',
-      badge: BADGE_BLUE,
-      Icon: Brain,
+      id: 'skills',
+      title: 'Skills',
+      desc: "Tes workflows en une commande. /deploy, /ship — c'est fait.",
+      badges: [BADGE_BLUE, BADGE_GREEN, BADGE_VIOLET],
+      Icon: Wrench,
     },
     {
-      id: 'bonnes-pratiques',
-      title: 'Bonnes Pratiques',
-      desc: 'Les règles qui évitent 80% des bugs et 90% du code spaghetti. Obligatoire avant de builder.',
-      badge: BADGE_GREEN,
-      Icon: Star,
+      id: 'mcp-connecteurs',
+      title: 'MCP & Connecteurs',
+      desc: "Claude agit dans Supabase, Vercel, Stripe. Zéro copier-coller.",
+      badges: [BADGE_BLUE, BADGE_GREEN, BADGE_VIOLET],
+      Icon: Plug,
     },
     {
-      id: 'glossaire',
-      title: 'Glossaire Claude Code',
-      desc: 'Tous les termes techniques en une page. De "context window" à "tool use".',
-      badge: BADGE_BLUE,
-      Icon: BookOpen,
+      id: 'plugins',
+      title: 'Plugins',
+      desc: "22 packages prêts. Installés en 10 min.",
+      badges: [BADGE_BLUE, BADGE_GREEN],
+      Icon: Package,
+    },
+    {
+      id: 'team-agents',
+      title: 'Team Agents',
+      desc: "3 Claude en parallèle. Le CTO que t'as pas encore.",
+      badges: [BADGE_BLUE, BADGE_VIOLET],
+      Icon: Users,
     },
   ],
 
   equiper: [
     {
-      id: 'marketplaces',
-      title: 'Marketplaces',
-      desc: 'Les 4 repos GitHub à ajouter en priorité. Le point de départ obligatoire de tout setup.',
-      badge: BADGE_GREEN,
+      id: 'checklist-installation',
+      title: "Checklist d'installation",
+      desc: "8 étapes dans l'ordre. De zéro à opérationnel.",
+      badges: [BADGE_GUIDE],
+      Icon: Settings,
+    },
+    {
+      id: 'bibliotheque-skills',
+      title: 'Bibliothèque Skills',
+      desc: '70+ skills avec commandes d\'installation.',
+      badges: [BADGE_GREEN],
+      Icon: BookOpen,
+    },
+    {
+      id: 'bibliotheque-plugins',
+      title: 'Bibliothèque Plugins',
+      desc: '22 plugins. Commande copier-coller pour chaque.',
+      badges: [BADGE_GREEN],
       Icon: Package,
     },
     {
-      id: 'plugins',
-      title: 'Plugins Essentiels',
-      desc: 'Superpowers, Frontend Design, Feature Dev, Code Review, Security — les 8 plugins du stack.',
-      badge: BADGE_GREEN,
+      id: 'bibliotheque-mcp',
+      title: 'Bibliothèque MCP & Connecteurs',
+      desc: 'MCP servers + connecteurs Claude.ai. Tout le setup.',
+      badges: [BADGE_GREEN],
       Icon: Plug,
     },
     {
-      id: 'mcp-servers',
-      title: 'MCP Servers',
-      desc: 'Vercel, Supabase, Stripe, GitHub, Figma, Linear, PostHog — accès directs aux outils.',
-      badge: BADGE_GREEN,
-      Icon: Cpu,
+      id: 'cheatsheet-commandes',
+      title: 'Cheatsheet Commandes',
+      desc: '80+ commandes organisées par situation.',
+      badges: [BADGE_GREEN],
+      Icon: Terminal,
     },
     {
-      id: 'skills-design',
-      title: 'Skills Design',
-      desc: 'UI/UX Pro Max, Design System Buildrs et les skills qui font de Claude un designer senior.',
-      badge: BADGE_GREEN,
-      Icon: Wrench,
-    },
-    {
-      id: 'skills-vercel',
-      title: 'Skills Vercel',
-      desc: 'Deploy, bootstrap, env, AI SDK, Next.js, Workflow DevKit — l\'écosystème Vercel complet.',
-      badge: BADGE_GREEN,
-      Icon: Rocket,
-    },
-    {
-      id: 'checklist',
-      title: "Checklist d'Installation",
-      desc: 'La séquence d\'installation dans le bon ordre. 21 étapes de la première marketplace au dernier skill.',
-      badge: BADGE_GREEN,
-      Icon: Settings,
+      id: 'prompt-general-buildrs',
+      title: 'Prompt Général Buildrs',
+      desc: 'Le system prompt qu\'on utilise sur tous nos projets.',
+      badges: [BADGE_GREEN],
+      Icon: Brain,
     },
   ],
 
   generer: [
     {
-      id: 'mvp-72h',
-      title: 'MVP Complet en 72h',
-      desc: 'La suite de prompts complète pour aller de l\'idée validée au SaaS live en 72 heures.',
-      badge: BADGE_VIOLET,
-      Icon: Rocket,
+      id: 'generateur-claude-md',
+      title: 'Générateur CLAUDE.md',
+      desc: 'Crée la mémoire de ton projet en 6 étapes.',
+      badges: [BADGE_VIOLET],
+      Icon: FileCode,
     },
     {
-      id: 'architecture',
-      title: 'Architecture & CLAUDE.md',
-      desc: 'Génère automatiquement le schéma Supabase, les RLS policies et le CLAUDE.md de ton projet.',
-      badge: BADGE_VIOLET,
+      id: 'generateur-skills',
+      title: 'Générateur Skills',
+      desc: 'Crée un skill custom en 4 étapes.',
+      badges: [BADGE_VIOLET],
+      Icon: Wrench,
+    },
+    {
+      id: 'generateur-mcp',
+      title: 'Générateur MCP',
+      desc: 'Recommande les MCPs selon ton type de projet.',
+      badges: [BADGE_VIOLET],
       Icon: Cpu,
     },
     {
-      id: 'landing-page',
-      title: 'Landing Page',
-      desc: 'Prompt pour générer la landing page complète de ton SaaS — accroche, features, pricing, FAQ.',
-      badge: BADGE_VIOLET,
-      Icon: Code,
+      id: 'generateur-team-agents',
+      title: 'Générateur Team Agents',
+      desc: "Configure une équipe d'agents en 4 étapes.",
+      badges: [BADGE_VIOLET],
+      Icon: Bot,
     },
     {
-      id: 'prompts-buildrs',
-      title: 'Prompts Buildrs',
-      desc: 'La bibliothèque de prompts optimisés pour chaque étape du build. Validés en production.',
-      badge: BADGE_VIOLET,
-      Icon: Copy,
-    },
-    {
-      id: 'emails-sequences',
-      title: 'Emails & Séquences',
-      desc: 'Génère ta séquence d\'emails post-achat, de relance et de rétention. Ton Resend setup prêt.',
-      badge: BADGE_VIOLET,
-      Icon: Mail,
+      id: 'generateur-prompt-parfait',
+      title: 'Générateur Prompt Parfait',
+      desc: 'Crée ton system prompt personnalisé en 5 étapes.',
+      badges: [BADGE_VIOLET],
+      Icon: Sparkles,
     },
   ],
 
   hacks: [
     {
-      id: 'mobile',
-      title: 'Pilotage Mobile',
-      desc: 'Connecte Telegram ou Discord pour piloter Claude Code depuis ton téléphone, où que tu sois.',
-      badge: BADGE_BLUE,
+      id: 'dispatch-cowork',
+      title: 'Dispatch Cowork',
+      desc: 'Pilote Claude Cowork depuis ton téléphone.',
+      badges: [BADGE_HACK],
+      Icon: Monitor,
+    },
+    {
+      id: 'telegram-discord',
+      title: 'Telegram + Discord',
+      desc: 'Pilote Claude Code depuis ton téléphone.',
+      badges: [BADGE_HACK],
       Icon: MessageSquare,
     },
     {
-      id: 'agents-paralleles',
-      title: 'Agents Parallèles',
-      desc: 'Lancer plusieurs instances Claude en parallèle sur des tâches indépendantes. Multiplier la vitesse.',
-      badge: BADGE_BLUE,
-      Icon: Bot,
-    },
-    {
-      id: 'debug',
-      title: 'Debugging Scientifique',
-      desc: 'La méthode Superpowers : hypothèse → test → fix. Jamais de panique, toujours une méthode.',
-      badge: BADGE_BLUE,
-      Icon: Bug,
-    },
-    {
-      id: 'memoire',
-      title: 'Mémoire Persistante',
-      desc: 'Auto Memory, CLAUDE.md, et les patterns qui font que Claude ne perd jamais le contexte projet.',
-      badge: BADGE_BLUE,
+      id: 'opus-plan-mode',
+      title: 'Opus & Plan Mode',
+      desc: 'Quand utiliser Opus vs Sonnet vs Haiku.',
+      badges: [BADGE_HACK],
       Icon: Brain,
+    },
+    {
+      id: 'token-economy',
+      title: 'Token Economy',
+      desc: 'Stratégie pour optimiser tes coûts Claude.',
+      badges: [BADGE_HACK],
+      Icon: Zap,
     },
   ],
 }
@@ -233,67 +253,84 @@ const TABS: { id: TabId; label: string; Icon: React.ComponentType<{ size?: numbe
   { id: 'hacks',     label: 'Hacks',     Icon: Zap },
 ]
 
+// ── Hub sub-cards (apprendre cards that expand into sub-pages) ────────────────
+
+const HUBS: Partial<Record<string, HubCardDef[]>> = {
+  prompts: [
+    { id: 'formation',   title: 'Formation',   desc: 'Les 5 principes et le framework CTAR', badge: BADGE_BLUE,   Icon: BookOpen },
+    { id: 'generateur',  title: 'Générateur',  desc: 'Crée ton system prompt en 5 étapes',   badge: BADGE_VIOLET, Icon: Sparkles },
+  ],
+  'claude-md': [
+    { id: 'formation',   title: 'Formation',   desc: 'Structure, hiérarchie et template Buildrs',    badge: BADGE_BLUE,   Icon: BookOpen },
+    { id: 'generateur',  title: 'Générateur',  desc: 'Crée la mémoire de ton projet en 6 étapes',   badge: BADGE_VIOLET, Icon: Sparkles },
+  ],
+  skills: [
+    { id: 'formation',          title: 'Formation',          desc: 'Anatomie, bonnes pratiques, Superpowers', badge: BADGE_BLUE,   Icon: BookOpen },
+    { id: 'ressources-buildrs', title: 'Ressources Buildrs', desc: '70+ skills avec commandes',               badge: BADGE_GREEN,  Icon: Package  },
+    { id: 'generateur',         title: 'Générateur',         desc: 'Crée un skill custom en 4 étapes',        badge: BADGE_VIOLET, Icon: Sparkles },
+  ],
+  'mcp-connecteurs': [
+    { id: 'formation',          title: 'Formation',          desc: 'MCP servers + connecteurs Claude.ai',      badge: BADGE_BLUE,   Icon: BookOpen },
+    { id: 'ressources-buildrs', title: 'Ressources Buildrs', desc: 'Tous les MCP et connecteurs Buildrs',      badge: BADGE_GREEN,  Icon: Package  },
+    { id: 'generateur',         title: 'Générateur',         desc: 'Recommande les MCPs selon ton projet',     badge: BADGE_VIOLET, Icon: Sparkles },
+  ],
+  plugins: [
+    { id: 'formation',          title: 'Formation',          desc: "C'est quoi un plugin, marketplaces", badge: BADGE_BLUE,  Icon: BookOpen },
+    { id: 'ressources-buildrs', title: 'Ressources Buildrs', desc: '22 plugins avec commandes',          badge: BADGE_GREEN, Icon: Package  },
+  ],
+  'team-agents': [
+    { id: 'formation',  title: 'Formation',  desc: "Orchestrer une équipe d'agents IA", badge: BADGE_BLUE,   Icon: BookOpen },
+    { id: 'generateur', title: 'Générateur', desc: 'Configure une équipe en 4 étapes',  badge: BADGE_VIOLET, Icon: Sparkles },
+  ],
+}
+
 // ── Placeholder sub-page ──────────────────────────────────────────────────────
 
-function SubPagePlaceholder({
-  tabId,
-  cardId,
-  navigate,
-  isBeta,
+// Generic placeholder — works for direct pages (level-2) and sub-cards (level-3)
+function PagePlaceholder({
+  title, desc, badge, Icon, backPath, navigate, isBeta,
 }: {
-  tabId: TabId
-  cardId: string
+  title: string
+  desc: string
+  badge: BadgeDef
+  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>
+  backPath: string
   navigate: (hash: string) => void
   isBeta: boolean
 }) {
-  const cards = CARDS[tabId]
-  const card = cards?.find(c => c.id === cardId)
-
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="max-w-3xl mx-auto px-6 py-8">
-        {/* Back */}
         <button
-          onClick={() => navigate(`#/dashboard/claude-os/${tabId}`)}
+          onClick={() => navigate(backPath)}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
           style={{ color: '#9399b2' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour</span>
         </button>
-
-        {/* Header */}
-        {card && (
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: card.badge.bg, border: `0.5px solid ${card.badge.border}` }}
-              >
-                <card.Icon size={18} strokeWidth={1.5} style={{ color: card.badge.color }} />
-              </div>
-              <div>
-                <span
-                  className="text-[9px] font-bold uppercase tracking-[0.1em] block mb-0.5"
-                  style={{ color: card.badge.color }}
-                >
-                  {card.badge.label}
-                </span>
-                <h1
-                  className="text-xl font-extrabold"
-                  style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}
-                >
-                  {card.title}
-                </h1>
-              </div>
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{ background: badge.bg, border: `0.5px solid ${badge.border}` }}
+            >
+              <Icon size={18} strokeWidth={1.5} style={{ color: badge.color }} />
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: '#9399b2' }}>
-              {card.desc}
-            </p>
+            <div>
+              <span
+                className="text-[9px] font-bold uppercase tracking-[0.1em] block mb-0.5"
+                style={{ color: badge.color }}
+              >
+                {badge.label}
+              </span>
+              <h1 className="text-xl font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+                {title}
+              </h1>
+            </div>
           </div>
-        )}
-
-        {/* Placeholder */}
+          <p className="text-sm leading-relaxed" style={{ color: '#9399b2' }}>{desc}</p>
+        </div>
         <div
           className="rounded-2xl flex flex-col items-center justify-center text-center py-16 px-8"
           style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.08)' }}
@@ -317,6 +354,112 @@ function SubPagePlaceholder({
   )
 }
 
+// Hub page — shows sub-cards for apprendre cards that have children
+function HubPage({
+  tabId, cardId, navigate, isBeta,
+}: {
+  tabId: TabId
+  cardId: string
+  navigate: (hash: string) => void
+  isBeta: boolean
+}) {
+  const parentCard = CARDS[tabId]?.find(c => c.id === cardId)
+  const hubCards = HUBS[cardId] ?? []
+
+  return (
+    <div className="flex-1 overflow-y-auto">
+      <div className="max-w-4xl mx-auto px-6 py-8">
+        <button
+          onClick={() => navigate(`#/dashboard/claude-os/${tabId}`)}
+          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
+          style={{ color: '#9399b2' }}
+        >
+          <ArrowLeft size={14} strokeWidth={1.5} />
+          <span>Retour</span>
+        </button>
+
+        {/* Parent card header */}
+        {parentCard && (
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-3">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: parentCard.badges[0].bg, border: `0.5px solid ${parentCard.badges[0].border}` }}
+              >
+                <parentCard.Icon size={18} strokeWidth={1.5} style={{ color: parentCard.badges[0].color }} />
+              </div>
+              <div>
+                <span
+                  className="text-[9px] font-bold uppercase tracking-[0.1em] block mb-0.5"
+                  style={{ color: parentCard.badges[0].color }}
+                >
+                  {parentCard.badges[0].label}
+                </span>
+                <h1 className="text-xl font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+                  {parentCard.title}
+                </h1>
+              </div>
+            </div>
+            <p className="text-sm leading-relaxed" style={{ color: '#9399b2' }}>{parentCard.desc}</p>
+          </div>
+        )}
+
+        {/* Sub-cards grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {hubCards.map(sub => (
+            <button
+              key={sub.id}
+              onClick={() => navigate(`#/dashboard/claude-os/${tabId}/${cardId}/${sub.id}`)}
+              className="group text-left rounded-xl p-4 transition-all duration-150 hover:border-foreground/20"
+              style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))' }}
+            >
+              <div className="flex items-start gap-3">
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-150 group-hover:scale-105"
+                  style={{ background: sub.badge.bg, border: `0.5px solid ${sub.badge.border}` }}
+                >
+                  <sub.Icon size={16} strokeWidth={1.5} style={{ color: sub.badge.color }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <p className="text-[13px] font-semibold text-foreground" style={{ letterSpacing: '-0.01em' }}>
+                      {sub.title}
+                    </p>
+                    <span
+                      className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
+                      style={{ background: sub.badge.bg, color: sub.badge.color, border: `0.5px solid ${sub.badge.border}` }}
+                    >
+                      {sub.badge.label.toUpperCase()}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{sub.desc}</p>
+                </div>
+                <ChevronRight
+                  size={14}
+                  strokeWidth={1.5}
+                  className="flex-shrink-0 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-colors mt-0.5"
+                />
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Coming soon notice */}
+        {!isBeta && (
+          <div
+            className="mt-6 rounded-xl px-5 py-4 text-center"
+            style={{ background: 'rgba(139,92,246,0.05)', border: '0.5px solid rgba(139,92,246,0.2)' }}
+          >
+            <p className="text-[11px]" style={{ color: '#8b5cf6' }}>
+              Contenu disponible avec la V3 le 07.04.2026.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ── Beta access ───────────────────────────────────────────────────────────────
 
 const BETA_ACCESS = ['mehdib@gmail.com']
@@ -331,22 +474,58 @@ interface Props {
 
 export function ClaudeOSPage({ subPath, navigate, userEmail }: Props) {
   const isBeta = BETA_ACCESS.includes(userEmail ?? '')
-  // Parse subPath → tabId + cardId
-  // subPath examples: '', 'apprendre', 'apprendre/3-couches', 'equiper/plugins'
+  // Parse subPath → up to 3 levels: tabId / cardId / subCardId
   const parts = subPath.split('/').filter(Boolean)
   const pathTab = parts[0] as TabId | undefined
   const pathCard = parts[1]
+  const pathSub = parts[2]
 
-  // If card sub-page requested
-  if (pathTab && pathCard && CARDS[pathTab]) {
+  // Level 3: sub-card inside a hub (e.g. apprendre/prompts/formation)
+  if (pathTab && pathCard && pathSub) {
+    const subCard = HUBS[pathCard]?.find(c => c.id === pathSub)
+    if (subCard) {
+      return (
+        <PagePlaceholder
+          title={subCard.title}
+          desc={subCard.desc}
+          badge={subCard.badge}
+          Icon={subCard.Icon}
+          backPath={`#/dashboard/claude-os/${pathTab}/${pathCard}`}
+          navigate={navigate}
+          isBeta={isBeta}
+        />
+      )
+    }
+  }
+
+  // Level 2: hub page (card has sub-cards) e.g. apprendre/prompts
+  if (pathTab && pathCard && HUBS[pathCard]) {
     return (
-      <SubPagePlaceholder
+      <HubPage
         tabId={pathTab}
         cardId={pathCard}
         navigate={navigate}
         isBeta={isBeta}
       />
     )
+  }
+
+  // Level 2: direct placeholder (no hub) e.g. apprendre/claude-code
+  if (pathTab && pathCard && CARDS[pathTab as TabId]) {
+    const card = CARDS[pathTab as TabId]?.find(c => c.id === pathCard)
+    if (card) {
+      return (
+        <PagePlaceholder
+          title={card.title}
+          desc={card.desc}
+          badge={card.badges[0]}
+          Icon={card.Icon}
+          backPath={`#/dashboard/claude-os/${pathTab}`}
+          navigate={navigate}
+          isBeta={isBeta}
+        />
+      )
+    }
   }
 
   // Default active tab
@@ -395,8 +574,8 @@ export function ClaudeOSPage({ subPath, navigate, userEmail }: Props) {
             )}
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
-            L'environnement Claude Code tel qu'Alfred l'utilise chez Buildrs.
-            Installation, maîtrise, et les hacks qui changent tout.
+            L'arsenal complet pour builder des SaaS rentables avec Claude.
+            Le même setup qu'on utilise pour générer du MRR.
           </p>
         </div>
 
@@ -444,27 +623,30 @@ export function ClaudeOSPage({ subPath, navigate, userEmail }: Props) {
                 {/* Icon */}
                 <div
                   className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-150 group-hover:scale-105"
-                  style={{ background: card.badge.bg, border: `0.5px solid ${card.badge.border}` }}
+                  style={{ background: card.badges[0].bg, border: `0.5px solid ${card.badges[0].border}` }}
                 >
-                  <card.Icon size={16} strokeWidth={1.5} style={{ color: card.badge.color }} />
+                  <card.Icon size={16} strokeWidth={1.5} style={{ color: card.badges[0].color }} />
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                     <p className="text-[13px] font-semibold text-foreground" style={{ letterSpacing: '-0.01em' }}>
                       {card.title}
                     </p>
-                    <span
-                      className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-                      style={{
-                        background: card.badge.bg,
-                        color: card.badge.color,
-                        border: `0.5px solid ${card.badge.border}`,
-                      }}
-                    >
-                      {card.badge.label.toUpperCase()}
-                    </span>
+                    {card.badges.map(b => (
+                      <span
+                        key={b.label}
+                        className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
+                        style={{
+                          background: b.bg,
+                          color: b.color,
+                          border: `0.5px solid ${b.border}`,
+                        }}
+                      >
+                        {b.label.toUpperCase()}
+                      </span>
+                    ))}
                   </div>
                   <p className="text-[11px] text-muted-foreground leading-relaxed">
                     {card.desc}
