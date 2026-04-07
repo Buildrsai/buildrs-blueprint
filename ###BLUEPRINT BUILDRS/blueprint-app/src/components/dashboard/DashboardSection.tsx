@@ -35,8 +35,11 @@ const ClaudeOSPage       = lazy(() => import('./ClaudeOSPage').then(m => ({ defa
 const HomePage           = lazy(() => import('./HomePage').then(m => ({ default: m.HomePage })))
 const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
 const MarketplacePage      = lazy(() => import('./MarketplacePage').then(m => ({ default: m.MarketplacePage })))
+const ValidatorPage        = lazy(() => import('./ValidatorPage').then(m => ({ default: m.ValidatorPage })))
 const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(m => ({ default: m.OpportunityDetailPage })))
 const SourceDetailPage     = lazy(() => import('./SourceDetailPage').then(m => ({ default: m.SourceDetailPage })))
+const RevenueCalculatorPage = lazy(() => import('./RevenueCalculatorPage').then(m => ({ default: m.RevenueCalculatorPage })))
+const GeneratorPage         = lazy(() => import('./GeneratorPage').then(m => ({ default: m.GeneratorPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
 const MembersPage        = lazy(() => import('./MembersPage').then(m => ({ default: m.MembersPage })))
@@ -278,6 +281,10 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplacePage userId={user.id} navigate={navigate} isAdmin={user.user_metadata?.is_admin === true} /></DashboardLayout></W>)
   if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><SourceDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
+  if (route.type === 'validator') return (<W><DashboardLayout {...layoutProps}><ValidatorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'revenue-calculator') return (<W><DashboardLayout {...layoutProps}><RevenueCalculatorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'generator') return (<W><DashboardLayout {...layoutProps}><GeneratorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+
   if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'templates') return (<W><DashboardLayout {...layoutProps}><TemplatesPage navigate={navigate} /></DashboardLayout></W>)
@@ -296,7 +303,7 @@ function getTitle(route: DashboardRoute): string {
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
     'claude-os': 'Claude OS',
-    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace',
+    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de micro-SaaS',
     'opportunity-detail': 'Opportunite',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',

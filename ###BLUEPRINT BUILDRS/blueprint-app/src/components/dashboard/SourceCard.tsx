@@ -59,30 +59,54 @@ export function SourceCard({ source, saved, onSave, onOpen }: SourceCardProps) {
     >
       {/* SaaS header */}
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          <SaasLogo logoUrl={source.logo_url} name={source.name} size="md" />
-          <div className="min-w-0">
+        <div className="flex items-start gap-3 min-w-0 flex-1">
+          {/* Logo with white bg wrapper */}
+          <div
+            className="shrink-0 rounded-lg border border-border bg-white overflow-hidden flex items-center justify-center"
+            style={{ width: 52, height: 52, padding: 6 }}
+          >
+            <SaasLogo logoUrl={source.logo_url} name={source.name} domain={source.domain} size="sm" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            {/* Name + revenue + featured */}
             <div className="flex items-center gap-2 flex-wrap">
-              <p className="font-bold text-foreground text-sm leading-tight">{source.name}</p>
+              <p className="font-bold text-foreground leading-tight" style={{ fontSize: 15 }}>
+                {source.name}
+              </p>
+              {revenue && (
+                <span className="text-[10px] font-bold font-mono" style={{ color: '#10B981' }}>
+                  {revenue}
+                </span>
+              )}
               {source.is_featured && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-foreground text-background uppercase tracking-wide">
+                <span
+                  className="text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide"
+                  style={{ background: 'rgba(234,179,8,0.15)', color: '#CA8A04' }}
+                >
                   Featured
                 </span>
               )}
             </div>
+
+            {/* Tagline */}
             {source.tagline && (
               <p className="text-[11px] text-muted-foreground line-clamp-1 mt-0.5">{source.tagline}</p>
             )}
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              <span className="text-[9px] font-medium uppercase tracking-widest text-muted-foreground/50">
+
+            {/* Category badge */}
+            <div className="mt-1.5">
+              <span
+                className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+                style={{ background: 'rgba(124,58,237,0.1)', color: '#A78BFA' }}
+              >
                 {source.category}
               </span>
-              {revenue && (
-                <span className="text-[9px] font-mono font-semibold text-foreground/70">{revenue}</span>
-              )}
             </div>
           </div>
         </div>
+
+        {/* Bookmark */}
         <button
           className="text-muted-foreground hover:text-foreground transition-colors shrink-0 mt-0.5"
           onClick={e => { e.stopPropagation(); onSave() }}
@@ -114,13 +138,16 @@ export function SourceCard({ source, saved, onSave, onOpen }: SourceCardProps) {
               Opportunite Buildrs
             </span>
             <span
-              className="text-xl font-black font-mono"
-              style={{ color: scoreColor(opp.build_score), letterSpacing: '-0.03em' }}
+              className="font-black font-mono"
+              style={{ color: scoreColor(opp.build_score), fontSize: 26, letterSpacing: '-0.03em' }}
             >
               {opp.build_score}
             </span>
           </div>
-          <p className="text-[12px] font-semibold text-foreground leading-snug" style={{ letterSpacing: '-0.01em' }}>
+          <p
+            className="font-semibold leading-snug line-clamp-2"
+            style={{ fontSize: 13, color: '#7C3AED', letterSpacing: '-0.01em' }}
+          >
             {opp.opportunity_title}
           </p>
           <div className="space-y-1.5">

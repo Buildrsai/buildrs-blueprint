@@ -101,17 +101,20 @@ export function SourceDetailPage({ slug, userId, navigate }: Props) {
         notes: {},
       })
     } catch (_) { /* already exists or error — continue anyway */ }
-    sessionStorage.setItem('marketplace_context', JSON.stringify({
-      name: source?.name,
-      opportunity_title: opp.opportunity_title,
-      problem: opp.problem_solved,
-      stack: opp.recommended_stack,
-      features: opp.mvp_features,
-      niche: opp.niche_suggestions,
-      pricing: opp.pricing_suggestion,
-      source_slug: source?.slug,
+    sessionStorage.setItem('generator_context', JSON.stringify({
+      source: {
+        name: source?.name,
+        domain: source?.domain ?? null,
+        tagline: source?.tagline ?? null,
+        category: source?.category,
+        logo_url: source?.logo_url ?? null,
+        opportunity_title: opp.opportunity_title,
+        target_niche: opp.target_niche,
+        build_score: opp.build_score,
+        opportunity_id: opp.id,
+      },
     }))
-    navigate('#/dashboard/claude-os/generer')
+    navigate('#/dashboard/generator')
     setLaunching(false)
   }
 
@@ -160,7 +163,12 @@ export function SourceDetailPage({ slug, userId, navigate }: Props) {
         {/* Header SaaS */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <SaasLogo logoUrl={source.logo_url} name={source.name} size="lg" />
+            <div
+              className="shrink-0 rounded-xl border border-border bg-white overflow-hidden flex items-center justify-center"
+              style={{ width: 80, height: 80, padding: 8 }}
+            >
+              <SaasLogo logoUrl={source.logo_url} name={source.name} domain={source.domain} size="lg" />
+            </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-2xl font-black text-foreground" style={{ letterSpacing: '-0.03em' }}>

@@ -1,6 +1,7 @@
 // blueprint-app/src/components/ui/SaasLogo.tsx
+import { useState } from 'react'
 
-const SIZE_MAP = { sm: 32, md: 48, lg: 64 }
+const SIZE_MAP = { sm: 40, md: 48, lg: 64 }
 
 function hashColor(name: string): string {
   let hash = 0
@@ -12,11 +13,14 @@ function hashColor(name: string): string {
 interface SaasLogoProps {
   logoUrl: string | null
   name: string
+  domain?: string | null
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
-export function SaasLogo({ logoUrl, name, size = 'md', className = '' }: SaasLogoProps) {
+type FallbackLevel = 'logo' | 'favicon' | 'initials'
+
+export function SaasLogo({ logoUrl, name, domain, size = 'md', className = '' }: SaasLogoProps) {
   const px = SIZE_MAP[size]
   const initials = name
     .split(/\s+/)
@@ -24,7 +28,14 @@ export function SaasLogo({ logoUrl, name, size = 'md', className = '' }: SaasLog
     .map(w => w[0]?.toUpperCase() ?? '')
     .join('')
 
-  if (logoUrl) {
+  const faviconUrl = domain
+    ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+    : null
+
+  const initialLevel: FallbackLevel = logoUrl ? 'logo' : (faviconUrl ? 'favicon' : 'initials')
+  const [level, setLevel] = useState<FallbackLevel>(initialLevel)
+
+  if (level === 'logo' && logoUrl) {
     return (
       <img
         src={logoUrl}
@@ -33,12 +44,24 @@ export function SaasLogo({ logoUrl, name, size = 'md', className = '' }: SaasLog
         height={px}
         className={`rounded-lg object-contain bg-white ${className}`}
         style={{ width: px, height: px, minWidth: px }}
-        onError={e => {
-          const img = e.currentTarget
-          img.style.display = 'none'
-          const fallback = img.nextElementSibling as HTMLElement | null
-          if (fallback) fallback.style.display = 'flex'
+        onError={() => {
+          if (faviconUrl) setLevel('favicon')
+          else setLevel('initials')
         }}
+      />
+    )
+  }
+
+  if (level === 'favicon' && faviconUrl) {
+    return (
+      <img
+        src={faviconUrl}
+        alt={name}
+        width={px}
+        height={px}
+        className={`rounded-lg object-contain bg-white ${className}`}
+        style={{ width: px, height: px, minWidth: px }}
+        onError={() => setLevel('initials')}
       />
     )
   }

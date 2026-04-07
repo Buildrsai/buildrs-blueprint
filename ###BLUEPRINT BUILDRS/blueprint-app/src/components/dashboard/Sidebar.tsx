@@ -3,7 +3,7 @@ import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   FolderOpen, Wrench, Zap, ChevronDown, Settings, Bot, Lock,
   RefreshCw, Home, LayoutGrid, TrendingUp, Users, MessageSquare,
-  ShoppingBag, Star, CheckCircle, Tag, Target, Terminal,
+  ShoppingBag, Star, CheckCircle, Tag, Target, Terminal, Sparkles,
 } from 'lucide-react'
 import { BuildrsIcon, WhatsAppIcon, ClaudeIcon } from '../ui/icons'
 
@@ -382,11 +382,17 @@ export function Sidebar({
             {/* Agents IA — V3 lock */}
             {v3Item('Agents IA', Bot)}
 
-            {/* Valider mon SaaS — V3 lock */}
-            {v3Item('Valider mon SaaS', Target)}
+            {/* Générateur de micro-SaaS */}
+            {navItem('#/dashboard/generator', 'Générateur de SaaS', Sparkles)}
+
+            {/* Valider mon SaaS */}
+            {navItem('#/dashboard/validator', 'Valider mon SaaS', Target)}
 
             {/* Marketplace */}
             {navItem('#/dashboard/marketplace', 'Marketplace', ShoppingBag)}
+
+            {/* Calculateur MRR/ARR */}
+            {navItem('#/dashboard/revenue-calculator', 'Calculateur MRR/ARR', TrendingUp)}
 
             {/* Boîte à outils — toujours accessible */}
             {navItem('#/dashboard/tools', 'Boite a outils', Wrench)}

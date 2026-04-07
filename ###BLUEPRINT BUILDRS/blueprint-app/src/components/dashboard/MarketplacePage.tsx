@@ -1,9 +1,37 @@
 // blueprint-app/src/components/dashboard/MarketplacePage.tsx
 import { useState } from 'react'
 import { Search, RefreshCw, ChevronDown, Star } from 'lucide-react'
-import { useSources, type SourceFilters } from '../../hooks/useSources'
+import { useSources, type SourceFilters, type SaasSource } from '../../hooks/useSources'
 import { SourceCard } from './SourceCard'
 import { supabase } from '../../lib/supabase'
+
+function getFreshness(sources: SaasSource[]): string {
+  if (!sources.length) return ''
+  const maxTs = Math.max(...sources.map(s => new Date(s.created_at).getTime()))
+  const hoursAgo = Math.round((Date.now() - maxTs) / 3_600_000)
+  if (hoursAgo < 1) return 'Mis à jour il y a moins d\'1h'
+  if (hoursAgo < 24) return `Mis à jour il y a ${hoursAgo}h`
+  const daysAgo = Math.floor(hoursAgo / 24)
+  return `Mis à jour il y a ${daysAgo}j`
+}
+
+const PRODUCT_TYPES = [
+  { value: '', label: 'Tous types' },
+  { value: 'micro-saas',  label: 'Micro-SaaS web' },
+  { value: 'mobile-app',  label: 'App mobile' },
+  { value: 'ai-agent',    label: 'Agent IA' },
+  { value: 'ai-gen',      label: 'Generateur IA' },
+  { value: 'biz-tool',    label: 'Logiciel metier' },
+  { value: 'automation',  label: 'Automatisation' },
+  { value: 'marketplace', label: 'Marketplace' },
+]
+
+const MARKET_TYPES = [
+  { value: '',      label: 'B2B / B2C' },
+  { value: 'b2b',   label: 'B2B' },
+  { value: 'b2c',   label: 'B2C' },
+  { value: 'b2b2c', label: 'B2B2C' },
+]
 
 const CATEGORIES = [
   { value: '', label: 'Toutes' },
@@ -63,7 +91,9 @@ export function MarketplacePage({ userId, navigate, isAdmin = false }: Props) {
             Marketplace
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {total} SaaS &middot; Modeles clonables analyses par IA
+            <span style={{ color: '#7C3AED', fontWeight: 700 }}>{total} SaaS</span>
+            {' '}&middot;{' '}
+            {!loading && sources.length > 0 ? getFreshness(sources) : 'Modeles clonables analyses par IA'}
           </p>
         </div>
         {isAdmin && (
@@ -126,6 +156,30 @@ export function MarketplacePage({ userId, navigate, isAdmin = false }: Props) {
             <option value="build_score">Score</option>
             <option value="created_at">Recents</option>
             <option value="name">Nom</option>
+          </select>
+          <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+        </div>
+
+        {/* Type de produit */}
+        <div className="relative">
+          <select
+            className="appearance-none pl-3 pr-8 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none cursor-pointer"
+            value={filters.productType ?? ''}
+            onChange={e => setFilters({ productType: e.target.value || null })}
+          >
+            {PRODUCT_TYPES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
+          </select>
+          <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+        </div>
+
+        {/* Marche */}
+        <div className="relative">
+          <select
+            className="appearance-none pl-3 pr-8 py-2 text-sm border border-border rounded-lg bg-background focus:outline-none cursor-pointer"
+            value={filters.marketType ?? ''}
+            onChange={e => setFilters({ marketType: e.target.value || null })}
+          >
+            {MARKET_TYPES.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
           </select>
           <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
         </div>

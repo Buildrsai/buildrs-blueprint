@@ -133,6 +133,9 @@ interface ParsedRoute {
     | 'kanban'
     | 'marketplace'
     | 'opportunity-detail'
+    | 'validator'
+    | 'revenue-calculator'
+    | 'generator'
 
     | 'community'
     | 'members'
@@ -215,6 +218,9 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/agents')        return { type: 'agents' }
   if (h === 'dashboard/kanban')        return { type: 'kanban' }
   if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
+  if (h === 'dashboard/validator')          return { type: 'validator' }
+  if (h === 'dashboard/revenue-calculator') return { type: 'revenue-calculator' }
+  if (h === 'dashboard/generator')          return { type: 'generator' }
 
   if (h === 'dashboard/community')     return { type: 'community' }
   if (h === 'dashboard/members')       return { type: 'members' }
@@ -498,8 +504,8 @@ function App() {
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
     'agent-chat', 'claude-os',
-    'kanban', 'marketplace', 'opportunity-detail', 'community', 'members',
-    'templates', 'collaborators', 'notifications',
+    'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator',
+    'community', 'members', 'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 
   if (isDashboardRoute) {
