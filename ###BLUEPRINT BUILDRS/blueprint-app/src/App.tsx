@@ -132,6 +132,7 @@ interface ParsedRoute {
     | 'kanban'
     | 'marketplace'
     | 'opportunity-detail'
+    | 'validator'
 
     | 'community'
     | 'members'
@@ -496,8 +497,8 @@ function App() {
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
     'agent-chat', 'claude-os',
-    'kanban', 'marketplace', 'opportunity-detail', 'community', 'members',
-    'templates', 'collaborators', 'notifications',
+    'kanban', 'marketplace', 'opportunity-detail', 'validator',
+    'community', 'members', 'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 
   if (isDashboardRoute) {
