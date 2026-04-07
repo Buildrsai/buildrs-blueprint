@@ -22,6 +22,7 @@ const AdFullscreenD   = lazy(() => import('./components/ads/AdsPreviewPage').the
 const AdFullscreenE   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenE })))
 
 // ── Instagram posts ──────────────────────────────────────────────────────────
+const PlombIAProposalPage = lazy(() => import('./components/PlombIAProposalPage').then(m => ({ default: m.PlombIAProposalPage })))
 const InstaPreviewPage = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaPreviewPage })))
 const InstaFullP1S1 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S1 })))
 const InstaFullP1S2 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S2 })))
@@ -155,6 +156,7 @@ interface ParsedRoute {
     | 'insta-p1s1' | 'insta-p1s2' | 'insta-p1s3'
     | 'insta-p2s1' | 'insta-p2s2' | 'insta-p2s3' | 'insta-p2s4' | 'insta-p2s5' | 'insta-p2s6' | 'insta-p2s7'
     | 'insta-p3s1' | 'insta-p3s2' | 'insta-p3s3' | 'insta-p3s4'
+    | 'plombia-proposal'
   moduleId?: string   // also used as productSlug for 'produit'/'brick'
   lessonId?: string   // also used as brickId for 'brick'
 }
@@ -162,6 +164,7 @@ interface ParsedRoute {
 function parseHash(hash: string): ParsedRoute {
   const h = hash.replace(/^#\/?/, '')
   if (!h || h === 'landing' || h === '/') return { type: 'landing' }
+  if (h === 'plombia') return { type: 'plombia-proposal' }
   if (h === 'claude') return { type: 'claude-landing' }
   if (h === 'legal/mentions') return { type: 'legal-mentions' }
   if (h === 'legal/cgv') return { type: 'legal-cgv' }
@@ -260,7 +263,7 @@ function App() {
   }
 
   const [route, setRoute] = useState<ParsedRoute>(parseHash(window.location.hash))
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(false)
   const [hasOrderBump, setHasOrderBump] = useState(false)
   const [hasAgentsBump, setHasAgentsBump] = useState(false)
   const [hasAcquisitionBump, setHasAcquisitionBump] = useState(false)
@@ -516,6 +519,9 @@ function App() {
       </Suspense>
     )
   }
+
+  // ── Proposal pages ─────────────────────────────────────────────────────────
+  if (route.type === 'plombia-proposal') return <Suspense fallback={SpinnerFallback}><PlombIAProposalPage /></Suspense>
 
   // ── Ads preview routes (dev only) ───────────────────────────────────────────
   if (route.type === 'ads-preview') return <Suspense fallback={SpinnerFallback}><AdsPreviewPage /></Suspense>
