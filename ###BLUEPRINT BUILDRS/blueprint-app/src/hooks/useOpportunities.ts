@@ -17,6 +17,9 @@ export interface SaasOpportunity {
   traction_score: number
   cloneability_score: number
   monetization_score: number
+  traction_explanation: string | null
+  cloneability_explanation: string | null
+  monetization_explanation: string | null
   build_score: number
   why_reproducible: string | null
   recommended_stack: string[] | null

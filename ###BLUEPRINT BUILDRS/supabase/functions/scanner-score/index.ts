@@ -12,28 +12,69 @@ const SCANNER_AUTH_TOKEN = Deno.env.get('SCANNER_AUTH_TOKEN') ?? ''
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY')!
 
 const SCORE_SCHEMA = `{
-  "name": "string",
-  "tagline": "string (1 ligne max)",
-  "problem_solved": "string (1-2 phrases)",
+  "name": "string (nom court et parlant, pas de sigles)",
+  "tagline": "string (10 mots max, langage simple)",
+  "problem_solved": "string (1 phrase simple : QUI + POURQUOI)",
   "category": "string (parmi: crm, invoicing, scheduling, analytics, hr, marketing, productivity, ecommerce, education, health, other)",
-  "traction_score": "number (0-100)",
-  "cloneability_score": "number (0-100)",
-  "monetization_score": "number (0-100)",
-  "why_reproducible": "string (2-3 phrases)",
+  "traction_score": number (0-100),
+  "traction_explanation": "string (1 phrase avec les chiffres concrets : X votes, X MRR, X reviews)",
+  "cloneability_score": number (0-100),
+  "cloneability_explanation": "string (1 phrase simple : ce qu'il faut construire et combien de temps)",
+  "monetization_score": number (0-100),
+  "monetization_explanation": "string (1 phrase : qui paie, combien, pourquoi)",
+  "why_reproducible": "string (2-3 phrases simples, pas de jargon)",
   "recommended_stack": ["string"],
-  "differentiation_angle": "string (1-2 phrases)",
-  "mvp_features": ["string (5 features max)"],
+  "differentiation_angle": "string (1-2 phrases : quelle niche, quel angle)",
+  "mvp_features": ["string (5 features max, décrites simplement)"],
   "pain_points": ["string"] ou null,
-  "niche_suggestions": ["string (3 verticalisations)"],
-  "acquisition_channels": ["string (3 canaux max)"],
-  "pricing_suggestion": "string",
-  "mrr_estimated": "number ou null",
-  "mrr_confidence": "number (1-10) ou null"
+  "niche_suggestions": ["string (3 métiers/audiences précis)"],
+  "acquisition_channels": ["string (3 canaux concrets)"],
+  "pricing_suggestion": "string (ex: '29€/mois par salon')",
+  "mrr_estimated": number ou null,
+  "mrr_confidence": number (1-10) ou null
 }`
 
 function buildHaikuPrompt(item: Record<string, unknown>): string {
-  return `Tu es un analyste SaaS expert. Tu recois les donnees brutes d'un SaaS detecte sur le marche.
-Tu dois produire un scoring structure et des recommandations actionnables pour un non-developpeur qui veut reproduire ce SaaS avec Claude Code, Supabase, Next.js et Stripe.
+  return `SYSTEME :
+Tu es l'analyste SaaS de Buildrs. Tu évalues des produits SaaS pour déterminer si un NON-DEVELOPPEUR DEBUTANT peut les reproduire en micro-SaaS avec Claude Code, Supabase, Next.js et Stripe.
+
+REGLE CRITIQUE — CE QUE "MICRO-SAAS SIMPLE" VEUT DIRE :
+Un micro-SaaS simple c'est :
+- Un problème concret pour un métier précis (coiffeurs, artisans, coachs, restaurants, freelances, e-commerçants, agences...)
+- Un outil qu'on explique en UNE phrase
+- Stack maximale : landing + auth + formulaires + base de données + paiement Stripe + dashboard + éventuellement API Claude pour de l'IA simple (génération de texte, analyse, suggestions)
+- Constructible en 7 à 20 jours par quelqu'un qui découvre Claude Code
+
+CE QUI N'EST PAS UN MICRO-SAAS SIMPLE (Cloneability < 40 obligatoire) :
+- Intégrations API tierces complexes (DocuSign, Twilio, Puppeteer, scraping avancé, OAuth multi-provider)
+- Génération PDF complexe avec templating avancé
+- Temps réel (websockets, chat live, collaboration)
+- Machine learning custom ou fine-tuning
+- Marketplace avec multi-vendeurs
+- Tout ce qui nécessite plus de 3 services externes
+
+REGLE CRITIQUE — FORMAT DES DESCRIPTIONS :
+- Tagline : 10 mots max. Langage simple. Pas de jargon technique.
+  BON : "Prise de rendez-vous automatique pour salons de coiffure"
+  MAUVAIS : "Plateforme de scheduling multi-canaux avec intégration CRM"
+- problem_solved : 1 phrase simple qui dit QUI a le problème et POURQUOI c'est un problème.
+  BON : "Les coiffeurs perdent des clients parce qu'ils ne peuvent pas répondre au téléphone quand ils coupent les cheveux."
+  MAUVAIS : "Les professionnels du secteur capillaire subissent une déperdition de leads."
+- why_reproducible : expliquer avec des mots simples pourquoi c'est faisable. Pas de noms de technologies.
+  BON : "C'est un formulaire, une base de données et un tableau de bord. L'IA génère le contenu. Pas de complexité technique."
+  MAUVAIS : "Architecture CRUD classique avec endpoints REST, Supabase RLS et server-side rendering Next.js."
+
+CATEGORIES PRIVILEGIEES (micro-SaaS nichés par métier) :
+- Outils pour artisans (devis, facturation, planning)
+- Outils pour commerçants (pricing, inventaire, fidélité)
+- Outils pour freelances (facturation, CRM, propositions)
+- Outils pour coachs/formateurs (booking, suivi clients, programmes)
+- Outils pour restaurants/food (commandes, avis, menu)
+- Outils pour professionnels de santé/beauté (RDV, fiches clients)
+- Outils pour agences (reporting, gestion projets, clients)
+- Agents IA simples (vocal, email, chat pour un métier précis)
+- Générateurs IA (offres, contenus, emails pour une niche)
+- Automatisations simples (suivi, relances, notifications)
 
 DONNEES DU SAAS :
 Source: ${item.source}
@@ -43,12 +84,7 @@ URL: ${item.website_url ?? 'N/A'}
 MRR mentionne: ${item.mrr_mentioned ?? 'Non mentionne'}
 Upvotes/Score: ${item.upvotes ?? 0}
 
-Axes de scoring:
-- TRACTION (0-100): Validation marche (upvotes, MRR reel, presence Acquire/PH)
-- CLONEABILITY (0-100): Faisabilite par un non-dev avec Claude Code en 30 jours (CRUD+auth+paiement = facile; IA custom lourde = difficile)
-- MONETIZATION (0-100): Modele de revenus clair, recurrent, canal d'acquisition identifiable
-
-Reponds UNIQUEMENT en JSON valide avec cette structure exacte :
+Reponds UNIQUEMENT en JSON valide :
 ${SCORE_SCHEMA}`
 }
 
@@ -66,7 +102,7 @@ async function callClaude(prompt: string, model: 'haiku' | 'sonnet'): Promise<Re
     },
     body: JSON.stringify({
       model: modelId,
-      max_tokens: 1024,
+      max_tokens: 1500,
       messages: [{ role: 'user', content: prompt }],
     }),
   })
@@ -159,8 +195,11 @@ Deno.serve(async (req) => {
         mrr_estimated: scored.mrr_estimated ? Number(scored.mrr_estimated) : (item.mrr_mentioned ?? null),
         mrr_confidence: scored.mrr_confidence ? Number(scored.mrr_confidence) : null,
         traction_score: traction,
+        traction_explanation: String(scored.traction_explanation || ''),
         cloneability_score: cloneability,
+        cloneability_explanation: String(scored.cloneability_explanation || ''),
         monetization_score: monetization,
+        monetization_explanation: String(scored.monetization_explanation || ''),
         build_score: buildScore,
         why_reproducible: String(scored.why_reproducible || ''),
         recommended_stack: scored.recommended_stack || ['Next.js', 'Supabase', 'Stripe'],

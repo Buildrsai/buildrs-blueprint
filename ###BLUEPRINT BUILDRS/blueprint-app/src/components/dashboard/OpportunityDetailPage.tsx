@@ -19,7 +19,12 @@ function StackBadge({ name }: { name: string }) {
   )
 }
 
-function ScoreBar({ label, value, Icon }: { label: string; value: number; Icon: typeof TrendingUp }) {
+function ScoreBar({ label, value, explanation, Icon }: {
+  label: string
+  value: number
+  explanation?: string | null
+  Icon: typeof TrendingUp
+}) {
   const color = value >= 70 ? '#22c55e' : value >= 40 ? '#eab308' : '#ef4444'
   return (
     <div className="space-y-1.5">
@@ -33,6 +38,9 @@ function ScoreBar({ label, value, Icon }: { label: string; value: number; Icon: 
       <div className="h-1.5 rounded-full bg-border overflow-hidden">
         <div className="h-full rounded-full" style={{ width: `${value}%`, background: color }} />
       </div>
+      {explanation && (
+        <p className="text-[11px] text-muted-foreground/60 leading-relaxed">{explanation}</p>
+      )}
     </div>
   )
 }
@@ -95,10 +103,24 @@ export function OpportunityDetailPage({ slug, userId, navigate }: Props) {
     )
   }
 
-  const srcColor = opp.source === 'product_hunt' ? '#ff6154'
-    : opp.source === 'reddit' ? '#ff4500'
-    : opp.source === 'acquire' ? '#22c55e'
-    : '#8b5cf6'
+  const SOURCE_COLORS_MAP: Record<string, string> = {
+    product_hunt: '#ff6154',
+    reddit: '#ff4500',
+    acquire: '#22c55e',
+    hacker_news: '#ff6600',
+    manual_curated: '#8b5cf6',
+    generator_live: '#f59e0b',
+  }
+  const SOURCE_LABELS_MAP: Record<string, string> = {
+    product_hunt: 'Product Hunt',
+    reddit: 'Reddit',
+    acquire: 'Acquire.com',
+    hacker_news: 'Hacker News',
+    manual_curated: 'Buildrs Curated',
+    generator_live: 'Buildrs Live',
+  }
+  const srcColor = SOURCE_COLORS_MAP[opp.source] ?? '#8b5cf6'
+  const srcLabel = SOURCE_LABELS_MAP[opp.source] ?? opp.source
 
   const launchProject = () => {
     sessionStorage.setItem('marketplace_context', JSON.stringify({
@@ -134,7 +156,7 @@ export function OpportunityDetailPage({ slug, userId, navigate }: Props) {
                 className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide"
                 style={{ background: `${srcColor}20`, color: srcColor }}
               >
-                {opp.source.replace('_', ' ')}
+                {srcLabel}
               </span>
               <span className="text-[9px] font-medium uppercase tracking-widest text-muted-foreground/50">
                 {opp.category}
@@ -162,44 +184,62 @@ export function OpportunityDetailPage({ slug, userId, navigate }: Props) {
 
         {/* Score bars */}
         <div className="space-y-3 pt-2 border-t border-border">
-          <ScoreBar label="Traction" value={opp.traction_score} Icon={TrendingUp} />
-          <ScoreBar label="Cloneabilite" value={opp.cloneability_score} Icon={Zap} />
-          <ScoreBar label="Monetisation" value={opp.monetization_score} Icon={DollarSign} />
-        </div>
-
-        {/* Links */}
-        <div className="flex items-center gap-3 flex-wrap">
-          {opp.source_url && (
-            <a
-              href={opp.source_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
-              onClick={e => e.stopPropagation()}
-            >
-              <ExternalLink size={12} strokeWidth={1.5} />
-              Source
-            </a>
-          )}
-          {opp.website_url && (
-            <a
-              href={opp.website_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
-              onClick={e => e.stopPropagation()}
-            >
-              <ExternalLink size={12} strokeWidth={1.5} />
-              Site
-            </a>
-          )}
-          {opp.mrr_estimated && (
-            <span className="text-[12px] font-mono font-semibold" style={{ color: '#22c55e' }}>
-              MRR ~${opp.mrr_estimated.toLocaleString()}
-            </span>
-          )}
+          <ScoreBar label="Traction" value={opp.traction_score} explanation={opp.traction_explanation} Icon={TrendingUp} />
+          <ScoreBar label="Cloneabilite" value={opp.cloneability_score} explanation={opp.cloneability_explanation} Icon={Zap} />
+          <ScoreBar label="Monetisation" value={opp.monetization_score} explanation={opp.monetization_explanation} Icon={DollarSign} />
         </div>
       </div>
+
+      {/* Source d'inspiration */}
+      {(opp.source_url || opp.website_url || opp.mrr_estimated) && (
+        <div className="border border-border rounded-xl p-5 space-y-3">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/60">Source d'inspiration</h2>
+          <div className="flex items-center gap-3 flex-wrap">
+            <span
+              className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
+              style={{ background: `${srcColor}20`, color: srcColor }}
+            >
+              {srcLabel}
+            </span>
+            {opp.source_url && (
+              <a
+                href={opp.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ExternalLink size={12} strokeWidth={1.5} />
+                Voir sur {srcLabel}
+              </a>
+            )}
+            {opp.website_url && (
+              <a
+                href={opp.website_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <ExternalLink size={12} strokeWidth={1.5} />
+                Site original
+              </a>
+            )}
+          </div>
+          <div className="flex items-center gap-4 flex-wrap text-[12px]">
+            {opp.mrr_estimated && (
+              <span>
+                MRR <span className="font-mono font-semibold" style={{ color: '#22c55e' }}>${opp.mrr_estimated.toLocaleString()}</span>
+                {opp.mrr_confidence && <span className="text-muted-foreground/50 ml-1">(confiance {opp.mrr_confidence}/10)</span>}
+              </span>
+            )}
+          </div>
+          {opp.differentiation_angle && (
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/50 mb-1">Pourquoi on peut faire mieux</div>
+              <p className="text-sm text-muted-foreground leading-relaxed">{opp.differentiation_angle}</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Section 2: Analyse */}
       <div className="border border-border rounded-xl p-6 space-y-4">
