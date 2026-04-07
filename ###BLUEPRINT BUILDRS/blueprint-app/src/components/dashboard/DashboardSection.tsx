@@ -36,6 +36,7 @@ const HomePage           = lazy(() => import('./HomePage').then(m => ({ default:
 const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
 const MarketplacePage      = lazy(() => import('./MarketplacePage').then(m => ({ default: m.MarketplacePage })))
 const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(m => ({ default: m.OpportunityDetailPage })))
+const SourceDetailPage     = lazy(() => import('./SourceDetailPage').then(m => ({ default: m.SourceDetailPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
 const MembersPage        = lazy(() => import('./MembersPage').then(m => ({ default: m.MembersPage })))
@@ -275,7 +276,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
   if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplacePage userId={user.id} navigate={navigate} isAdmin={user.user_metadata?.is_admin === true} /></DashboardLayout></W>)
-  if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><OpportunityDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><SourceDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
   if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
