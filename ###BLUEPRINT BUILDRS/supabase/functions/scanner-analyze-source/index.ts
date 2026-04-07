@@ -100,9 +100,20 @@ function slugify(str: string): string {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
+  try {
+    return await handleRequest(req)
+  } catch (err) {
+    console.error('Unhandled error:', err)
+    return new Response(JSON.stringify({ error: 'Internal server error', details: String(err) }), {
+      status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+    })
+  }
+})
+
+async function handleRequest(req: Request): Promise<Response> {
   const token = req.headers.get('x-scanner-token')
   if (!SCANNER_AUTH_TOKEN || token !== SCANNER_AUTH_TOKEN) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    return new Response(JSON.stringify({ error: 'Unauthorized', hint: `token_set=${!!SCANNER_AUTH_TOKEN}` }), {
       status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
   }
@@ -124,8 +135,8 @@ Deno.serve(async (req) => {
 
   const excludeIds = (analyzedRows ?? []).map((r: { source_id: string }) => r.source_id).filter(Boolean)
 
-  // Fetch unanalyzed sources
-  let sourcesQuery = supabase.from('saas_sources').select('*').limit(10)
+  // Fetch unanalyzed sources (batch 5 — free tier 60s limit)
+  let sourcesQuery = supabase.from('saas_sources').select('*').limit(5)
   if (excludeIds.length > 0) {
     sourcesQuery = sourcesQuery.not('id', 'in', `(${excludeIds.join(',')})`)
   }
@@ -149,7 +160,7 @@ Deno.serve(async (req) => {
 
   for (const source of sources) {
     try {
-      if (itemsAnalyzed > 0) await new Promise(r => setTimeout(r, 500))
+      if (itemsAnalyzed > 0) await new Promise(r => setTimeout(r, 200))
 
       const scored = await callClaude(buildAnalysisPrompt(source), 'haiku')
 
@@ -192,10 +203,10 @@ Deno.serve(async (req) => {
         scored_at: new Date().toISOString(),
       }
 
-      // Phase 2: Sonnet enrichment for high-score items
-      if (buildScore > 70) {
+      // Phase 2: Sonnet enrichment for very high-score items only
+      if (buildScore > 80) {
         try {
-          await new Promise(r => setTimeout(r, 500))
+          await new Promise(r => setTimeout(r, 200))
           const enrichPrompt = `${buildAnalysisPrompt(source)}
 
 Cette OPPORTUNITE DE CLONE a un Build Score de ${buildScore}/100 (score > 70 = haute qualite).
@@ -240,4 +251,4 @@ Reponds en JSON avec UNIQUEMENT ces 4 champs.`
   }), {
     headers: { ...corsHeaders, 'Content-Type': 'application/json' }
   })
-})
+}
