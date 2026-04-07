@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
 
     const results = await Promise.allSettled([
       fetch(`${fnBase}/scanner-collect?source=product_hunt`, { method: 'POST', headers }),
-      fetch(`${fnBase}/scanner-collect?source=reddit`, { method: 'POST', headers }),
+      fetch(`${fnBase}/scanner-collect?source=hacker_news`, { method: 'POST', headers }),
     ])
 
     let items_collected = 0
