@@ -1,9 +1,19 @@
 // blueprint-app/src/components/dashboard/MarketplacePage.tsx
 import { useState } from 'react'
 import { Search, RefreshCw, ChevronDown, Star } from 'lucide-react'
-import { useSources, type SourceFilters } from '../../hooks/useSources'
+import { useSources, type SourceFilters, type SaasSource } from '../../hooks/useSources'
 import { SourceCard } from './SourceCard'
 import { supabase } from '../../lib/supabase'
+
+function getFreshness(sources: SaasSource[]): string {
+  if (!sources.length) return ''
+  const maxTs = Math.max(...sources.map(s => new Date(s.created_at).getTime()))
+  const hoursAgo = Math.round((Date.now() - maxTs) / 3_600_000)
+  if (hoursAgo < 1) return 'Mis à jour il y a moins d\'1h'
+  if (hoursAgo < 24) return `Mis à jour il y a ${hoursAgo}h`
+  const daysAgo = Math.floor(hoursAgo / 24)
+  return `Mis à jour il y a ${daysAgo}j`
+}
 
 const PRODUCT_TYPES = [
   { value: '', label: 'Tous types' },
@@ -81,7 +91,9 @@ export function MarketplacePage({ userId, navigate, isAdmin = false }: Props) {
             Marketplace
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {total} SaaS &middot; Modeles clonables analyses par IA
+            <span style={{ color: '#7C3AED', fontWeight: 700 }}>{total} SaaS</span>
+            {' '}&middot;{' '}
+            {!loading && sources.length > 0 ? getFreshness(sources) : 'Modeles clonables analyses par IA'}
           </p>
         </div>
         {isAdmin && (

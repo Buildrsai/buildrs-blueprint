@@ -160,7 +160,12 @@ export function SourceDetailPage({ slug, userId, navigate }: Props) {
         {/* Header SaaS */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <SaasLogo logoUrl={source.logo_url} name={source.name} size="lg" />
+            <div
+              className="shrink-0 rounded-xl border border-border bg-white overflow-hidden flex items-center justify-center"
+              style={{ width: 80, height: 80, padding: 8 }}
+            >
+              <SaasLogo logoUrl={source.logo_url} name={source.name} domain={source.domain} size="lg" />
+            </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-2xl font-black text-foreground" style={{ letterSpacing: '-0.03em' }}>

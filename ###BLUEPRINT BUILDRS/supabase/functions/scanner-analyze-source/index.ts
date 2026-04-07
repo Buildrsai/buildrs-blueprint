@@ -11,18 +11,46 @@ const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const SCANNER_AUTH_TOKEN = Deno.env.get('SCANNER_AUTH_TOKEN') ?? ''
 const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY')!
 
-function buildAnalysisPrompt(source: Record<string, unknown>): string {
+const PRODUCT_TYPE_EXAMPLES: Record<string, string> = {
+  'micro-saas': 'outil web simple pour une niche (ex: outil de RDV pour tatoueurs)',
+  'mobile-app': 'application mobile native (ex: app de suivi pour coachs sportifs)',
+  'ai-agent': 'agent IA autonome (ex: agent vocal IA pour reception cabinet dentaire)',
+  'ai-gen': 'generateur IA (ex: generateur de contrats pour freelances)',
+  'biz-tool': 'logiciel metier vertical (ex: logiciel de gestion pour plombiers)',
+  'automation': 'outil d\'automatisation (ex: automatisation des relances pour agences)',
+  'marketplace': 'place de marche (ex: marketplace de prestataires evenementiels)',
+}
+
+function buildAnalysisPrompt(
+  source: Record<string, unknown>,
+  existingNiches: string[],
+): string {
+  const existingNicheBlock = existingNiches.length > 0
+    ? `\nNICHES DEJA UTILISEES (INTERDITES — choisis quelque chose de DIFFERENT) :\n${existingNiches.slice(0, 30).map(n => `- ${n}`).join('\n')}\n`
+    : ''
+
+  const productTypeBlock = Object.entries(PRODUCT_TYPE_EXAMPLES)
+    .map(([k, v]) => `  - "${k}" : ${v}`)
+    .join('\n')
+
   return `SYSTEME :
 Tu es l'analyste SaaS de Buildrs. Tu analyses un VRAI SaaS qui existe et fonctionne sur le marche.
 Ton travail : proposer une OPPORTUNITE DE CLONE pour un builder non-developpeur.
 L'opportunite decrit comment adapter ce SaaS pour une niche specifique, en plus simple.
 
 REGLE CRITIQUE — CE QU'EST UNE BONNE OPPORTUNITE BUILDRS :
-- Un angle de niche precise : pas "comme Calendly" mais "Calendly pour professeurs de yoga en ligne"
+- Un angle de niche TRES PRECIS : pas "comme Calendly" mais "Calendly pour professeurs de yoga en ligne"
 - Constructible en 7-21 jours avec Claude Code + Supabase + Stripe
 - La cloneability mesure la SIMPLICITE du build, pas la similarite avec l'original
 - Les gros SaaS (Canva, Notion, Figma) ont une cloneability < 40 (trop complexes)
 - Un outil de RDV pour une niche specifique a une cloneability de 70-85
+${existingNicheBlock}
+REGLE DIVERSITE — TYPES DE PRODUITS :
+Varies les types. Choisis product_type parmi :
+${productTypeBlock}
+Pour un SaaS de scheduling classique, pense a proposer une version "biz-tool" ou "mobile-app" plutot que "micro-saas" si c'est plus pertinent.
+Pour un SaaS d'IA, prefere "ai-agent" ou "ai-gen".
+Choisis market_type selon la cible : "b2b" (entreprises), "b2c" (particuliers), "b2b2c" (les deux).
 
 SAAS SOURCE :
 Nom: ${source.name}
@@ -53,7 +81,9 @@ Reponds UNIQUEMENT en JSON valide avec cette structure exacte :
   "niche_suggestions": ["string (3 metiers/audiences tres specifiques)"],
   "acquisition_channels": ["string (3 canaux concrets pour cette niche)"],
   "pricing_suggestion": "string (ex: '49€/mois par praticien')",
-  "estimated_build_time": "string (ex: '10-14 jours')"
+  "estimated_build_time": "string (ex: '10-14 jours')",
+  "product_type": "string (une valeur parmi: micro-saas, mobile-app, ai-agent, ai-gen, biz-tool, automation, marketplace)",
+  "market_type": "string (une valeur parmi: b2b, b2c, b2b2c)"
 }`
 }
 
@@ -71,7 +101,7 @@ async function callClaude(prompt: string, model: 'haiku' | 'sonnet'): Promise<Re
     },
     body: JSON.stringify({
       model: modelId,
-      max_tokens: 1500,
+      max_tokens: 1600,
       messages: [{ role: 'user', content: prompt }],
     }),
   })
@@ -95,6 +125,43 @@ function slugify(str: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 80)
+}
+
+async function archiveExcessOpportunities(supabase: ReturnType<typeof createClient>): Promise<void> {
+  // Find target_niches with more than 3 active opportunities, keep top 2, archive rest
+  const { data: allOpps } = await supabase
+    .from('buildrs_opportunities')
+    .select('id, target_niche, build_score')
+    .eq('status', 'active')
+    .order('build_score', { ascending: false })
+
+  if (!allOpps || allOpps.length === 0) return
+
+  // Group by target_niche
+  const byNiche: Record<string, { id: string; build_score: number }[]> = {}
+  for (const opp of allOpps) {
+    const niche = (opp.target_niche ?? '').trim().toLowerCase()
+    if (!niche) continue
+    if (!byNiche[niche]) byNiche[niche] = []
+    byNiche[niche].push({ id: opp.id, build_score: opp.build_score })
+  }
+
+  const toArchive: string[] = []
+  for (const [, opps] of Object.entries(byNiche)) {
+    if (opps.length > 3) {
+      // Sort desc by build_score (already sorted from query)
+      const excess = opps.slice(2).map(o => o.id)
+      toArchive.push(...excess)
+    }
+  }
+
+  if (toArchive.length > 0) {
+    await supabase
+      .from('buildrs_opportunities')
+      .update({ status: 'archived' })
+      .in('id', toArchive)
+    console.log(`Archived ${toArchive.length} excess opportunities`)
+  }
 }
 
 Deno.serve(async (req) => {
@@ -122,18 +189,25 @@ async function handleRequest(req: Request): Promise<Response> {
     auth: { autoRefreshToken: false, persistSession: false }
   })
 
-  // Get all source_ids that already have an opportunity
-  const { data: analyzedRows, error: analyzedErr } = await supabase
+  // Fetch all existing target_niches to prevent duplicates
+  const { data: existingOpps, error: existingErr } = await supabase
     .from('buildrs_opportunities')
-    .select('source_id')
+    .select('source_id, target_niche')
+    .eq('status', 'active')
 
-  if (analyzedErr) {
-    return new Response(JSON.stringify({ error: analyzedErr.message }), {
+  if (existingErr) {
+    return new Response(JSON.stringify({ error: existingErr.message }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
   }
 
-  const excludeIds = (analyzedRows ?? []).map((r: { source_id: string }) => r.source_id).filter(Boolean)
+  const existingNiches = [...new Set(
+    (existingOpps ?? [])
+      .map((r: { target_niche: string | null }) => r.target_niche)
+      .filter(Boolean) as string[]
+  )]
+
+  const excludeIds = (existingOpps ?? []).map((r: { source_id: string }) => r.source_id).filter(Boolean)
 
   // Fetch unanalyzed sources (batch 5 — free tier 60s limit)
   let sourcesQuery = supabase.from('saas_sources').select('*').limit(5)
@@ -150,6 +224,8 @@ async function handleRequest(req: Request): Promise<Response> {
   }
 
   if (!sources || sources.length === 0) {
+    // Run archive cleanup even when no new sources
+    await archiveExcessOpportunities(supabase)
     return new Response(JSON.stringify({ items_analyzed: 0, message: 'Aucune source a analyser' }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
@@ -162,12 +238,16 @@ async function handleRequest(req: Request): Promise<Response> {
     try {
       if (itemsAnalyzed > 0) await new Promise(r => setTimeout(r, 200))
 
-      const scored = await callClaude(buildAnalysisPrompt(source), 'haiku')
+      const scored = await callClaude(buildAnalysisPrompt(source, existingNiches), 'haiku')
 
       const traction = Number(scored.traction_score) || 0
       const cloneability = Number(scored.cloneability_score) || 0
       const monetization = Number(scored.monetization_score) || 0
       const buildScore = calcBuildScore(traction, cloneability, monetization)
+
+      // Add new niche to the running list so subsequent sources in this batch also avoid it
+      const newNiche = String(scored.target_niche || '')
+      if (newNiche) existingNiches.push(newNiche)
 
       // Create slug from source name + category, check for conflicts
       let slug = slugify(`${source.name}-${source.category}`)
@@ -199,6 +279,8 @@ async function handleRequest(req: Request): Promise<Response> {
         acquisition_channels: scored.acquisition_channels || [],
         pricing_suggestion: String(scored.pricing_suggestion || ''),
         estimated_build_time: String(scored.estimated_build_time || '2-3 semaines'),
+        product_type: String(scored.product_type || ''),
+        market_type: String(scored.market_type || ''),
         status: 'active',
         scored_at: new Date().toISOString(),
       }
@@ -207,7 +289,7 @@ async function handleRequest(req: Request): Promise<Response> {
       if (buildScore > 80) {
         try {
           await new Promise(r => setTimeout(r, 200))
-          const enrichPrompt = `${buildAnalysisPrompt(source)}
+          const enrichPrompt = `${buildAnalysisPrompt(source, [])}
 
 Cette OPPORTUNITE DE CLONE a un Build Score de ${buildScore}/100 (score > 70 = haute qualite).
 Enrichis les champs suivants avec des analyses beaucoup plus detaillees et actionnables pour cette OPPORTUNITE DE CLONE :
@@ -242,6 +324,13 @@ Reponds en JSON avec UNIQUEMENT ces 4 champs.`
       errors.push({ id: source.id, error: String(err) })
       console.error(`Analysis error for ${source.id}:`, err)
     }
+  }
+
+  // Archive excess opportunities after analyzing new ones
+  try {
+    await archiveExcessOpportunities(supabase)
+  } catch (archiveErr) {
+    console.warn('Archive cleanup failed:', archiveErr)
   }
 
   return new Response(JSON.stringify({
