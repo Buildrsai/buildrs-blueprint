@@ -300,12 +300,6 @@ export function Sidebar({
         >
           <ClaudeIcon size={13} strokeWidth={1.5} className="flex-shrink-0" />
           <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Claude OS</span>
-          <span
-            className="text-[7.5px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-            style={{ background: 'rgba(139,92,246,0.12)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.25)' }}
-          >
-            V3
-          </span>
         </button>
       </div>
 
@@ -405,8 +399,24 @@ export function Sidebar({
         {sectionHeader('Communauté', commuOpen, toggleCommu)}
         {commuOpen && (
           <div className="flex flex-col gap-0.5">
-            {v3Item('Feed',    MessageSquare)}
-            {v3Item('Membres', Users)}
+            <button
+              onClick={() => navigate('#/dashboard/community')}
+              className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+                isPrefix('#/dashboard/community') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+              }`}
+            >
+              <MessageSquare size={13} strokeWidth={1.5} className="flex-shrink-0" />
+              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Feed</span>
+            </button>
+            <button
+              onClick={() => navigate('#/dashboard/members')}
+              className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+                isPrefix('#/dashboard/members') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+              }`}
+            >
+              <Users size={13} strokeWidth={1.5} className="flex-shrink-0" />
+              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Membres</span>
+            </button>
           </div>
         )}
       </div>

@@ -1,62 +1,204 @@
-import { useState, useEffect } from 'react'
-import { Users, Star } from 'lucide-react'
+import { useState, useEffect, useMemo } from 'react'
+import { Users, Star, LayoutGrid, BarChart2, Zap } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { getLevelInfo, type BuildrsLevel } from '../../data/levels'
+import { BuilderAvatar } from '../ui/BuilderAvatar'
+import { BuildrsIcon } from '../ui/icons'
 
+// ── Types ─────────────────────────────────────────────────────────────────────
 interface MemberProfile {
-  user_id: string
+  id: string
   display_name: string | null
-  stage: string | null
   level: BuildrsLevel
   xp_points: number
-  created_at: string
+  project_name?: string | null
+  stage?: string | null
 }
+
+// ── Podium data (Buildrs team) ────────────────────────────────────────────────
+const PODIUM = [
+  { rank: 1, name: 'Alfred & Jarvis', level: 'scaler' as BuildrsLevel, xp: 1850, accent: '#fbbf24', project: 'Buildrs' },
+  { rank: 2, name: 'Chris',           level: 'scaler' as BuildrsLevel, xp: 1200, accent: '#94a3b8', project: 'DataPulse' },
+  { rank: 3, name: 'Tim',             level: 'scaler' as BuildrsLevel, xp: 1420, accent: '#d97706', project: 'InvoiceFlow AI' },
+]
+
+const LEVEL_ORDER: Record<string, number> = { scaler: 4, launcher: 3, builder: 2, explorer: 1 }
 
 const STAGE_LABELS: Record<string, string> = {
-  idea:      'A l\'idee',
-  exploring: 'En exploration',
-  building:  'En construction',
-  launched:  'Lance',
+  idea: "A l'idée", exploring: 'En exploration',
+  building: 'En construction', launched: 'Lancé', scaling: 'En scaling',
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function RankBadge({ rank }: { rank: number }) {
+  const colors: Record<number, { bg: string; text: string; label: string }> = {
+    1: { bg: '#fbbf2418', text: '#fbbf24', label: '1' },
+    2: { bg: '#94a3b818', text: '#94a3b8', label: '2' },
+    3: { bg: '#d9770618', text: '#d97706', label: '3' },
+  }
+  const style = colors[rank] ?? { bg: 'transparent', text: 'hsl(var(--muted-foreground))', label: String(rank) }
+  return (
+    <div
+      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold"
+      style={{ background: style.bg, color: style.text, border: `1px solid ${style.text}33` }}
+    >
+      {style.label}
+    </div>
+  )
+}
+
+// ── Podium card ───────────────────────────────────────────────────────────────
+function PodiumCard({
+  member, isFirst,
+}: {
+  member: typeof PODIUM[number]
+  isFirst: boolean
+}) {
+  const lvlInfo = getLevelInfo(member.level)
+  const isAlfred = member.name === 'Alfred & Jarvis'
+
+  return (
+    <div
+      className={`relative flex flex-col items-center rounded-2xl px-4 transition-all ${isFirst ? 'py-6' : 'py-4'}`}
+      style={{
+        border:     `1px solid ${member.accent}40`,
+        background: `${member.accent}08`,
+        minWidth:   isFirst ? 160 : 132,
+      }}
+    >
+      {/* Rank number */}
+      <div
+        className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-extrabold"
+        style={{ background: member.accent, color: '#09090b' }}
+      >
+        {member.rank}
+      </div>
+
+      {/* Avatar */}
+      <div className="relative mt-2 mb-2">
+        <BuilderAvatar level={member.level} size={isFirst ? 52 : 40} />
+        {isAlfred && (
+          <div
+            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
+            style={{ background: '#22c55e18', border: '1px solid #22c55e55' }}
+          >
+            <Zap size={10} strokeWidth={1.5} style={{ color: '#22c55e' }} />
+          </div>
+        )}
+      </div>
+
+      {/* Name */}
+      <p className={`font-bold text-foreground text-center leading-tight mb-1 ${isFirst ? 'text-[13px]' : 'text-[11px]'}`}>
+        {member.name}
+      </p>
+
+      {/* Level badge */}
+      <span
+        className="text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider mb-1.5"
+        style={{ background: lvlInfo.color + '22', color: lvlInfo.color }}
+      >
+        {lvlInfo.label}
+      </span>
+
+      {/* XP */}
+      <div className="flex items-center gap-0.5">
+        <Star size={9} strokeWidth={1.5} style={{ color: member.accent }} />
+        <span className="text-[10px] font-bold" style={{ color: member.accent }}>{member.xp} XP</span>
+      </div>
+
+      {/* Project */}
+      {member.project && (
+        <p className="text-[9px] text-muted-foreground/50 mt-0.5 truncate max-w-full">{member.project}</p>
+      )}
+    </div>
+  )
+}
+
+// ── Leaderboard row ───────────────────────────────────────────────────────────
+function LeaderboardRow({
+  member, rank, isCurrentUser,
+}: {
+  member: MemberProfile | typeof PODIUM[number]
+  rank: number
+  isCurrentUser?: boolean
+}) {
+  const isPodium  = 'accent' in member
+  const lvlInfo   = getLevelInfo(member.level)
+  const name      = member.display_name ?? ('name' in member ? (member as any).name : 'Builder anonyme')
+  const xp        = member.xp_points ?? ('xp' in member ? (member as any).xp : 0)
+  const project   = (member as any).project_name ?? (member as any).project ?? null
+  const accentCol = isPodium ? (member as any).accent : null
+
+  return (
+    <div
+      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
+        isCurrentUser
+          ? 'border border-green-500/30 bg-green-500/5'
+          : rank <= 3
+          ? 'border border-transparent'
+          : 'hover:bg-secondary/40'
+      }`}
+      style={rank <= 3 && accentCol ? { background: `${accentCol}06`, borderColor: `${accentCol}20` } : undefined}
+    >
+      <RankBadge rank={rank} />
+
+      <BuilderAvatar level={member.level} size={28} />
+
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-[12px] font-semibold text-foreground truncate">{name}</span>
+          {isCurrentUser && (
+            <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#22c55e20', color: '#22c55e' }}>Toi</span>
+          )}
+        </div>
+        {project && <p className="text-[10px] text-muted-foreground/50 truncate">{project}</p>}
+      </div>
+
+      <span
+        className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0"
+        style={{ background: lvlInfo.color + '22', color: lvlInfo.color }}
+      >
+        {lvlInfo.label}
+      </span>
+
+      <div className="flex items-center gap-0.5 w-16 justify-end flex-shrink-0">
+        <Star size={9} strokeWidth={1.5} className="text-muted-foreground/30" />
+        <span className="text-[11px] font-bold text-foreground">{xp}</span>
+        <span className="text-[9px] text-muted-foreground/40">XP</span>
+      </div>
+    </div>
+  )
+}
+
+// ── Member card (grid view) ───────────────────────────────────────────────────
 function MemberCard({ member }: { member: MemberProfile }) {
   const name    = member.display_name?.trim() || 'Builder anonyme'
-  const initial = name[0]?.toUpperCase() ?? 'B'
   const lvlInfo = getLevelInfo(member.level)
   const stage   = member.stage ? STAGE_LABELS[member.stage] ?? member.stage : null
 
   return (
     <div className="border border-border rounded-xl p-4 hover:border-foreground/20 transition-colors bg-card">
       <div className="flex items-start gap-3">
-        {/* Avatar */}
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold text-background"
-          style={{ background: lvlInfo.color }}
-        >
-          {initial}
-        </div>
-
+        <BuilderAvatar level={member.level} size={40} />
         <div className="flex-1 min-w-0">
-          {/* Name + level badge */}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-foreground truncate">{name}</span>
             <span
               className="text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0"
-              style={{ background: lvlInfo.color + '20', color: lvlInfo.color }}
+              style={{ background: lvlInfo.color + '22', color: lvlInfo.color }}
             >
               {lvlInfo.label}
             </span>
           </div>
-
-          {/* Stage */}
-          {stage && (
-            <p className="text-xs text-muted-foreground mt-0.5">{stage}</p>
+          {member.project_name && (
+            <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{member.project_name}</p>
           )}
-
-          {/* XP */}
-          <div className="flex items-center gap-1 mt-1.5">
-            <Star size={10} strokeWidth={1.5} className="text-muted-foreground/40" />
-            <span className="text-[10px] text-muted-foreground/60">{member.xp_points} XP</span>
+          <div className="flex items-center gap-3 mt-1.5">
+            <div className="flex items-center gap-1">
+              <Star size={10} strokeWidth={1.5} className="text-muted-foreground/40" />
+              <span className="text-[10px] text-muted-foreground/60">{member.xp_points} XP</span>
+            </div>
+            {stage && <span className="text-[9px] text-muted-foreground/50">{stage}</span>}
           </div>
         </div>
       </div>
@@ -64,106 +206,244 @@ function MemberCard({ member }: { member: MemberProfile }) {
   )
 }
 
-// ── Fake builders (social proof) ─────────────────────────────────────────────
-const MOCK_MEMBERS: MemberProfile[] = [
-  // 5 × Builder (100–499 XP)
-  { user_id: 'm-01', display_name: 'Thomas R.',    stage: 'building',  level: 'builder', xp_points: 280, created_at: '2026-03-01' },
-  { user_id: 'm-02', display_name: 'Emma L.',      stage: 'launched',  level: 'builder', xp_points: 215, created_at: '2026-03-03' },
-  { user_id: 'm-03', display_name: null,            stage: 'building',  level: 'builder', xp_points: 190, created_at: '2026-03-05' },
-  { user_id: 'm-04', display_name: 'Hugo M.',      stage: 'building',  level: 'builder', xp_points: 155, created_at: '2026-03-07' },
-  { user_id: 'm-05', display_name: null,            stage: 'exploring', level: 'builder', xp_points: 120, created_at: '2026-03-08' },
-  // 25 × Explorateur (0–99 XP)
-  { user_id: 'm-06', display_name: 'Léa D.',       stage: 'exploring', level: 'explorer', xp_points: 95, created_at: '2026-03-10' },
-  { user_id: 'm-07', display_name: 'Maxime P.',    stage: 'idea',      level: 'explorer', xp_points: 85, created_at: '2026-03-10' },
-  { user_id: 'm-08', display_name: null,            stage: 'exploring', level: 'explorer', xp_points: 80, created_at: '2026-03-11' },
-  { user_id: 'm-09', display_name: 'Camille V.',   stage: 'building',  level: 'explorer', xp_points: 75, created_at: '2026-03-11' },
-  { user_id: 'm-10', display_name: 'Antoine F.',   stage: 'exploring', level: 'explorer', xp_points: 70, created_at: '2026-03-12' },
-  { user_id: 'm-11', display_name: null,            stage: 'idea',      level: 'explorer', xp_points: 65, created_at: '2026-03-12' },
-  { user_id: 'm-12', display_name: 'Sarah B.',     stage: 'exploring', level: 'explorer', xp_points: 60, created_at: '2026-03-13' },
-  { user_id: 'm-13', display_name: null,            stage: 'exploring', level: 'explorer', xp_points: 55, created_at: '2026-03-13' },
-  { user_id: 'm-14', display_name: 'Julien C.',    stage: 'idea',      level: 'explorer', xp_points: 50, created_at: '2026-03-14' },
-  { user_id: 'm-15', display_name: 'Marie T.',     stage: 'exploring', level: 'explorer', xp_points: 50, created_at: '2026-03-14' },
-  { user_id: 'm-16', display_name: null,            stage: 'building',  level: 'explorer', xp_points: 45, created_at: '2026-03-15' },
-  { user_id: 'm-17', display_name: 'Romain G.',    stage: 'exploring', level: 'explorer', xp_points: 40, created_at: '2026-03-16' },
-  { user_id: 'm-18', display_name: null,            stage: 'idea',      level: 'explorer', xp_points: 35, created_at: '2026-03-17' },
-  { user_id: 'm-19', display_name: 'Clara N.',     stage: 'exploring', level: 'explorer', xp_points: 35, created_at: '2026-03-17' },
-  { user_id: 'm-20', display_name: 'Nicolas A.',   stage: 'idea',      level: 'explorer', xp_points: 30, created_at: '2026-03-18' },
-  { user_id: 'm-21', display_name: null,            stage: 'exploring', level: 'explorer', xp_points: 25, created_at: '2026-03-19' },
-  { user_id: 'm-22', display_name: 'Pauline H.',   stage: 'idea',      level: 'explorer', xp_points: 25, created_at: '2026-03-19' },
-  { user_id: 'm-23', display_name: null,            stage: 'exploring', level: 'explorer', xp_points: 20, created_at: '2026-03-20' },
-  { user_id: 'm-24', display_name: 'Alexis W.',    stage: 'idea',      level: 'explorer', xp_points: 20, created_at: '2026-03-20' },
-  { user_id: 'm-25', display_name: null,            stage: 'exploring', level: 'explorer', xp_points: 15, created_at: '2026-03-21' },
-  { user_id: 'm-26', display_name: 'Chloé S.',     stage: 'idea',      level: 'explorer', xp_points: 15, created_at: '2026-03-22' },
-  { user_id: 'm-27', display_name: 'Baptiste K.',  stage: 'exploring', level: 'explorer', xp_points: 10, created_at: '2026-03-23' },
-  { user_id: 'm-28', display_name: null,            stage: 'idea',      level: 'explorer', xp_points: 10, created_at: '2026-03-24' },
-  { user_id: 'm-29', display_name: 'Laura M.',     stage: 'exploring', level: 'explorer', xp_points:  5, created_at: '2026-03-25' },
-  { user_id: 'm-30', display_name: null,            stage: 'idea',      level: 'explorer', xp_points:  5, created_at: '2026-03-26' },
-]
+// ── Main component ────────────────────────────────────────────────────────────
+const PAGE_SIZE = 24
 
 interface Props {
   navigate: (hash: string) => void
+  userId?: string
 }
 
-export function MembersPage({ navigate: _navigate }: Props) {
-  const [members, setMembers] = useState<MemberProfile[]>([])
-  const [loading, setLoading] = useState(true)
+export function MembersPage({ navigate: _navigate, userId }: Props) {
+  const [members,  setMembers]  = useState<MemberProfile[]>([])
+  const [total,    setTotal]    = useState(0)
+  const [loading,  setLoading]  = useState(true)
+  const [visible,  setVisible]  = useState(PAGE_SIZE)
+  const [view,     setView]     = useState<'leaderboard' | 'grid'>('leaderboard')
+
+  // Current user's display_name (to find their rank)
+  const [currentUserDisplayName, setCurrentUserDisplayName] = useState<string | null>(null)
 
   useEffect(() => {
-    supabase
-      .from('user_profiles_buildrs')
-      .select('user_id, display_name, stage, level, xp_points, created_at')
-      .order('xp_points', { ascending: false })
-      .limit(50)
-      .then(({ data }) => {
-        const real = (data ?? []) as MemberProfile[]
-        // Merge real + mock, deduplicate by user_id, sort by XP desc
-        const realIds = new Set(real.map(m => m.user_id))
-        const merged = [...real, ...MOCK_MEMBERS.filter(m => !realIds.has(m.user_id))]
-        merged.sort((a, b) => b.xp_points - a.xp_points)
-        setMembers(merged)
-        setLoading(false)
+    ;(async () => {
+      // Fetch current user display_name
+      if (userId) {
+        supabase
+          .from('user_profiles_buildrs')
+          .select('display_name')
+          .eq('user_id', userId)
+          .maybeSingle()
+          .then(({ data }) => setCurrentUserDisplayName(data?.display_name ?? null))
+      }
+
+      const [{ data: realData }, { data: seedData }] = await Promise.all([
+        supabase
+          .from('user_profiles_buildrs')
+          .select('user_id, display_name, level, xp_points, stage, project_idea'),
+        supabase
+          .from('seed_members')
+          .select('id, display_name, level, xp_points, project_name, stage'),
+      ])
+
+      const real: MemberProfile[] = (realData ?? []).map((r: any) => ({
+        id:           `real-${r.user_id}`,
+        display_name: r.display_name,
+        level:        r.level as BuildrsLevel,
+        xp_points:    r.xp_points,
+        project_name: r.project_idea,
+        stage:        r.stage,
+      }))
+
+      const seeds: MemberProfile[] = (seedData ?? []).map((s: any) => ({
+        id:           `seed-${s.id}`,
+        display_name: s.display_name,
+        level:        s.level as BuildrsLevel,
+        xp_points:    s.xp_points,
+        project_name: s.project_name || null,
+        stage:        s.stage,
+      }))
+
+      const all = [...real, ...seeds].sort((a, b) => {
+        if (b.xp_points !== a.xp_points) return b.xp_points - a.xp_points
+        return (LEVEL_ORDER[b.level] ?? 0) - (LEVEL_ORDER[a.level] ?? 0)
       })
-  }, [])
+
+      setMembers(all)
+      setTotal(all.length)
+      setLoading(false)
+    })()
+  }, [userId])
+
+  // Leaderboard: podium entries + fetched members (offset by 3)
+  const leaderboardRows = useMemo(() => {
+    return [
+      ...PODIUM.map((p, i) => ({ ...p, _rankOverride: i + 1 })),
+      ...members,
+    ]
+  }, [members])
+
+  // Find current user's position in the combined leaderboard
+  const currentUserRank = useMemo(() => {
+    if (!currentUserDisplayName && !userId) return null
+    const idx = leaderboardRows.findIndex(r => {
+      const name = (r as any).display_name ?? (r as any).name ?? ''
+      return name === currentUserDisplayName
+    })
+    return idx >= 0 ? idx + 1 : null
+  }, [leaderboardRows, currentUserDisplayName, userId])
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight" style={{ letterSpacing: '-0.03em' }}>
-          Membres
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          {loading ? 'Chargement...' : `${members.length} builder${members.length !== 1 ? 's' : ''} dans la communaute Buildrs`}
-        </p>
+
+      {/* ── Header ── */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h1 className="text-2xl font-extrabold text-foreground tracking-tight" style={{ letterSpacing: '-0.03em' }}>
+            Membres
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            {loading
+              ? 'Chargement...'
+              : `${total + PODIUM.length} builder${total + PODIUM.length > 1 ? 's' : ''} dans la communauté Buildrs`
+            }
+          </p>
+        </div>
+        {/* Toggle view */}
+        <div className="flex items-center gap-1 border border-border rounded-lg p-1">
+          <button
+            onClick={() => setView('leaderboard')}
+            className={`flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-md transition-colors ${
+              view === 'leaderboard' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <BarChart2 size={12} strokeWidth={1.5} />
+            Classement
+          </button>
+          <button
+            onClick={() => setView('grid')}
+            className={`flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-md transition-colors ${
+              view === 'grid' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <LayoutGrid size={12} strokeWidth={1.5} />
+            Grille
+          </button>
+        </div>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="border border-border rounded-xl p-4 animate-pulse">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-secondary flex-shrink-0" />
-                <div className="flex-1">
-                  <div className="h-3.5 bg-secondary rounded w-24 mb-2" />
-                  <div className="h-2.5 bg-secondary rounded w-16" />
-                </div>
+        <div className="flex items-center justify-center py-20">
+          <div className="w-5 h-5 rounded-full border-2 border-foreground/20 border-t-foreground animate-spin" />
+        </div>
+      ) : view === 'leaderboard' ? (
+        <>
+          {/* ── PODIUM ── */}
+          <div className="mb-8">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 mb-4 text-center">
+              Top 3 — Classement par XP
+            </p>
+            {/* Podium: 2nd left, 1st center, 3rd right */}
+            <div className="flex items-end justify-center gap-3">
+              {/* 2nd */}
+              <div className="flex flex-col items-center" style={{ marginBottom: 0 }}>
+                <PodiumCard member={PODIUM[1]} isFirst={false} />
+                <div className="w-full h-10 rounded-b-lg mt-0.5" style={{ background: '#94a3b810', border: '1px solid #94a3b820' }} />
+              </div>
+              {/* 1st */}
+              <div className="flex flex-col items-center" style={{ marginBottom: 0 }}>
+                <PodiumCard member={PODIUM[0]} isFirst={true} />
+                <div className="w-full h-16 rounded-b-lg mt-0.5" style={{ background: '#fbbf2410', border: '1px solid #fbbf2420' }} />
+              </div>
+              {/* 3rd */}
+              <div className="flex flex-col items-center" style={{ marginBottom: 0 }}>
+                <PodiumCard member={PODIUM[2]} isFirst={false} />
+                <div className="w-full h-6 rounded-b-lg mt-0.5" style={{ background: '#d9770610', border: '1px solid #d9770620' }} />
               </div>
             </div>
-          ))}
-        </div>
-      ) : members.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-border rounded-xl">
-          <Users size={32} strokeWidth={1} className="text-muted-foreground/30 mx-auto mb-3" />
-          <p className="text-sm font-medium text-foreground mb-1">Repertoire des membres</p>
-          <p className="text-xs text-muted-foreground">
-            La communaute est en train de se constituer.
-          </p>
-        </div>
+          </div>
+
+          {/* ── LEADERBOARD TABLE ── */}
+          <div className="border border-border rounded-xl overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center gap-3 px-4 py-2 border-b border-border bg-secondary/30">
+              <div className="w-6" />
+              <div className="w-7" />
+              <span className="flex-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Builder</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 hidden sm:block">Niveau</span>
+              <span className="w-16 text-right text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">XP</span>
+            </div>
+
+            {/* Podium rows (top 3) */}
+            {PODIUM.map((p, i) => (
+              <LeaderboardRow key={`podium-${p.rank}`} member={p as any} rank={i + 1} />
+            ))}
+
+            {/* Divider */}
+            <div className="h-px bg-border mx-4" />
+
+            {/* Rest of members */}
+            {members.slice(0, visible).map((m, i) => {
+              const rank = i + 4 // 1-3 are podium
+              const isCurrentUser = !!userId && m.id.startsWith('real-') && !!currentUserDisplayName && m.display_name === currentUserDisplayName
+              return (
+                <LeaderboardRow
+                  key={m.id}
+                  member={m}
+                  rank={rank}
+                  isCurrentUser={isCurrentUser}
+                />
+              )
+            })}
+
+            {visible < members.length && (
+              <div className="border-t border-border">
+                <button
+                  onClick={() => setVisible(v => v + PAGE_SIZE)}
+                  className="w-full py-3 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors hover:bg-secondary/30"
+                >
+                  Voir plus · {members.length - visible} builders restants
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Current user rank indicator */}
+          {currentUserRank && currentUserRank > 3 && (
+            <div
+              className="mt-4 flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px]"
+              style={{ background: '#22c55e08', border: '1px solid #22c55e25' }}
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              <span className="text-muted-foreground">Ta position dans le classement :</span>
+              <span className="font-bold text-foreground">#{currentUserRank}</span>
+            </div>
+          )}
+        </>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {members.map(m => (
-            <MemberCard key={m.user_id} member={m} />
-          ))}
-        </div>
+        /* ── GRID VIEW ── */
+        members.length === 0 ? (
+          <div className="text-center py-16 border border-dashed border-border rounded-xl">
+            <Users size={32} strokeWidth={1} className="text-muted-foreground/30 mx-auto mb-3" />
+            <p className="text-sm font-medium text-foreground mb-1">Répertoire des membres</p>
+            <p className="text-xs text-muted-foreground">La communauté est en train de se constituer.</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {members.slice(0, visible).map(m => (
+                <MemberCard key={m.id} member={m} />
+              ))}
+            </div>
+            {visible < members.length && (
+              <button
+                onClick={() => setVisible(v => v + PAGE_SIZE)}
+                className="mt-6 w-full py-3 rounded-xl text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors border border-border hover:border-foreground/20"
+              >
+                Voir plus · {members.length - visible} builders restants
+              </button>
+            )}
+          </>
+        )
       )}
     </div>
   )

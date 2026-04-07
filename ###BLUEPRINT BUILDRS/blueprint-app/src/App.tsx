@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import './index.css'
 import { trackEvent } from './lib/pixel'
 import { BouncingDots } from './components/ui/bouncing-dots'
+import { Check } from 'lucide-react'
 
 declare function fbq(event: string, name: string, params?: Record<string, unknown>): void
 
@@ -16,6 +17,9 @@ import { useOnboarding } from './hooks/useOnboarding'
 const AdsPreviewPage  = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdsPreviewPage })))
 const AdFullscreenA   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenA })))
 const AdFullscreenB   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenB })))
+const AdFullscreenC   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenC })))
+const AdFullscreenD   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenD })))
+const AdFullscreenE   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenE })))
 
 // ── Lazy imports (split into separate chunks — not needed on LP) ─────────────
 const CheckoutPage        = lazy(() => import('./components/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
@@ -23,7 +27,8 @@ const ClaudeLandingPage   = lazy(() => import('./components/ClaudeLandingPage').
 const UpsellCohortPage    = lazy(() => import('./components/UpsellCohortPage').then(m => ({ default: m.UpsellCohortPage })))
 const CohorteCheckoutPage = lazy(() => import('./components/CohorteCheckoutPage').then(m => ({ default: m.CohorteCheckoutPage })))
 const ClaudeCheckoutPage  = lazy(() => import('./components/ClaudeCheckoutPage').then(m => ({ default: m.ClaudeCheckoutPage })))
-const ClaudeOTOPage       = lazy(() => import('./components/ClaudeOTOPage').then(m => ({ default: m.ClaudeOTOPage })))
+const ClaudeOTOPage           = lazy(() => import('./components/ClaudeOTOPage').then(m => ({ default: m.ClaudeOTOPage })))
+const ClaudeIntegratorPage    = lazy(() => import('./components/ClaudeIntegratorPage').then(m => ({ default: m.ClaudeIntegratorPage })))
 const SignupPage           = lazy(() => import('./components/auth/SignupPage').then(m => ({ default: m.SignupPage })))
 const SigninPage           = lazy(() => import('./components/auth/SigninPage').then(m => ({ default: m.SigninPage })))
 const OnboardingPage      = lazy(() => import('./components/onboarding/OnboardingPage').then(m => ({ default: m.OnboardingPage })))
@@ -121,9 +126,14 @@ interface ParsedRoute {
     | 'legal-cookies'
     | 'claude-checkout'
     | 'merci-claude'
+    | 'claude-integrator'
+    | 'merci-integrator'
     | 'ads-preview'
     | 'ads-full-a'
     | 'ads-full-b'
+    | 'ads-full-c'
+    | 'ads-full-d'
+    | 'ads-full-e'
   moduleId?: string   // also used as productSlug for 'produit'/'brick'
   lessonId?: string   // also used as brickId for 'brick'
 }
@@ -139,9 +149,14 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'checkout') return { type: 'checkout' }
   if (h === 'claude-checkout') return { type: 'claude-checkout' }
   if (h === 'merci-claude' || h.startsWith('merci-claude?')) return { type: 'merci-claude' }
+  if (h === 'claude-integrator') return { type: 'claude-integrator' }
+  if (h === 'merci-integrator' || h.startsWith('merci-integrator?')) return { type: 'merci-integrator' }
   if (h === 'ads-preview') return { type: 'ads-preview' }
   if (h === 'ads-full-a')  return { type: 'ads-full-a' }
   if (h === 'ads-full-b')  return { type: 'ads-full-b' }
+  if (h === 'ads-full-c')  return { type: 'ads-full-c' }
+  if (h === 'ads-full-d')  return { type: 'ads-full-d' }
+  if (h === 'ads-full-e')  return { type: 'ads-full-e' }
   if (h === 'upsell-cohort' || h.startsWith('upsell-cohort?')) return { type: 'upsell-cohort' }
   if (h === 'confirmation' || h.startsWith('confirmation?')) return { type: 'confirmation' }
   if (h === 'signup') return { type: 'signup' }
@@ -237,6 +252,14 @@ function App() {
     const onHashChange = () => {
       setRoute(parseHash(window.location.hash))
       window.scrollTo(0, 0)
+      // GA4 — track route changes in SPA
+      const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+      if (gtag) {
+        gtag('event', 'page_view', {
+          page_location: window.location.href,
+          page_path: window.location.hash || '/',
+        })
+      }
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
@@ -345,6 +368,37 @@ function App() {
       </Suspense>
     )
   }
+  if (route.type === 'claude-integrator') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <ClaudeIntegratorPage onBack={() => window.history.back()} />
+      </Suspense>
+    )
+  }
+  if (route.type === 'merci-integrator') {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-8 text-center">
+        <div className="max-w-lg">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            style={{ background: 'rgba(34,197,94,0.15)', border: '2px solid #22c55e' }}>
+            <Check style={{ color: '#22c55e', width: 28, height: 28 }} />
+          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Claude Integrator</p>
+          <h1 className="text-3xl font-extrabold text-foreground tracking-tight mb-3" style={{ letterSpacing: '-0.04em' }}>
+            Session réservée.
+          </h1>
+          <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
+            Alfred te contacte dans les 24h pour fixer le créneau.<br />
+            Vérifie tes emails (et tes spams).
+          </p>
+          <button onClick={() => navigate('#/dashboard/claude-os')}
+            className="bg-foreground text-background rounded-xl px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity">
+            Retourner sur Claude OS →
+          </button>
+        </div>
+      </div>
+    )
+  }
   // ---------------------------------------------------------------------------
   // Auth routes (lazy)
   // ---------------------------------------------------------------------------
@@ -431,6 +485,9 @@ function App() {
   if (route.type === 'ads-preview') return <Suspense fallback={SpinnerFallback}><AdsPreviewPage /></Suspense>
   if (route.type === 'ads-full-a')  return <Suspense fallback={SpinnerFallback}><AdFullscreenA /></Suspense>
   if (route.type === 'ads-full-b')  return <Suspense fallback={SpinnerFallback}><AdFullscreenB /></Suspense>
+  if (route.type === 'ads-full-c')  return <Suspense fallback={SpinnerFallback}><AdFullscreenC /></Suspense>
+  if (route.type === 'ads-full-d')  return <Suspense fallback={SpinnerFallback}><AdFullscreenD /></Suspense>
+  if (route.type === 'ads-full-e')  return <Suspense fallback={SpinnerFallback}><AdFullscreenE /></Suspense>
 
   // Fallback
   return <LandingPage onCTAClick={() => navigate('#/checkout')} />

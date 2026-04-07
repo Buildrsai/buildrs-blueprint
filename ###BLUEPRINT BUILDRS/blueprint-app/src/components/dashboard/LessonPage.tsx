@@ -509,24 +509,52 @@ export function LessonPage({ moduleId, lessonId, navigate, isCompleted, markComp
   return (
     <div className="flex h-full">
 
-      {/* Progression dots sidebar */}
-      <div className="w-14 border-r border-border flex flex-col items-center pt-6 gap-3 flex-shrink-0">
+      {/* Progression sidebar */}
+      <div className="w-52 border-r border-border flex flex-col pt-5 flex-shrink-0 overflow-y-auto">
+        <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-muted-foreground/50 px-4 mb-3">
+          {mod.lessons.length} leçon{mod.lessons.length > 1 ? 's' : ''}
+        </p>
         {mod.lessons.map((l) => {
           const lDone = isCompleted(moduleId, l.id)
           const lCurrent = l.id === lessonId
           return (
-            <button key={l.id} onClick={() => navigate(`#/dashboard/module/${moduleId}/lesson/${l.id}`)} title={l.title}
-              className="rounded-full transition-all duration-200"
-              style={{
-                width: lCurrent ? 10 : 7, height: lCurrent ? 10 : 7,
-                background: lCurrent ? 'hsl(var(--foreground))' : lDone ? '#22c55e' : 'hsl(var(--border))',
-              }} />
+            <button
+              key={l.id}
+              onClick={() => navigate(`#/dashboard/module/${moduleId}/lesson/${l.id}`)}
+              className={`flex items-center gap-2.5 px-3 py-2 mx-1.5 rounded-lg text-left transition-all duration-150 ${
+                lCurrent
+                  ? 'bg-secondary'
+                  : 'hover:bg-secondary/50'
+              }`}
+            >
+              <div
+                className="rounded-full flex-shrink-0 transition-all duration-200"
+                style={{
+                  width: lCurrent ? 8 : 6,
+                  height: lCurrent ? 8 : 6,
+                  background: lCurrent
+                    ? 'hsl(var(--foreground))'
+                    : lDone ? '#22c55e'
+                    : 'hsl(var(--border))',
+                }}
+              />
+              <span className={`text-[11px] leading-snug truncate transition-colors ${
+                lCurrent
+                  ? 'text-foreground font-semibold'
+                  : lDone
+                    ? 'text-muted-foreground'
+                    : 'text-muted-foreground/70'
+              }`}>
+                {l.title}
+              </span>
+            </button>
           )
         })}
       </div>
 
       {/* Main content */}
-      <div className="flex-1 overflow-y-auto px-8 py-7" style={{ maxWidth: 680 }}>
+      <div className="flex-1 overflow-y-auto">
+      <div className="max-w-3xl mx-auto px-10 py-7">
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-1.5 mb-5 text-xs text-muted-foreground flex-wrap">
@@ -608,6 +636,7 @@ export function LessonPage({ moduleId, lessonId, navigate, isCompleted, markComp
             {completing ? 'Sauvegarde...' : done ? nextLesson ? `Suivant : ${nextLesson.title} →` : 'Retour au module →' : 'Marquer terminé & continuer →'}
           </button>
         </div>
+      </div>
       </div>
     </div>
   )

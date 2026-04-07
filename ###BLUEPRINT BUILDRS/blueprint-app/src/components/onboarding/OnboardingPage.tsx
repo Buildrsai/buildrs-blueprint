@@ -1,65 +1,59 @@
 import { useState, useEffect, useRef } from 'react'
-import { Lightbulb, Copy, Compass, TrendingUp, RefreshCw, Briefcase, Sprout, Wrench, Rocket, type LucideIcon } from 'lucide-react'
+import {
+  Lightbulb, Search, Package, Sprout, Compass, Rocket,
+  TrendingUp, RefreshCw, Briefcase,
+  Terminal, Database, Globe,
+  type LucideIcon,
+} from 'lucide-react'
 import type { OnboardingData } from '../../hooks/useOnboarding'
 import { BuildrsIcon } from '../ui/icons'
+import { supabase } from '../../lib/supabase'
+import { DEFAULT_MILESTONES } from '../../data/milestones-defaults'
 
-// ── RobotJarvis pixel-art SVG ────────────────────────────────────────────────
-function RobotJarvis({ size = 32 }: { size?: number }) {
+// ── Jarvis avatar ─────────────────────────────────────────────────────────────
+function JarvisAvatar({ size = 32 }: { size?: number }) {
+  const inner = Math.round(size * 0.45)
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-      <rect x="7" y="0" width="2" height="3" fill="#818cf8"/>
-      <rect x="15" y="0" width="2" height="3" fill="#818cf8"/>
-      <rect x="5" y="2" width="2" height="2" fill="#818cf8"/>
-      <rect x="17" y="2" width="2" height="2" fill="#818cf8"/>
-      <rect x="3" y="4" width="18" height="12" rx="2" fill="#6366f1"/>
-      <rect x="6" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
-      <rect x="14" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
-      <rect x="7" y="8" width="2" height="2" fill="#312e81"/>
-      <rect x="15" y="8" width="2" height="2" fill="#312e81"/>
-      <rect x="9" y="13" width="6" height="2" rx="1" fill="#4338ca"/>
-      <rect x="5" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
-      <rect x="15" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
-      <rect x="4" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
-      <rect x="17" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
-    </svg>
+    <div style={{
+      width: size, height: size,
+      borderRadius: Math.round(size * 0.28),
+      background: '#09090b',
+      border: '1px solid rgba(255,255,255,0.18)',
+      boxShadow: '0 0 10px rgba(255,255,255,0.06), inset 0 0 6px rgba(255,255,255,0.03)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+    }}>
+      <BuildrsIcon color="#fafafa" size={inner} />
+    </div>
   )
 }
 
-// ── Inline text renderer (supports **bold**) ─────────────────────────────────
+// ── Text helpers ──────────────────────────────────────────────────────────────
 function renderInline(text: string): React.ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g)
-  return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} style={{ fontWeight: 600, color: '#f0f0f5' }}>{part.slice(2, -2)}</strong>
-    }
-    return part
-  })
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={i} style={{ fontWeight: 600, color: '#fafafa' }}>{part.slice(2, -2)}</strong>
+      : part
+  )
 }
 
 function renderBubbleText(text: string): React.ReactNode {
   return text.split('\n').map((line, i, arr) => (
-    <span key={i}>
-      {renderInline(line)}
-      {i < arr.length - 1 && <br />}
-    </span>
+    <span key={i}>{renderInline(line)}{i < arr.length - 1 && <br />}</span>
   ))
 }
 
-// ── Jarvis message bubble ────────────────────────────────────────────────────
+// ── Jarvis bubble ─────────────────────────────────────────────────────────────
 function JarvisBubble({ text }: { text: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 24 }}>
-      <div style={{ marginTop: 3 }}>
-        <RobotJarvis size={32} />
-      </div>
+      <div style={{ marginTop: 2 }}><JarvisAvatar size={34} /></div>
       <div style={{
-        background: '#15161d',
-        border: '1px solid #1e2030',
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '2px 14px 14px 14px',
-        padding: '12px 16px',
-        flex: 1,
+        padding: '12px 16px', flex: 1,
       }}>
-        <p style={{ fontSize: 13, color: '#9399b2', lineHeight: 1.75, margin: 0 }}>
+        <p style={{ fontSize: 13, color: '#a1a1aa', lineHeight: 1.75, margin: 0 }}>
           {renderBubbleText(text)}
         </p>
       </div>
@@ -67,73 +61,98 @@ function JarvisBubble({ text }: { text: string }) {
   )
 }
 
-// ── Choice options data ──────────────────────────────────────────────────────
-interface ChoiceOption {
-  value: string
-  label: string
-  desc: string
-  accent: string
-  icon: LucideIcon
-}
+// ── Choice option ─────────────────────────────────────────────────────────────
+interface ChoiceOption { value: string; label: string; desc: string; icon: LucideIcon }
 
-interface Step {
+interface ChoiceStepDef {
   id: number
   type: 'welcome' | 'choice'
   title?: string
-  field?: keyof OnboardingData
+  key?: keyof V2Selections
   options?: ChoiceOption[]
 }
 
-const STEPS: Step[] = [
-  { id: 1, type: 'welcome' },
+// ── V2 local state ────────────────────────────────────────────────────────────
+interface V2Selections {
+  project_status: 'has_idea' | 'searching' | 'has_product' | null
+  experience:     'beginner' | 'explored' | 'launched' | null
+  goal:           'mrr' | 'flip' | 'client' | null
+  tech_level:     'zero' | 'basic' | 'advanced' | null
+}
+
+const STEPS: ChoiceStepDef[] = [
+  { id: 0, type: 'welcome' },
   {
-    id: 2,
-    type: 'choice',
-    title: 'Ta stratégie de départ',
-    field: 'strategie',
+    id: 1, type: 'choice', title: 'Ton statut projet',
+    key: 'project_status',
     options: [
-      { value: 'problem', label: "J'ai un problème à résoudre", desc: "Je crée ma propre solution à partir d'un problème que je connais bien", accent: '#4d96ff', icon: Lightbulb },
-      { value: 'copy', label: 'Je veux copier un SaaS qui marche', desc: "J'adapte un SaaS existant au marché français", accent: '#cc5de8', icon: Copy },
-      { value: 'discover', label: "Je n'ai aucune idée", desc: 'Je veux découvrir les opportunités avec les outils du Module 1', accent: '#22c55e', icon: Compass },
+      { value: 'has_idea',    label: "J'ai une idée précise",     desc: "Je sais ce que je veux construire — j'ai le problème",   icon: Lightbulb },
+      { value: 'searching',   label: "J'en cherche une",          desc: "Je veux explorer les opportunités et trouver mon idée",  icon: Search    },
+      { value: 'has_product', label: "J'ai déjà un produit",      desc: "J'ai commencé ou lancé quelque chose, je veux aller plus loin", icon: Package },
     ],
   },
   {
-    id: 3,
-    type: 'choice',
-    title: 'Ton objectif de monétisation',
-    field: 'objectif',
+    id: 2, type: 'choice', title: 'Ton stage actuel',
+    key: 'experience',
     options: [
-      { value: 'mrr', label: 'MRR — Revenus récurrents', desc: 'Je garde le produit et construis une rente mensuelle', accent: '#22c55e', icon: TrendingUp },
-      { value: 'flip', label: 'Flip — Construire et revendre', desc: 'Je construis rapidement et je revends sur Flippa / Acquire.com', accent: '#eab308', icon: RefreshCw },
-      { value: 'client', label: 'Commande client', desc: 'Je construis des apps pour des clients (2 000–10 000€/projet)', accent: '#4d96ff', icon: Briefcase },
+      { value: 'beginner',  label: "Débutant complet",        desc: "Je n'ai jamais construit de produit digital",           icon: Sprout  },
+      { value: 'explored',  label: "J'ai déjà exploré",       desc: "J'ai touché à des outils IA, du no-code, ou Claude",   icon: Compass },
+      { value: 'launched',  label: "J'ai déjà lancé",         desc: "J'ai sorti quelque chose — même si ça n'a pas marché", icon: Rocket  },
     ],
   },
   {
-    id: 4,
-    type: 'choice',
-    title: 'Ton niveau actuel',
-    field: 'niveau',
+    id: 3, type: 'choice', title: 'Ton objectif',
+    key: 'goal',
     options: [
-      { value: 'beginner', label: 'Complet débutant', desc: "Je n'ai jamais utilisé d'outils IA pour construire quoi que ce soit", accent: '#cc5de8', icon: Sprout },
-      { value: 'tools', label: "J'ai déjà touché à des outils IA", desc: 'ChatGPT, Midjourney, ou des outils no-code', accent: '#4d96ff', icon: Wrench },
-      { value: 'launched', label: "J'ai déjà lancé un projet", desc: "J'ai déjà sorti quelque chose, même si ça n'a pas marché", accent: '#22c55e', icon: Rocket },
+      { value: 'mrr',    label: "MRR — Revenus récurrents",  desc: "Je garde le produit et construis une rente mensuelle",       icon: TrendingUp },
+      { value: 'flip',   label: "Flip — Construire et vendre", desc: "Je construis rapidement et je revends sur Flippa/Acquire", icon: RefreshCw  },
+      { value: 'client', label: "Commande client",           desc: "Je construis des apps pour des clients (2 000–10 000€/projet)", icon: Briefcase },
+    ],
+  },
+  {
+    id: 4, type: 'choice', title: 'Ton niveau technique',
+    key: 'tech_level',
+    options: [
+      { value: 'zero',     label: "Zéro code",           desc: "Je n'ai jamais touché à du code — juste du texte et de la logique", icon: Terminal },
+      { value: 'basic',    label: "Quelques bases",       desc: "J'ai bidouillé un peu — HTML, Python, ou des configs",             icon: Database },
+      { value: 'advanced', label: "Dev ou presque",       desc: "Je suis à l'aise avec le code — je veux aller plus loin avec l'IA", icon: Globe   },
     ],
   },
 ]
 
-// ── Jarvis messages per step ─────────────────────────────────────────────────
+// ── Jarvis messages ───────────────────────────────────────────────────────────
 function getJarvisMessage(step: number, firstName?: string): string {
   const name = firstName ? `${firstName}, ` : ''
   const msgs: Record<number, string> = {
-    0: `${name}bienvenue en 2026. Je suis **Jarvis**, ton COO IA.\n\nMon job : m'assurer que tu lances ton premier produit. Pas dans 6 mois. Dans 6 jours. Réponds à ces 3 questions pour que j'adapte ton parcours.`,
-    1: 'Comment tu veux trouver ton idée de produit ?',
-    2: 'Bien. Maintenant, que comptes-tu faire avec ton produit une fois qu\'il est live ?',
-    3: 'Dernière question. Où tu en es aujourd\'hui ?',
+    0: `${name}bienvenue en 2026. Je suis **Jarvis**, ton COO IA.\n\nMon job : m'assurer que tu lances ton premier produit. Pas dans 6 mois. Dans 6 jours. Réponds à ces 4 questions — 30 secondes — et j'adapte tout ton parcours.`,
+    1: 'Où tu en es avec ton projet ?',
+    2: 'Bien. Maintenant, ton background — honnêtement ?',
+    3: "Que comptes-tu faire avec ton produit une fois qu'il est live ?",
+    4: "Dernière question. Ton niveau technique aujourd'hui ?",
   }
   return msgs[step] ?? ''
 }
 
-// ── Props ────────────────────────────────────────────────────────────────────
+// ── Profile stage mapping ─────────────────────────────────────────────────────
+function mapToProfileStage(ps: V2Selections['project_status']): 'idea' | 'exploring' | 'building' | 'launched' {
+  if (ps === 'has_idea')    return 'idea'
+  if (ps === 'searching')   return 'exploring'
+  if (ps === 'has_product') return 'building'
+  return 'idea'
+}
+
+// ── Legacy OnboardingData mapping ────────────────────────────────────────────
+function mapToLegacy(sel: V2Selections): Partial<OnboardingData> {
+  const strMap: Record<string, string> = { has_idea: 'problem', searching: 'discover', has_product: 'copy' }
+  const niveauMap: Record<string, string> = { zero: 'beginner', basic: 'tools', advanced: 'launched' }
+  return {
+    strategie: (sel.project_status ? strMap[sel.project_status] : undefined) as OnboardingData['strategie'],
+    objectif:  sel.goal as OnboardingData['objectif'],
+    niveau:    (sel.tech_level ? niveauMap[sel.tech_level] : undefined) as OnboardingData['niveau'],
+  }
+}
+
+// ── Props ─────────────────────────────────────────────────────────────────────
 interface Props {
   userId: string
   userFirstName?: string
@@ -141,33 +160,78 @@ interface Props {
   onSignOut: () => void
   save: (updates: Partial<OnboardingData>) => Promise<void>
   complete: () => Promise<void>
+  navigate?: (hash: string) => void
 }
 
-// ── Main component ───────────────────────────────────────────────────────────
-export function OnboardingPage({ userFirstName, onComplete, onSignOut, save, complete }: Props) {
-  const [step, setStep] = useState(0)
-  const [selections, setSelections] = useState<Partial<OnboardingData>>({})
-  const [saving, setSaving] = useState(false)
-  const [animKey, setAnimKey] = useState(0)
-  const contentRef = useRef<HTMLDivElement>(null)
+// ── Main ──────────────────────────────────────────────────────────────────────
+export function OnboardingPage({ userId, userFirstName, onComplete, onSignOut, save, complete, navigate }: Props) {
+  const [step, setStep]             = useState(0)
+  const [sel, setSel]               = useState<V2Selections>({ project_status: null, experience: null, goal: null, tech_level: null })
+  const [saving, setSaving]         = useState(false)
+  const [animKey, setAnimKey]       = useState(0)
+  const contentRef                  = useRef<HTMLDivElement>(null)
 
   const current = STEPS[step]
 
-  const canProceed = () => {
+  const canProceed = (): boolean => {
     if (current.type === 'welcome') return true
-    return !!selections[current.field!]
+    const key = current.key!
+    return sel[key] !== null
   }
 
   const handleNext = async () => {
     if (step < STEPS.length - 1) {
       setAnimKey(k => k + 1)
       setStep(s => s + 1)
-    } else {
-      setSaving(true)
-      await save(selections)
+      return
+    }
+
+    // Last step — save everything
+    setSaving(true)
+    try {
+      // 1. Save legacy onboarding fields
+      await save(mapToLegacy(sel))
+
+      // 2. Upsert profile in user_profiles_buildrs
+      const stage = mapToProfileStage(sel.project_status)
+      await supabase.from('user_profiles_buildrs').upsert({
+        user_id:               userId,
+        stage,
+        goal:                  sel.goal,
+        tech_level:            sel.tech_level,
+        level:                 'explorer',
+        xp_points:             0,
+        onboarding_completed:  true,
+        updated_at:            new Date().toISOString(),
+      }, { onConflict: 'user_id' })
+
+      // 3. Seed milestones if user has an idea or product
+      if (sel.project_status === 'has_idea' || sel.project_status === 'has_product') {
+        const { data: existing } = await supabase
+          .from('project_milestones')
+          .select('id')
+          .eq('user_id', userId)
+          .limit(1)
+          .maybeSingle()
+        if (!existing) {
+          const rows = DEFAULT_MILESTONES.map(m => ({ user_id: userId, ...m }))
+          await supabase.from('project_milestones').insert(rows)
+        }
+      }
+
+      // 4. Mark onboarding complete
       await complete()
-      setSaving(false)
+
+      // 5. Navigate
+      if (sel.project_status === 'searching' && navigate) {
+        navigate('#/dashboard/marketplace')
+      } else if (sel.project_status === 'has_idea' && navigate) {
+        navigate('#/dashboard/project')
+      }
       onComplete()
+    } catch (e) {
+      console.error('Onboarding save error', e)
+      setSaving(false)
     }
   }
 
@@ -187,8 +251,7 @@ export function OnboardingPage({ userFirstName, onComplete, onSignOut, save, com
           <BuildrsIcon color="#fafafa" size={18} />
           <span style={{ fontWeight: 800, fontSize: 14, letterSpacing: '-0.04em', color: '#fafafa' }}>Buildrs</span>
         </div>
-        <button onClick={onSignOut} style={{ fontSize: 12, color: '#5b6078' }}
-          className="hover:text-white transition-colors">
+        <button onClick={onSignOut} style={{ fontSize: 12, color: '#52525b' }} className="hover:text-white transition-colors">
           Se déconnecter
         </button>
       </div>
@@ -201,14 +264,11 @@ export function OnboardingPage({ userFirstName, onComplete, onSignOut, save, com
             className="h-[3px] rounded-full transition-all duration-300"
             style={{
               width: i === step ? 28 : 14,
-              background: i < step
-                ? 'linear-gradient(90deg, #4d96ff, #cc5de8)'
-                : i === step ? '#6366f1' : '#1e2030',
-              opacity: i > step ? 0.5 : 1,
+              background: i < step ? 'rgba(255,255,255,0.4)' : i === step ? '#fafafa' : 'rgba(255,255,255,0.08)',
             }}
           />
         ))}
-        <span style={{ fontSize: 10, color: '#5b6078', marginLeft: 8, fontWeight: 500 }}>
+        <span style={{ fontSize: 10, color: '#52525b', marginLeft: 8, fontWeight: 500 }}>
           {step + 1}/{STEPS.length}
         </span>
       </div>
@@ -216,67 +276,68 @@ export function OnboardingPage({ userFirstName, onComplete, onSignOut, save, com
       {/* Content */}
       <div ref={contentRef} className="w-full max-w-lg step-animate">
 
-        {/* Jarvis bubble */}
         <JarvisBubble text={getJarvisMessage(step, userFirstName)} />
 
-        {/* Welcome */}
+        {/* Welcome screen */}
         {current.type === 'welcome' && (
-          <div>
-            <div className="grid grid-cols-3 gap-3 mb-6">
-              {[
-                { n: '7', label: 'modules' },
-                { n: '30+', label: 'leçons' },
-                { n: '6j', label: 'pour lancer' },
-              ].map(item => (
-                <div key={item.n} style={{ border: '1px solid #1e2030', background: '#15161d', borderRadius: 12 }}
-                  className="p-4 text-center">
-                  <div style={{ fontSize: 22, fontWeight: 800, color: '#f0f0f5', letterSpacing: '-0.03em', marginBottom: 2 }}>
-                    {item.n}
-                  </div>
-                  <div style={{ fontSize: 12, color: '#5b6078' }}>{item.label}</div>
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {[
+              { n: '6', label: 'modules' },
+              { n: '30+', label: 'leçons' },
+              { n: '6j', label: 'pour lancer' },
+            ].map(item => (
+              <div key={item.n}
+                style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', borderRadius: 12 }}
+                className="p-4 text-center">
+                <div style={{ fontSize: 22, fontWeight: 800, color: '#fafafa', letterSpacing: '-0.03em', marginBottom: 2 }}>{item.n}</div>
+                <div style={{ fontSize: 12, color: '#52525b' }}>{item.label}</div>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* Choice */}
-        {current.type === 'choice' && (
+        {/* Choice screen */}
+        {current.type === 'choice' && current.key && (
           <div>
-            <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', color: '#5b6078', textAlign: 'center', marginBottom: 8 }}>
-              Étape {step} sur {STEPS.length - 1}
+            <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em', color: '#52525b', textAlign: 'center', marginBottom: 8 }}>
+              Question {step} sur {STEPS.length - 1}
             </p>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: '#f0f0f5', letterSpacing: '-0.03em', textAlign: 'center', marginBottom: 20 }}>
+            <h1 style={{ fontSize: 22, fontWeight: 800, color: '#fafafa', letterSpacing: '-0.03em', textAlign: 'center', marginBottom: 20 }}>
               {current.title}
             </h1>
             <div className="flex flex-col gap-3">
               {current.options!.map(opt => {
-                const selected = selections[current.field!] === opt.value
+                const selected = sel[current.key!] === opt.value
                 return (
                   <button
                     key={opt.value}
-                    onClick={() => setSelections(prev => ({ ...prev, [current.field!]: opt.value }))}
-                    className="text-left w-full rounded-xl border-2 px-5 py-4 transition-all duration-150 relative overflow-hidden"
+                    onClick={() => setSel(prev => ({ ...prev, [current.key!]: opt.value }))}
+                    className="text-left w-full rounded-xl px-5 py-4 transition-all duration-150 relative overflow-hidden"
                     style={{
-                      borderColor: selected ? opt.accent : '#1e2030',
-                      background: selected ? `${opt.accent}12` : '#15161d',
+                      border: selected ? '1px solid rgba(255,255,255,0.28)' : '1px solid rgba(255,255,255,0.07)',
+                      background: selected ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)',
+                      boxShadow: selected ? '0 0 16px rgba(255,255,255,0.04)' : 'none',
                     }}
                   >
                     {selected && (
-                      <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl" style={{ background: opt.accent }} />
+                      <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl"
+                        style={{ background: 'rgba(255,255,255,0.5)' }} />
                     )}
                     <div className="flex items-center gap-3">
                       <div
                         className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ background: selected ? `${opt.accent}20` : '#1e2030' }}
+                        style={{
+                          background: selected ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.04)',
+                          border: selected ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(255,255,255,0.06)',
+                        }}
                       >
-                        <opt.icon size={15} strokeWidth={1.5} style={{ color: selected ? opt.accent : '#5b6078' }} />
+                        <opt.icon size={15} strokeWidth={1.5} style={{ color: selected ? '#fafafa' : '#52525b' }} />
                       </div>
                       <div>
-                        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2, color: selected ? opt.accent : '#f0f0f5' }}>
+                        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2, color: selected ? '#fafafa' : '#a1a1aa' }}>
                           {opt.label}
                         </div>
-                        <div style={{ fontSize: 12, color: '#5b6078' }}>{opt.desc}</div>
+                        <div style={{ fontSize: 12, color: '#52525b' }}>{opt.desc}</div>
                       </div>
                     </div>
                   </button>
@@ -291,30 +352,31 @@ export function OnboardingPage({ userFirstName, onComplete, onSignOut, save, com
           onClick={handleNext}
           disabled={!canProceed() || saving}
           style={{
-            marginTop: 24,
-            width: '100%',
-            background: canProceed() && !saving ? '#6366f1' : '#1e2030',
-            color: canProceed() && !saving ? '#fff' : '#5b6078',
-            borderRadius: 12,
-            padding: '14px 0',
-            fontSize: 14,
-            fontWeight: 600,
-            border: 'none',
+            marginTop: 24, width: '100%',
+            background: canProceed() && !saving ? '#fafafa' : 'rgba(255,255,255,0.06)',
+            color: canProceed() && !saving ? '#09090b' : '#3f3f46',
+            borderRadius: 12, padding: '14px 0',
+            fontSize: 14, fontWeight: 600, border: 'none',
             cursor: canProceed() && !saving ? 'pointer' : 'not-allowed',
-            transition: 'all 150ms',
-            fontFamily: 'Geist, sans-serif',
+            transition: 'all 150ms', fontFamily: 'Geist, sans-serif',
           }}
         >
-          {saving ? 'Sauvegarde...' : step === STEPS.length - 1 ? 'Accéder au dashboard →' : step === 0 ? 'Personnaliser mon parcours →' : 'Continuer →'}
+          {saving
+            ? 'Configuration...'
+            : step === STEPS.length - 1
+              ? 'Accéder au dashboard →'
+              : step === 0
+                ? 'Personnaliser mon parcours →'
+                : 'Continuer →'}
         </button>
 
         {step > 0 && (
           <button
             onClick={() => { setAnimKey(k => k + 1); setStep(s => s - 1) }}
-            style={{ marginTop: 12, width: '100%', textAlign: 'center', fontSize: 12, color: '#5b6078', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
+            style={{ marginTop: 12, width: '100%', textAlign: 'center', fontSize: 12, color: '#52525b', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
             className="hover:text-white transition-colors py-1"
           >
-            ← Retour
+            Retour
           </button>
         )}
       </div>

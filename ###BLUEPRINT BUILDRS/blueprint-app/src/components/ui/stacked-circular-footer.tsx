@@ -46,7 +46,7 @@ function StackedCircularFooter() {
           {/* Newsletter */}
           <div className="mb-8 w-full max-w-md">
             <h3 className="mb-3 text-center text-sm font-semibold tracking-tight">
-              Reçois les mises à jour Blueprint
+              Reçois les prochaines idées de SaaS rentables
             </h3>
             <form
               className="flex gap-2"

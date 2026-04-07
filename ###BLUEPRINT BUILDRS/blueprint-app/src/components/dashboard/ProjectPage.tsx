@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react'
-import { FolderOpen, Lightbulb, Hammer, Zap, Plus, ArrowLeft, Trash2 } from 'lucide-react'
+import { FolderOpen, Lightbulb, Hammer, Zap, Plus, ArrowLeft, Trash2, Check } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
+
+const ACTIVE_IDEA_KEY = 'buildrs_active_idea'
+const ACTIVE_IDEA_EVENT = 'buildrs:active-idea'
+
+function getStoredActiveId(): string | null {
+  try { return JSON.parse(localStorage.getItem(ACTIVE_IDEA_KEY) ?? 'null')?.id ?? null } catch { return null }
+}
+
+function setStoredActive(id: string, name: string) {
+  localStorage.setItem(ACTIVE_IDEA_KEY, JSON.stringify({ id, name }))
+  window.dispatchEvent(new CustomEvent(ACTIVE_IDEA_EVENT, { detail: { id, name } }))
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -88,30 +100,50 @@ function EditableField({
 
 function ProjectCard({
   project,
+  isActive,
   onClick,
+  onSetActive,
 }: {
   project: IdeaProject
+  isActive: boolean
   onClick: () => void
+  onSetActive: () => void
 }) {
   const status = STATUS_OPTIONS.find(s => s.value === project.status) ?? STATUS_OPTIONS[0]
   const StatusIcon = status.Icon
 
   return (
-    <button
-      onClick={onClick}
-      className="group w-full text-left border border-border rounded-xl p-5 hover:border-foreground/20 hover:bg-secondary/20 transition-all duration-150"
+    <div
+      className="group w-full text-left rounded-xl p-5 transition-all duration-150"
+      style={{
+        border: isActive ? '1px solid #22c55e' : '1px solid hsl(var(--border))',
+        background: isActive ? 'rgba(34,197,94,0.04)' : 'transparent',
+      }}
     >
       <div className="flex items-start justify-between gap-3 mb-3">
-        <h3 className="text-base font-bold text-foreground truncate">
-          {project.name || 'Projet sans nom'}
-        </h3>
-        <span
-          className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0"
-          style={{ background: `${status.color}15`, color: status.color, border: `1px solid ${status.color}30` }}
+        <button
+          onClick={onClick}
+          className="flex-1 text-left min-w-0"
         >
-          <StatusIcon size={9} strokeWidth={2} />
-          {status.label}
-        </span>
+          <h3 className="text-base font-bold text-foreground truncate hover:opacity-80 transition-opacity">
+            {project.name || 'Projet sans nom'}
+          </h3>
+        </button>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {isActive && (
+            <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>
+              <Check size={9} strokeWidth={2.5} />
+              Actif
+            </span>
+          )}
+          <span
+            className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style={{ background: `${status.color}15`, color: status.color, border: `1px solid ${status.color}30` }}
+          >
+            <StatusIcon size={9} strokeWidth={2} />
+            {status.label}
+          </span>
+        </div>
       </div>
 
       {project.problem ? (
@@ -124,11 +156,21 @@ function ProjectCard({
         </p>
       )}
 
-      <div className="flex items-center gap-3 text-[10px] text-muted-foreground/60">
-        {project.target && <span>Cible : {project.target}</span>}
-        {project.price && <span>· {project.price}</span>}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 text-[10px] text-muted-foreground/60">
+          {project.target && <span>Cible : {project.target}</span>}
+          {project.price && <span>· {project.price}</span>}
+        </div>
+        {!isActive && (
+          <button
+            onClick={e => { e.stopPropagation(); onSetActive() }}
+            className="text-[10px] font-semibold text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-2.5 py-1 hover:border-foreground/30"
+          >
+            Rendre actif
+          </button>
+        )}
       </div>
-    </button>
+    </div>
   )
 }
 
@@ -142,6 +184,7 @@ interface Props {
 export function ProjectPage({ navigate: _navigate, userId }: Props) {
   const [projects, setProjects] = useState<IdeaProject[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [activeIdeaId, setActiveIdeaId] = useState<string | null>(() => getStoredActiveId())
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -160,7 +203,15 @@ export function ProjectPage({ navigate: _navigate, userId }: Props) {
       .eq('user_id', userId)
       .order('created_at', { ascending: true })
       .then(({ data, error }) => {
-        if (!error && data) setProjects(data as IdeaProject[])
+        if (!error && data) {
+          const list = data as IdeaProject[]
+          setProjects(list)
+          // Auto-set active if none stored yet
+          if (!getStoredActiveId() && list.length > 0) {
+            setStoredActive(list[0].id, list[0].name)
+            setActiveIdeaId(list[0].id)
+          }
+        }
         setLoading(false)
       })
   }, [userId])
@@ -390,7 +441,12 @@ export function ProjectPage({ navigate: _navigate, userId }: Props) {
             <ProjectCard
               key={project.id}
               project={project}
+              isActive={project.id === activeIdeaId}
               onClick={() => setSelectedId(project.id)}
+              onSetActive={() => {
+                setStoredActive(project.id, project.name || 'Mon SaaS')
+                setActiveIdeaId(project.id)
+              }}
             />
           ))}
 

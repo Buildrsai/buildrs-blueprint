@@ -131,6 +131,7 @@ export function DashboardLayout({
           userEmail={userEmail}
           userFirstName={userFirstName}
           userAvatarUrl={userAvatarUrl}
+          userLevel={profile?.level}
           userId={userId}
           onSignOut={onSignOut}
           navigate={navigate}

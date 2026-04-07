@@ -1,623 +1,546 @@
 import { useState } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
-  ShieldCheck, TrendingUp, Check, Copy, Zap, ChevronRight, Bot,
-  BookOpen, CheckSquare, Wrench, ExternalLink, Lightbulb, FolderOpen,
+  TrendingUp, Check, Zap, ChevronDown, Bot, Home, Lock,
+  Settings, CheckCircle, Tag, FolderOpen, LayoutGrid, Target,
+  ShoppingBag, Wrench, Users, MessageSquare, Trophy, Flag,
+  HelpCircle, Paperclip, Globe, Code2, Mic, Star, Pin,
 } from 'lucide-react'
-import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from './icons'
+import { BuildrsIcon, ClaudeIcon, WhatsAppIcon } from './icons'
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// ── Types & Tabs ──────────────────────────────────────────────────────────────
 
-type Tab = 'autopilot' | 'parcours' | 'generator' | 'bibliotheque' | 'checklist' | 'outils'
+type Tab = 'accueil' | 'parcours' | 'communaute' | 'jarvis'
 
 const TABS: { id: Tab; label: string; short: string }[] = [
-  { id: 'autopilot',    label: 'Jarvis IA',      short: 'Jarvis'     },
-  { id: 'parcours',     label: 'Mon Parcours',    short: 'Parcours'   },
-  { id: 'generator',    label: 'Générateurs IA',  short: 'Génér.'     },
-  { id: 'bibliotheque', label: 'Bibliothèque',    short: 'Biblio'     },
-  { id: 'checklist',    label: 'Checklist',       short: 'Check'      },
-  { id: 'outils',       label: 'Boîte à outils',  short: 'Outils'     },
+  { id: 'accueil',    label: 'Accueil',       short: 'Accueil'  },
+  { id: 'parcours',   label: 'Mon Parcours',  short: 'Parcours' },
+  { id: 'communaute', label: 'Communauté',    short: 'Commu'    },
+  { id: 'jarvis',     label: 'Jarvis',        short: 'Jarvis'   },
 ]
 
-// ── Mini sidebar ──────────────────────────────────────────────────────────────
+// ── Data constants ─────────────────────────────────────────────────────────────
 
-function MiniSidebar({ tab }: { tab: Tab }) {
-  const active = (id: Tab) => tab === id
+const MINI_MODULES = [
+  { num: '00', label: 'Fondations',          Icon: Layers,      pct: 100, status: 'done'        },
+  { num: '01', label: 'Configuration',       Icon: Settings,    pct: 100, status: 'done'        },
+  { num: '02', label: 'Trouver mon idée',    Icon: Search,      pct: 100, status: 'done'        },
+  { num: '03', label: 'Valider mon produit', Icon: CheckCircle, pct: 30,  status: 'in_progress' },
+  { num: '04', label: 'Structurer mon offre',Icon: Tag,         pct: 0,   status: 'pending'     },
+  { num: '05', label: 'Designer',            Icon: Palette,     pct: 0,   status: 'pending'     },
+  { num: '06', label: 'Architecturer',       Icon: Building2,   pct: 0,   status: 'pending'     },
+  { num: '07', label: 'Construire',          Icon: Hammer,      pct: 0,   status: 'pending'     },
+  { num: '08', label: 'Déployer',            Icon: Rocket,      pct: 0,   status: 'pending'     },
+  { num: '09', label: 'Monétiser',           Icon: DollarSign,  pct: 0,   status: 'pending'     },
+  { num: '10', label: 'Scaler',              Icon: TrendingUp,  pct: 0,   status: 'pending'     },
+]
+
+const ACCUEIL_STACK = [
+  'Claude Code', 'Supabase', 'Vercel', 'Resend', 'Hostinger', 'Stripe', 'GitHub',
+]
+
+const ACCUEIL_CHECKLIST = [
+  { label: 'Trouver & Valider',     status: 'done'        },
+  { label: 'Préparer & Designer',   status: 'done'        },
+  { label: 'Construire',            status: 'in_progress' },
+  { label: 'Déployer & Monétiser',  status: 'pending'     },
+]
+
+const COMMUNITY_POSTS = [
+  {
+    author: 'Thomas', initials: 'T', color: '#4d96ff',
+    type: 'win', typeLabel: 'Win', TypeIcon: Trophy, typeBg: 'rgba(34,197,94,0.12)', typeColor: '#22c55e',
+    content: 'Je viens de déployer mon premier SaaS ! Premier paiement Stripe reçu ce matin. 🎉',
+    time: '2h',
+    reactions: [{ emoji: '🔥', count: 3 }, { emoji: '👏', count: 5 }, { emoji: '🚀', count: 2 }],
+  },
+  {
+    author: 'Marie', initials: 'M', color: '#cc5de8',
+    type: 'milestone', typeLabel: 'Avancement', TypeIcon: Flag, typeBg: 'rgba(99,102,241,0.12)', typeColor: '#818cf8',
+    content: 'Module 03 terminé — validation produit faite avec le score viabilité à 78/100. ON Y VA.',
+    time: '5h',
+    reactions: [{ emoji: '🔥', count: 2 }, { emoji: '👏', count: 3 }, { emoji: '💡', count: 1 }],
+  },
+  {
+    author: 'Lucas', initials: 'L', color: '#22c55e',
+    type: 'question', typeLabel: 'Question', TypeIcon: HelpCircle, typeBg: 'rgba(234,179,8,0.12)', typeColor: '#eab308',
+    content: 'Quel hébergeur vous conseillez pour un SaaS qui démarre à ~100 users ? Vercel ou Hostinger ?',
+    time: '1j',
+    reactions: [{ emoji: '💡', count: 4 }, { emoji: '🚀', count: 1 }],
+  },
+]
+
+// ── Jarvis pixel-art avatar ────────────────────────────────────────────────────
+
+function JarvisAvatar({ size = 28 }: { size?: number }) {
   return (
-    <div className="w-[165px] flex-shrink-0 border-r border-border flex flex-col overflow-hidden bg-background">
-      <div className="flex items-center gap-2 px-3.5 h-[38px] border-b border-border flex-shrink-0">
-        <BuildrsIcon color="currentColor" size={13} className="text-foreground" />
-        <span className="font-extrabold text-[11px] text-foreground" style={{ letterSpacing: '-0.04em' }}>Buildrs</span>
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="0" width="2" height="3" fill="#818cf8"/>
+      <rect x="15" y="0" width="2" height="3" fill="#818cf8"/>
+      <rect x="5" y="2" width="2" height="2" fill="#818cf8"/>
+      <rect x="17" y="2" width="2" height="2" fill="#818cf8"/>
+      <rect x="3" y="4" width="18" height="12" rx="2" fill="#6366f1"/>
+      <rect x="6" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
+      <rect x="14" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
+      <rect x="7" y="8" width="2" height="2" fill="#312e81"/>
+      <rect x="15" y="8" width="2" height="2" fill="#312e81"/>
+      <rect x="9" y="13" width="6" height="2" rx="1" fill="#4338ca"/>
+      <rect x="5" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
+      <rect x="15" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
+      <rect x="4" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
+      <rect x="17" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
+    </svg>
+  )
+}
+
+// ── MiniSidebar ───────────────────────────────────────────────────────────────
+
+function MiniSidebar({ tab, onTabChange }: { tab: Tab; onTabChange: (t: Tab) => void }) {
+  const [parcoursOpen, setParcoursOpen] = useState(true)
+  const [saasOpen, setSaasOpen]         = useState(false)
+  const [outilsOpen, setOutilsOpen]     = useState(false)
+  const [commOpen, setCommOpen]         = useState(false)
+  const [accesOpen, setAccesOpen]       = useState(false)
+
+  const sidebarItem = (
+    label: string,
+    IconEl: React.ReactNode,
+    active: boolean,
+    onClick?: () => void,
+    badge?: React.ReactNode,
+    dimmed?: boolean,
+  ) => (
+    <button
+      onClick={onClick}
+      className="flex w-full items-center gap-1.5 rounded-md px-1.5 py-[3px] text-left transition-colors"
+      style={{
+        background: active ? 'rgba(255,255,255,0.08)' : 'transparent',
+        opacity: dimmed ? 0.35 : 1,
+        cursor: onClick ? 'pointer' : 'default',
+      }}
+    >
+      <span className="shrink-0" style={{ color: active ? '#fff' : 'rgba(255,255,255,0.45)' }}>{IconEl}</span>
+      <span className="flex-1 truncate text-[7.5px] font-medium"
+        style={{ color: active ? '#fff' : 'rgba(255,255,255,0.45)' }}>
+        {label}
+      </span>
+      {badge}
+    </button>
+  )
+
+  const sectionHeader = (label: string, open: boolean, onToggle: () => void) => (
+    <button
+      onClick={onToggle}
+      className="flex w-full items-center justify-between px-1.5 pb-0.5 pt-2"
+    >
+      <span className="text-[6.5px] font-bold uppercase tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+        {label}
+      </span>
+      <ChevronDown size={8} strokeWidth={2} style={{
+        color: 'rgba(255,255,255,0.25)',
+        transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+        transition: 'transform 0.15s',
+      }} />
+    </button>
+  )
+
+  const greenDot = <div className="ml-auto h-1.5 w-1.5 rounded-full shrink-0" style={{ background: '#22c55e' }} />
+  const grayDot  = <div className="ml-auto h-1.5 w-1.5 rounded-full shrink-0" style={{ background: 'rgba(255,255,255,0.15)' }} />
+  const actifBadge = (
+    <span className="ml-auto shrink-0 rounded-full px-1 text-[6px] font-bold uppercase"
+      style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.3)' }}>
+      ACTIF
+    </span>
+  )
+  const lockIcon = <Lock size={7} strokeWidth={2} style={{ color: 'rgba(255,255,255,0.3)', marginLeft: 'auto', flexShrink: 0 }} />
+
+  return (
+    <div className="flex flex-col bg-[#0a0b0e]" style={{ width: 145, borderRight: '0.5px solid rgba(255,255,255,0.07)', flexShrink: 0, overflow: 'hidden' }}>
+
+      {/* Logo */}
+      <div className="flex items-center gap-1.5 px-2.5 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+        <BuildrsIcon color="#fff" size={11} />
+        <span className="text-[10px] font-extrabold text-white" style={{ letterSpacing: '-0.04em' }}>Buildrs</span>
       </div>
 
-      <div className="px-2.5 pt-2 pb-1 border-b border-border">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-[7px] font-bold uppercase tracking-widest text-muted-foreground">Progression</span>
-          <span className="text-[8px] font-extrabold text-foreground">42%</span>
+      {/* XP bar */}
+      <div className="px-2.5 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex items-center gap-1 mb-0.5">
+          <Star size={7} strokeWidth={1.5} style={{ color: '#4d96ff' }} />
+          <span className="text-[6.5px] font-bold uppercase tracking-wider" style={{ color: '#4d96ff' }}>EXPLORER</span>
+          <span className="ml-auto text-[6.5px] font-bold" style={{ color: 'rgba(255,255,255,0.5)' }}>42 XP</span>
         </div>
-        <div className="h-[2px] rounded-full overflow-hidden bg-border">
-          <div className="h-full rounded-full bg-foreground" style={{ width: '42%' }} />
+        <div className="h-[2px] w-full rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="h-full rounded-full" style={{ width: '35%', background: 'linear-gradient(90deg, #4d96ff, #8b5cf6)' }} />
         </div>
       </div>
 
-      {/* CONSTRUIRE */}
-      <div className="px-2 pt-2.5">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Construire</p>
-        {([
-          { id: 'autopilot' as Tab, icon: Zap,      label: 'Jarvis IA',     badge: 'ACTIF', badgeColor: '#22c55e' },
-          { id: 'parcours'  as Tab, icon: BookOpen,  label: 'Mon Parcours',  badge: null,    badgeColor: '' },
-        ]).map(({ id, icon: Icon, label, badge, badgeColor }) => (
-          <div key={id} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
-            <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
-            <span className="text-[8px] font-medium flex-1 truncate">{label}</span>
-            {badge && (
-              <span className="text-[6px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: `${badgeColor}26`, color: badgeColor, border: `1px solid ${badgeColor}4d` }}>
-                {badge}
-              </span>
-            )}
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto px-1.5 py-1" style={{ scrollbarWidth: 'none' }}>
+
+        {/* Standalone items */}
+        {sidebarItem('Accueil', <Home size={9} strokeWidth={1.5} />, tab === 'accueil', () => onTabChange('accueil'))}
+        {sidebarItem('Claude OS', <ClaudeIcon size={9} className="" />, false)}
+
+        {/* MON PARCOURS */}
+        {sectionHeader('MON PARCOURS', parcoursOpen, () => setParcoursOpen(o => !o))}
+        {parcoursOpen && (
+          <div className="flex flex-col gap-[1px]">
+            {MINI_MODULES.map(({ num, label, Icon: ModIcon, status }) => (
+              <button
+                key={num}
+                className="flex w-full items-center gap-1 rounded-md px-1 py-[2px]"
+                style={{ background: num === '03' && tab === 'parcours' ? 'rgba(255,255,255,0.07)' : 'transparent' }}
+                onClick={() => onTabChange('parcours')}
+              >
+                <span className="shrink-0 flex h-3.5 w-3.5 items-center justify-center rounded text-[6px] font-bold"
+                  style={{
+                    background: status === 'done' ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.06)',
+                    color: status === 'done' ? '#22c55e' : 'rgba(255,255,255,0.4)',
+                  }}>
+                  {num === '03' && tab === 'parcours'
+                    ? <ModIcon size={7} strokeWidth={2} style={{ color: '#fff' }} />
+                    : num
+                  }
+                </span>
+                <span className="flex-1 truncate text-[7px]"
+                  style={{ color: num === '03' && tab === 'parcours' ? '#fff' : 'rgba(255,255,255,0.4)' }}>
+                  {label}
+                </span>
+                {status === 'done' && greenDot}
+                {status === 'in_progress' && grayDot}
+              </button>
+            ))}
           </div>
-        ))}
-        {/* Mes agents IA */}
-        <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground">
-          <Bot size={9} strokeWidth={1.5} className="flex-shrink-0" />
-          <span className="text-[8px] font-medium flex-1 truncate">Mes agents IA</span>
-          <span className="text-[6px] font-bold px-1 py-0.5 rounded flex-shrink-0" style={{ background: 'rgba(77,150,255,0.15)', color: '#4d96ff', border: '1px solid rgba(77,150,255,0.3)' }}>NEW</span>
-        </div>
-      </div>
+        )}
 
-      {/* OUTILS IA */}
-      <div className="px-2 pt-2">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Outils IA</p>
-        {([
-          { id: 'generator' as Tab, Icon: Lightbulb,   label: 'NicheFinder'  },
-          { id: null,               Icon: ShieldCheck,  label: 'MarketPulse'  },
-          { id: null,               Icon: TrendingUp,   label: 'FlipCalc'     },
-        ] as const).map(({ id, Icon, label }, i) => (
-          <div key={i} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${id && active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
-            <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
-            <span className="text-[8px] font-medium truncate">{label}</span>
+        {/* MON SAAS IA */}
+        {sectionHeader('MON SAAS IA', saasOpen, () => setSaasOpen(o => !o))}
+        {saasOpen && (
+          <div className="flex flex-col gap-[1px]">
+            {sidebarItem('Fiche projet', <FolderOpen size={9} strokeWidth={1.5} />, false)}
+            {sidebarItem('Mon Pipeline', <LayoutGrid size={9} strokeWidth={1.5} />, false)}
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* RESSOURCES */}
-      <div className="px-2 pt-2">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Ressources</p>
-        {([
-          { id: null,                  Icon: FolderOpen,   label: 'Mes Projets'     },
-          { id: 'bibliotheque' as Tab, Icon: BookOpen,     label: 'Bibliothèque'    },
-          { id: 'checklist'    as Tab, Icon: CheckSquare,  label: 'Checklist'       },
-          { id: 'outils'       as Tab, Icon: Wrench,       label: 'Boîte à outils'  },
-        ] as const).map(({ id, Icon, label }, i) => (
-          <div key={i} className={`flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 ${id && active(id) ? 'bg-foreground text-background' : 'text-muted-foreground'}`}>
-            <Icon size={9} strokeWidth={1.5} className="flex-shrink-0" />
-            <span className="text-[8px] font-medium truncate">{label}</span>
+        {/* OUTILS */}
+        {sectionHeader('OUTILS', outilsOpen, () => setOutilsOpen(o => !o))}
+        {outilsOpen && (
+          <div className="flex flex-col gap-[1px]">
+            {sidebarItem('Jarvis IA',       <Zap size={9} strokeWidth={1.5} />,         tab === 'jarvis', () => onTabChange('jarvis'), actifBadge)}
+            {sidebarItem('Agents IA',       <Bot size={9} strokeWidth={1.5} />,         false, undefined, lockIcon, true)}
+            {sidebarItem('Valider mon SaaS',<Target size={9} strokeWidth={1.5} />,      false, undefined, lockIcon, true)}
+            {sidebarItem('Idées SaaS',      <ShoppingBag size={9} strokeWidth={1.5} />, false, undefined, lockIcon, true)}
+            {sidebarItem('Boîte à outils',  <Wrench size={9} strokeWidth={1.5} />,      false)}
           </div>
-        ))}
+        )}
+
+        {/* COMMUNAUTÉ */}
+        {sectionHeader('COMMUNAUTÉ', commOpen, () => setCommOpen(o => !o))}
+        {commOpen && (
+          <div className="flex flex-col gap-[1px]">
+            {sidebarItem('Feed',    <MessageSquare size={9} strokeWidth={1.5} />, tab === 'communaute', () => onTabChange('communaute'))}
+            {sidebarItem('Membres', <Users size={9} strokeWidth={1.5} />,         false)}
+          </div>
+        )}
+
+        {/* ACCÈS BUILDRS */}
+        {sectionHeader('ACCÈS BUILDRS', accesOpen, () => setAccesOpen(o => !o))}
+        {accesOpen && (
+          <div className="flex flex-col gap-[1px]">
+            {sidebarItem('WhatsApp Buildrs', <WhatsAppIcon size={9} className="" />, false)}
+          </div>
+        )}
       </div>
 
-      {/* BONUS */}
-      <div className="px-2 pt-2">
-        <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/50 px-1 mb-1">Bonus</p>
-
-        {/* Claude 360° */}
-        <div
-          className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground"
-          style={{ background: 'rgba(204,93,232,0.08)' }}
-        >
-          <ClaudeIcon size={9} className="flex-shrink-0" style={{ color: '#cc5de8' }} />
-          <span className="text-[8px] font-medium flex-1 truncate" style={{ color: '#cc5de8' }}>Claude 360°</span>
-          <span className="text-[5.5px] font-bold px-1 py-0.5 rounded" style={{ background: 'rgba(204,93,232,0.15)', color: '#cc5de8', border: '1px solid rgba(204,93,232,0.3)' }}>BONUS</span>
-        </div>
-
-        {/* WhatsApp */}
-        <div
-          className="flex items-center gap-1.5 px-2 py-1.5 rounded-md mb-0.5 text-muted-foreground"
-          style={{ background: 'rgba(37,211,102,0.08)' }}
-        >
-          <WhatsAppIcon size={9} className="flex-shrink-0" style={{ color: '#25D366' }} />
-          <span className="text-[8px] font-medium flex-1 truncate" style={{ color: '#25D366' }}>WhatsApp Buildrs</span>
-          <span className="text-[5.5px] font-bold px-1 py-0.5 rounded" style={{ background: 'rgba(37,211,102,0.15)', color: '#25D366', border: '1px solid rgba(37,211,102,0.3)' }}>BONUS</span>
-        </div>
-      </div>
-
-      <div className="mt-auto p-2.5">
-        <div className="rounded-lg bg-foreground p-2">
-          <p className="text-[6px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(250,250,250,0.45)' }}>Envie d'aller + vite ?</p>
-          <p className="text-[8px] font-semibold text-background">Rejoindre la Cohorte →</p>
-        </div>
+      {/* Bottom CTA */}
+      <div className="px-2.5 py-2" style={{ borderTop: '0.5px solid rgba(255,255,255,0.07)' }}>
+        <span className="text-[7px] font-semibold" style={{ color: 'rgba(255,255,255,0.35)' }}>
+          Sprint & Cohorte avec Alfred →
+        </span>
       </div>
     </div>
   )
 }
 
-// ── Content: Autopilot ────────────────────────────────────────────────────────
+// ── AccueilContent ────────────────────────────────────────────────────────────
 
-const TIMELINE_STEPS = [
-  { n: 1, label: 'Idée validée',               done: true,  current: false },
-  { n: 2, label: 'Architecture définie',        done: true,  current: false },
-  { n: 3, label: 'Design & branding validés',   done: false, current: true  },
-  { n: 4, label: 'Build en cours',              done: false, current: false },
-  { n: 5, label: 'Déploiement & Monétisation',  done: false, current: false },
-]
-
-const STACK_ITEMS = [
-  { Icon: BrandIcons.claude,   label: 'Claude',   active: true  },
-  { Icon: BrandIcons.supabase, label: 'Supabase', active: true  },
-  { Icon: BrandIcons.vercel,   label: 'Vercel',   active: true  },
-  { Icon: BrandIcons.stripe,   label: 'Stripe',   active: true  },
-  { Icon: BrandIcons.resend,   label: 'Resend',   active: false },
-  { Icon: BrandIcons.github,   label: 'GitHub',   active: true  },
-]
-
-const AUTOPILOT_STACK = [
-  { Icon: BrandIcons.anthropic, label: 'Claude Code' },
-  { Icon: BrandIcons.supabase,  label: 'Supabase'    },
-  { Icon: BrandIcons.vercel,    label: 'Vercel'      },
-  { Icon: BrandIcons.resend,    label: 'Resend'      },
-  { Icon: BrandIcons.hostinger, label: 'Hostinger'   },
-  { Icon: BrandIcons.stripe,    label: 'Stripe'      },
-  { Icon: BrandIcons.github,    label: 'GitHub'      },
-]
-
-function AutopilotContent() {
+function AccueilContent() {
   return (
-    <div className="flex-1 flex overflow-hidden">
-      {/* Main — colonne principale */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="flex flex-1 min-w-0 overflow-hidden">
+      {/* Main */}
+      <div className="flex flex-1 flex-col gap-2 p-3 overflow-y-auto min-w-0" style={{ scrollbarWidth: 'none' }}>
+
         {/* Header */}
-        <div className="px-4 pt-3 pb-2.5 border-b border-border flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center justify-between">
           <div>
-            <p className="text-[9px] font-extrabold text-foreground" style={{ letterSpacing: '-0.02em' }}>Mon Parcours</p>
-            <p className="text-[6.5px] text-muted-foreground">Voici ta progression Blueprint</p>
+            <p className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.02em' }}>Salut, Alex 👋</p>
+            <p className="text-[6.5px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Voici ton cockpit Buildrs</p>
           </div>
-          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
-            <div className="w-1 h-1 rounded-full bg-green-400" style={{ animation: 'autopilot-pulse 2s ease-in-out infinite' }} />
-            <span className="text-[6px] font-bold" style={{ color: '#22c55e' }}>CLAUDE ACTIF</span>
+          <span className="rounded-full px-1.5 py-0.5 text-[6px] font-bold uppercase tracking-wider"
+            style={{ background: 'rgba(77,150,255,0.12)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)' }}>
+            EXPLORER
+          </span>
+        </div>
+
+        {/* Metrics */}
+        <div className="flex items-center gap-1.5">
+          {[
+            { label: 'Modules', value: '3/14' },
+            { label: 'Tâches',  value: '8'    },
+            { label: 'Score',   value: '72',  color: '#22c55e' },
+          ].map(({ label, value, color }) => (
+            <div key={label} className="flex-1 rounded-lg px-2 py-1.5"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+              <p className="text-[11px] font-extrabold leading-none" style={{ color: color ?? '#fff', letterSpacing: '-0.03em' }}>{value}</p>
+              <p className="text-[6px] uppercase tracking-wider mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>{label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Jarvis block */}
+        <div className="rounded-xl p-2.5" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+          <div className="flex items-center gap-1.5 mb-2">
+            <JarvisAvatar size={18} />
+            <div>
+              <div className="flex items-center gap-1">
+                <span className="text-[7.5px] font-bold" style={{ background: 'linear-gradient(90deg, #818cf8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Jarvis</span>
+                <span className="rounded-full px-1 py-[1px] text-[5.5px] font-bold"
+                  style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.3)' }}>
+                  EN LIGNE
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-lg px-2 py-1.5 mb-2"
+            style={{ background: 'rgba(99,102,241,0.08)', border: '0.5px solid rgba(99,102,241,0.2)' }}>
+            <p className="text-[7px] leading-[1.5]" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Ton environnement est prêt. Sur quoi tu veux bosser aujourd'hui ?
+            </p>
+          </div>
+          <div className="rounded-lg px-2 py-1.5" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+            <p className="text-[7px] mb-1.5" style={{ color: 'rgba(255,255,255,0.2)' }}>Parle à Jarvis...</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                {[Paperclip, Globe, Code2].map((Icon, i) => (
+                  <Icon key={i} size={8} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.25)' }} />
+                ))}
+              </div>
+              <div className="flex h-4 w-4 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                <Mic size={7} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.4)' }} />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex-1 overflow-hidden px-3 py-2.5 flex flex-col gap-2.5">
-          {/* Stat bar */}
-          <div className="flex items-center rounded-lg px-3 py-2 border border-border bg-secondary">
-            {[
-              { label: 'Modules', value: '4/6' },
-              { label: 'Tâches',  value: '24'  },
-              { label: 'Score',   value: '72%' },
-            ].map(({ label, value }, i) => (
-              <div key={label} className="flex-1 flex flex-col items-center" style={{ borderRight: i < 2 ? '1px solid hsl(var(--border))' : 'none' }}>
-                <p className="text-[13px] font-extrabold text-foreground leading-none" style={{ letterSpacing: '-0.03em' }}>{value}</p>
-                <p className="text-[6px] uppercase tracking-wider mt-0.5 text-muted-foreground">{label}</p>
+        {/* Checklist */}
+        <div>
+          <p className="text-[6.5px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+            Checklist en cours
+          </p>
+          <div className="flex flex-col gap-1">
+            {ACCUEIL_CHECKLIST.map(({ label, status }) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <div className="shrink-0 h-3 w-3 rounded-full flex items-center justify-center"
+                  style={{
+                    background: status === 'done' ? 'rgba(34,197,94,0.15)' : status === 'in_progress' ? 'rgba(255,255,255,0.06)' : 'transparent',
+                    border: status === 'done' ? 'none' : '0.5px solid rgba(255,255,255,0.12)',
+                  }}>
+                  {status === 'done' && <Check size={6} strokeWidth={2.5} style={{ color: '#22c55e' }} />}
+                </div>
+                <span className="flex-1 text-[7px]"
+                  style={{ color: status === 'done' ? 'rgba(255,255,255,0.35)' : status === 'in_progress' ? '#fff' : 'rgba(255,255,255,0.25)', textDecoration: status === 'done' ? 'line-through' : 'none' }}>
+                  {label}
+                </span>
+                {status === 'in_progress' && (
+                  <span className="shrink-0 rounded-full px-1 py-[1px] text-[5.5px] font-bold uppercase"
+                    style={{ background: 'rgba(234,179,8,0.12)', color: '#eab308', border: '0.5px solid rgba(234,179,8,0.25)' }}>
+                    EN COURS
+                  </span>
+                )}
               </div>
             ))}
-          </div>
-
-          {/* Jarvis greeting */}
-          <div className="flex items-start gap-1.5">
-            <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #cc5de8, #4d96ff)', boxShadow: '0 0 8px rgba(204,93,232,0.35)' }}>
-              <Zap size={9} strokeWidth={2} className="text-white" />
-            </div>
-            <div className="flex-1 rounded-xl rounded-tl-sm px-2.5 py-2" style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}>
-              <p className="text-[7px] font-bold mb-0.5" style={{ background: 'linear-gradient(90deg, #cc5de8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Jarvis</p>
-              <p className="text-[8px] text-foreground leading-relaxed">Bonjour ! Je suis Jarvis, ton copilote IA. Dis-moi où tu en es — je te guide pour la prochaine étape.</p>
-            </div>
-          </div>
-
-          {/* Chat input */}
-          <div className="rounded-xl px-3 py-2 border border-border bg-secondary">
-            <p className="text-[8px] text-muted-foreground mb-2">Parle à Jarvis...</p>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                {[
-                  <svg key="attach" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>,
-                  <svg key="globe" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>,
-                  <svg key="code"  width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
-                ].map((icon, i) => (
-                  <div key={i} className="w-5 h-5 rounded-full flex items-center justify-center">{icon}</div>
-                ))}
-              </div>
-              <div className="w-5 h-5 rounded-full flex items-center justify-center bg-foreground">
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--background))" strokeWidth="2.5"><path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3"/></svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Checklist */}
-          <div>
-            <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Checklist en cours</p>
-            <div className="flex flex-col gap-1">
-              {[
-                { label: 'Trouver & Valider',    done: true,  active: false },
-                { label: 'Préparer & Designer',  done: true,  active: false },
-                { label: 'Construire',           done: false, active: true  },
-                { label: 'Déployer & Monétiser', done: false, active: false },
-              ].map(({ label, done, active }) => (
-                <div key={label} className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg" style={{ background: active ? 'hsl(var(--secondary))' : 'transparent', border: active ? '1px solid hsl(var(--border))' : '1px solid transparent' }}>
-                  <div className="w-3 h-3 rounded flex items-center justify-center flex-shrink-0" style={{ background: done ? 'hsl(var(--foreground))' : 'hsl(var(--border))' }}>
-                    {done && <Check size={5} strokeWidth={3} className="text-background" />}
-                  </div>
-                  <span className="text-[7.5px] flex-1" style={{ color: done ? 'hsl(var(--muted-foreground))' : 'hsl(var(--foreground))', textDecoration: done ? 'line-through' : 'none' }}>{label}</span>
-                  {active && <span className="text-[5.5px] font-bold px-1 py-0.5 rounded-full" style={{ background: 'rgba(234,179,8,0.12)', color: '#eab308', border: '1px solid rgba(234,179,8,0.25)' }}>EN COURS</span>}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
 
       {/* Right panel — desktop only */}
-      <div className="hidden sm:flex w-[115px] flex-shrink-0 border-l border-border p-3 flex-col gap-3">
-        <div>
-          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Score de viabilité</p>
-          <div className="text-center border border-border rounded-lg py-2.5" style={{ background: 'hsl(var(--secondary))' }}>
-            <span className="text-[26px] font-extrabold text-foreground leading-none" style={{ letterSpacing: '-0.04em' }}>50</span>
-            <p className="text-[6.5px] text-muted-foreground mt-0.5">Idée fortement validée</p>
-          </div>
+      <div className="hidden md:flex flex-col gap-2 p-2 overflow-y-auto" style={{ width: 100, borderLeft: '0.5px solid rgba(255,255,255,0.07)', scrollbarWidth: 'none', flexShrink: 0 }}>
+
+        {/* Score */}
+        <div className="rounded-lg p-2" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+          <p className="text-[6px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>Score viabilité</p>
+          <p className="text-[22px] font-extrabold leading-none" style={{ color: '#22c55e', letterSpacing: '-0.04em' }}>72</p>
+          <p className="text-[6px] mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Idée fortement validée</p>
         </div>
-        <div>
-          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Stack</p>
+
+        {/* Stack */}
+        <div className="rounded-lg p-2" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+          <p className="text-[6px] font-bold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Stack</p>
           <div className="flex flex-col gap-1">
-            {AUTOPILOT_STACK.map(({ Icon, label }) => (
-              <div key={label} className="flex items-center justify-between px-1.5 py-1 rounded border border-border" style={{ background: 'hsl(var(--secondary))' }}>
-                <div className="flex items-center gap-1">
-                  <Icon className="w-2.5 h-2.5 flex-shrink-0 text-muted-foreground" />
-                  <span className="text-[7px] text-muted-foreground">{label}</span>
-                </div>
-                <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(74,222,128,0.85)' }} />
+            {ACCUEIL_STACK.map(name => (
+              <div key={name} className="flex items-center justify-between">
+                <span className="text-[7px]" style={{ color: 'rgba(255,255,255,0.5)' }}>{name}</span>
+                <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#22c55e' }} />
               </div>
             ))}
           </div>
         </div>
-        <div>
-          <p className="text-[6.5px] font-bold uppercase tracking-wider text-muted-foreground mb-1">MRR estimé</p>
-          <div className="h-px w-8 mb-1.5 bg-border" />
-          <span className="text-[7px] text-muted-foreground underline cursor-pointer">Calculer →</span>
+
+        {/* MRR */}
+        <div className="rounded-lg p-2" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+          <p className="text-[6px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>MRR estimé</p>
+          <p className="text-[11px] font-extrabold leading-none text-white" style={{ letterSpacing: '-0.03em' }}>2 400€</p>
+          <p className="text-[6px] mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>/mois</p>
         </div>
       </div>
     </div>
   )
 }
 
-// ── Content: Parcours ─────────────────────────────────────────────────────────
-
-const MODULES_TREE = [
-  {
-    id: '00', label: 'Fondations', Icon: Layers, pct: 100, done: 7, total: 7,
-    lessons: ['Le vibecoding, c\'est quoi ?', 'Devenir product builder', 'Les 3 stratégies', 'Les modèles de monétisation', 'Glossaire'],
-  },
-  {
-    id: '01', label: 'Trouver & Valider', Icon: Search, pct: 50, done: 2, total: 4,
-    lessons: ['Trouver ton idée', 'Générer 5 idées avec l\'IA', 'Valider en 30 min', 'Le brief produit'],
-  },
-  {
-    id: '02', label: 'Préparer & Designer', Icon: Palette, pct: 0, done: 0, total: 4,
-    lessons: ['Configurer l\'environnement', 'S\'inspirer et designer', 'Le branding express', 'Le user flow'],
-  },
-  {
-    id: '03', label: 'L\'Architecture', Icon: Building2, pct: 0, done: 0, total: 4,
-    lessons: ['Planifier avant de coder', 'La base de données', 'L\'authentification', 'La sécurité'],
-  },
-  {
-    id: '04', label: 'Construire', Icon: Hammer, pct: 0, done: 0, total: 6,
-    lessons: [],
-  },
-  {
-    id: '05', label: 'Déployer', Icon: Rocket, pct: 0, done: 0, total: 5,
-    lessons: [],
-  },
-  {
-    id: '06', label: 'Monétiser & Lancer', Icon: DollarSign, pct: 0, done: 0, total: 7,
-    lessons: [],
-  },
-]
+// ── ParcoursContent ───────────────────────────────────────────────────────────
 
 function ParcoursContent() {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
-      <div className="px-4 pt-3 pb-2.5 border-b border-border flex-shrink-0">
-        <div className="flex items-center justify-between mb-1.5">
-          <p className="text-[8px] font-bold uppercase tracking-[0.1em] text-muted-foreground">Mon Parcours — Module 02</p>
-          <span className="text-[8px] font-extrabold text-foreground">42%</span>
-        </div>
-        <div className="h-1 rounded-full overflow-hidden bg-border">
-          <div className="h-full bg-foreground rounded-full" style={{ width: '42%' }} />
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto">
-        {/* Fake video thumbnail */}
-        <div className="relative mx-3 mt-3 rounded-xl overflow-hidden flex-shrink-0" style={{ height: 100, background: '#09090b' }}>
-          {/* Blurred silhouette */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-12 h-16 rounded-full opacity-20" style={{ background: '#fff', filter: 'blur(8px)', transform: 'translateY(4px)' }} />
-            <div className="absolute bottom-0 w-24 h-8 opacity-15" style={{ background: '#fff', filter: 'blur(10px)' }} />
-          </div>
-          {/* Subtle scan lines */}
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.3) 3px, rgba(255,255,255,0.3) 4px)' }} />
-          {/* Play button */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.25)' }}>
-              <div className="w-0 h-0" style={{ borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: '7px solid rgba(255,255,255,0.9)', marginLeft: 2 }} />
-            </div>
-          </div>
-          {/* Label */}
-          <div className="absolute bottom-0 left-0 right-0 px-3 py-1.5" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}>
-            <p className="text-[7px] font-semibold text-white/80">Leçon 2.2 — Design & Architecture avec Claude</p>
-          </div>
-          {/* Progress bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10">
-            <div className="h-full bg-white/60" style={{ width: '35%' }} />
-          </div>
-        </div>
-
-        {/* Module list */}
-        <div className="p-3 flex flex-col gap-1">
-          <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 mb-1">Tous les modules</p>
-          {MODULES_TREE.map(({ id, label, Icon, pct, done, total }) => (
-            <div key={id} className={`flex items-center gap-2 px-2 py-1.5 rounded-lg ${id === '02' ? 'bg-foreground text-background' : ''}`}>
-              <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 ${id === '02' ? 'bg-background/15' : pct === 100 ? 'bg-foreground' : 'bg-secondary'}`}>
-                {pct === 100
-                  ? <Check size={8} strokeWidth={2.5} className="text-background" />
-                  : <Icon size={8} strokeWidth={1.5} className={id === '02' ? 'text-background' : 'text-muted-foreground'} />
-                }
-              </div>
-              <span className={`text-[8px] font-medium flex-1 truncate ${id === '02' ? 'text-background' : pct === 100 ? 'text-muted-foreground' : 'text-foreground'}`}>{label}</span>
-              <span className={`text-[7px] tabular-nums flex-shrink-0 ${id === '02' ? 'text-background/60' : 'text-muted-foreground'}`}>{done}/{total}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ── Content: Générateurs ──────────────────────────────────────────────────────
-
-const IDEA_RESULTS = [
-  { name: 'ReviewGen',  niche: 'Avis Google auto',      price: '47€/mois', days: '4j', color: '#4d96ff' },
-  { name: 'FacturAI',  niche: 'Facturation intelligente', price: '29€/mois', days: '5j', color: '#22c55e' },
-  { name: 'LegalSnap', niche: 'CGV & contrats IA',      price: '59€/mois', days: '6j', color: '#cc5de8' },
-]
-
-function GeneratorContent() {
-  const [generated, setGenerated] = useState(false)
-
-  return (
-    <div className="flex-1 flex flex-col overflow-hidden p-4">
-      <div className="mb-3 flex-shrink-0">
-        <p className="text-[7.5px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-0.5">Générateur IA</p>
-        <p className="text-[14px] font-extrabold text-foreground" style={{ letterSpacing: '-0.03em' }}>5 idées de SaaS sur mesure</p>
-        <p className="text-[8.5px] text-muted-foreground mt-0.5">Configure et génère tes idées en 10 secondes.</p>
-      </div>
-
-      {!generated ? (
-        <div className="flex flex-col gap-2 flex-1">
-          {/* Fields */}
-          {[
-            { label: 'Domaine', value: 'B2B / PME et freelances' },
-            { label: 'Budget client', value: '20–100€ / mois' },
-            { label: 'Profil', value: 'Débutant complet' },
-          ].map(({ label, value }) => (
-            <div key={label}>
-              <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground mb-1">{label}</p>
-              <div className="rounded-lg border border-border px-2.5 py-1.5 flex items-center justify-between bg-secondary/50">
-                <span className="text-[8.5px] text-foreground">{value}</span>
-                <ChevronRight size={8} strokeWidth={1.5} className="text-muted-foreground rotate-90" />
-              </div>
-            </div>
-          ))}
-
-          <button
-            onClick={() => setGenerated(true)}
-            className="mt-auto w-full py-2 rounded-xl text-[9px] font-bold text-background transition-opacity hover:opacity-85"
-            style={{ background: 'hsl(var(--foreground))' }}
-          >
-            Générer mes 5 idées →
-          </button>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-2 flex-1">
-          <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground mb-0.5">Résultats générés</p>
-          {IDEA_RESULTS.map(({ name, niche, price, days, color }) => (
-            <div key={name} className="rounded-lg border border-border p-2.5 flex items-center gap-2">
-              <div className="w-1.5 h-8 rounded-full flex-shrink-0" style={{ background: color }} />
-              <div className="flex-1 min-w-0">
-                <p className="text-[9px] font-bold text-foreground">{name}</p>
-                <p className="text-[7.5px] text-muted-foreground truncate">{niche}</p>
-              </div>
-              <div className="text-right flex-shrink-0">
-                <p className="text-[9px] font-bold" style={{ color }}>{price}</p>
-                <p className="text-[7px] text-muted-foreground">Build : {days}</p>
-              </div>
-            </div>
-          ))}
-          <button
-            onClick={() => setGenerated(false)}
-            className="mt-auto text-[7.5px] text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← Modifier les critères
-          </button>
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ── Content: Bibliothèque ─────────────────────────────────────────────────────
-
-const PROMPTS_LIB = [
-  { module: 'Mod. 01', tag: 'Idée',        title: 'Trouver mon idée de SaaS',         preview: 'Donne-moi 10 idées de micro-SaaS que je peux construire ce week-end, adaptées au marché français...' },
-  { module: 'Mod. 02', tag: 'Design',      title: 'Créer mon branding en 5 minutes',  preview: 'Génère un nom, une couleur principale et un slogan pour mon SaaS qui [problème résolu]...' },
-  { module: 'Mod. 03', tag: 'Architecture','title': 'Expliquer comment mon app fonctionne', preview: 'Décris comment construire [mon SaaS] étape par étape, sans jargon technique. Quelles pages, quels boutons...' },
-  { module: 'Mod. 04', tag: 'Build',       title: 'Construire ma page principale',    preview: 'Crée le code de ma page d\'accueil. Elle doit avoir : une accroche, un bouton s\'inscrire, et une liste de fonctionnalités...' },
-  { module: 'Mod. 06', tag: 'Lancement',   title: 'Rédiger mes 5 premiers posts',     preview: 'Écris 5 posts LinkedIn pour lancer mon SaaS. Ton direct, sans jargon. Commence par le problème que je résous...' },
-]
-
-const TAG_COLORS: Record<string, string> = {
-  Idée: '#4d96ff', Design: '#cc5de8', Architecture: '#cc5de8', Build: '#eab308', Déploiement: '#4d96ff', Lancement: '#22c55e',
-}
-
-function BibliothequeContent() {
-  const [copied, setCopied] = useState<number | null>(null)
-
-  const handleCopy = (i: number, preview: string) => {
-    navigator.clipboard.writeText(preview).then(() => {
-      setCopied(i)
-      setTimeout(() => setCopied(null), 1500)
-    })
-  }
-
-  return (
-    <div className="flex-1 flex flex-col overflow-hidden">
-      <div className="px-4 pt-3 pb-2.5 border-b border-border flex-shrink-0">
-        <p className="text-[7.5px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-0.5">Bibliothèque de prompts</p>
-        <p className="text-[11px] font-bold text-foreground" style={{ letterSpacing: '-0.02em' }}>100+ prompts prêts à copier</p>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
-        {PROMPTS_LIB.map(({ module, tag, title, preview }, i) => (
-          <div key={i} className="rounded-lg border border-border bg-secondary/40 overflow-hidden">
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 border-b border-border">
-              <span className="text-[6.5px] font-bold text-muted-foreground/60 uppercase tracking-[0.1em]">{module}</span>
-              <span className="text-[6.5px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: `${TAG_COLORS[tag]}18`, color: TAG_COLORS[tag] }}>{tag}</span>
-              <span className="flex-1 text-[8px] font-semibold text-foreground truncate">{title}</span>
-              <button
-                onClick={() => handleCopy(i, preview)}
-                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[7px] font-semibold transition-colors flex-shrink-0"
-                style={{
-                  background: copied === i ? 'rgba(34,197,94,0.12)' : 'hsl(var(--background))',
-                  color: copied === i ? '#22c55e' : 'hsl(var(--muted-foreground))',
-                  border: `1px solid ${copied === i ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`,
-                }}
-              >
-                <Copy size={7} strokeWidth={1.5} />
-                {copied === i ? 'OK' : 'Copier'}
-              </button>
-            </div>
-            <p className="px-2.5 py-1.5 text-[8px] text-muted-foreground leading-relaxed line-clamp-2">{preview}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── Content: Checklist ────────────────────────────────────────────────────────
-
-const CHECKLIST_GROUPS = [
-  {
-    label: 'Avant de coder',
-    items: [
-      { text: 'Idée validée (score viabilité > 60)', done: true  },
-      { text: 'Brief produit rédigé',                done: true  },
-      { text: 'Architecture validée',                done: true  },
-      { text: 'Environnement configuré',             done: false },
-    ],
-  },
-  {
-    label: 'Build',
-    items: [
-      { text: 'Feature principale fonctionnelle',    done: false },
-      { text: 'Auth utilisateur opérationnelle',     done: false },
-      { text: 'Onboarding intégré',                  done: false },
-    ],
-  },
-  {
-    label: 'Déploiement',
-    items: [
-      { text: 'App déployée sur Vercel',             done: false },
-      { text: 'Domaine personnalisé connecté',       done: false },
-      { text: 'Stripe branché et testé',             done: false },
-    ],
-  },
-  {
-    label: 'Lancement',
-    items: [
-      { text: 'Landing page publiée',                done: false },
-      { text: '5 contenus de lancement prêts',       done: false },
-      { text: 'Premiers clients contactés',          done: false },
-    ],
-  },
-]
-
-function ChecklistContent() {
-  const all = CHECKLIST_GROUPS.flatMap(g => g.items)
-  const done = all.filter(i => i.done).length
-
-  return (
-    <div className="flex-1 flex flex-col overflow-hidden">
-      <div className="px-4 pt-3 pb-2.5 border-b border-border flex-shrink-0">
+    <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2" style={{ scrollbarWidth: 'none' }}>
+      {/* Header */}
+      <div>
         <div className="flex items-center justify-between mb-1">
-          <p className="text-[7.5px] font-bold uppercase tracking-[0.1em] text-muted-foreground">Checklist de lancement</p>
-          <span className="text-[8px] font-extrabold text-foreground">{done}/{all.length}</span>
+          <p className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.02em' }}>Mon Parcours</p>
+          <span className="text-[7px] font-bold" style={{ color: 'rgba(255,255,255,0.4)' }}>42%</span>
         </div>
-        <div className="h-1 rounded-full overflow-hidden bg-border">
-          <div className="h-full bg-foreground rounded-full transition-all" style={{ width: `${(done / all.length) * 100}%` }} />
+        <div className="h-[3px] w-full rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="h-full rounded-full" style={{ width: '42%', background: 'linear-gradient(90deg, #4d96ff, #8b5cf6)' }} />
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-3">
-        {CHECKLIST_GROUPS.map(({ label, items }) => (
-          <div key={label}>
-            <p className="text-[7px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 mb-1.5">{label}</p>
-            <div className="flex flex-col gap-1">
-              {items.map(({ text, done }, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <div className={`w-3.5 h-3.5 rounded flex items-center justify-center flex-shrink-0 border ${done ? 'bg-foreground border-foreground' : 'border-border'}`}>
-                    {done && <Check size={7} strokeWidth={3} className="text-background" />}
-                  </div>
-                  <span className={`text-[8.5px] ${done ? 'text-muted-foreground line-through' : 'text-foreground'}`}>{text}</span>
-                </div>
+      {/* Module list */}
+      <div className="flex flex-col gap-1">
+        {MINI_MODULES.map(({ num, label, Icon: ModIcon, pct, status }) => {
+          const isActive = num === '03'
+          return (
+            <div key={num} className="flex items-center gap-2 rounded-lg px-2 py-1.5"
+              style={{
+                background: isActive ? 'rgba(77,150,255,0.06)' : 'rgba(255,255,255,0.02)',
+                border: isActive ? '0.5px solid rgba(77,150,255,0.2)' : '0.5px solid rgba(255,255,255,0.05)',
+              }}>
+              {/* Num badge */}
+              <span className="shrink-0 flex h-4 w-4 items-center justify-center rounded text-[6.5px] font-bold"
+                style={{
+                  background: status === 'done' ? 'rgba(34,197,94,0.15)' : isActive ? 'rgba(77,150,255,0.15)' : 'rgba(255,255,255,0.06)',
+                  color: status === 'done' ? '#22c55e' : isActive ? '#4d96ff' : 'rgba(255,255,255,0.4)',
+                }}>
+                {status === 'done' ? <Check size={7} strokeWidth={2.5} /> : num}
+              </span>
+              {/* Icon */}
+              <ModIcon size={8} strokeWidth={1.5} style={{ color: isActive ? '#4d96ff' : 'rgba(255,255,255,0.3)', flexShrink: 0 }} />
+              {/* Label */}
+              <span className="flex-1 truncate text-[7.5px] font-medium"
+                style={{ color: isActive ? '#fff' : status === 'done' ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.35)' }}>
+                {label}
+              </span>
+              {/* Right side */}
+              {isActive && (
+                <span className="shrink-0 rounded-full px-1.5 py-[1px] text-[5.5px] font-bold uppercase"
+                  style={{ background: 'rgba(234,179,8,0.12)', color: '#eab308', border: '0.5px solid rgba(234,179,8,0.25)' }}>
+                  EN COURS
+                </span>
+              )}
+              {pct === 100 && (
+                <span className="text-[6.5px] font-bold" style={{ color: '#22c55e' }}>100%</span>
+              )}
+              {pct > 0 && pct < 100 && (
+                <span className="text-[6.5px] font-bold" style={{ color: '#eab308' }}>{pct}%</span>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// ── CommunauteContent ─────────────────────────────────────────────────────────
+
+function CommunauteContent() {
+  const filters = ['Tout', 'Wins', 'Avan.', 'Idées', 'Quest.']
+
+  return (
+    <div className="flex flex-1 min-w-0 overflow-hidden">
+      {/* Main feed */}
+      <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 min-w-0" style={{ scrollbarWidth: 'none' }}>
+
+        {/* Header */}
+        <div>
+          <p className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.02em' }}>Communauté</p>
+          <p className="text-[6.5px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Partage tes wins, avance avec les builders.</p>
+        </div>
+
+        {/* Filter pills */}
+        <div className="flex items-center gap-1 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+          {filters.map((f, i) => (
+            <button key={f} className="shrink-0 rounded-full px-2 py-0.5 text-[6.5px] font-semibold"
+              style={{
+                background: i === 0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.04)',
+                color: i === 0 ? '#fff' : 'rgba(255,255,255,0.4)',
+                border: i === 0 ? '0.5px solid rgba(255,255,255,0.2)' : '0.5px solid rgba(255,255,255,0.07)',
+              }}>
+              {f}
+            </button>
+          ))}
+        </div>
+
+        {/* Composer */}
+        <div className="rounded-lg px-2 py-1.5" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-[7px]" style={{ color: 'rgba(255,255,255,0.2)' }}>Partage ton dernier win...</p>
+        </div>
+
+        {/* Posts */}
+        {COMMUNITY_POSTS.map(post => (
+          <div key={post.author} className="rounded-lg p-2" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              {/* Avatar */}
+              <div className="shrink-0 flex h-4 w-4 items-center justify-center rounded-full text-[6px] font-bold text-white"
+                style={{ background: post.color }}>
+                {post.initials}
+              </div>
+              <span className="text-[7.5px] font-bold text-white">{post.author}</span>
+              <span className="rounded-full px-1.5 py-[1px] text-[5.5px] font-bold flex items-center gap-0.5"
+                style={{ background: post.typeBg, color: post.typeColor, border: `0.5px solid ${post.typeColor}40` }}>
+                <post.TypeIcon size={5} strokeWidth={2} />
+                {post.typeLabel}
+              </span>
+              <span className="ml-auto text-[6px]" style={{ color: 'rgba(255,255,255,0.25)' }}>{post.time}</span>
+            </div>
+            <p className="text-[7px] leading-[1.5] mb-1.5" style={{ color: 'rgba(255,255,255,0.65)' }}>{post.content}</p>
+            <div className="flex items-center gap-2">
+              {post.reactions.map(r => (
+                <button key={r.emoji} className="flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[6px]"
+                  style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+                  {r.emoji} {r.count}
+                </button>
               ))}
             </div>
           </div>
         ))}
       </div>
-    </div>
-  )
-}
 
-// ── Content: Outils ───────────────────────────────────────────────────────────
-
-const TOOLS_LIST = [
-  { Icon: BrandIcons.claude,         label: 'Claude',       desc: 'Moteur IA principal',    status: 'Configuré'      },
-  { Icon: BrandIcons.vscode,         label: 'VS Code',      desc: 'IDE de développement',   status: 'Configuré'      },
-  { Icon: BrandIcons.supabase,       label: 'Supabase',     desc: 'Base de données + Auth', status: 'Configuré'      },
-  { Icon: BrandIcons.vercel,         label: 'Vercel',       desc: 'Déploiement web',        status: 'Configuré'      },
-  { Icon: BrandIcons.stripe,         label: 'Stripe',       desc: 'Paiements',              status: 'À configurer'   },
-  { Icon: BrandIcons.resend,         label: 'Resend',       desc: 'Emails transactionnels', status: 'À configurer'   },
-  { Icon: BrandIcons.github,         label: 'GitHub',       desc: 'Versioning du code',     status: 'Configuré'      },
-  { Icon: BrandIcons.cloudflare,     label: 'Cloudflare',   desc: 'DNS + CDN',              status: 'À configurer'   },
-]
-
-function OutilsContent() {
-  return (
-    <div className="flex-1 flex flex-col overflow-hidden">
-      <div className="px-4 pt-3 pb-2.5 border-b border-border flex-shrink-0">
-        <p className="text-[7.5px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-0.5">Boîte à outils</p>
-        <p className="text-[11px] font-bold text-foreground" style={{ letterSpacing: '-0.02em' }}>Ton stack complet, prêt à configurer</p>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-3 grid grid-cols-2 gap-2 content-start">
-        {TOOLS_LIST.map(({ Icon, label, desc, status }) => (
-          <div key={label} className="rounded-lg border border-border bg-secondary/40 p-2.5 flex flex-col gap-1.5">
-            <div className="flex items-center justify-between">
-              <Icon className="w-4 h-4 text-foreground" />
-              <ExternalLink size={7} strokeWidth={1.5} className="text-muted-foreground/40" />
+      {/* Pinned sidebar — desktop only */}
+      <div className="hidden md:flex flex-col gap-1.5 p-2 overflow-y-auto" style={{ width: 90, borderLeft: '0.5px solid rgba(255,255,255,0.07)', scrollbarWidth: 'none', flexShrink: 0 }}>
+        <div className="flex items-center gap-1 mb-0.5">
+          <Pin size={7} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.3)' }} />
+          <span className="text-[6px] font-bold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.3)' }}>Épinglés</span>
+        </div>
+        {[
+          { author: 'Alfred', content: 'Bienvenue dans la communauté Buildrs. Posez vos questions ici.', time: '7j' },
+          { author: 'Jarvis', content: 'Rappel : le Score de viabilité est disponible sur l\'accueil.', time: '3j' },
+        ].map(p => (
+          <div key={p.author} className="rounded-lg p-1.5" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-[6.5px] font-bold text-white">{p.author}</span>
+              <span className="text-[5.5px]" style={{ color: 'rgba(255,255,255,0.25)' }}>{p.time}</span>
             </div>
-            <div>
-              <p className="text-[9px] font-bold text-foreground leading-none">{label}</p>
-              <p className="text-[7.5px] text-muted-foreground mt-0.5 leading-tight">{desc}</p>
-            </div>
-            <span
-              className="text-[6.5px] font-bold px-1.5 py-0.5 rounded-full w-fit"
-              style={status === 'Configuré'
-                ? { background: 'rgba(34,197,94,0.12)', color: '#22c55e' }
-                : { background: 'hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }
-              }
-            >
-              {status}
-            </span>
+            <p className="text-[6.5px] leading-[1.4]" style={{ color: 'rgba(255,255,255,0.45)' }}>{p.content}</p>
           </div>
         ))}
       </div>
@@ -625,81 +548,174 @@ function OutilsContent() {
   )
 }
 
-// ── Main export ───────────────────────────────────────────────────────────────
+// ── JarvisContent ─────────────────────────────────────────────────────────────
 
-export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideTabs = false }: { windowHeight?: number; mobileHeight?: number; hideTabs?: boolean }) {
-  const [tab, setTab] = useState<Tab>('autopilot')
+function JarvisContent() {
+  const messages = [
+    { role: 'jarvis', content: 'Bonjour ! Je suis Jarvis, ton copilote IA. Dis-moi où tu en es — je te guide pour la prochaine étape.' },
+    { role: 'user',   content: 'Je veux valider mon idée de SaaS pour les freelances.' },
+    { role: 'jarvis', content: 'Super ! Décris-moi ton idée en 2-3 phrases. Je vais analyser le marché, la concurrence et te donner un score de viabilité /100.' },
+  ]
 
   return (
-    <div>
-      {/* Tab switcher — scrollable, full labels always */}
-      <div className={`relative mb-8 ${hideTabs ? 'hidden' : ''}`}>
-        <div className="flex items-center justify-start sm:justify-center gap-1 overflow-x-auto pb-1 -mx-2 px-2 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`px-3 sm:px-4 py-1.5 rounded-full text-[12px] sm:text-[13px] font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
-                tab === t.id ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {t.label}
-            </button>
+    <div className="flex-1 overflow-hidden flex flex-col p-3 gap-2">
+      {/* Header */}
+      <div className="flex items-center justify-between shrink-0">
+        <p className="text-[9px] font-extrabold text-white" style={{ letterSpacing: '-0.02em' }}>Jarvis IA</p>
+        <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[6px] font-bold"
+          style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.3)' }}>
+          <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: '#22c55e' }} />
+          CLAUDE ACTIF
+        </span>
+      </div>
+
+      {/* Chat messages */}
+      <div className="flex-1 overflow-y-auto flex flex-col gap-2" style={{ scrollbarWidth: 'none' }}>
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex gap-1.5 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+            {msg.role === 'jarvis' && (
+              <div className="shrink-0 mt-0.5"><JarvisAvatar size={16} /></div>
+            )}
+            {msg.role === 'user' && (
+              <div className="shrink-0 flex h-4 w-4 items-center justify-center rounded-full text-[6px] font-bold text-white mt-0.5"
+                style={{ background: '#4d96ff' }}>A</div>
+            )}
+            <div className="max-w-[75%] rounded-lg px-2 py-1.5"
+              style={{
+                background: msg.role === 'jarvis' ? 'rgba(99,102,241,0.08)' : 'rgba(77,150,255,0.1)',
+                border: msg.role === 'jarvis' ? '0.5px solid rgba(99,102,241,0.2)' : '0.5px solid rgba(77,150,255,0.2)',
+              }}>
+              {msg.role === 'jarvis' && (
+                <p className="text-[6.5px] font-bold mb-0.5" style={{ background: 'linear-gradient(90deg, #818cf8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Jarvis</p>
+              )}
+              <p className="text-[7px] leading-[1.5]" style={{ color: 'rgba(255,255,255,0.75)' }}>{msg.content}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="shrink-0 rounded-xl px-2 py-1.5" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)' }}>
+        <p className="text-[7px] mb-1.5" style={{ color: 'rgba(255,255,255,0.2)' }}>Parle à Jarvis...</p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {[Paperclip, Globe, Code2].map((Icon, i) => (
+              <Icon key={i} size={8} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.25)' }} />
+            ))}
+          </div>
+          <div className="flex h-4 w-4 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            <Mic size={7} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.4)' }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Main DashboardPreview ─────────────────────────────────────────────────────
+
+export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideTabs = false }: {
+  windowHeight?: number
+  mobileHeight?: number
+  hideTabs?: boolean
+}) {
+  const [tab, setTab] = useState<Tab>('accueil')
+
+  const tabContent = () => {
+    if (tab === 'accueil')    return <AccueilContent />
+    if (tab === 'parcours')   return <ParcoursContent />
+    if (tab === 'communaute') return <CommunauteContent />
+    return <JarvisContent />
+  }
+
+  return (
+    <div className="w-full select-none">
+      {/* Tab switcher */}
+      {!hideTabs && (
+        <div className="relative mb-4 flex justify-center">
+          <div className="relative flex items-center gap-1 rounded-full border border-border bg-card px-1.5 py-1.5 overflow-x-auto max-w-full"
+            style={{ scrollbarWidth: 'none' }}>
+            {TABS.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                className="shrink-0 rounded-full px-4 py-1.5 text-[13px] font-semibold transition-all"
+                style={{
+                  background: tab === t.id ? 'hsl(var(--foreground))' : 'transparent',
+                  color: tab === t.id ? 'hsl(var(--background))' : 'hsl(var(--muted-foreground))',
+                }}
+              >
+                <span className="hidden sm:inline">{t.label}</span>
+                <span className="sm:hidden">{t.short}</span>
+              </button>
+            ))}
+          </div>
+          {/* Fade right edge on mobile */}
+          <div className="sm:hidden absolute right-0 top-0 bottom-0 w-8 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, transparent, hsl(var(--background)))' }} />
+        </div>
+      )}
+
+      {/* Desktop window */}
+      <div className="hidden sm:block w-full" style={{ perspective: '1400px' }}>
+        <div className="relative w-full overflow-hidden rounded-2xl"
+          style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            background: '#09090b',
+            height: windowHeight,
+            transform: 'rotateX(3deg) rotateY(-1deg)',
+            boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
+          }}>
+
+          {/* Window chrome */}
+          <div className="flex items-center gap-1.5 px-3 py-2.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#ef4444' }} />
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#eab308' }} />
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#22c55e' }} />
+            <div className="mx-auto flex items-center gap-1.5 rounded-md px-3 py-1"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+              <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#22c55e' }} />
+              <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist Mono, monospace' }}>
+                app.buildrs.fr/dashboard
+              </span>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="flex" style={{ height: windowHeight - 38 }}>
+            <MiniSidebar tab={tab} onTabChange={setTab} />
+            {tabContent()}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile window */}
+      <div className="sm:hidden w-full overflow-hidden rounded-xl"
+        style={{
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#09090b',
+          height: mobileHeight,
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+        }}>
+
+        {/* Chrome */}
+        <div className="flex items-center gap-1 px-2.5 py-1.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+          {['#ef4444','#eab308','#22c55e'].map(c => (
+            <div key={c} className="h-2 w-2 rounded-full" style={{ background: c }} />
           ))}
-        </div>
-        {/* Fade right — mobile only */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-background to-transparent sm:hidden" />
-      </div>
-
-      {/* Window — desktop */}
-      <div className="hidden sm:block" style={{ perspective: '1400px' }}>
-        <div style={{ transform: 'rotateX(3deg) rotateY(-1deg)', transformOrigin: 'center top', transition: 'transform 0.4s ease' }}>
-          <div className="rounded-2xl overflow-hidden border border-border mx-auto" style={{ maxWidth: 900, boxShadow: '0 32px 80px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)' }}>
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-secondary">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-              <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-              <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-              <div className="flex-1 mx-3 flex justify-center">
-                <div className="bg-background rounded px-4 py-0.5 border border-border">
-                  <span className="text-[10px] text-muted-foreground">app.buildrs.fr/dashboard</span>
-                </div>
-              </div>
-              <div className="w-16" />
-            </div>
-            <div className="flex bg-background overflow-hidden" style={{ height: windowHeight }}>
-              <MiniSidebar tab={tab} />
-              {tab === 'autopilot'    && <AutopilotContent />}
-              {tab === 'parcours'     && <ParcoursContent />}
-              {tab === 'generator'    && <GeneratorContent />}
-              {tab === 'bibliotheque' && <BibliothequeContent />}
-              {tab === 'checklist'    && <ChecklistContent />}
-              {tab === 'outils'       && <OutilsContent />}
-            </div>
+          <div className="mx-auto flex items-center gap-1 rounded px-2 py-0.5"
+            style={{ background: 'rgba(255,255,255,0.05)' }}>
+            <span className="text-[8px]" style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'Geist Mono, monospace' }}>
+              app.buildrs.fr
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Mobile */}
-      <div className="sm:hidden rounded-2xl overflow-hidden border border-border" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-border bg-secondary">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-          <div className="flex-1 mx-2 flex justify-center">
-            <div className="bg-background rounded px-3 py-0.5 border border-border">
-              <span className="text-[9px] text-muted-foreground">app.buildrs.fr/dashboard</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex bg-background overflow-hidden" style={{ minHeight: mobileHeight }}>
-          <MiniSidebar tab={tab} />
-          <div className="flex-1 overflow-hidden">
-            {tab === 'autopilot'    && <AutopilotContent />}
-            {tab === 'parcours'     && <ParcoursContent />}
-            {tab === 'generator'    && <GeneratorContent />}
-            {tab === 'bibliotheque' && <BibliothequeContent />}
-            {tab === 'checklist'    && <ChecklistContent />}
-            {tab === 'outils'       && <OutilsContent />}
+        {/* Content */}
+        <div className="flex" style={{ height: mobileHeight - 28 }}>
+          <MiniSidebar tab={tab} onTabChange={setTab} />
+          <div className="flex-1 overflow-hidden" style={{ minWidth: 0 }}>
+            {tabContent()}
           </div>
         </div>
       </div>

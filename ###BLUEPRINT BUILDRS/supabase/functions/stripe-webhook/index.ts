@@ -108,6 +108,39 @@ Deno.serve(async (req) => {
   const session = event.data.object as Stripe.Checkout.Session
   const product = session.metadata?.product ?? 'unknown'
   const email   = session.customer_details?.email ?? session.customer_email
+  const userId  = session.metadata?.user_id
+
+  // ── Dual-write: user_purchases (nouvelle table) ──────────────────────────
+  // Écrit pour tout achat via create-product-checkout ou create-pack-checkout
+  if (userId) {
+    const slugs: string[] = product === 'pack'
+      ? (session.metadata?.product_slugs ?? '').split(',').filter(Boolean)
+      : product !== 'unknown' && product !== 'blueprint' && product !== 'blueprint_bump'
+        ? [product]
+        : []
+
+    if (slugs.length > 0) {
+      for (const slug of slugs) {
+        await fetch(`${SUPABASE_URL}/rest/v1/user_purchases`, {
+          method:  'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        SUPABASE_SERVICE_ROLE_KEY,
+            'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+            'Prefer':        'resolution=ignore-duplicates,return=minimal',
+          },
+          body: JSON.stringify({
+            user_id:          userId,
+            product_slug:     slug,
+            stripe_payment_id: session.payment_intent as string | null,
+            amount_paid_cents: session.amount_total ?? 0,
+          }),
+        })
+      }
+      console.log(`user_purchases écrit: user=${userId} slugs=${slugs.join(',')}`)
+    }
+  }
+  // ──────────────────────────────────────────────────────────────────────────
 
   // Pack Agents acheté depuis la page upsell (avant inscription)
   // → stocker dans purchases pour réconcilier au premier login
@@ -152,6 +185,25 @@ Deno.serve(async (req) => {
 
   const hasOrderBump = session.metadata?.has_order_bump === 'true'
   const productLabel = hasOrderBump ? 'blueprint_bump' : 'blueprint'
+
+  // Si OB Claude acheté avec Blueprint → stocker pour réconcilier au login
+  if (hasOrderBump && email) {
+    await fetch(`${SUPABASE_URL}/rest/v1/purchases`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_SERVICE_ROLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify({
+        email,
+        product:           'claude-code',
+        stripe_session_id: session.id,
+      }),
+    })
+    console.log(`OB claude-code enregistré pour ${email}`)
+  }
 
   try {
     // 1. Insérer en DB (next_step = 2 car E1 est envoyé maintenant)

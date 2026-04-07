@@ -345,7 +345,7 @@ export const CURRICULUM: Module[] = [
   // ── MODULE SETUP — Installer ton environnement ───────────────────────────
   {
     id: 'setup',
-    title: 'Installer ton environnement',
+    title: 'Configuration',
     description: 'Configure tous tes outils avant de lancer le build.',
     icon: 'Wrench',
     lessons: [
@@ -611,7 +611,7 @@ export const CURRICULUM: Module[] = [
 
   {
     id: '01',
-    title: 'Trouver & Valider',
+    title: 'Trouver mon idée',
     description: "L'idée qui va devenir ton produit.",
     icon: 'Search',
     lessons: [
@@ -933,7 +933,7 @@ export const CURRICULUM: Module[] = [
   },
   {
     id: '02',
-    title: 'Préparer & Designer',
+    title: 'Designer mon produit',
     description: 'Donne forme à ton produit avant de le construire.',
     icon: 'Palette',
     lessons: [
@@ -1350,7 +1350,7 @@ export const CURRICULUM: Module[] = [
   },
   {
     id: '03',
-    title: "L'Architecture",
+    title: 'Architecturer mon produit',
     description: 'Les fondations solides de ton produit.',
     icon: 'Building2',
     lessons: [
@@ -1473,7 +1473,7 @@ export const CURRICULUM: Module[] = [
   },
   {
     id: '04',
-    title: 'Construire',
+    title: 'Construire le MVP',
     description: "On code. Enfin, Claude code. Toi tu diriges.",
     icon: 'Hammer',
     lessons: [
@@ -1686,7 +1686,7 @@ export const CURRICULUM: Module[] = [
   },
   {
     id: '05',
-    title: 'Déployer',
+    title: 'Déployer et lancer',
     description: 'Ton app est live. Accessible au monde entier.',
     icon: 'Rocket',
     lessons: [
@@ -1980,7 +1980,7 @@ export const CURRICULUM: Module[] = [
   },
   {
     id: '06',
-    title: 'Monétiser & Lancer',
+    title: 'Monétiser',
     description: 'Tes premiers utilisateurs. Tes premiers euros.',
     icon: 'DollarSign',
     lessons: [
@@ -2210,6 +2210,528 @@ export const CURRICULUM: Module[] = [
         ],
         correctIndex: 2,
         explanation: "Un paiement = validation réelle. Tout le reste (visiteurs, likes, followers) est vanity metric. La semaine 1 : un seul objectif — obtenir le premier paiement d'un inconnu.",
+      },
+    ],
+  },
+  // ── MODULE VALIDER ────────────────────────────────────────────────────────────
+  {
+    id: 'valider',
+    title: 'Valider mon produit',
+    description: "Confirme que ton idée vaut la peine d'être construite avant d'écrire la première ligne de code.",
+    icon: 'CheckCircle',
+    lessons: [
+
+      // ── valider.1 ─────────────────────────────────────────────────────────
+      {
+        id: 'valider.1',
+        title: 'Le framework de validation Buildrs',
+        duration: '8 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "90% des MVP échouent parce qu'ils résolvent un problème imaginaire. Pas un manque de code, pas un manque de design — un manque de validation. Ce module t'empêche de faire cette erreur." },
+          { type: 'heading', level: 2, content: 'Les 5 critères de viabilité' },
+          { type: 'text', content: "Le Score de viabilité IA disponible sur la page d'accueil évalue ton idée sur 5 critères, notés /20 chacun. Voici ce que chaque critère mesure — et comment l'améliorer si ton score est faible." },
+          { type: 'diagram-cards', items: [
+            { icon: 'users',        label: 'Marché',        desc: "Taille du marché accessible, nombre de clients potentiels, et preuve que des gens sont prêts à payer pour ce problème.",           color: '#22c55e' },
+            { icon: 'search',       label: 'Concurrence',   desc: "Nombre et force des concurrents existants, tes différenciateurs clairs, et l'espace que tu peux occuper face à eux.",              color: '#4d96ff' },
+            { icon: 'hammer',       label: 'Faisabilité',   desc: "Buildable en 72h avec Claude : une seule feature core, pas 15. Complexité technique accessible avec le stack Buildrs.",             color: '#cc5de8' },
+            { icon: 'dollar-sign',  label: 'Monétisation',  desc: "Modèle de revenus clair, prix justifiable par le marché, et evidence que ta cible a un budget pour ce type de solution.",          color: '#eab308' },
+            { icon: 'clock',        label: 'Timing',        desc: "Tendance de marché favorable, fenêtre d'opportunité ouverte, et urgence réelle du problème pour ta cible aujourd'hui.",            color: '#ef4444' },
+          ]},
+          { type: 'callout', variant: 'tip', title: 'Utilise le Score de viabilité IA', content: "La page d'accueil du dashboard contient le Score de viabilité IA — il utilise exactement ces 5 critères. Lance-le sur chacune de tes idées pour obtenir un score /100 et un verdict GO / PIVOT / STOP avec une analyse détaillée." },
+          { type: 'heading', level: 2, content: 'Comment interpréter ton score' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'check-circle', label: 'GO — 70 à 100',    desc: "Feu vert. Le marché existe, la concurrence est gérable, le build est faisable. Lance le module Architecture — tu construis.", accent: '#22c55e' },
+            { icon: 'alert-circle', label: 'PIVOT — 45 à 69',  desc: "L'idée a du potentiel mais un ou deux critères sont faibles. Identifie le point rouge et ajuste l'angle avant de coder.", accent: '#eab308' },
+            { icon: 'x-circle',     label: 'STOP — 0 à 44',    desc: "Trop de signaux rouges simultanés. Pivote vers une autre idée — tu en as d'autres dans Mes Idées. Ce n'est pas un échec, c'est du temps économisé.", accent: '#ef4444' },
+          ]},
+          { type: 'heading', level: 2, content: 'La validation manuelle en 20 minutes' },
+          { type: 'text', content: "Le score IA est un premier filtre algorithmique. La validation manuelle confirme avec tes propres yeux. Ces deux étapes ensemble couvrent 95% des risques." },
+          { type: 'checklist', title: 'Checklist de validation rapide', items: [
+            "Chercher 3 concurrents existants sur Product Hunt, Google, App Store ou G2",
+            "Confirmer que des gens paient déjà pour ce type de solution (concurrents avec du MRR = bonne nouvelle)",
+            "Lire 5 avis négatifs sur les concurrents (G2, Trustpilot, App Store) — noter les frustrations répétées",
+            "Formuler ton idée en 1 phrase : \"C'est un outil qui aide [cible] à [résultat] sans [douleur]\"",
+            "Estimer un prix en t'alignant sur le pricing des concurrents les plus proches",
+          ]},
+          { type: 'prompt', label: 'Prompt Claude — Analyse concurrentielle express', content: "Analyse ces 3 concurrents pour mon idée de micro-SaaS : [description de ton idée]. Concurrents : [concurrent 1], [concurrent 2], [concurrent 3]. Pour chacun, donne : 1) leur pricing exact, 2) leurs 3 forces principales, 3) leurs 3 faiblesses ou angles morts, 4) ce que leurs users reprochent le plus (cherche dans les avis publics). Puis recommande-moi UN angle de différenciation concret que je pourrais exploiter pour me positionner face à eux." },
+          { type: 'quiz-inline',
+            question: "Ton idée vient d'obtenir un score de 58/100 — verdict PIVOT. Quelle est la bonne réaction ?",
+            options: [
+              "Identifier quel critère est faible et ajuster l'angle de l'idée",
+              "Abandonner et chercher une autre idée complètement",
+              "Lancer le build quand même — 58 c'est pas si mal",
+              "Relancer le score jusqu'à obtenir GO",
+            ],
+            correctIndex: 0,
+            explanation: "PIVOT signifie que le potentiel est là mais un critère bloque. Identifie lequel (marché trop petit ? prix trop faible ? trop complexe à builder ?) et ajuste avant de coder. Ce n'est pas un stop — c'est une invitation à affiner.",
+          },
+        ],
+      },
+
+      // ── valider.2 ─────────────────────────────────────────────────────────
+      {
+        id: 'valider.2',
+        title: 'Valider avec de vrais humains',
+        duration: '7 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Le score IA + l'analyse concurrentielle couvrent 80% de la validation. Les 20% restants viennent de vrais humains. Pas 100 interviews — 5 conversations suffisent pour obtenir un signal clair." },
+          { type: 'heading', level: 2, content: 'La méthode des 5 conversations' },
+          { type: 'diagram-flow', steps: [
+            { label: 'Identifier 5 personnes',       sub: "LinkedIn, groupes Facebook, Reddit, entourage pro. Pas des amis — des gens qui ont réellement ce problème dans leur quotidien.", color: '#4d96ff' },
+            { label: 'Décrire le problème',          sub: "\"Tu rencontres [X] dans ton quotidien ?\" — Parle du problème, pas de ta solution. Laisse-les réagir naturellement.", color: '#cc5de8' },
+            { label: 'Écouter leur douleur',         sub: "Note les mots exacts qu'ils utilisent. Ce sont les mots de ta landing page future. Plus ils sont précis, mieux c'est.", color: '#eab308' },
+            { label: 'Tester le willingness-to-pay', sub: "\"Si un outil résolvait ça pour X€/mois, tu t'abonnerais ?\" La réponse (et surtout le ton) dit tout.", color: '#22c55e' },
+          ]},
+          { type: 'callout', variant: 'action', title: 'La règle des 3/5', content: "Si 3 personnes sur 5 répondent oui spontanément — tu as une validation humaine solide, lance le build. Si personne ne réagit avec enthousiasme — c'est un signal de pivot, pas un échec. Mieux vaut savoir maintenant que dans 3 semaines de code." },
+          { type: 'heading', level: 2, content: 'Le pré-sell sans produit' },
+          { type: 'text', content: "Méthode avancée pour les plus pressés : crée une landing page en 2h (headline + description du problème résolu + bouton \"Je veux ça\"). Partage-la dans 3 communautés. Mesure les clics. Tu n'as même pas besoin que le produit existe — si 10 personnes cliquent sur \"Je veux ça\", tu as une validation concrète." },
+          { type: 'prompt', label: 'Prompt Claude — Script de validation DM', content: "Écris-moi 3 messages courts et naturels pour contacter des [profil cible] sur [LinkedIn/Reddit/Instagram] afin de valider mon idée de micro-SaaS : [description]. Le message doit : 1) ouvrir sur LEUR problème (pas mon produit), 2) être naturel, pas commercial, 3) finir par une question ouverte qui invite à répondre. Pas de pitch, pas de lien — juste une conversation sincère pour comprendre leur situation." },
+          { type: 'heading', level: 2, content: "Les 5 signaux d'une idée validée" },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'dollar-sign',   label: 'Des gens paient déjà',        desc: "Des concurrents existent avec du MRR. C'est la preuve la plus forte que le marché existe et que les gens ouvrent leur portefeuille.", accent: '#22c55e' },
+            { icon: 'message-square', label: 'Explicable en 10 secondes',  desc: "\"Ah oui je vois\" — si les gens comprennent immédiatement sans que tu doives expliquer, le concept est clair et le pitch va suivre.",  accent: '#4d96ff' },
+            { icon: 'alert-triangle', label: 'Douleur urgente et verbalisée', desc: "Les gens le mentionnent spontanément, sans que tu aies à les y amener. Le meilleur signe qu'un problème est réel.", accent: '#ef4444' },
+            { icon: 'zap',            label: 'Buildable en 72h',           desc: "Une seule feature core identifiable, réalisable avec Claude Code en un sprint. Si ça prend 3 semaines — réduis le scope.", accent: '#eab308' },
+            { icon: 'check-circle',   label: 'Score IA ≥ 70',             desc: "La validation algorithmique et la validation humaine convergent. Tu as le feu vert sur les deux fronts. C'est le moment de construire.", accent: '#22c55e' },
+          ]},
+          { type: 'checklist', title: "Actions finales avant de passer à l'étape suivante", items: [
+            "Lancer le Score de viabilité IA sur tes 2-3 meilleures idées (page d'accueil)",
+            "Avoir au moins 3 conversations réelles avec des personnes dans ta cible",
+            "Pouvoir formuler ton idée en 1 phrase claire en moins de 10 secondes",
+            "Choisir UNE seule idée — la plus validée et la plus proche de toi",
+            "Passer au module suivant : Structurer ton offre",
+          ]},
+          { type: 'quiz-inline',
+            question: "Combien de personnes faut-il convaincre avec la méthode des 5 conversations pour avoir une validation humaine solide ?",
+            options: [
+              "3 personnes sur 5 qui disent oui spontanément",
+              "50 personnes — les 5 c'est trop peu",
+              "1 seule — si ton meilleur ami est enthousiaste",
+              "Les 5 sur 5 — sinon c'est trop risqué",
+            ],
+            correctIndex: 0,
+            explanation: "3/5 est le seuil. En dessous : signal faible, affine l'angle. Au-dessus : feu vert humain confirmé. 5/5 est rare et souvent signe que tu as posé une question biaisée ou parlé à des gens trop proches de toi.",
+          },
+        ],
+      },
+    ],
+    quizQuestions: [
+      {
+        id: 'qv-1',
+        question: "Quel score de viabilité justifie de lancer le build ?",
+        options: ['70 ou plus — verdict GO', '50 — c\'est suffisant', '90 minimum — on ne prend pas de risque', "N'importe quel score — l'action prime"],
+        correctIndex: 0,
+        explanation: "Le seuil GO est 70/100. Entre 45 et 69, c'est PIVOT — tu affines avant de construire. En dessous de 45, c'est STOP — tu changes d'idée. Lancer en dessous de 70 sans ajuster, c'est construire sur des fondations fragiles.",
+      },
+      {
+        id: 'qv-2',
+        question: "Quel est le meilleur signal qu'une idée de SaaS est réellement viable ?",
+        options: ["Des concurrents existent et ont du MRR", "L'idée est originale — personne ne la fait encore", "Personne ne fait ça encore — opportunité vierge", "Tu trouves ça passionnant personnellement"],
+        correctIndex: 0,
+        explanation: "Des concurrents avec du MRR = preuve que le marché existe et que des gens paient. C'est contre-intuitif mais c'est la règle numéro 1 : pas de concurrents = pas de marché prouvé. L'originalité n'est pas une validation.",
+      },
+      {
+        id: 'qv-3',
+        question: "Tu contactes 5 personnes dans ta cible pour valider ton idée. 1 sur 5 est enthousiaste. Que fais-tu ?",
+        options: ["Tu affines l'angle ou l'idée avant de construire", "Tu lances quand même — 1 c'est déjà bien", "Tu abandonnes définitivement l'idée", "Tu contactes 50 autres personnes"],
+        correctIndex: 0,
+        explanation: "1/5 est un signal trop faible pour valider. Le seuil est 3/5. Avant de tout abandonner ou de lancer quand même, comprends pourquoi les 4 autres ne réagissent pas. Souvent, ce n'est pas l'idée qui pose problème — c'est l'angle ou la cible.",
+      },
+    ],
+  },
+
+  // ── MODULE OFFRE ──────────────────────────────────────────────────────────────
+  {
+    id: 'offre',
+    title: 'Structurer mon offre',
+    description: "Définis ton pricing, ta proposition de valeur et ton offre irrésistible.",
+    icon: 'Tag',
+    lessons: [
+
+      // ── offre.1 ───────────────────────────────────────────────────────────
+      {
+        id: 'offre.1',
+        title: 'Choisir le bon modèle de pricing',
+        duration: '7 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Ton pricing n'est pas un détail — c'est la deuxième décision la plus importante après le choix du problème. Un mauvais prix tue plus de SaaS que le mauvais code. Voici les 4 modèles qui existent et lequel choisir pour ton premier lancement." },
+          { type: 'heading', level: 2, content: 'Les 4 modèles de monétisation' },
+          { type: 'diagram-cards', items: [
+            { icon: 'refresh-cw',   label: 'Abonnement mensuel',  desc: "Revenu récurrent (MRR). Le gold standard SaaS. Tu factures chaque mois pour un accès continu à la valeur. Prévisible, scalable, valorisable.", color: '#22c55e' },
+            { icon: 'credit-card',  label: 'Paiement unique',     desc: "1 paiement, accès à vie. Plus simple à vendre (pas de friction d'abonnement), mais pas de MRR. Idéal pour outils, templates, ou ressources.", color: '#4d96ff' },
+            { icon: 'unlock',       label: 'Freemium',            desc: "Version gratuite limitée + plan payant. Volume fort, conversion 2-5%. Nécessite beaucoup de trafic. Complexe à équilibrer en early stage.", color: '#cc5de8' },
+            { icon: 'bar-chart-2',  label: 'Usage-based',         desc: "Tu factures à l'utilisation (crédits IA, appels API, tokens). Aligne parfaitement revenus et valeur perçue. Idéal si ta feature est une consommation.", color: '#eab308' },
+          ]},
+          { type: 'callout', variant: 'tip', title: 'Pour ton premier SaaS', content: "Commence par un abonnement mensuel entre 9 et 49€/mois. C'est le modèle le plus prévisible, le plus facile à optimiser, et celui que les investisseurs valorisent le mieux si tu veux revendre un jour. Un seul plan au lancement — pas de tiers compliqués." },
+          { type: 'heading', level: 2, content: 'La formule de pricing en 3 étapes' },
+          { type: 'diagram-flow', steps: [
+            { label: 'Regarde les concurrents',    sub: "Note les 3 à 5 prix du marché dans ta niche. Ça définit l'ancrage psychologique de ta cible — le \"prix normal\" dans leur tête.", color: '#4d96ff' },
+            { label: 'Choisis ton positionnement', sub: "Même prix = différenciation par feature. Prix plus bas = volume. Prix plus haut = premium. Chaque choix est valide — l'important est d'assumer.", color: '#cc5de8' },
+            { label: 'Teste vite',                 sub: "Lance avec UN seul plan. Ajuste après tes 50 premiers clients. Le bon prix se découvre avec des vrais clients, pas avant.", color: '#22c55e' },
+          ]},
+          { type: 'prompt', label: 'Prompt Claude — Définir mon pricing', content: "Je construis un micro-SaaS pour [cible] qui résout ce problème : [description]. Mes concurrents et leurs prix : [concurrent 1] à [prix], [concurrent 2] à [prix], [concurrent 3] à [prix]. Recommande-moi : 1) Le meilleur modèle de monétisation pour ce type de SaaS, 2) Un prix de lancement précis et justifié, 3) Ce qui doit être inclus dans le plan payant pour justifier ce prix, 4) À quel moment (nombre de clients, MRR) je devrais considérer d'augmenter le prix." },
+          { type: 'callout', variant: 'action', title: "L'erreur à ne pas faire", content: "Passer 3 semaines à hésiter sur le pricing avant de lancer. Le bon prix se découvre avec de vrais clients — pas avec une feuille Excel. Lance à un prix raisonnable et ajuste. Aucun fondateur n'a trouvé le prix parfait du premier coup." },
+          { type: 'quiz-inline',
+            question: "Quel modèle de pricing choisirais-tu pour un premier SaaS ciblant des freelances designers ?",
+            options: [
+              "Abonnement mensuel à 19€/mois — simple, prévisible, MRR",
+              "Freemium — pour maximiser le nombre d'inscriptions",
+              "Usage-based — on facture uniquement ce qu'ils consomment",
+              "Paiement unique à 99€ — évite la friction d'abonnement",
+            ],
+            correctIndex: 0,
+            explanation: "L'abonnement mensuel est le meilleur choix pour un premier SaaS. Il génère du MRR prévisible, est facile à communiquer, et peut être optimisé facilement. Le freemium et l'usage-based sont complexes à opérer seul. Le paiement unique ne génère pas de récurrence.",
+          },
+        ],
+      },
+
+      // ── offre.2 ───────────────────────────────────────────────────────────
+      {
+        id: 'offre.2',
+        title: 'Ta proposition de valeur',
+        duration: '6 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Ton produit résout un problème. Ta proposition de valeur explique POURQUOI quelqu'un devrait te choisir TOI — plutôt que les alternatives existantes, ou même ne rien faire. C'est la phrase qui va sur ta landing page, dans tes pubs, dans ta bio LinkedIn." },
+          { type: 'heading', level: 2, content: 'La formule en 1 phrase' },
+          { type: 'text', content: "\"[Produit] aide [cible précise] à [résultat concret] sans [douleur principale].\" — Si tu ne peux pas compléter cette phrase clairement, ton offre n'est pas encore assez définie. Retravaille-la jusqu'à ce qu'elle soit limpide." },
+          { type: 'template', title: 'Ta proposition de valeur', sections: [
+            { label: 'Construis ta phrase', fields: [
+              { name: 'Nom du produit',       placeholder: 'MonSaaS',                              example: 'Buildrs Blueprint' },
+              { name: 'Cible précise',        placeholder: 'les freelances designers',              example: 'les solopreneurs non-techniques' },
+              { name: 'Résultat concret',     placeholder: 'trouver 3 clients par mois',            example: 'lancer un MVP monétisé en 72h' },
+              { name: 'Douleur éliminée',     placeholder: 'sans passer 10h/semaine sur LinkedIn',  example: 'sans savoir coder' },
+            ]},
+          ]},
+          { type: 'heading', level: 2, content: 'Les 3 niveaux de différenciation' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'star',      label: 'Feature unique',          desc: "Tu fais 1 chose que personne d'autre ne fait — ou tu la fais nettement mieux. Ex : scoring IA en temps réel, intégration native avec un outil précis.",    accent: '#eab308' },
+            { icon: 'sparkles', label: 'Expérience supérieure',    desc: "Mêmes features que les concurrents mais UX 10x plus simple, plus rapide, plus belle. Les gens paient pour la facilité autant que pour la fonctionnalité.", accent: '#cc5de8' },
+            { icon: 'target',   label: 'Niche ultra-spécifique',   desc: "Tu sers UN segment ignoré par les généralistes. \"Le CRM pour les coachs sportifs\" bat \"le CRM pour tout le monde\" — à chaque fois, pour ce segment.", accent: '#22c55e' },
+          ]},
+          { type: 'callout', variant: 'tip', title: "La niche est ta meilleure arme", content: "Les gros acteurs ne peuvent pas se spécialiser autant que toi. \"L'outil de facturation pour les traducteurs freelance\" bat \"l'outil de facturation pour tout le monde\" pour les traducteurs — systématiquement. Plus la niche est précise, moins tu as de concurrence et plus tu peux charger cher." },
+          { type: 'prompt', label: 'Prompt Claude — Proposition de valeur', content: "Mon produit [nom] aide [cible] à [résultat]. Mes concurrents principaux : [liste des concurrents]. Génère-moi : 1) 3 propositions de valeur différentes (1 phrase chacune), en variant l'angle de différenciation (feature unique / UX supérieure / niche spécifique), 2) Pour chacune, explique quel angle est utilisé et pourquoi il pourrait resonner, 3) Indique laquelle est la plus forte pour un lancement à froid et pourquoi." },
+          { type: 'checklist', title: 'Actions avant la prochaine leçon', items: [
+            "Formuler ta proposition de valeur en 1 phrase complète (modèle ci-dessus)",
+            "Identifier ton angle de différenciation principal (feature, UX ou niche)",
+            "Tester la phrase sur 3 personnes extérieures : comprennent-elles immédiatement ?",
+          ]},
+          { type: 'quiz-inline',
+            question: "Quelle stratégie de différenciation est la plus puissante pour un solopreneur face à des concurrents établis ?",
+            options: [
+              "La niche ultra-spécifique — servir un segment ignoré par les grands",
+              "La feature unique — faire quelque chose que personne ne fait",
+              "Le prix le plus bas — être moins cher que tout le monde",
+              "Le plus de features — être le plus complet du marché",
+            ],
+            correctIndex: 0,
+            explanation: "La niche spécifique est imbattable pour un solopreneur. Un grand acteur généraliste ne peut pas se spécialiser autant. En te concentrant sur un segment précis, tu peux dominer ce marché, charger plus cher, et fidéliser mieux — sans avoir une équipe entière.",
+          },
+        ],
+      },
+
+      // ── offre.3 ───────────────────────────────────────────────────────────
+      {
+        id: 'offre.3',
+        title: 'Construire une offre irrésistible',
+        duration: '8 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Un bon produit à un bon prix ne suffit pas. Il faut que l'offre GLOBALE soit irrésistible — que le client se dise \"je serais stupide de ne pas prendre ça\". Voici l'anatomie d'une offre qui convertit." },
+          { type: 'heading', level: 2, content: "L'anatomie d'une offre qui convertit" },
+          { type: 'diagram-flow', steps: [
+            { label: 'Le résultat principal',   sub: "Ce que le client obtient concrètement — formulé comme un résultat, pas une liste de features.", color: '#22c55e' },
+            { label: 'Les bonus',               sub: "Ce qui augmente massivement la valeur perçue sans te coûter plus en temps ou en argent.", color: '#4d96ff' },
+            { label: 'La garantie',             sub: "Ce qui élimine le risque et la dernière hésitation côté client.", color: '#cc5de8' },
+            { label: "L'urgence",               sub: "Ce qui crée une raison légitime d'agir maintenant plutôt que demain.", color: '#eab308' },
+            { label: 'Le CTA',                  sub: "Un seul bouton, une seule action. Jamais deux options concurrentes sur la même page.", color: '#ef4444' },
+          ]},
+          { type: 'heading', level: 2, content: 'Créer des bonus à coût zéro' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'file-text',      label: 'Templates et prompts',       desc: "Docs, prompts Claude, checklists que tu as créés pour toi-même. Tu les as déjà — il suffit de les packager.", accent: '#4d96ff' },
+            { icon: 'users',          label: 'Accès communauté',           desc: "Un canal WhatsApp ou Discord privé = valeur perçue immense pour le client, coût opérationnel quasi nul pour toi.", accent: '#22c55e' },
+            { icon: 'book-open',      label: 'Contenu exclusif',           desc: "Un guide PDF, une vidéo tutoriel, un cas d'étude détaillé. Crée une fois, livre automatiquement à chaque client.", accent: '#cc5de8' },
+            { icon: 'message-circle', label: 'Accès direct au fondateur',  desc: "\"Accès email direct\" est un différenciant fort en early stage. Les grandes entreprises ne peuvent pas offrir ça.", accent: '#eab308' },
+          ]},
+          { type: 'callout', variant: 'tip', title: 'La règle de la valeur perçue', content: "La valeur perçue totale de tes bonus doit être supérieure au prix du produit. Si ton SaaS est à 29€/mois et tes bonus \"valent\" 200€, le client sent qu'il fait une affaire. Ce n'est pas de la manipulation — c'est présenter honnêtement ce que tu livres." },
+          { type: 'heading', level: 2, content: "La garantie qui supprime l'objection" },
+          { type: 'text', content: "Pour un SaaS : \"7 jours d'essai gratuit\" ou \"Remboursé sous 14 jours si tu n'es pas satisfait\". Pour un produit unique : \"Satisfait ou remboursé 30 jours\". La garantie coûte presque rien (taux de remboursement réel < 5%) mais elle lève la dernière barrière psychologique." },
+          { type: 'prompt', label: "Prompt Claude — Offre irrésistible", content: "Je lance [nom du produit] à [prix]/mois. Ma cible : [description précise]. Construis-moi une offre irrésistible complète avec : 1) Le produit formulé comme un résultat (pas une liste de features), 2) 3 à 4 bonus à coût zéro que je peux créer en moins de 2h, 3) Une garantie qui élimine le risque perçu, 4) Un élément d'urgence crédible (pas du faux scarcity — quelque chose de réel), 5) Le texte exact du CTA principal." },
+          { type: 'checklist', title: 'Checklist offre complète', items: [
+            "Pricing défini et justifié par rapport au marché",
+            "Proposition de valeur en 1 phrase, testée sur 3 personnes",
+            "Au moins 2 bonus à coût zéro préparés et prêts à livrer",
+            "Garantie définie (essai gratuit ou remboursement)",
+            "CTA clair et unique sur ta landing page",
+            "Passer au module Scaler — tu as tout pour lancer",
+          ]},
+          { type: 'quiz-inline',
+            question: "La valeur perçue de tes bonus par rapport au prix de ton SaaS doit être :",
+            options: [
+              "Supérieure au prix du produit — le client doit sentir qu'il fait une affaire",
+              "Exactement égale au prix — ni plus, ni moins",
+              "Inférieure — ne pas surcharger l'offre",
+              "Ça n'a pas d'importance — les gens achètent le produit, pas les bonus",
+            ],
+            correctIndex: 0,
+            explanation: "Quand la valeur perçue des bonus dépasse le prix, le client sent qu'il fait une affaire. C'est la mécanique psychologique derrière toutes les grandes offres. Les bonus coûtent peu à créer mais changent radicalement le ratio valeur/prix perçu.",
+          },
+        ],
+      },
+    ],
+    quizQuestions: [
+      {
+        id: 'qo-1',
+        question: "Quel est le meilleur modèle de pricing pour un premier SaaS ?",
+        options: ['Abonnement mensuel — MRR prévisible et optimisable', 'Paiement unique — plus simple à vendre', 'Freemium — maximum de trafic et d\'inscriptions', 'Usage-based — alignement parfait valeur/prix'],
+        correctIndex: 0,
+        explanation: "L'abonnement mensuel génère du MRR prévisible, est valorisable si tu revends, et est facile à optimiser. Le freemium nécessite un volume massif de trafic. L'usage-based est complexe à opérer seul. Le paiement unique n'a pas de récurrence.",
+      },
+      {
+        id: 'qo-2',
+        question: "Tu veux te différencier face à 3 concurrents établis avec beaucoup plus de features que toi. Quelle est la meilleure stratégie ?",
+        options: ['Cibler une niche ultra-spécifique ignorée par les grands', 'Copier toutes leurs features pour être au niveau', 'Casser le prix pour attirer leurs clients', 'Créer une campagne publicitaire pour les faire connaître'],
+        correctIndex: 0,
+        explanation: "La niche spécifique est ta seule arme réelle face à des concurrents établis. Tu ne peux pas les battre sur le nombre de features ou le budget marketing. Mais sur une niche précise, tu peux les dépasser parce qu'ils ne peuvent pas se spécialiser autant.",
+      },
+      {
+        id: 'qo-3',
+        question: "Quel est le taux de remboursement réel sur une garantie 30 jours pour un SaaS bien conçu ?",
+        options: ['Moins de 5% — la garantie coûte très peu', 'Environ 20-30% — un risque significatif', 'Plus de 50% — les gens en abusent', 'Impossible à estimer — trop variable'],
+        correctIndex: 0,
+        explanation: "En pratique, un SaaS qui résout un vrai problème a un taux de remboursement inférieur à 5% même avec une garantie généreuse. La garantie lève un frein psychologique fort — et la plupart des clients satisfaits n'ont aucune raison de demander un remboursement.",
+      },
+    ],
+  },
+
+  // ── MODULE SCALER ─────────────────────────────────────────────────────────────
+  {
+    id: 'scaler',
+    title: 'Scaler',
+    description: "Fais passer ton SaaS de 0 à 10k MRR et au-delà.",
+    icon: 'TrendingUp',
+    lessons: [
+
+      // ── scaler.1 ──────────────────────────────────────────────────────────
+      {
+        id: 'scaler.1',
+        title: 'Le Blueprint des 100 premiers users',
+        duration: '10 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Les 100 premiers utilisateurs sont les plus difficiles à obtenir et les plus importants de ton histoire. Ils valident ton produit, génèrent tes premiers revenus, et deviennent tes premiers ambassadeurs. Voici le blueprint exact — phase par phase." },
+          { type: 'heading', level: 2, content: 'Phase 1 — Les 10 premiers (semaine 1)' },
+          { type: 'text', content: "Tes 10 premiers users ne viennent JAMAIS d'une pub ou du SEO. Ils viennent de conversations directes et manuelles. C'est lent, c'est un peu gênant — et c'est incontournable. C'est ce qu'a fait Airbnb. C'est ce qu'a fait Stripe. Tu ne fais pas exception." },
+          { type: 'diagram-flow', steps: [
+            { label: 'Lister 30 contacts dans ta cible',     sub: "LinkedIn, groupes Facebook, Reddit, entourage professionnel. Pas des amis proches — des gens qui ont réellement ce problème.", color: '#4d96ff' },
+            { label: 'Envoyer un DM personnalisé',           sub: "\"J'ai construit [X] qui résout [Y]. Je cherche 10 bêta-testeurs — accès gratuit 30 jours. Ça t'intéresse ?\"", color: '#cc5de8' },
+            { label: 'Onboarder personnellement',            sub: "Appel de 15min ou message vocal. Montre le produit. Note chaque friction, chaque \"je comprends pas\" — c'est ta feuille de route.", color: '#eab308' },
+            { label: 'Collecter un feedback structuré',      sub: "3 questions : qu'est-ce qui marche ? qu'est-ce qui manque ? tu paierais combien ? Les réponses valent de l'or.", color: '#22c55e' },
+          ]},
+          { type: 'callout', variant: 'action', title: 'Objectif semaine 1', content: "30 DMs envoyés, 10 réponses, 5 à 10 users actifs. Si tu n'atteins pas 10 users en 7 jours — le problème n'est pas le marketing. C'est le product-market fit. Retourne au module Valider et affine l'angle." },
+          { type: 'heading', level: 2, content: 'Phase 2 — De 10 à 50 (semaines 2 à 4)' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'users',       label: 'Communautés ciblées',   desc: "Poste dans 3 à 5 groupes où ta cible traîne. Règle absolue : apporte de la valeur d'abord (conseil, ressource), mentionne ton outil naturellement ensuite.", accent: '#22c55e' },
+            { icon: 'rocket',      label: 'Lancement Product Hunt', desc: "1 lancement bien préparé. Teaser J-7, trouver un hunter actif, screenshots soignés, description claire. Peut générer 100 à 500 visites en 24h.", accent: '#cc5de8' },
+            { icon: 'pen-tool',    label: 'Build in public LinkedIn', desc: "1 post par jour pendant 2 semaines. Raconte le build en temps réel — les coulisses, les galères, les victoires. Les gens adorent suivre.", accent: '#4d96ff' },
+            { icon: 'share-2',     label: 'Programme de referral',   desc: "Demande à chaque user satisfait de recommander à 2 personnes. Offre 1 mois gratuit par referral converti. Ton meilleur canal à ce stade.", accent: '#eab308' },
+          ]},
+          { type: 'heading', level: 2, content: 'Phase 3 — De 50 à 100 (mois 2)' },
+          { type: 'text', content: "À partir de 50 users, tu commences à avoir des données réelles. C'est le moment de tester tes premiers canaux payants — de façon mesurée, avec un petit budget, en mesurant chaque euro dépensé." },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'megaphone', label: 'Micro-budget Meta Ads',   desc: "5 à 10€/jour, 1 pub simple vers ta landing. Mesure le CPA (coût par acquisition). Si CPA < prix du 1er mois d'abonnement → scale.", accent: '#ef4444' },
+            { icon: 'mail',      label: 'Cold email ciblé',         desc: "50 emails/jour à ta cible. Objet court, message personnalisé, 1 seul CTA. Outils : Instantly ou Lemlist. Taux de réponse visé : 5 à 10%.", accent: '#4d96ff' },
+            { icon: 'link',      label: 'Partenariats affiliés',    desc: "Propose à un créateur ou influenceur de ta niche un deal affiliation (20 à 30% récurrent). Coût nul si ça ne convertit pas, que du variable.", accent: '#22c55e' },
+          ]},
+          { type: 'prompt', label: "Prompt Claude — Plan d'acquisition 100 users", content: "Mon SaaS [nom] aide [cible précise] à [résultat] pour [prix]/mois. J'ai actuellement [X] users. Crée-moi un plan d'action précis pour atteindre 100 users en 60 jours avec : 1) Les 3 canaux d'acquisition prioritaires pour cette niche et cette cible, 2) Un calendrier semaine par semaine avec les actions concrètes, 3) Les métriques à suivre chaque semaine, 4) Le budget minimum recommandé pour les canaux payants, 5) Des exemples de messages/posts adaptés à chaque canal." },
+          { type: 'checklist', title: 'Le blueprint en actions concrètes', items: [
+            "Lister 30 contacts dans ta cible (LinkedIn, Reddit, groupes FB)",
+            "Envoyer 10 DMs personnalisés cette semaine",
+            "Onboarder les 5 à 10 premiers users avec un appel ou message vocal",
+            "Poster dans 3 communautés en apportant de la valeur en premier",
+            "Préparer un lancement Product Hunt (J-7 : teaser, screenshots, hunter)",
+            "Mettre en place un mécanisme de referral simple (1 mois gratuit par referral)",
+            "Tester une micro-campagne Meta Ads à 5€/jour quand tu es à 30+ users",
+          ]},
+          { type: 'quiz-inline',
+            question: "Quel est le meilleur canal pour tes 10 premiers users ?",
+            options: [
+              "DMs personnalisés à des personnes dans ta cible",
+              "Meta Ads — le trafic payant convertit mieux",
+              "SEO — du trafic organique dès le premier jour",
+              "Pub YouTube — la vidéo convertit le mieux",
+            ],
+            correctIndex: 0,
+            explanation: "Les 10 premiers users viennent toujours de conversations directes. Le trafic payant et le SEO ne fonctionnent que quand tu as déjà prouvé que ton produit convertit. Sans conversion prouvée, chaque euro de pub est gaspillé. La séquence : DMs manuels → communautés → Product Hunt → puis seulement pub payante.",
+          },
+        ],
+      },
+
+      // ── scaler.2 ──────────────────────────────────────────────────────────
+      {
+        id: 'scaler.2',
+        title: 'Les métriques qui comptent',
+        duration: '6 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Tu as des users. Maintenant il faut mesurer — les bonnes choses. 90% des fondateurs suivent des vanity metrics (visiteurs, likes, inscriptions) et passent à côté des signaux qui comptent vraiment." },
+          { type: 'heading', level: 2, content: 'Les 5 métriques essentielles' },
+          { type: 'diagram-cards', items: [
+            { icon: 'dollar-sign',  label: 'MRR',        desc: "Monthly Recurring Revenue. LE chiffre. Ce que tu gagnes chaque mois de façon récurrente. Tout le reste en découle.",                                                    color: '#22c55e' },
+            { icon: 'user-minus',   label: 'Churn',      desc: "% d'users qui annulent chaque mois. Objectif : < 5%. Au-dessus de 10% → urgence produit. Un SaaS qui fuit ne se remplit jamais.",                                         color: '#ef4444' },
+            { icon: 'target',       label: 'CAC',        desc: "Coût d'Acquisition Client. Combien tu dépenses pour obtenir 1 client payant. Doit être inférieur à LTV / 3 au minimum.",                                                   color: '#4d96ff' },
+            { icon: 'trending-up',  label: 'LTV',        desc: "Lifetime Value. Combien un client te rapporte en moyenne sur toute sa durée. Règle d'or : LTV > 3x CAC. Sinon tu perds de l'argent à chaque acquisition.",               color: '#cc5de8' },
+            { icon: 'zap',          label: 'Activation', desc: "% d'inscrits qui réalisent l'action clé (créer un projet, connecter un outil, etc.). Si < 30% → ton onboarding est cassé. C'est prioritaire à réparer.", color: '#eab308' },
+          ]},
+          { type: 'callout', variant: 'tip', title: 'La seule métrique de la semaine 1', content: "Est-ce que quelqu'un a payé ? Pas les visiteurs, pas les inscrits gratuits, pas les likes sur ton post LinkedIn. Un paiement d'un inconnu = validation réelle de ton modèle. Tout le reste peut attendre la semaine 2." },
+          { type: 'heading', level: 2, content: 'Le tableau de bord minimum' },
+          { type: 'text', content: "Pas besoin de Mixpanel ou Amplitude en early stage. Un Google Sheet mis à jour chaque lundi suffit pour prendre les bonnes décisions." },
+          { type: 'template', title: 'Tracking hebdomadaire', sections: [
+            { label: 'Métriques clés à suivre chaque lundi', fields: [
+              { name: 'MRR ce mois',        placeholder: '290€',              example: '1 450€' },
+              { name: 'Nouveaux clients',   placeholder: '4',                 example: '12' },
+              { name: 'Clients perdus',     placeholder: '1',                 example: '2' },
+              { name: 'Churn rate',         placeholder: '2.5%',              example: '4.1%' },
+              { name: 'CAC moyen',          placeholder: '8€',                example: '23€' },
+              { name: 'Canal source n°1',   placeholder: 'LinkedIn DMs',      example: 'Product Hunt' },
+            ]},
+          ]},
+          { type: 'prompt', label: 'Prompt Claude — Diagnostic métriques', content: "Mon SaaS a [X] users payants, [Y]€ de MRR, et un churn de [Z]% mensuel. Mon CAC moyen est de [C]€ et mon abonnement est à [P]€/mois. Analyse ces métriques et dis-moi : 1) Est-ce que mon ratio LTV/CAC est sain ? 2) Quel est mon problème le plus urgent ? 3) Sur quoi dois-je me concentrer ce mois pour améliorer significativement mon MRR ?" },
+          { type: 'quiz-inline',
+            question: "Ton churn mensuel est à 15%. Quelle est ta priorité absolue ?",
+            options: [
+              "Réparer le produit — un churn à 15% signifie que le produit ne délivre pas la promesse",
+              "Augmenter le budget acquisition pour compenser les départs",
+              "Lancer une campagne de communication pour améliorer l'image",
+              "Baisser le prix pour réduire les annulations",
+            ],
+            correctIndex: 0,
+            explanation: "Un churn à 15% signifie que tu perds 15% de ta base chaque mois. Même avec une acquisition parfaite, tu vides un seau percé. La priorité : comprendre pourquoi les gens partent (formulaire à l'annulation), puis réparer. Augmenter l'acquisition avec un churn élevé, c'est courir plus vite en arrière.",
+          },
+        ],
+      },
+
+      // ── scaler.3 ──────────────────────────────────────────────────────────
+      {
+        id: 'scaler.3',
+        title: 'Rétention : garder ses users',
+        duration: '7 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Acquérir un user coûte 5 fois plus cher que d'en garder un existant. La rétention est la métrique silencieuse qui fait ou défait un SaaS. Un churn de 2% vs 10% sur 12 mois, c'est la différence entre un SaaS qui croît et un SaaS qui stagne." },
+          { type: 'heading', level: 2, content: 'Les 3 leviers de rétention' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'play-circle',  label: 'Onboarding court',          desc: "Les 5 premières minutes décident de tout. Guide l'user vers sa première victoire (\"first value\") en moins de 2 minutes. Si c'est trop long — ils ne reviennent pas.", accent: '#22c55e' },
+            { icon: 'refresh-cw',   label: 'Engagement loops',          desc: "Emails automatiques, récaps hebdomadaires, notifications pertinentes. Rappelle à l'user que ton produit existe et lui apporte de la valeur concrète.", accent: '#4d96ff' },
+            { icon: 'anchor',       label: 'Feature stickiness',        desc: "Plus l'user stocke des données, crée du contenu, ou connecte des outils dans ton app — plus c'est difficile de partir. C'est le meilleur verrou naturel.", accent: '#cc5de8' },
+          ]},
+          { type: 'heading', level: 2, content: "L'email anti-churn" },
+          { type: 'text', content: "Quand un user n'est pas revenu depuis 7 jours — envoie un email automatique. Court, personnel, utile. Pas un \"Tu nous manques\" générique — un rappel de valeur concret avec un tip d'utilisation ou un nouveau cas d'usage." },
+          { type: 'prompt', label: 'Prompt Claude — Séquence emails rétention', content: "Mon SaaS [nom] a un churn de [X]%/mois. Crée-moi une séquence de 3 emails automatiques pour réduire ce churn : 1) Email J+3 d'inactivité — rappel de valeur concret + tip d'utilisation pratique, 2) Email J+7 — ton personnel \"tu as un problème ? je suis disponible\" (signe par le fondateur), 3) Email J+14 — dernière chance, offre exclusive ou demande de feedback. Ton : personnel, direct, pas corporate. Tutoiement. Zéro emoji. Jamais plus de 5 phrases par email." },
+          { type: 'heading', level: 2, content: 'Quand un user annule' },
+          { type: 'text', content: "Ne laisse jamais partir un user sans savoir pourquoi. Ajoute un formulaire de 1 question dans le flow de désabonnement : \"Quelle est la raison principale de ton départ ?\" avec 4 choix : trop cher / pas assez utile / trouvé une alternative / besoin terminé. Ces données = ta roadmap produit la plus précieuse." },
+          { type: 'checklist', title: 'Actions rétention prioritaires', items: [
+            "Mesurer le temps entre l'inscription et la première action clé (\"first value\")",
+            "Configurer au moins 1 email automatique (J+3 inactivité)",
+            "Ajouter un formulaire 1 question dans le flow d'annulation",
+            "Réduire le time-to-first-value à moins de 2 minutes",
+            "Identifier les features les plus \"collantes\" (celles que les users actifs utilisent le plus)",
+          ]},
+          { type: 'quiz-inline',
+            question: "Quand envoyer le premier email anti-churn à un user inactif ?",
+            options: [
+              "Après 3 jours d'inactivité",
+              "Après 30 jours — on ne veut pas être intrusif",
+              "Uniquement quand l'user clique sur \"Annuler\"",
+              "Jamais — c'est perçu comme du spam",
+            ],
+            correctIndex: 0,
+            explanation: "J+3 est le bon timing. Assez tôt pour rattraper un user avant qu'il ait complètement décroche, assez tard pour ne pas paraître désespéré. Après 30 jours sans connexion, 80% des users sont déjà partis mentalement même s'ils n'ont pas annulé.",
+          },
+        ],
+      },
+
+      // ── scaler.4 ──────────────────────────────────────────────────────────
+      {
+        id: 'scaler.4',
+        title: 'De 100 à 1000 users',
+        duration: '8 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "100 users = product-market fit confirmé. Tu sais que ton produit résout un vrai problème, que des gens paient pour ça, et que ton churn est gérable. Maintenant tu scales. Les règles changent : tu passes du \"faire des choses qui ne scalent pas\" à la systématisation." },
+          { type: 'heading', level: 2, content: 'Les 3 moteurs de croissance' },
+          { type: 'diagram-cards', items: [
+            { icon: 'megaphone',  label: 'Paid',    desc: "Meta Ads, Google Ads, sponsoring newsletters. Tu paies pour chaque user. Fonctionne si LTV > 3x CAC. Mesurable, rapide, scalable à l'infini si les chiffres sont bons.",     color: '#ef4444' },
+            { icon: 'pen-tool',   label: 'Organic', desc: "SEO, contenu LinkedIn/X, YouTube, blog. Gratuit mais lent. Le compounding effect est énorme après 3 à 6 mois — chaque contenu continue de travailler pour toi.",               color: '#22c55e' },
+            { icon: 'share-2',    label: 'Viral',   desc: "Referral, word-of-mouth, build in public. Le plus puissant quand ça prend — coût quasi nul. Chaque client satisfait en amène d'autres sans que tu fasses quoi que ce soit.", color: '#4d96ff' },
+          ]},
+          { type: 'callout', variant: 'tip', title: 'La règle du 70/20/10', content: "Consacre 70% de tes efforts au canal qui marche le mieux, 20% au deuxième, 10% à expérimenter de nouveaux canaux. Ne dilue pas sur 8 canaux en parallèle — tu n'auras que des résultats médiocres partout." },
+          { type: 'heading', level: 2, content: "Automatiser l'acquisition" },
+          { type: 'text', content: "À partir de 100 users, automatise tout ce qui est répétitif : emails de bienvenue, séquences de nurturing, relances anti-churn. Utilise Resend pour le transactionnel. Ton temps doit aller sur le produit et la stratégie — pas sur des tâches manuelles répétées chaque semaine." },
+          { type: 'heading', level: 2, content: 'Objectifs par palier' },
+          { type: 'list', style: 'cards', items: [
+            { icon: 'flag',       label: '100 users',     desc: "Product-market fit confirmé. Tu sais qui achète, pourquoi, et par quel canal. C'est la fin du mode \"survie\" et le début du mode \"construction\".",                   accent: '#4d96ff' },
+            { icon: 'trending-up', label: '500 users',   desc: "Channel-market fit. Tu as 1 à 2 canaux d'acquisition prévisibles et mesurables. Tu peux doubler le budget sur ces canaux avec confiance.",                              accent: '#22c55e' },
+            { icon: 'award',      label: '1 000 users',  desc: "Revenu à plein temps possible. 1 000 users à 29€/mois = 29 000€ MRR. Tu peux envisager de quitter ton emploi ou d'investir dans un poste de support.", accent: '#cc5de8' },
+            { icon: 'globe',      label: '5 000+ users', desc: "Ton SaaS vaut 30 à 50x le MRR sur Flippa ou Acquire.com. À 29 000€ MRR → valorisation entre 870k€ et 1,45M€. Tu peux construire, garder ou revendre.", accent: '#eab308' },
+          ]},
+          { type: 'prompt', label: 'Prompt Claude — Plan de scaling', content: "Mon SaaS a 100 users payants et [X]€ de MRR. Mon meilleur canal d'acquisition est [canal]. Mon churn mensuel est de [Y]%. Mon abonnement est à [Z]€/mois. Crée-moi un plan pour passer à 1 000 users en 6 mois avec : 1) Comment doubler l'efficacité de mon canal principal, 2) 1 nouveau canal à tester ce mois avec un mini-budget, 3) Les 3 bottlenecks probables à anticiper, 4) À quel MRR je peux considérer ça comme revenu principal ou quitter mon emploi si c'est mon objectif." },
+          { type: 'cohorte-cta',
+            title: "Tu veux aller plus vite ?",
+            description: "La Cohorte Buildrs : 60 jours d'accompagnement pour passer de l'idée à ton premier MRR. Sessions live 4x/semaine, support WhatsApp direct, et on construit ensemble.",
+            price: "1 497€",
+            features: [
+              "4 sessions live par semaine avec Alfred et Chris",
+              "Support WhatsApp illimité — réponse en moins de 24h",
+              "Review de ton produit et de ta stratégie par l'équipe",
+              "Garantie : 1 000€/mois en 90 jours ou remboursé",
+            ],
+          },
+          { type: 'checklist', title: "Plan d'action scaling — à faire maintenant", items: [
+            "Identifier ton canal d'acquisition n°1 (meilleur ratio effort/résultat)",
+            "Automatiser les emails clés : bienvenue, onboarding J+3, anti-churn J+7",
+            "Mettre en place un programme de referral simple (1 mois gratuit = 1 referral)",
+            "Fixer un objectif MRR à 90 jours et les actions concrètes pour l'atteindre",
+            "Décider : je garde et scale / je construis pour revendre / je passe au prochain",
+          ]},
+          { type: 'quiz-inline',
+            question: "Tu as 100 users et 2 900€ de MRR. Quel est ton meilleur levier pour atteindre 1 000 users ?",
+            options: [
+              "Doubler le budget sur ton canal d'acquisition qui fonctionne déjà",
+              "Lancer 5 canaux différents en même temps pour maximiser les chances",
+              "Baisser le prix pour attirer plus de monde",
+              "Arrêter l'acquisition et se concentrer sur le produit d'abord",
+            ],
+            correctIndex: 0,
+            explanation: "À 100 users avec un canal prouvé, la meilleure action est de doubler la mise sur ce qui marche déjà. Lancer 5 canaux en parallèle dilue tes ressources et tes apprentissages. Baisser le prix détruit ta marge. Le produit est déjà prouvé — c'est le moment d'accélérer l'acquisition, pas de freiner.",
+          },
+        ],
+      },
+    ],
+    quizQuestions: [
+      {
+        id: 'qs-1',
+        question: "Quel est le meilleur canal pour obtenir tes 10 premiers users payants ?",
+        options: ['DMs personnalisés à des personnes dans ta cible', 'Meta Ads — le trafic payant convertit mieux', 'SEO — du trafic organique qualifié', 'Une campagne d\'emailing massive'],
+        correctIndex: 0,
+        explanation: "Les 10 premiers users viennent toujours de conversations directes. La pub payante ne fonctionne que quand tu as déjà prouvé que ton produit convertit. Sans cette preuve, chaque euro est gaspillé. Séquence : DMs → communautés → Product Hunt → pub payante.",
+      },
+      {
+        id: 'qs-2',
+        question: "Quel ratio LTV/CAC est considéré comme sain pour un SaaS ?",
+        options: ['LTV > 3x CAC', 'LTV = CAC — on récupère juste son investissement', 'LTV > 10x CAC — ça ne doit pas coûter cher d\'acquérir', 'Ce ratio n\'a pas d\'importance en early stage'],
+        correctIndex: 0,
+        explanation: "LTV > 3x CAC est le seuil de santé standard. En dessous, tu perds de l'argent à chaque acquisition à l'échelle. Au-dessus de 5x, tu peux aggressivement accélérer l'acquisition. Le ratio s'améliore en réduisant le churn (augmente LTV) ou en optimisant les canaux (réduit CAC).",
+      },
+      {
+        id: 'qs-3',
+        question: "À quel palier un SaaS peut-il être envisagé comme revenu principal à plein temps ?",
+        options: ['1 000 users payants — ~29 000€ MRR à 29€/mois', '10 users — dès les premières ventes', '10 000 users — la sécurité avant tout', 'Jamais — trop risqué'],
+        correctIndex: 0,
+        explanation: "1 000 users à 29€/mois = 29 000€ MRR. C'est un revenu significatif qui permet d'envisager une transition à plein temps dans la plupart des situations. Le seuil exact dépend de tes charges personnelles — mais c'est un repère concret et atteignable.",
       },
     ],
   },

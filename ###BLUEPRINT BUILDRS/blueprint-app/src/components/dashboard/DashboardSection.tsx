@@ -103,6 +103,32 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     })()
   }, [user.id])
 
+  // Réconciliation OB Claude : si acheté via Blueprint OB (avant inscription),
+  // la table `purchases` le contient → sync vers user_purchases
+  useEffect(() => {
+    if (access.hasClaudeCodeOb) return
+    const email = user.email
+    if (!email) return
+    ;(async () => {
+      const { data } = await supabase
+        .from('purchases')
+        .select('id')
+        .eq('email', email)
+        .eq('product', 'claude-code')
+        .eq('applied', false)
+        .limit(1)
+        .maybeSingle()
+      if (!data) return
+      // Insère dans user_purchases + marque comme appliqué
+      await supabase.from('user_purchases').insert({
+        user_id:      user.id,
+        product_slug: 'claude-code',
+      }).throwOnError()
+      await supabase.from('purchases').update({ applied: true }).eq('id', data.id)
+      window.location.reload()
+    })()
+  }, [user.id])
+
   // Réconciliation user_purchases : sync les metadata legacy vers la nouvelle table
   useEffect(() => {
     const meta = user.user_metadata ?? {}
@@ -156,7 +182,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
     moduleProgress,
     journalCount: entries.length,
     userEmail: user.email,
-    userFirstName: user.user_metadata?.first_name,
+    userFirstName: profile?.display_name ?? user.user_metadata?.first_name,
     userAvatarUrl: user.user_metadata?.avatar_url,
     userId: user.id,
     onSignOut,
@@ -183,7 +209,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
           <HomePage
             navigate={navigate}
             userId={user.id}
-            userFirstName={user.user_metadata?.first_name}
+            userFirstName={profile?.display_name ?? user.user_metadata?.first_name}
             globalPercent={globalPercent()}
             moduleProgress={moduleProgress}
             hasPack={hasPack}
@@ -202,7 +228,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
           <AutopilotPage
             navigate={navigate}
             userId={user.id}
-            userFirstName={user.user_metadata?.first_name}
+            userFirstName={profile?.display_name ?? user.user_metadata?.first_name}
             moduleProgress={moduleProgress}
             hasPack={hasPack}
           />
@@ -240,19 +266,19 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'checklist') return (<W><DashboardLayout {...layoutProps}><ChecklistPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'project' || route.type === 'ideas') return (<W><DashboardLayout {...layoutProps}><ProjectPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'tools') return (<W><DashboardLayout {...layoutProps}><ToolsPage navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} profile={profile ?? null} updateProfile={updateProfile} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agent-chat' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><AgentChatPage agentId={route.moduleId} navigate={navigate} userId={user.id} hasPack={hasPack} /></DashboardLayout></W>)
-  if (route.type === 'claude-os') return (<W><DashboardLayout {...layoutProps}><ClaudeOSPage subPath={route.moduleId ?? ''} navigate={navigate} userEmail={user.email} /></DashboardLayout></W>)
+  if (route.type === 'claude-os') return (<W><DashboardLayout {...layoutProps}><ClaudeOSPage subPath={route.moduleId ?? ''} navigate={navigate} hasClaudeOS={access.hasClaudeCodeOb} userId={user.id} /></DashboardLayout></W>)
 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
   if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplaceIdeasPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'idea-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><IdeaDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
-  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} /></DashboardLayout></W>)
-  if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
+  if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'templates') return (<W><DashboardLayout {...layoutProps}><TemplatesPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'collaborators') return (<W><DashboardLayout {...layoutProps}><CollaboratorsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'notifications') return (<W><DashboardLayout {...layoutProps}><NotificationsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
