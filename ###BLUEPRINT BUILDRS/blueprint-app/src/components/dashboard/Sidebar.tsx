@@ -382,8 +382,8 @@ export function Sidebar({
             {/* Agents IA — V3 lock */}
             {v3Item('Agents IA', Bot)}
 
-            {/* Valider mon SaaS — V3 lock */}
-            {v3Item('Valider mon SaaS', Target)}
+            {/* Valider mon SaaS */}
+            {navItem('#/dashboard/validator', 'Valider mon SaaS', Target)}
 
             {/* Marketplace */}
             {navItem('#/dashboard/marketplace', 'Marketplace', ShoppingBag)}

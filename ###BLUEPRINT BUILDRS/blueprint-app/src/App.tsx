@@ -212,6 +212,7 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/agents')        return { type: 'agents' }
   if (h === 'dashboard/kanban')        return { type: 'kanban' }
   if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
+  if (h === 'dashboard/validator')     return { type: 'validator' }
 
   if (h === 'dashboard/community')     return { type: 'community' }
   if (h === 'dashboard/members')       return { type: 'members' }
