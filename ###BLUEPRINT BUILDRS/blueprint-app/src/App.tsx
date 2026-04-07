@@ -21,6 +21,23 @@ const AdFullscreenC   = lazy(() => import('./components/ads/AdsPreviewPage').the
 const AdFullscreenD   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenD })))
 const AdFullscreenE   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenE })))
 
+// ── Instagram posts ──────────────────────────────────────────────────────────
+const InstaPreviewPage = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaPreviewPage })))
+const InstaFullP1S1 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S1 })))
+const InstaFullP1S2 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S2 })))
+const InstaFullP1S3 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S3 })))
+const InstaFullP2S1 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S1 })))
+const InstaFullP2S2 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S2 })))
+const InstaFullP2S3 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S3 })))
+const InstaFullP2S4 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S4 })))
+const InstaFullP2S5 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S5 })))
+const InstaFullP2S6 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S6 })))
+const InstaFullP2S7 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP2S7 })))
+const InstaFullP3S1 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP3S1 })))
+const InstaFullP3S2 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP3S2 })))
+const InstaFullP3S3 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP3S3 })))
+const InstaFullP3S4 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP3S4 })))
+
 // ── Lazy imports (split into separate chunks — not needed on LP) ─────────────
 const CheckoutPage        = lazy(() => import('./components/CheckoutPage').then(m => ({ default: m.CheckoutPage })))
 const ClaudeLandingPage   = lazy(() => import('./components/ClaudeLandingPage').then(m => ({ default: m.ClaudeLandingPage })))
@@ -134,6 +151,10 @@ interface ParsedRoute {
     | 'ads-full-c'
     | 'ads-full-d'
     | 'ads-full-e'
+    | 'insta-preview'
+    | 'insta-p1s1' | 'insta-p1s2' | 'insta-p1s3'
+    | 'insta-p2s1' | 'insta-p2s2' | 'insta-p2s3' | 'insta-p2s4' | 'insta-p2s5' | 'insta-p2s6' | 'insta-p2s7'
+    | 'insta-p3s1' | 'insta-p3s2' | 'insta-p3s3' | 'insta-p3s4'
   moduleId?: string   // also used as productSlug for 'produit'/'brick'
   lessonId?: string   // also used as brickId for 'brick'
 }
@@ -157,6 +178,21 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'ads-full-c')  return { type: 'ads-full-c' }
   if (h === 'ads-full-d')  return { type: 'ads-full-d' }
   if (h === 'ads-full-e')  return { type: 'ads-full-e' }
+  if (h === 'insta-preview') return { type: 'insta-preview' }
+  if (h === 'insta-p1s1') return { type: 'insta-p1s1' }
+  if (h === 'insta-p1s2') return { type: 'insta-p1s2' }
+  if (h === 'insta-p1s3') return { type: 'insta-p1s3' }
+  if (h === 'insta-p2s1') return { type: 'insta-p2s1' }
+  if (h === 'insta-p2s2') return { type: 'insta-p2s2' }
+  if (h === 'insta-p2s3') return { type: 'insta-p2s3' }
+  if (h === 'insta-p2s4') return { type: 'insta-p2s4' }
+  if (h === 'insta-p2s5') return { type: 'insta-p2s5' }
+  if (h === 'insta-p2s6') return { type: 'insta-p2s6' }
+  if (h === 'insta-p2s7') return { type: 'insta-p2s7' }
+  if (h === 'insta-p3s1') return { type: 'insta-p3s1' }
+  if (h === 'insta-p3s2') return { type: 'insta-p3s2' }
+  if (h === 'insta-p3s3') return { type: 'insta-p3s3' }
+  if (h === 'insta-p3s4') return { type: 'insta-p3s4' }
   if (h === 'upsell-cohort' || h.startsWith('upsell-cohort?')) return { type: 'upsell-cohort' }
   if (h === 'confirmation' || h.startsWith('confirmation?')) return { type: 'confirmation' }
   if (h === 'signup') return { type: 'signup' }
@@ -488,6 +524,23 @@ function App() {
   if (route.type === 'ads-full-c')  return <Suspense fallback={SpinnerFallback}><AdFullscreenC /></Suspense>
   if (route.type === 'ads-full-d')  return <Suspense fallback={SpinnerFallback}><AdFullscreenD /></Suspense>
   if (route.type === 'ads-full-e')  return <Suspense fallback={SpinnerFallback}><AdFullscreenE /></Suspense>
+
+  // ── Instagram routes ─────────────────────────────────────────────────────────
+  if (route.type === 'insta-preview') return <Suspense fallback={SpinnerFallback}><InstaPreviewPage /></Suspense>
+  if (route.type === 'insta-p1s1') return <Suspense fallback={SpinnerFallback}><InstaFullP1S1 /></Suspense>
+  if (route.type === 'insta-p1s2') return <Suspense fallback={SpinnerFallback}><InstaFullP1S2 /></Suspense>
+  if (route.type === 'insta-p1s3') return <Suspense fallback={SpinnerFallback}><InstaFullP1S3 /></Suspense>
+  if (route.type === 'insta-p2s1') return <Suspense fallback={SpinnerFallback}><InstaFullP2S1 /></Suspense>
+  if (route.type === 'insta-p2s2') return <Suspense fallback={SpinnerFallback}><InstaFullP2S2 /></Suspense>
+  if (route.type === 'insta-p2s3') return <Suspense fallback={SpinnerFallback}><InstaFullP2S3 /></Suspense>
+  if (route.type === 'insta-p2s4') return <Suspense fallback={SpinnerFallback}><InstaFullP2S4 /></Suspense>
+  if (route.type === 'insta-p2s5') return <Suspense fallback={SpinnerFallback}><InstaFullP2S5 /></Suspense>
+  if (route.type === 'insta-p2s6') return <Suspense fallback={SpinnerFallback}><InstaFullP2S6 /></Suspense>
+  if (route.type === 'insta-p2s7') return <Suspense fallback={SpinnerFallback}><InstaFullP2S7 /></Suspense>
+  if (route.type === 'insta-p3s1') return <Suspense fallback={SpinnerFallback}><InstaFullP3S1 /></Suspense>
+  if (route.type === 'insta-p3s2') return <Suspense fallback={SpinnerFallback}><InstaFullP3S2 /></Suspense>
+  if (route.type === 'insta-p3s3') return <Suspense fallback={SpinnerFallback}><InstaFullP3S3 /></Suspense>
+  if (route.type === 'insta-p3s4') return <Suspense fallback={SpinnerFallback}><InstaFullP3S4 /></Suspense>
 
   // Fallback
   return <LandingPage onCTAClick={() => navigate('#/checkout')} />
