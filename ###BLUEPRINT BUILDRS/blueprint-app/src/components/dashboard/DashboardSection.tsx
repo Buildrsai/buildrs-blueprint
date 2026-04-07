@@ -34,8 +34,8 @@ const AgentChatPage      = lazy(() => import('./AgentChatPage').then(m => ({ def
 const ClaudeOSPage       = lazy(() => import('./ClaudeOSPage').then(m => ({ default: m.ClaudeOSPage })))
 const HomePage           = lazy(() => import('./HomePage').then(m => ({ default: m.HomePage })))
 const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
-const MarketplaceIdeasPage = lazy(() => import('./MarketplaceIdeasPage').then(m => ({ default: m.MarketplaceIdeasPage })))
-const IdeaDetailPage     = lazy(() => import('./IdeaDetailPage').then(m => ({ default: m.IdeaDetailPage })))
+const MarketplacePage      = lazy(() => import('./MarketplacePage').then(m => ({ default: m.MarketplacePage })))
+const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(m => ({ default: m.OpportunityDetailPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
 const MembersPage        = lazy(() => import('./MembersPage').then(m => ({ default: m.MembersPage })))
@@ -274,8 +274,8 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
-  if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplaceIdeasPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
-  if (route.type === 'idea-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><IdeaDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplacePage userId={user.id} navigate={navigate} isAdmin={user.user_metadata?.is_admin === true} /></DashboardLayout></W>)
+  if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><OpportunityDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
   if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
@@ -295,8 +295,8 @@ function getTitle(route: DashboardRoute): string {
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
     'claude-os': 'Claude OS',
-    'kanban': 'Mon Pipeline', 'marketplace': 'Idees SaaS',
-    'idea-detail': 'Idee SaaS',
+    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace',
+    'opportunity-detail': 'Opportunite',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',
     'collaborators': 'Collaborateurs',
