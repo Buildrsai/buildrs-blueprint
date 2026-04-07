@@ -23,6 +23,8 @@ export interface BuildrsOpportunity {
   acquisition_channels: string[]
   niche_suggestions: string[]
   estimated_build_time: string | null
+  product_type: string | null
+  market_type: string | null
   status: string
   scored_at: string | null
 }
@@ -62,6 +64,8 @@ export interface SourceFilters {
   featuredOnly?: boolean
   buildScoreMin?: number
   sortBy?: 'build_score' | 'created_at' | 'name'
+  productType?: string | null
+  marketType?: string | null
 }
 
 const PAGE_SIZE = 20
@@ -105,6 +109,13 @@ export function useSources(userId: string | undefined) {
 
       // Apply buildScoreMin filter on opportunity
       if (opportunity && filters.buildScoreMin && opportunity.build_score < filters.buildScoreMin) {
+        opportunity = null
+      }
+      // Apply product_type / market_type filters (only if opportunity has a non-null value for the field)
+      if (opportunity && filters.productType && opportunity.product_type && opportunity.product_type !== filters.productType) {
+        opportunity = null
+      }
+      if (opportunity && filters.marketType && opportunity.market_type && opportunity.market_type !== filters.marketType) {
         opportunity = null
       }
 

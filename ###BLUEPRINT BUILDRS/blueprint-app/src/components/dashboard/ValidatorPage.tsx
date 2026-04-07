@@ -3,6 +3,24 @@ import { useState } from 'react'
 import { Loader2, TrendingUp, Shield, Zap, DollarSign, ExternalLink, RotateCcw } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
+const PRODUCT_TYPES = [
+  { value: '',            label: 'Type de produit' },
+  { value: 'micro-saas', label: 'Micro-SaaS web (app en ligne avec abonnement)' },
+  { value: 'mobile-app', label: 'App mobile (iOS / Android)' },
+  { value: 'ai-agent',   label: 'Agent IA (vocal, email ou chatbot)' },
+  { value: 'ai-gen',     label: 'Générateur IA (contenu, devis, offres)' },
+  { value: 'biz-tool',   label: 'Mini logiciel métier (outil spécialisé)' },
+  { value: 'automation', label: 'Automatisation (workflow, relances, notifications)' },
+  { value: 'marketplace',label: 'Marketplace / plateforme (mise en relation)' },
+]
+
+const MARKET_TYPES = [
+  { value: '',      label: 'Marché cible' },
+  { value: 'b2b',   label: 'B2B — tu vends à des pros / entreprises' },
+  { value: 'b2c',   label: 'B2C — tu vends à des particuliers' },
+  { value: 'b2b2c', label: 'B2B2C — les pros servent leurs clients' },
+]
+
 const CATEGORIES = [
   { value: '',            label: 'Choisir une catégorie' },
   { value: 'scheduling',  label: 'Booking / RDV' },
@@ -102,8 +120,10 @@ interface Props {
 
 export function ValidatorPage({ userId, navigate }: Props) {
   const [ideaDescription, setIdeaDescription] = useState('')
+  const [productType, setProductType] = useState('')
   const [category, setCategory] = useState('')
   const [targetAudience, setTargetAudience] = useState('')
+  const [marketType, setMarketType] = useState('')
   const [pricingModel, setPricingModel] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -119,8 +139,10 @@ export function ValidatorPage({ userId, navigate }: Props) {
       const { data, error: fnError } = await supabase.functions.invoke('validator-analyze', {
         body: {
           idea_description:  ideaDescription.trim(),
+          product_type:      productType || null,
           category:          category || null,
           target_audience:   targetAudience.trim() || null,
+          market_type:       marketType || null,
           pricing_model:     pricingModel || null,
         },
       })
@@ -138,6 +160,8 @@ export function ValidatorPage({ userId, navigate }: Props) {
   const handleLaunch = () => {
     sessionStorage.setItem('validator_context', JSON.stringify({
       idea_description: ideaDescription,
+      product_type: productType,
+      market_type: marketType,
       verdict: result?.verdict,
       session_id: result?.session_id,
     }))
@@ -155,7 +179,7 @@ export function ValidatorPage({ userId, navigate }: Props) {
           Valider mon idée
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Décris ton idée. Claude analyse le marché et te dit si ça vaut le coup de lancer.
+          Décris ton idée. Buildrs analyse le marché et te dit si ça vaut le coup de lancer.
         </p>
       </div>
 
@@ -175,6 +199,22 @@ export function ValidatorPage({ userId, navigate }: Props) {
                 value={ideaDescription}
                 onChange={e => setIdeaDescription(e.target.value)}
               />
+            </div>
+
+            {/* Product type */}
+            <div>
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60 block mb-1.5">
+                Type de produit
+              </label>
+              <select
+                className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-foreground/20 text-foreground"
+                value={productType}
+                onChange={e => setProductType(e.target.value)}
+              >
+                {PRODUCT_TYPES.map(p => (
+                  <option key={p.value} value={p.value}>{p.label}</option>
+                ))}
+              </select>
             </div>
 
             {/* Category */}
@@ -205,6 +245,22 @@ export function ValidatorPage({ userId, navigate }: Props) {
                 value={targetAudience}
                 onChange={e => setTargetAudience(e.target.value)}
               />
+            </div>
+
+            {/* Market type */}
+            <div>
+              <label className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/60 block mb-1.5">
+                Marché
+              </label>
+              <select
+                className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-foreground/20 text-foreground"
+                value={marketType}
+                onChange={e => setMarketType(e.target.value)}
+              >
+                {MARKET_TYPES.map(m => (
+                  <option key={m.value} value={m.value}>{m.label}</option>
+                ))}
+              </select>
             </div>
 
             {/* Pricing model */}
@@ -268,7 +324,7 @@ export function ValidatorPage({ userId, navigate }: Props) {
               </div>
               <p className="text-sm font-medium text-foreground">Entre ton idée et lance l'analyse</p>
               <p className="text-xs text-muted-foreground mt-1 max-w-[220px]">
-                Claude scanne le marché et te donne un verdict en quelques secondes.
+                Buildrs scanne le marché et te donne un verdict en quelques secondes.
               </p>
             </div>
           )}
