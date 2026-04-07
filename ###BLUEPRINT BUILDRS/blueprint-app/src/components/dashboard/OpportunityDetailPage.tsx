@@ -1,7 +1,9 @@
 // blueprint-app/src/components/dashboard/OpportunityDetailPage.tsx
+import { useState, useEffect } from 'react'
 import { ArrowLeft, ExternalLink, Bookmark, BookmarkCheck, TrendingUp, Zap, DollarSign } from 'lucide-react'
 import { useOpportunityBySlug } from '../../hooks/useOpportunities'
 import { BrandIcons } from '../ui/icons'
+import { supabase } from '../../lib/supabase'
 
 // Map stack string -> BrandIcon
 function StackBadge({ name }: { name: string }) {
@@ -39,13 +41,35 @@ interface Props {
   slug: string
   userId: string | undefined
   navigate: (hash: string) => void
-  savedIds?: Set<string>
-  onSave?: (id: string) => void
-  onUnsave?: (id: string) => void
 }
 
-export function OpportunityDetailPage({ slug, userId, navigate, savedIds, onSave, onUnsave }: Props) {
+export function OpportunityDetailPage({ slug, userId, navigate }: Props) {
   const { opportunity: opp, loading } = useOpportunityBySlug(slug)
+
+  const [isSaved, setIsSaved] = useState(false)
+
+  useEffect(() => {
+    if (!userId || !opp?.id) return
+    supabase
+      .from('user_saved_opportunities')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('opportunity_id', opp.id)
+      .maybeSingle()
+      .then(({ data }) => setIsSaved(!!data))
+  }, [userId, opp?.id])
+
+  const handleSave = async () => {
+    if (!userId || !opp?.id) return
+    if (isSaved) {
+      await supabase.from('user_saved_opportunities').delete()
+        .eq('user_id', userId).eq('opportunity_id', opp.id)
+      setIsSaved(false)
+    } else {
+      await supabase.from('user_saved_opportunities').insert({ user_id: userId, opportunity_id: opp.id })
+      setIsSaved(true)
+    }
+  }
 
   if (loading) {
     return (
@@ -71,7 +95,6 @@ export function OpportunityDetailPage({ slug, userId, navigate, savedIds, onSave
     )
   }
 
-  const isSaved = savedIds?.has(opp.id) ?? false
   const srcColor = opp.source === 'product_hunt' ? '#ff6154'
     : opp.source === 'reddit' ? '#ff4500'
     : opp.source === 'acquire' ? '#22c55e'
@@ -290,7 +313,7 @@ export function OpportunityDetailPage({ slug, userId, navigate, savedIds, onSave
 
         {userId && (
           <button
-            onClick={() => isSaved ? onUnsave?.(opp.id) : onSave?.(opp.id)}
+            onClick={handleSave}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border text-sm font-medium hover:bg-secondary transition-colors"
           >
             {isSaved

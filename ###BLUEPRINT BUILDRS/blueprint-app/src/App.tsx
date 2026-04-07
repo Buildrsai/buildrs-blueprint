@@ -114,7 +114,7 @@ interface ParsedRoute {
     | 'claude-os'
     | 'kanban'
     | 'marketplace'
-    | 'idea-detail'
+    | 'opportunity-detail'
 
     | 'community'
     | 'members'
@@ -184,7 +184,7 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/collaborators') return { type: 'collaborators' }
   if (h === 'dashboard/notifications') return { type: 'notifications' }
   const marketplaceIdeaMatch = h.match(/^dashboard\/marketplace\/([^/]+)$/)
-  if (marketplaceIdeaMatch) return { type: 'idea-detail', moduleId: marketplaceIdeaMatch[1] }
+  if (marketplaceIdeaMatch) return { type: 'opportunity-detail', moduleId: marketplaceIdeaMatch[1] }
   const agentChatMatch = h.match(/^dashboard\/agent(?:-chat)?\/([^/]+)$/)
   if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
 
@@ -459,7 +459,7 @@ function App() {
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
     'agent-chat', 'claude-os',
-    'kanban', 'marketplace', 'idea-detail', 'community', 'members',
+    'kanban', 'marketplace', 'opportunity-detail', 'community', 'members',
     'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 

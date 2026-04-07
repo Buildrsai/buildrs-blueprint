@@ -385,8 +385,8 @@ export function Sidebar({
             {/* Valider mon SaaS — V3 lock */}
             {v3Item('Valider mon SaaS', Target)}
 
-            {/* Idées SaaS — V3 lock */}
-            {v3Item('Idees SaaS', ShoppingBag)}
+            {/* Marketplace */}
+            {navItem('#/dashboard/marketplace', 'Marketplace', ShoppingBag)}
 
             {/* Boîte à outils — toujours accessible */}
             {navItem('#/dashboard/tools', 'Boite a outils', Wrench)}
