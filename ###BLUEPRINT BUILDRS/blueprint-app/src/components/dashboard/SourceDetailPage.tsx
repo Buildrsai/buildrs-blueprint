@@ -101,17 +101,20 @@ export function SourceDetailPage({ slug, userId, navigate }: Props) {
         notes: {},
       })
     } catch (_) { /* already exists or error — continue anyway */ }
-    sessionStorage.setItem('marketplace_context', JSON.stringify({
-      name: source?.name,
-      opportunity_title: opp.opportunity_title,
-      problem: opp.problem_solved,
-      stack: opp.recommended_stack,
-      features: opp.mvp_features,
-      niche: opp.niche_suggestions,
-      pricing: opp.pricing_suggestion,
-      source_slug: source?.slug,
+    sessionStorage.setItem('generator_context', JSON.stringify({
+      source: {
+        name: source?.name,
+        domain: source?.domain ?? null,
+        tagline: source?.tagline ?? null,
+        category: source?.category,
+        logo_url: source?.logo_url ?? null,
+        opportunity_title: opp.opportunity_title,
+        target_niche: opp.target_niche,
+        build_score: opp.build_score,
+        opportunity_id: opp.id,
+      },
     }))
-    navigate('#/dashboard/claude-os/generer')
+    navigate('#/dashboard/generator')
     setLaunching(false)
   }
 
