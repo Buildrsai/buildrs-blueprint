@@ -14,6 +14,7 @@ const SOURCE_COLORS: Record<string, string> = {
   g2_capterra: '#3b82f6',
   manual_curated: '#8b5cf6',
   generator_live: '#f59e0b',
+  hacker_news: '#ff6600',
 }
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -24,6 +25,7 @@ const SOURCE_LABELS: Record<string, string> = {
   g2_capterra: 'G2',
   manual_curated: 'Buildrs',
   generator_live: 'Live',
+  hacker_news: 'HN',
 }
 
 const CATEGORIES = [
