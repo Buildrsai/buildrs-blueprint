@@ -6,9 +6,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!
-const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY')!
+const SUPABASE_URL       = Deno.env.get('SUPABASE_URL')!
+const SUPABASE_ANON_KEY  = Deno.env.get('SUPABASE_ANON_KEY')!
+const SUPABASE_SVC_KEY   = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const ANTHROPIC_API_KEY  = Deno.env.get('ANTHROPIC_API_KEY')!
 
 function buildPrompt(source: Record<string, unknown> | null, answers: Record<string, string>): string {
   const sourceBlock = source
@@ -54,7 +55,7 @@ Réponds UNIQUEMENT en JSON valide :
       "buildability_score": number (0-100, facilité de construction),
       "buildability_explanation": "string (1 phrase : ce qu'il faut construire exactement)",
       "monetization_score": number (0-100, potentiel revenus),
-      "monetization_explanation": "string (1 phrase : qui paie, combien, pourquoi),
+      "monetization_explanation": "string (1 phrase : qui paie, combien, pourquoi)",
       "build_score": number (0-100, score global = t*0.3 + b*0.4 + m*0.3),
       "recommended_stack": ["string (4 outils max: Claude Code, Supabase, Stripe, Vercel, Resend, etc.)"],
       "mvp_features": ["string (4 features clés, descriptions simples et actionnables)"],
@@ -71,32 +72,41 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    const authHeader = req.headers.get('Authorization')
+    // ── Auth — pattern recommandé Supabase edge functions ──────────────────────
+    const authHeader = req.headers.get('Authorization') ?? ''
     if (!authHeader) {
+      console.error('[generator-recommend] Missing Authorization header')
       return new Response(JSON.stringify({ error: 'Non authentifié' }), {
         status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
+    // Client user-scoped pour vérifier le JWT (pattern recommandé)
+    const supabaseUser = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers: { Authorization: authHeader } },
+      auth: { autoRefreshToken: false, persistSession: false },
+    })
+    const { data: { user }, error: authError } = await supabaseUser.auth.getUser()
+    if (authError || !user) {
+      console.error('[generator-recommend] Auth failed:', authError?.message ?? 'no user')
+      return new Response(JSON.stringify({ error: 'Non authentifié' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Client service role pour les écritures DB
+    const supabaseService = createClient(SUPABASE_URL, SUPABASE_SVC_KEY, {
       auth: { autoRefreshToken: false, persistSession: false },
     })
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', ''),
-    )
-    if (authError || !user) {
-      return new Response(JSON.stringify({ error: 'Non authentifié' }), {
-        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
+    // ── Body ───────────────────────────────────────────────────────────────────
     const body = await req.json()
     const { source, answers } = body as {
       source: Record<string, unknown> | null
       answers: Record<string, string>
     }
 
+    // ── Claude claude-sonnet-4-6 ───────────────────────────────────────────────
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -106,14 +116,14 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 3000,
+        max_tokens: 4000,
         messages: [{ role: 'user', content: buildPrompt(source, answers) }],
       }),
     })
 
     if (!res.ok) {
       const errText = await res.text()
-      console.error('Claude API error:', errText)
+      console.error('[generator-recommend] Claude API error:', errText)
       return new Response(JSON.stringify({ error: 'Erreur IA, réessaie.' }), {
         status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
@@ -122,23 +132,26 @@ Deno.serve(async (req) => {
     const data = await res.json()
     const text: string = data?.content?.[0]?.text ?? ''
     const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/(\{[\s\S]*\})/)
-    if (!jsonMatch) throw new Error('Réponse non-JSON de Claude')
+    if (!jsonMatch) {
+      console.error('[generator-recommend] No JSON in response:', text.slice(0, 200))
+      throw new Error('Réponse non-JSON de Claude')
+    }
 
     const parsed = JSON.parse(jsonMatch[1] || jsonMatch[0]) as { ideas: unknown[] }
 
     // Save session (fire and forget)
-    supabase.from('generator_sessions').insert({
-      user_id: user.id,
-      mode: source ? 'copy' : 'find',
+    supabaseService.from('generator_sessions').insert({
+      user_id:    user.id,
+      mode:       source ? 'copy' : 'find',
       input_data: { source, answers },
       output_data: parsed,
-    }).catch((e: unknown) => console.error('Session save error:', e))
+    }).catch((e: unknown) => console.error('[generator-recommend] Session save error:', e))
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   } catch (err) {
-    console.error('Unhandled error:', err)
+    console.error('[generator-recommend] Unhandled error:', err)
     return new Response(JSON.stringify({ error: String(err) }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
