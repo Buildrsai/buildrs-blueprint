@@ -176,21 +176,21 @@ export function JarvisChat({ navigate, userId, userFirstName, onboardingStrategi
   }, [dailyCount, activeProject, validatorScore, mrrEstimate])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#09090b', color: '#f0f0f5', fontFamily: 'Geist, sans-serif' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'hsl(var(--background))', color: 'hsl(var(--foreground))', fontFamily: 'Geist, sans-serif' }}>
       {/* ── Topbar ── */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: 12,
         padding: '0 20px', height: 64, flexShrink: 0,
-        background: '#0f1015', borderBottom: '1px solid #1e2030',
+        background: 'hsl(var(--card))', borderBottom: '1px solid hsl(var(--border))',
       }}>
         {/* Robot SVG — no background */}
         <RobotJarvis size={36} />
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, letterSpacing: '-0.3px', color: '#f0f0f5', lineHeight: 1, marginBottom: 3 }}>
+          <p style={{ fontSize: 15, fontWeight: 700, letterSpacing: '-0.3px', color: 'hsl(var(--foreground))', lineHeight: 1, marginBottom: 3 }}>
             Jarvis
           </p>
-          <p style={{ fontSize: 11, color: '#5b6078', fontFamily: 'Geist Mono, monospace', lineHeight: 1 }}>
+          <p style={{ fontSize: 11, color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace', lineHeight: 1 }}>
             COO IA · Orchestrateur
           </p>
         </div>
@@ -205,10 +205,10 @@ export function JarvisChat({ navigate, userId, userFirstName, onboardingStrategi
 
         {activeProject && (
           <>
-            <div style={{ width: 1, height: 20, background: '#1e2030' }} />
+            <div style={{ width: 1, height: 20, background: 'hsl(var(--border))' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0, maxWidth: 140, overflow: 'hidden' }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: activeProject.status === 'live' ? '#22c55e' : activeProject.status === 'building' ? '#6366f1' : '#eab308', flexShrink: 0 }} />
-              <span style={{ fontSize: 10, color: '#9399b2', fontFamily: 'Geist, sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span style={{ fontSize: 10, color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist, sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {activeProject.name}
               </span>
             </div>
@@ -217,8 +217,8 @@ export function JarvisChat({ navigate, userId, userFirstName, onboardingStrategi
 
         {dailyCount > 0 && (
           <>
-            <div style={{ width: 1, height: 20, background: '#1e2030' }} />
-            <span style={{ fontSize: 10, color: '#5b6078', fontFamily: 'Geist Mono, monospace', flexShrink: 0 }}>
+            <div style={{ width: 1, height: 20, background: 'hsl(var(--border))' }} />
+            <span style={{ fontSize: 10, color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace', flexShrink: 0 }}>
               {dailyCount}/{DAILY_LIMIT} msg
             </span>
           </>

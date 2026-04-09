@@ -55,7 +55,7 @@ function V3AnnouncementBlock() {
   return (
     <div
       className="rounded-2xl overflow-hidden"
-      style={{ background: '#09090b', border: '1px solid rgba(139,92,246,0.35)' }}
+      style={{ background: 'hsl(var(--foreground))', border: '1px solid rgba(139,92,246,0.35)' }}
     >
       {/* Top bar */}
       <div
@@ -72,14 +72,14 @@ function V3AnnouncementBlock() {
           {time.days > 0 && (
             <span
               className="text-[11px] font-extrabold tabular-nums"
-              style={{ color: '#e9d5ff', letterSpacing: '-0.02em' }}
+              style={{ color: 'hsl(var(--background) / 0.85)', letterSpacing: '-0.02em' }}
             >
               {time.days}j
             </span>
           )}
           <span
             className="text-[11px] font-extrabold tabular-nums"
-            style={{ color: '#e9d5ff', letterSpacing: '-0.02em' }}
+            style={{ color: 'hsl(var(--background) / 0.85)', letterSpacing: '-0.02em' }}
           >
             {pad(time.hours)}h{pad(time.mins)}m{pad(time.secs)}s
           </span>
@@ -89,12 +89,12 @@ function V3AnnouncementBlock() {
       {/* Body */}
       <div className="px-5 py-4">
         <h3
-          className="text-[15px] font-extrabold text-white mb-1"
-          style={{ letterSpacing: '-0.03em' }}
+          className="text-[15px] font-extrabold mb-1"
+          style={{ letterSpacing: '-0.03em', color: 'hsl(var(--background))' }}
         >
           La V3 arrive. Et ça change tout.
         </h3>
-        <p className="text-[12px] mb-4 leading-relaxed" style={{ color: '#71717a' }}>
+        <p className="text-[12px] mb-4 leading-relaxed" style={{ color: 'hsl(var(--background) / 0.6)' }}>
           Tous les agents déployés, branchés directement dans Claude Code. Plus les vidéos et les modules de génération IA.
         </p>
 
@@ -102,7 +102,7 @@ function V3AnnouncementBlock() {
           {V3_FEATURES.map(({ Icon, label }) => (
             <div key={label} className="flex items-center gap-2">
               <Icon size={11} strokeWidth={1.5} style={{ color: '#8b5cf6' }} />
-              <span className="text-[11px]" style={{ color: '#a1a1aa' }}>{label}</span>
+              <span className="text-[11px]" style={{ color: 'hsl(var(--background) / 0.65)' }}>{label}</span>
             </div>
           ))}
         </div>

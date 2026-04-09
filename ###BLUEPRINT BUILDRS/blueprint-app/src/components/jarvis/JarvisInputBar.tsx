@@ -53,7 +53,7 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
   const hasValue = value.trim().length > 0
 
   return (
-    <div style={{ flexShrink: 0, padding: '10px 20px 18px', borderTop: '1px solid #1e2030', background: '#0f1015' }}>
+    <div style={{ flexShrink: 0, padding: '10px 20px 18px', borderTop: '1px solid hsl(var(--border))', background: 'hsl(var(--background))' }}>
       {/* Suggestions */}
       <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' }}>
         {SUGGESTIONS.map(s => (
@@ -64,9 +64,9 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
             disabled={disabled}
             className="jv-qa-btn"
             style={{
-              padding: '6px 12px', background: '#15161d',
-              border: '1px solid #1e2030', borderRadius: 8,
-              fontSize: 11, fontWeight: 500, color: '#9399b2',
+              padding: '6px 12px', background: 'hsl(var(--secondary))',
+              border: '1px solid hsl(var(--border))', borderRadius: 8,
+              fontSize: 11, fontWeight: 500, color: 'hsl(var(--muted-foreground))',
               cursor: disabled ? 'not-allowed' : 'pointer',
               opacity: disabled ? 0.4 : 1, transition: '.2s',
               fontFamily: 'Geist, sans-serif',
@@ -80,7 +80,7 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
       {/* Input */}
       <div style={{
         display: 'flex', alignItems: 'flex-end', gap: 8,
-        background: '#15161d', border: '1px solid #1e2030',
+        background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))',
         borderRadius: 12, padding: '4px 6px 4px 16px', transition: '.25s',
       }}>
         <textarea
@@ -93,7 +93,7 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
           rows={1}
           style={{
             flex: 1, resize: 'none', background: 'none', border: 'none', outline: 'none',
-            fontFamily: 'Geist, sans-serif', fontSize: 13, color: '#f0f0f5',
+            fontFamily: 'Geist, sans-serif', fontSize: 13, color: 'hsl(var(--foreground))',
             padding: '10px 0', lineHeight: 1.5, minHeight: 44, maxHeight: 180,
             overflow: 'hidden', opacity: disabled ? 0.5 : 1,
           }}
@@ -107,7 +107,7 @@ export function JarvisInputBar({ onSend, disabled }: Props) {
           disabled={disabled || !hasValue}
           style={{
             width: 34, height: 34, borderRadius: 8, flexShrink: 0,
-            background: hasValue && !disabled ? '#6366f1' : '#2a2d3e',
+            background: hasValue && !disabled ? '#6366f1' : 'hsl(var(--secondary))',
             border: 'none', cursor: hasValue && !disabled ? 'pointer' : 'default',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: '.2s', color: 'white', opacity: disabled ? 0.5 : 1,

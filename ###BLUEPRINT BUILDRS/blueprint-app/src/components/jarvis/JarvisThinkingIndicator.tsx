@@ -26,12 +26,12 @@ export function JarvisThinkingIndicator() {
         <RobotJarvis size={28} />
       </div>
       <div style={{
-        background: '#15161d', border: '1px solid #1e2030',
+        background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))',
         borderRadius: '2px 14px 14px 14px',
         padding: '12px 16px',
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
-        <span style={{ fontSize: 12, color: '#5b6078', fontWeight: 500 }}>Jarvis analyse</span>
+        <span style={{ fontSize: 12, color: 'hsl(var(--muted-foreground))', fontWeight: 500 }}>Jarvis analyse</span>
         <span style={{ display: 'flex', gap: 4, marginLeft: 2 }}>
           {[0, 1, 2].map(i => (
             <span

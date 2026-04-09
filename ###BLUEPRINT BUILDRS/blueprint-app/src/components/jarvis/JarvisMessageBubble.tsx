@@ -40,11 +40,11 @@ function renderInline(text: string): React.ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g)
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} style={{ fontWeight: 600, color: '#f0f0f5' }}>{part.slice(2, -2)}</strong>
+      return <strong key={i} style={{ fontWeight: 600, color: 'hsl(var(--foreground))' }}>{part.slice(2, -2)}</strong>
     }
     if (part.startsWith('`') && part.endsWith('`')) {
       return (
-        <code key={i} style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, background: 'rgba(255,255,255,0.08)', borderRadius: 4, padding: '1px 5px', color: '#f0f0f5' }}>
+        <code key={i} style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, background: 'hsl(var(--secondary))', borderRadius: 4, padding: '1px 5px', color: 'hsl(var(--foreground))' }}>
           {part.slice(1, -1)}
         </code>
       )
@@ -75,12 +75,12 @@ export function JarvisMessageBubble({ message, navigate }: Props) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {/* Bubble */}
           <div style={{
-            background: '#15161d',
-            border: '1px solid #1e2030',
+            background: 'hsl(var(--secondary))',
+            border: '1px solid hsl(var(--border))',
             borderRadius: '2px 14px 14px 14px',
             padding: '12px 16px',
           }}>
-            <p style={{ fontSize: 13, color: '#9399b2', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontSize: 13, color: 'hsl(var(--foreground))', lineHeight: 1.75, margin: 0 }}>
               {renderText(message.text)}
             </p>
           </div>
@@ -119,7 +119,7 @@ export function JarvisMessageBubble({ message, navigate }: Props) {
         borderRadius: '14px 2px 14px 14px',
         padding: '12px 16px',
       }}>
-        <p style={{ fontSize: 13, lineHeight: 1.65, color: '#f0f0f5', margin: 0 }}>{message.text}</p>
+        <p style={{ fontSize: 13, lineHeight: 1.65, color: 'hsl(var(--foreground))', margin: 0 }}>{message.text}</p>
       </div>
     </div>
   )
