@@ -650,84 +650,21 @@ function Stats() {
 
 
 function WhySaaS() {
-  const inner = [
-    { Icon: BrandIcons.supabase, delay: '0s' },
-    { Icon: BrandIcons.vercel,   delay: '-4s' },
-    { Icon: BrandIcons.github,   delay: '-8s' },
-  ]
-  const outer = [
-    { Icon: BrandIcons.stripe,      delay: '0s' },
-    { Icon: BrandIcons.resend,      delay: '-7s' },
-    { Icon: BrandIcons.cloudflare,  delay: '-14s' },
-  ]
-
   return (
     <section id="resultats" className="relative py-24 bg-background overflow-hidden">
-      <BGPattern variant="dots" mask="fade-edges" size={28} fill="rgba(255,255,255,0.07)" />
-      <div className="mx-auto max-w-[1100px] px-6">
-        {/* Header centré */}
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Pourquoi maintenant
-          </p>
-          <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
-            className="mb-5 text-foreground mx-auto max-w-[860px]"
-          >
-            Le SaaS classique est mort. Bienvenue dans l'ère du Micro-SaaS IA.
-          </h2>
-          <p className="mx-auto max-w-[620px] text-[17px] leading-[1.65] text-muted-foreground">
-            Un Micro-SaaS IA, c'est un outil propulsé par l'IA, focalisé sur un problème précis dans une niche étroite. Pas un CRM générique — un générateur de contrats pour avocats solo. Pas une plateforme massive — une app de pricing pour e-commerçants Shopify. Tu le lances seul, avec Claude comme moteur, en quelques jours. Et il génère des revenus récurrents en autopilote.
-          </p>
-        </div>
-
-        {/* Orbital animation */}
-        <div className="relative mx-auto my-8 mb-14 flex items-center justify-center" style={{ width: 'min(88vw, 480px)', height: 'min(88vw, 480px)' }}>
-          {/* Rings */}
-          <div className="absolute rounded-full border border-dashed" style={{ width: 'min(50vw, 230px)', height: 'min(50vw, 230px)', borderColor: 'hsl(var(--border))' }} />
-          <div className="absolute rounded-full border border-dashed" style={{ width: 'min(80vw, 340px)', height: 'min(80vw, 340px)', borderColor: 'hsl(var(--border) / 0.4)' }} />
-
-          {/* Center — Claude */}
-          <div
-            className="absolute z-10 flex items-center justify-center rounded-2xl border border-border bg-card"
-            style={{ width: 72, height: 72, boxShadow: '0 0 32px rgba(204,93,232,0.25)' }}
-          >
-            <ClaudeIcon size={36} />
-          </div>
-
-          {/* Inner orbit */}
-          {inner.map(({ Icon, delay }, i) => (
-            <div key={i} className="absolute" style={{ animation: `orbit-inner-lg 12s linear ${delay} infinite` }}>
-              <div className="flex items-center justify-center rounded-xl border border-border bg-card shadow-sm" style={{ width: 44, height: 44 }}>
-                <Icon width={22} height={22} />
-              </div>
-            </div>
-          ))}
-
-          {/* Outer orbit */}
-          {outer.map(({ Icon, delay }, i) => (
-            <div key={i} className="absolute" style={{ animation: `orbit-outer-lg 20s linear ${delay} infinite` }}>
-              <div className="flex items-center justify-center rounded-xl border border-border bg-card shadow-sm" style={{ width: 44, height: 44 }}>
-                <Icon width={22} height={22} />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Stats en bas */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {[
-            { num: "0 ligne de code", label: "Tu décris, l'IA construit", sub: "" },
-            { num: "100% solo", label: "Aucune équipe nécessaire", sub: "" },
-            { num: "27€", label: "pour tout démarrer", sub: "Paiement unique, accès à vie" },
-          ].map(({ num, label, sub }) => (
-            <div key={num} className="rounded-xl border border-border bg-muted p-4 text-center">
-              <p className="text-[22px] font-bold tracking-tight text-foreground" style={{ letterSpacing: "-0.03em" }}>{num}</p>
-              <p className="mt-0.5 text-[13px] text-muted-foreground">{label}</p>
-              {sub && <p className="text-[11px] text-muted-foreground/50 mt-0.5">{sub}</p>}
-            </div>
-          ))}
-        </div>
+      <div className="mx-auto max-w-[760px] px-6 text-center">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+          Pourquoi maintenant
+        </p>
+        <h2
+          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
+          className="mb-6 text-foreground"
+        >
+          Il y a 1 an, créer un SaaS demandait +6 mois et +20 000€. Aujourd'hui : 6 jours et 27€.
+        </h2>
+        <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
+          Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction. Tu décris ce que tu veux — l'IA construit. Bienvenue en 2026.
+        </p>
       </div>
     </section>
   )
