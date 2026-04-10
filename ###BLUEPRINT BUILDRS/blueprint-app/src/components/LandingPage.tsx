@@ -514,7 +514,15 @@ function HeroDashboardMockup() {
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
-      <DottedSurface className="absolute inset-0 w-full h-full" />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Crect x='0' y='0' width='3' height='3' fill='rgba(0%2C0%2C0%2C0.13)'/%3E%3C/svg%3E")`,
+          backgroundSize: '28px 28px',
+          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
+        }}
+      />
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
         style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
@@ -541,13 +549,10 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           </h1>
 
           {/* Sub */}
-          <p className="mb-6 max-w-[500px] text-[16px] leading-[1.65] text-muted-foreground">
-            De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote.{" "}
-            <strong className="font-semibold text-foreground">Même sans savoir coder avec une armée d'agents IA.</strong>
+          <p className="mb-6 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
+            Creer un SaaS avec Claude, tout le monde peut le faire.{" "}
+            <strong className="font-semibold text-foreground">Trouver le bon SaaS IA, le monétiser et le vendre — c'est là que 98% échouent.</strong>
           </p>
-
-          {/* Typing idea */}
-          <TypingIdea />
 
           {/* CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
@@ -555,11 +560,6 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
               Accéder au Blueprint — 27€ →
             </a>
           </div>
-
-          {/* Social proof note */}
-          <p className="mb-4 text-center text-[12px] text-muted-foreground/60">
-            Valeur réelle : 1 235€ · Paiement unique · Accès à vie
-          </p>
 
           {/* Progress bar */}
           <div className="mb-6 w-full max-w-[420px]">
@@ -574,7 +574,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Badges */}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            {["Sans expertise en IA", "Débutant ou confirmé", "Claude Code comme moteur"].map((label) => (
+            {["Sans savoir coder", "Débutant ou confirmé", "Claude Code comme moteur"].map((label) => (
               <span
                 key={label}
                 className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
