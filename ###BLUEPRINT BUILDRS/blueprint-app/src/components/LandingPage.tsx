@@ -537,24 +537,28 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             className="mb-7 text-foreground mx-auto max-w-[900px]"
             style={{ fontSize: "clamp(38px, 4.5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
           >
-            Ton premier Micro-SaaS IA rentable. En 6 jours.
+            Ton premier SaaS IA rentable et autonome. En 6 jours.
           </h1>
 
           {/* Sub */}
           <p className="mb-6 max-w-[500px] text-[16px] leading-[1.65] text-muted-foreground">
-            Creer un SaaS avec Claude, tout le monde peut le faire. <strong className="font-semibold text-foreground">Trouver la bonne idee et la vendre — c'est la que 98% echouent.</strong>
+            De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote.{" "}
+            <strong className="font-semibold text-foreground">Même sans savoir coder avec une armée d'agents IA.</strong>
           </p>
+
+          {/* Typing idea */}
+          <TypingIdea />
 
           {/* CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
             <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-              Je lance mon Micro-SaaS IA — 27€ →
+              Accéder au Blueprint — 27€ →
             </a>
           </div>
 
           {/* Social proof note */}
           <p className="mb-4 text-center text-[12px] text-muted-foreground/60">
-            Paiement unique · Accès à vie
+            Valeur réelle : 1 235€ · Paiement unique · Accès à vie
           </p>
 
           {/* Progress bar */}
@@ -570,7 +574,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Badges */}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            {["Sans savoir coder", "Débutant ou confirmé"].map((label) => (
+            {["Sans expertise en IA", "Débutant ou confirmé", "Claude Code comme moteur"].map((label) => (
               <span
                 key={label}
                 className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
@@ -1243,72 +1247,30 @@ function SaasBuiltCard({ item }: { item: SaasBuiltItem }) {
   )
 }
 
-const whatsappTestimonials = [
-  {
-    img: "/Temoignages/IMG_8889.jpeg",
-    label: "Abonnement 99€/mois lancé",
-    sub: "SaaS live + deals entreprise en cours",
-  },
-  {
-    img: "/Temoignages/IMG_8890.jpeg",
-    label: "Martin — stratégie validée en 20 min",
-    sub: "Scraping pro avec Apify + Claude Code",
-  },
-  {
-    img: "/Temoignages/IMG_8891.jpeg",
-    label: "10 bêta testeurs — 3 white-labels signés",
-    sub: "Objectif 10-12K€/mois sur mars",
-  },
-  {
-    img: "/Temoignages/IMG_8892.jpeg",
-    label: "Stan — \"ça change des vendeurs de tapis\"",
-    sub: "MVP en cours, accompagnement actif",
-  },
-]
-
 function UniqueTestimonialSection() {
   return (
     <section className="py-24 bg-muted">
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Ils l'ont fait
-          </p>
+          <div className="mb-3 inline-flex items-center rounded-full border border-border bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground">
+            Exemples
+          </div>
           <h2
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
             className="text-foreground"
           >
-            Les messages de notre WhatsApp.
+            De l'idée au produit live.
           </h2>
           <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-[1.65] text-muted-foreground">
-            Sans background technique. Sans equipe. Avec Claude et le systeme Blueprint.
+            Des exemples concrets de SaaS réalisables avec Blueprint — en moins d'une semaine.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {whatsappTestimonials.map((item) => (
-            <div
-              key={item.img}
-              className="rounded-2xl border border-border bg-card overflow-hidden hover:border-muted-foreground/40 transition-colors"
-            >
-              <img
-                src={item.img}
-                alt={item.label}
-                loading="lazy"
-                className="w-full object-cover"
-                style={{ maxHeight: 220, objectPosition: "top" }}
-              />
-              <div className="px-5 py-4">
-                <p className="text-[14px] font-semibold text-foreground">{item.label}</p>
-                <p className="mt-0.5 text-[12px] text-muted-foreground/70">{item.sub}</p>
-              </div>
-            </div>
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
+          {SAAS_BUILT.map((item) => (
+            <SaasBuiltCard key={item.productName} item={item} />
           ))}
         </div>
-
-        <p className="mt-8 text-center text-[13px] text-muted-foreground/50">
-          Messages reels — Canal WhatsApp Buildrs
-        </p>
       </div>
     </section>
   )
@@ -1526,7 +1488,7 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         className="mx-auto mb-[18px] max-w-[680px] text-foreground"
         style={{ fontSize: "clamp(40px, 6vw, 70px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
       >
-        Ton premier Micro-SaaS IA<br />est à 6 jours d'ici.<br />Claude est prêt. Et toi ?
+        Ton premier produit IA est à 6 jours d'ici.
       </h2>
       <p className="mx-auto mb-9 max-w-[440px] text-[17px] leading-[1.65] text-muted-foreground">
         Pas dans 6 mois. Pas quand tu auras appris à coder. Pas quand tu auras trouvé le bon moment. En 6 jours.
@@ -1535,7 +1497,7 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         Commencer maintenant — 27€ (au lieu de 297€) →
       </a>
       <p className="mt-4 text-[12px] text-muted-foreground/60">
-        Paiement unique · Accès à vie
+        Valeur réelle : 1 235€ · Paiement unique · Accès à vie
       </p>
       <div className="mt-5 w-full max-w-[340px] mx-auto">
         <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
@@ -1726,7 +1688,7 @@ function Sprint() {
 export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
   const go = (e: React.MouseEvent) => { e.preventDefault(); onCTAClick?.() }
   return (
-    <div className="dark bg-background">
+    <>
       <Nav onCTA={go} />
       <main>
         <Hero onCTA={go} />
@@ -1744,6 +1706,6 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <FinalCTA onCTA={go} />
       </main>
       <StackedCircularFooter />
-    </div>
+    </>
   )
 }
