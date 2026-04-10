@@ -725,15 +725,15 @@ const saasCardItems = [
   {
     id: "stack",
     title: "Dupliquer et automatiser",
-    stat: "Micro-SaaS 1 → Micro-SaaS 2 → Micro-SaaS 3",
-    description: "Micro-SaaS 1 → Micro-SaaS 2 → Micro-SaaS 3. Claude duplique la méthode. Chaque produit tourne en autopilote pendant que tu construis le suivant.",
+    stat: "SaaS 1 → SaaS 2 → SaaS 3",
+    description: "Tu configures ton écosystème IA une seule fois. Tes agents autonomes gèrent le support, l'acquisition, le contenu. Tu dupliques la méthode, tu lances un deuxième produit, un troisième. Chaque SaaS tourne en autopilote pendant que tu construis le suivant.",
     icon: <Copy strokeWidth={1.5} size={20} />,
   },
   {
     id: "exit",
     title: "Revendre ou conserver",
     stat: "1 000€/mois → 20 000 à 40 000€",
-    description: "Tu gardes et développes ton Micro-SaaS, ou tu le revends. Un Micro-SaaS IA à 1 000€/mois de MRR se revend entre 20x et 40x. C'est toi qui choisis.",
+    description: "Tu gardes et développes ton SaaS, ou tu le revends entre 20x et 40x son MRR mensuel. C'est toi qui choisis.",
     icon: <ArrowLeftRight strokeWidth={1.5} size={20} />,
   },
 ]
@@ -765,7 +765,7 @@ function SaasVehicle() {
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.08 }}
             className="mb-5 text-foreground max-w-[500px]"
           >
-            Pourquoi le Micro-SaaS IA est le meilleur business model en 2026.
+            Pourquoi un SaaS IA est le meilleur business model en 2026.
           </h2>
           <p className="max-w-[560px] text-[17px] leading-[1.65] text-muted-foreground">
             Contrairement au e-commerce, au freelance ou au coaching, un SaaS ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
