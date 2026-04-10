@@ -542,12 +542,8 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Sub */}
           <p className="mb-6 max-w-[500px] text-[16px] leading-[1.65] text-muted-foreground">
-            De l'idée au premier client payant — piloté par Claude Code, étape par étape. Génère tes premiers revenus en automatique.{" "}
-            <strong className="font-semibold text-foreground">Sans toucher une seule ligne de code.</strong>
+            Creer un SaaS avec Claude, tout le monde peut le faire. <strong className="font-semibold text-foreground">Trouver la bonne idee et la vendre — c'est la que 98% echouent.</strong>
           </p>
-
-          {/* Typing idea */}
-          <TypingIdea />
 
           {/* CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
@@ -558,7 +554,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Social proof note */}
           <p className="mb-4 text-center text-[12px] text-muted-foreground/60">
-            Valeur réelle : 1 235€ · Paiement unique · Accès à vie
+            Paiement unique · Accès à vie
           </p>
 
           {/* Progress bar */}
@@ -574,7 +570,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Badges */}
           <div className="flex flex-wrap items-center justify-center gap-2">
-            {["Sans expertise en IA", "Débutant ou confirmé"].map((label) => (
+            {["Sans savoir coder", "Débutant ou confirmé"].map((label) => (
               <span
                 key={label}
                 className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
@@ -1497,7 +1493,7 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         Commencer maintenant — 27€ (au lieu de 297€) →
       </a>
       <p className="mt-4 text-[12px] text-muted-foreground/60">
-        Valeur réelle : 1 235€ · Paiement unique · Accès à vie
+        Paiement unique · Accès à vie
       </p>
       <div className="mt-5 w-full max-w-[340px] mx-auto">
         <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
@@ -1688,7 +1684,7 @@ function Sprint() {
 export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
   const go = (e: React.MouseEvent) => { e.preventDefault(); onCTAClick?.() }
   return (
-    <>
+    <div className="dark bg-background">
       <Nav onCTA={go} />
       <main>
         <Hero onCTA={go} />
@@ -1706,6 +1702,6 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <FinalCTA onCTA={go} />
       </main>
       <StackedCircularFooter />
-    </>
+    </div>
   )
 }
