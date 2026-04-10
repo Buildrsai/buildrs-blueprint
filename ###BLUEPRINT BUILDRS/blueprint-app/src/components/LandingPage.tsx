@@ -1184,30 +1184,57 @@ function SaasBuiltCard({ item }: { item: SaasBuiltItem }) {
   )
 }
 
+const whatsappTestimonials = [
+  { img: "/Temoignages/IMG_8889.jpeg", label: "Abonnement 99€/mois lancé", sub: "SaaS live + deals entreprise en cours" },
+  { img: "/Temoignages/IMG_8890.jpeg", label: "Martin — stratégie validée en 20 min", sub: "Scraping pro avec Apify + Claude Code" },
+  { img: "/Temoignages/IMG_8891.jpeg", label: "10 bêta testeurs — 3 white-labels signés", sub: "Objectif 10-12K€/mois sur mars" },
+  { img: "/Temoignages/IMG_8892.jpeg", label: "Stan — \"ça change des vendeurs de tapis\"", sub: "MVP en cours, accompagnement actif" },
+]
+
 function UniqueTestimonialSection() {
   return (
-    <section className="py-24 bg-muted">
+    <section id="resultats" className="py-24" style={{ background: "#0a0a0a" }}>
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="mb-14 text-center">
-          <div className="mb-3 inline-flex items-center rounded-full border border-border bg-secondary px-3 py-1 text-[11px] font-semibold text-foreground">
-            Exemples
-          </div>
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40">
+            Ils l'ont fait
+          </p>
           <h2
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-            className="text-foreground"
+            className="text-white"
           >
-            De l'idée au produit live.
+            Les messages de notre WhatsApp.
           </h2>
-          <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-[1.65] text-muted-foreground">
-            Des exemples concrets de SaaS réalisables avec Blueprint — en moins d'une semaine.
+          <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-[1.65] text-white/50">
+            Sans background technique. Sans équipe. Avec Claude et le système Blueprint.
           </p>
         </div>
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
-          {SAAS_BUILT.map((item) => (
-            <SaasBuiltCard key={item.productName} item={item} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {whatsappTestimonials.map((item) => (
+            <div
+              key={item.img}
+              className="rounded-2xl overflow-hidden hover:opacity-90 transition-opacity"
+              style={{ border: "1px solid rgba(255,255,255,0.08)", background: "#141414" }}
+            >
+              <img
+                src={item.img}
+                alt={item.label}
+                loading="lazy"
+                className="w-full object-cover"
+                style={{ maxHeight: 240, objectPosition: "top" }}
+              />
+              <div className="px-5 py-4">
+                <p className="text-[14px] font-semibold text-white">{item.label}</p>
+                <p className="mt-0.5 text-[12px] text-white/40">{item.sub}</p>
+              </div>
+            </div>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-[13px] text-white/25">
+          Messages réels — Canal WhatsApp Buildrs
+        </p>
       </div>
     </section>
   )
