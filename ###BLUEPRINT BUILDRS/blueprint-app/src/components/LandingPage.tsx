@@ -908,7 +908,7 @@ function DashboardSection() {
       <div className="mx-auto max-w-[1100px] px-6">
         <div className="text-center mb-14">
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Le produit
+            Ce que tu vas recevoir
           </p>
           <h2
             style={{ fontSize: 'clamp(34px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.06 }}
@@ -917,7 +917,7 @@ function DashboardSection() {
             Pas un PDF. Pas une vidéo.<br />Un vrai copilote IA.
           </h2>
           <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
-            Propulsé par Claude — l'IA la plus avancée pour builder des produits.
+            Tout ce qu'il te faut pour passer de l'idée au produit live — dans un seul endroit.
           </p>
         </div>
 
