@@ -1538,7 +1538,7 @@ function Sprint() {
           Un système en 7 étapes.<br />Un produit live à la fin.
         </h2>
         <p className="mb-12 md:mb-20 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          Pas un cours. Un système étape par étape. Tu suis, Claude construit. À la fin, ton Micro-SaaS IA est live et génère du MRR.
+          Pas un cours. Un système étape par étape. Tu suis, Claude construit. À la fin, ton SaaS IA ou ton app est live et génère du MRR.
         </p>
 
         {/* Timeline */}
