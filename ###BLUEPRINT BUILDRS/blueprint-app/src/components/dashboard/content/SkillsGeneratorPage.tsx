@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, Wrench, Download, RotateCcw } from 'lucide-react'
+import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, Wrench, Download, RotateCcw, Loader2 } from 'lucide-react'
+import { supabase } from '../../../lib/supabase'
 
 interface Props {
   navigate: (hash: string) => void
@@ -85,8 +86,8 @@ function generateInstallPrompt(v: SkillValues, content: string): string {
 function Label({ children, hint }: { children: React.ReactNode; hint?: string }) {
   return (
     <div className="mb-2">
-      <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{children}</p>
-      {hint && <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{hint}</p>}
+      <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{children}</p>
+      {hint && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{hint}</p>}
     </div>
   )
 }
@@ -95,7 +96,7 @@ function Input({ value, onChange, placeholder }: { value: string; onChange: (v: 
   return (
     <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
       className="w-full rounded-xl px-4 py-2.5 text-[13px] outline-none transition-all"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.12)', color: '#f0f0f5' }} />
+      style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }} />
   )
 }
 
@@ -103,7 +104,7 @@ function Textarea({ value, onChange, placeholder, rows = 5 }: { value: string; o
   return (
     <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} rows={rows}
       className="w-full rounded-xl px-4 py-3 text-[12px] outline-none resize-none transition-all"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.12)', color: '#f0f0f5', lineHeight: 1.7 }} />
+      style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--foreground))', lineHeight: 1.7 }} />
   )
 }
 
@@ -111,13 +112,13 @@ function Toggle({ checked, onChange, label, desc }: { checked: boolean; onChange
   return (
     <button onClick={() => onChange(!checked)}
       className="flex items-start gap-3 w-full text-left p-3.5 rounded-xl transition-all"
-      style={{ background: checked ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.02)', border: `0.5px solid ${checked ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}` }}>
-      <div className="flex-shrink-0 mt-0.5 w-9 h-5 rounded-full relative transition-all" style={{ background: checked ? '#22c55e' : 'rgba(255,255,255,0.12)' }}>
+      style={{ background: checked ? 'rgba(34,197,94,0.08)' : 'hsl(var(--secondary))', border: `0.5px solid ${checked ? 'rgba(34,197,94,0.3)' : 'hsl(var(--secondary))'}` }}>
+      <div className="flex-shrink-0 mt-0.5 w-9 h-5 rounded-full relative transition-all" style={{ background: checked ? '#22c55e' : 'hsl(var(--border))' }}>
         <div className="absolute top-0.5 w-4 h-4 rounded-full transition-all" style={{ background: '#fff', left: checked ? '18px' : '2px' }} />
       </div>
       <div>
-        <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{label}</p>
-        {desc && <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{desc}</p>}
+        <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{label}</p>
+        {desc && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>}
       </div>
     </button>
   )
@@ -126,11 +127,11 @@ function Toggle({ checked, onChange, label, desc }: { checked: boolean; onChange
 function ProgressBar({ step, total }: { step: number; total: number }) {
   return (
     <div className="flex items-center gap-3 mb-8">
-      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'hsl(var(--secondary))' }}>
         <div className="h-full rounded-full transition-all duration-300" style={{ width: `${(step / total) * 100}%`, background: '#22c55e' }} />
       </div>
       <span className="text-[10px] font-bold tabular-nums flex-shrink-0"
-        style={{ color: '#5b6078', fontFamily: 'Geist Mono, monospace' }}>{step}/{total}</span>
+        style={{ color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace' }}>{step}/{total}</span>
     </div>
   )
 }
@@ -142,7 +143,7 @@ function Step1({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
     <div className="space-y-5">
       <div>
         <Label>Nom de la commande <span style={{ color: '#ef4444' }}>*</span>
-          <span className="font-normal text-[11px] ml-1" style={{ color: '#5b6078' }}>→ sera invoqué avec /nom</span>
+          <span className="font-normal text-[11px] ml-1" style={{ color: 'hsl(var(--muted-foreground))' }}>→ sera invoqué avec /nom</span>
         </Label>
         <Input value={v.skillName} onChange={val => set('skillName', val.toLowerCase().replace(/\s+/g, '-'))} placeholder="deploy, review, landing-check, generate-invoice..." />
       </div>
@@ -150,7 +151,7 @@ function Step1({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
         <Label hint="Max 250 caractères — Claude utilise ça pour décider quand charger le skill automatiquement.">Description courte <span style={{ color: '#ef4444' }}>*</span></Label>
         <Input value={v.description} onChange={val => set('description', val)} placeholder="Déployer l'app en production avec vérifications de sécurité" />
         {v.description && (
-          <p className="text-[10px] mt-1 tabular-nums" style={{ color: v.description.length > 250 ? '#ef4444' : '#5b6078' }}>
+          <p className="text-[10px] mt-1 tabular-nums" style={{ color: v.description.length > 250 ? '#ef4444' : 'hsl(var(--muted-foreground))' }}>
             {v.description.length}/250 caractères
           </p>
         )}
@@ -168,8 +169,8 @@ function Step1({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
 6. Affiche l'URL de production`} />
       </div>
       <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(34,197,94,0.06)', border: '0.5px solid rgba(34,197,94,0.2)' }}>
-        <p className="text-[11px] leading-relaxed" style={{ color: '#9399b2' }}>
-          Un bon skill fait <strong style={{ color: '#f0f0f5' }}>UNE chose bien</strong>. Si ta description dépasse 5 étapes, envisage de créer 2 skills séparés.
+        <p className="text-[11px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+          Un bon skill fait <strong style={{ color: 'hsl(var(--foreground))' }}>UNE chose bien</strong>. Si ta description dépasse 5 étapes, envisage de créer 2 skills séparés.
         </p>
       </div>
     </div>
@@ -188,13 +189,13 @@ function Step2({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
           ].map(opt => (
             <button key={String(opt.value)} onClick={() => set('disableModelInvocation', opt.value)}
               className="w-full flex items-start gap-3 p-3.5 rounded-xl text-left transition-all"
-              style={{ background: v.disableModelInvocation === opt.value ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.02)', border: `0.5px solid ${v.disableModelInvocation === opt.value ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}` }}>
-              <div className="w-4 h-4 rounded-full mt-0.5 flex-shrink-0 flex items-center justify-center" style={{ border: `1.5px solid ${v.disableModelInvocation === opt.value ? '#22c55e' : 'rgba(255,255,255,0.2)'}` }}>
+              style={{ background: v.disableModelInvocation === opt.value ? 'rgba(34,197,94,0.08)' : 'hsl(var(--secondary))', border: `0.5px solid ${v.disableModelInvocation === opt.value ? 'rgba(34,197,94,0.3)' : 'hsl(var(--secondary))'}` }}>
+              <div className="w-4 h-4 rounded-full mt-0.5 flex-shrink-0 flex items-center justify-center" style={{ border: `1.5px solid ${v.disableModelInvocation === opt.value ? '#22c55e' : 'hsl(var(--border))'}` }}>
                 {v.disableModelInvocation === opt.value && <div className="w-2 h-2 rounded-full" style={{ background: '#22c55e' }} />}
               </div>
               <div>
-                <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{opt.label}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{opt.desc}</p>
+                <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{opt.label}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{opt.desc}</p>
               </div>
             </button>
           ))}
@@ -220,15 +221,15 @@ function Step2({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
           ].map(opt => (
             <button key={opt.value} onClick={() => set('scope', opt.value as 'personal' | 'project')}
               className="w-full flex items-center gap-3 p-3.5 rounded-xl text-left transition-all"
-              style={{ background: v.scope === opt.value ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.02)', border: `0.5px solid ${v.scope === opt.value ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.07)'}` }}>
-              <div className="w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center" style={{ border: `1.5px solid ${v.scope === opt.value ? '#22c55e' : 'rgba(255,255,255,0.2)'}` }}>
+              style={{ background: v.scope === opt.value ? 'rgba(34,197,94,0.08)' : 'hsl(var(--secondary))', border: `0.5px solid ${v.scope === opt.value ? 'rgba(34,197,94,0.3)' : 'hsl(var(--secondary))'}` }}>
+              <div className="w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center" style={{ border: `1.5px solid ${v.scope === opt.value ? '#22c55e' : 'hsl(var(--border))'}` }}>
                 {v.scope === opt.value && <div className="w-2 h-2 rounded-full" style={{ background: '#22c55e' }} />}
               </div>
               <div className="flex-1">
-                <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{opt.label}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{opt.desc}</p>
+                <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{opt.label}</p>
+                <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{opt.desc}</p>
               </div>
-              <code className="text-[10px] flex-shrink-0" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{opt.path}</code>
+              <code className="text-[10px] flex-shrink-0" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{opt.path}</code>
             </button>
           ))}
         </div>
@@ -245,9 +246,9 @@ function Step3({ v, set }: { v: SkillValues; set: (k: keyof SkillValues, val: un
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-[11px] font-semibold mb-3" style={{ color: '#5b6078', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Stack imposée par Buildrs</p>
-        <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <p className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: '#9399b2' }}>Next.js + TypeScript + Supabase + Stripe + Tailwind + shadcn/ui</p>
+        <p className="text-[11px] font-semibold mb-3" style={{ color: 'hsl(var(--muted-foreground))', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Stack imposée par Buildrs</p>
+        <div className="rounded-xl px-4 py-3" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>Next.js + TypeScript + Supabase + Stripe + Tailwind + shadcn/ui</p>
         </div>
       </div>
       <div>
@@ -300,17 +301,17 @@ function ResultView({ v, content, onReset }: { v: SkillValues; content: string; 
         <Check size={18} strokeWidth={2} style={{ color: '#22c55e', flexShrink: 0 }} />
         <div>
           <p className="text-[13px] font-bold" style={{ color: '#22c55e' }}>Ton skill /{v.skillName} est prêt</p>
-          <p className="text-[11px]" style={{ color: '#5b6078' }}>Installe-le avec la méthode ci-dessous.</p>
+          <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Installe-le avec la méthode ci-dessous.</p>
         </div>
       </div>
 
       {/* How to install */}
       <div className="rounded-xl px-4 py-3.5 mb-5" style={{ background: 'rgba(77,150,255,0.06)', border: '0.5px solid rgba(77,150,255,0.2)' }}>
         <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: '#4d96ff' }}>Comment installer</p>
-        <p className="text-[12px] font-semibold mb-1" style={{ color: '#f0f0f5' }}>Méthode 1 — La plus simple</p>
-        <p className="text-[11.5px] mb-3" style={{ color: '#9399b2' }}>Copie le "prompt d'installation" et colle-le directement dans Claude Code. Il créera le fichier pour toi.</p>
-        <p className="text-[12px] font-semibold mb-1" style={{ color: '#f0f0f5' }}>Méthode 2 — Manuelle</p>
-        <p className="text-[11.5px] mb-1" style={{ color: '#9399b2' }}>Télécharge le fichier et place-le dans :</p>
+        <p className="text-[12px] font-semibold mb-1" style={{ color: 'hsl(var(--foreground))' }}>Méthode 1 — La plus simple</p>
+        <p className="text-[11.5px] mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Copie le "prompt d'installation" et colle-le directement dans Claude Code. Il créera le fichier pour toi.</p>
+        <p className="text-[12px] font-semibold mb-1" style={{ color: 'hsl(var(--foreground))' }}>Méthode 2 — Manuelle</p>
+        <p className="text-[11.5px] mb-1" style={{ color: 'hsl(var(--muted-foreground))' }}>Télécharge le fichier et place-le dans :</p>
         <code className="text-[11px] block mb-3" style={{ fontFamily: 'Geist Mono, monospace', color: '#22c55e' }}>{path}/SKILL.md</code>
         <p className="text-[11px] italic" style={{ color: '#4d96ff' }}>
           Ensuite, tape /{v.skillName} dans Claude Code pour vérifier qu'il est détecté.
@@ -327,27 +328,27 @@ function ResultView({ v, content, onReset }: { v: SkillValues; content: string; 
         </button>
         <button onClick={doCopyMd}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-bold transition-all"
-          style={{ background: copiedMd ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copiedMd ? '#22c55e' : '#f0f0f5' }}>
+          style={{ background: copiedMd ? 'hsl(var(--border))' : 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copiedMd ? '#22c55e' : 'hsl(var(--foreground))' }}>
           {copiedMd ? <Check size={13} strokeWidth={2} /> : <Copy size={13} strokeWidth={1.5} />}
           {copiedMd ? 'Copié !' : 'Copier le SKILL.md'}
         </button>
         <button onClick={doDownload}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-bold transition-all hover:opacity-80"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#9399b2' }}>
+          style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}>
           <Download size={13} strokeWidth={2} />Télécharger SKILL.md
         </button>
         <button onClick={onReset}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-all hover:opacity-70 ml-auto"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#5b6078' }}>
+          style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}>
           <RotateCcw size={12} strokeWidth={1.5} />Nouveau skill
         </button>
       </div>
 
       {/* File preview */}
-      <div className="relative rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
-        <div className="px-4 py-2 flex items-center gap-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+      <div className="relative rounded-xl overflow-hidden" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
+        <div className="px-4 py-2 flex items-center gap-2" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
           <Wrench size={12} strokeWidth={1.5} style={{ color: '#22c55e' }} />
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>SKILL.md — /{v.skillName}</span>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>SKILL.md — /{v.skillName}</span>
         </div>
         <pre className="px-5 py-4 overflow-x-auto text-[11.5px] leading-relaxed max-h-[400px] overflow-y-auto"
           style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
@@ -371,6 +372,8 @@ export function SkillsGeneratorPage({ navigate }: Props) {
   const [values, setValues] = useState<SkillValues>({ ...DEFAULT })
   const [done, setDone] = useState(false)
   const [output, setOutput] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [genError, setGenError] = useState('')
 
   const set = useCallback((k: keyof SkillValues, val: unknown) => {
     setValues(prev => ({ ...prev, [k]: val }))
@@ -381,9 +384,37 @@ export function SkillsGeneratorPage({ navigate }: Props) {
     return true
   }
 
-  const handleGenerate = () => {
-    setOutput(generateSkill(values))
-    setDone(true)
+  const handleGenerate = async () => {
+    setIsGenerating(true)
+    setGenError('')
+    try {
+      const constraints = [
+        values.conventions.trim(),
+        values.hasArguments && values.argumentHint.trim() ? `Argument attendu : ${values.argumentHint}` : '',
+        values.fork ? 'Exécution isolée (context: fork)' : '',
+      ].filter(Boolean).join('\n')
+
+      const { data, error } = await supabase.functions.invoke('claude-generators', {
+        body: {
+          type: 'skills',
+          payload: {
+            skillName:    values.skillName,
+            description:  values.description,
+            instructions: values.instructions,
+            context:      'React + TypeScript + Supabase + Stripe + Vercel',
+            examples:     values.exampleOutput || '',
+            constraints,
+          },
+        },
+      })
+      if (error) throw error
+      setOutput((data as { result: string }).result)
+      setDone(true)
+    } catch (e) {
+      setGenError(e instanceof Error ? e.message : String(e))
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const handleReset = () => {
@@ -391,6 +422,7 @@ export function SkillsGeneratorPage({ navigate }: Props) {
     setStep(1)
     setDone(false)
     setOutput('')
+    setGenError('')
   }
 
   const current = STEP_LABELS[step - 1]
@@ -401,7 +433,7 @@ export function SkillsGeneratorPage({ navigate }: Props) {
 
         <button
           onClick={() => done ? setDone(false) : step > 1 ? setStep(s => s - 1) : window.history.back()}
-          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: '#9399b2' }}>
+          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: 'hsl(var(--muted-foreground))' }}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>{done ? 'Retour au générateur' : step > 1 ? 'Étape précédente' : 'Retour à Skills'}</span>
         </button>
@@ -412,10 +444,10 @@ export function SkillsGeneratorPage({ navigate }: Props) {
               <span className="text-[9px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded-md"
                 style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.25)' }}>Générateur</span>
             </div>
-            <h1 className="text-[22px] font-extrabold mb-1.5" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+            <h1 className="text-[22px] font-extrabold mb-1.5" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
               Générateur de Skills
             </h1>
-            <p className="text-[13px]" style={{ color: '#5b6078' }}>
+            <p className="text-[13px]" style={{ color: 'hsl(var(--muted-foreground))' }}>
               3 questions. Ton SKILL.md est généré automatiquement, prêt à installer.
             </p>
           </div>
@@ -432,9 +464,9 @@ export function SkillsGeneratorPage({ navigate }: Props) {
                   style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.25)', fontFamily: 'Geist Mono, monospace' }}>
                   {String(current.num).padStart(2, '0')}
                 </span>
-                <h2 className="text-[16px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>{current.title}</h2>
+                <h2 className="text-[16px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>{current.title}</h2>
               </div>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>{current.desc}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{current.desc}</p>
             </div>
 
             <div className="mb-8">
@@ -447,24 +479,33 @@ export function SkillsGeneratorPage({ navigate }: Props) {
               {step > 1 && (
                 <button onClick={() => setStep(s => s - 1)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-all hover:opacity-70"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#9399b2' }}>
+                  style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}>
                   <ChevronLeft size={14} strokeWidth={1.5} />Précédent
                 </button>
               )}
               {step < 3 ? (
                 <button onClick={() => canNext() && setStep(s => s + 1)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto"
-                  style={{ background: canNext() ? '#22c55e' : 'rgba(255,255,255,0.05)', color: canNext() ? '#000' : '#5b6078', cursor: canNext() ? 'pointer' : 'not-allowed', opacity: canNext() ? 1 : 0.5 }}>
+                  style={{ background: canNext() ? '#22c55e' : 'hsl(var(--secondary))', color: canNext() ? '#000' : 'hsl(var(--muted-foreground))', cursor: canNext() ? 'pointer' : 'not-allowed', opacity: canNext() ? 1 : 0.5 }}>
                   Suivant<ChevronRight size={14} strokeWidth={2} />
                 </button>
               ) : (
-                <button onClick={handleGenerate}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto hover:opacity-90"
+                <button onClick={handleGenerate} disabled={isGenerating}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto hover:opacity-90 disabled:opacity-60"
                   style={{ background: '#22c55e', color: '#000' }}>
-                  <Wrench size={14} strokeWidth={2} />Générer mon SKILL.md
+                  {isGenerating ? (
+                    <><Loader2 size={14} strokeWidth={2} className="animate-spin" />Génération...</>
+                  ) : (
+                    <><Wrench size={14} strokeWidth={2} />Générer mon SKILL.md</>
+                  )}
                 </button>
               )}
             </div>
+            {genError && (
+              <p className="mt-3 text-[12px] rounded-xl px-4 py-3" style={{ color: '#ef4444', background: 'rgba(239,68,68,0.08)', border: '0.5px solid rgba(239,68,68,0.2)' }}>
+                {genError}
+              </p>
+            )}
           </>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, FileCode, Download, RotateCcw } from 'lucide-react'
+import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, FileCode, Download, RotateCcw, Loader2 } from 'lucide-react'
+import { supabase } from '../../../lib/supabase'
 
 interface Props {
   navigate: (hash: string) => void
@@ -185,8 +186,8 @@ function generateClaudeMd(v: WizardValues): string {
 function Label({ children, hint }: { children: React.ReactNode; hint?: string }) {
   return (
     <div className="mb-2">
-      <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{children}</p>
-      {hint && <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{hint}</p>}
+      <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{children}</p>
+      {hint && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{hint}</p>}
     </div>
   )
 }
@@ -198,7 +199,7 @@ function Input({ value, onChange, placeholder }: { value: string; onChange: (v: 
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
       className="w-full rounded-xl px-4 py-2.5 text-[13px] outline-none transition-all"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.12)', color: '#f0f0f5' }}
+      style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
     />
   )
 }
@@ -211,7 +212,7 @@ function Textarea({ value, onChange, placeholder, rows = 5, mono }: { value: str
       placeholder={placeholder}
       rows={rows}
       className="w-full rounded-xl px-4 py-3 text-[12px] outline-none resize-none transition-all"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.12)', color: '#f0f0f5', fontFamily: mono ? 'Geist Mono, monospace' : 'inherit', lineHeight: 1.7 }}
+      style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--foreground))', fontFamily: mono ? 'Geist Mono, monospace' : 'inherit', lineHeight: 1.7 }}
     />
   )
 }
@@ -222,7 +223,7 @@ function Select({ value, onChange, options }: { value: string; onChange: (v: str
       value={value}
       onChange={e => onChange(e.target.value)}
       className="w-full rounded-xl px-4 py-2.5 text-[13px] outline-none transition-all"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.12)', color: '#f0f0f5' }}
+      style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
     >
       {options.map(o => <option key={o.value} value={o.value} style={{ background: '#1a1b26' }}>{o.label}</option>)}
     </select>
@@ -234,14 +235,14 @@ function Toggle({ checked, onChange, label, desc }: { checked: boolean; onChange
     <button
       onClick={() => onChange(!checked)}
       className="flex items-start gap-3 w-full text-left p-3.5 rounded-xl transition-all"
-      style={{ background: checked ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.02)', border: `0.5px solid ${checked ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.07)'}` }}
+      style={{ background: checked ? 'rgba(139,92,246,0.08)' : 'hsl(var(--secondary))', border: `0.5px solid ${checked ? 'rgba(139,92,246,0.3)' : 'hsl(var(--secondary))'}` }}
     >
-      <div className="flex-shrink-0 mt-0.5 w-9 h-5 rounded-full relative transition-all" style={{ background: checked ? '#8b5cf6' : 'rgba(255,255,255,0.12)' }}>
+      <div className="flex-shrink-0 mt-0.5 w-9 h-5 rounded-full relative transition-all" style={{ background: checked ? '#8b5cf6' : 'hsl(var(--border))' }}>
         <div className="absolute top-0.5 w-4 h-4 rounded-full transition-all" style={{ background: '#fff', left: checked ? '18px' : '2px' }} />
       </div>
       <div>
-        <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{label}</p>
-        {desc && <p className="text-[11px] mt-0.5" style={{ color: '#5b6078' }}>{desc}</p>}
+        <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{label}</p>
+        {desc && <p className="text-[11px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>}
       </div>
     </button>
   )
@@ -264,7 +265,7 @@ function CheckGroup({ options, selected, onChange }: { options: { value: string;
             key={o.value}
             onClick={() => toggle(o.value)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all"
-            style={{ background: active ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.04)', border: `0.5px solid ${active ? 'rgba(139,92,246,0.4)' : 'rgba(255,255,255,0.1)'}`, color: active ? '#c4b5fd' : '#5b6078' }}
+            style={{ background: active ? 'rgba(139,92,246,0.15)' : 'hsl(var(--card))', border: `0.5px solid ${active ? 'rgba(139,92,246,0.4)' : 'hsl(var(--border))'}`, color: active ? '#c4b5fd' : 'hsl(var(--muted-foreground))' }}
           >
             {active && <Check size={9} strokeWidth={2.5} />}
             {o.label}
@@ -277,10 +278,10 @@ function CheckGroup({ options, selected, onChange }: { options: { value: string;
 
 function PreFilledField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center gap-3 py-2.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)' }}>
-      <p className="text-[11px] w-40 flex-shrink-0" style={{ color: '#5b6078' }}>{label}</p>
-      <p className="text-[11px]" style={{ color: '#9399b2', fontFamily: 'Geist Mono, monospace' }}>{value}</p>
-      <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.06)', color: '#5b6078' }}>BUILDRS</span>
+    <div className="flex items-center gap-3 py-2.5" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+      <p className="text-[11px] w-40 flex-shrink-0" style={{ color: 'hsl(var(--muted-foreground))' }}>{label}</p>
+      <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace' }}>{value}</p>
+      <span className="ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ background: 'hsl(var(--secondary))', color: 'hsl(var(--muted-foreground))' }}>BUILDRS</span>
     </div>
   )
 }
@@ -290,10 +291,10 @@ function PreFilledField({ label, value }: { label: string; value: string }) {
 function ProgressBar({ step, total }: { step: number; total: number }) {
   return (
     <div className="flex items-center gap-3 mb-8">
-      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'hsl(var(--secondary))' }}>
         <div className="h-full rounded-full transition-all duration-300" style={{ width: `${(step / total) * 100}%`, background: '#8b5cf6' }} />
       </div>
-      <span className="text-[10px] font-bold tabular-nums flex-shrink-0" style={{ color: '#5b6078', fontFamily: 'Geist Mono, monospace' }}>{step}/{total}</span>
+      <span className="text-[10px] font-bold tabular-nums flex-shrink-0" style={{ color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace' }}>{step}/{total}</span>
     </div>
   )
 }
@@ -325,8 +326,8 @@ function Step1({ v, set }: { v: WizardValues; set: (k: keyof WizardValues, val: 
         ]} />
       </div>
       <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(139,92,246,0.06)', border: '0.5px solid rgba(139,92,246,0.2)' }}>
-        <p className="text-[11px] leading-relaxed" style={{ color: '#9399b2' }}>
-          Sois précis sur ta cible. <span style={{ color: '#f0f0f5' }}>"Un outil pour les freelances"</span> est mieux que <span style={{ color: '#f0f0f5' }}>"un outil de facturation"</span>. Claude Code adaptera son approche selon l'audience.
+        <p className="text-[11px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+          Sois précis sur ta cible. <span style={{ color: 'hsl(var(--foreground))' }}>"Un outil pour les freelances"</span> est mieux que <span style={{ color: 'hsl(var(--foreground))' }}>"un outil de facturation"</span>. Claude Code adaptera son approche selon l'audience.
         </p>
       </div>
     </div>
@@ -452,8 +453,8 @@ function Step5({ v, set }: { v: WizardValues; set: (k: keyof WizardValues, val: 
         ]} />
       </div>
       <div>
-        <p className="text-[11px] font-semibold mb-3" style={{ color: '#5b6078', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Conventions imposées par la stack Buildrs</p>
-        <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+        <p className="text-[11px] font-semibold mb-3" style={{ color: 'hsl(var(--muted-foreground))', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Conventions imposées par la stack Buildrs</p>
+        <div className="rounded-xl overflow-hidden" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
           <PreFilledField label="Framework" value="Next.js 14 (App Router)" />
           <PreFilledField label="Style CSS" value="Tailwind CSS + shadcn/ui" />
           <PreFilledField label="Composants" value="PascalCase (UserProfile.tsx)" />
@@ -513,7 +514,7 @@ function ResultView({ content, onReset, navigate }: { content: string; onReset: 
         <Check size={18} strokeWidth={2} style={{ color: '#22c55e', flexShrink: 0 }} />
         <div>
           <p className="text-[13px] font-bold" style={{ color: '#22c55e' }}>Ton CLAUDE.md est prêt</p>
-          <p className="text-[11px]" style={{ color: '#5b6078' }}>Copie-le et colle-le à la racine de ton projet.</p>
+          <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Copie-le et colle-le à la racine de ton projet.</p>
         </div>
       </div>
 
@@ -526,7 +527,7 @@ function ResultView({ content, onReset, navigate }: { content: string; onReset: 
             '2. Place-le à la racine de ton projet (à côté de package.json)',
             '3. Lance Claude Code avec `claude` dans ton terminal',
             '4. Claude Code le lira automatiquement à chaque session',
-          ].map(s => <p key={s} className="text-[11.5px]" style={{ color: '#9399b2' }}>{s}</p>)}
+          ].map(s => <p key={s} className="text-[11.5px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{s}</p>)}
         </div>
         <p className="text-[11px] mt-2.5 italic" style={{ color: '#4d96ff' }}>
           Tu peux aussi taper /init dans Claude Code pour compléter ce fichier avec des détails que Claude découvrira en analysant ton code.
@@ -538,7 +539,7 @@ function ResultView({ content, onReset, navigate }: { content: string; onReset: 
         <button
           onClick={doCopy}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-bold transition-all"
-          style={{ background: copied ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.07)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.4)' : 'rgba(255,255,255,0.12)'}`, color: copied ? '#22c55e' : '#f0f0f5' }}
+          style={{ background: copied ? 'rgba(34,197,94,0.15)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.4)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : 'hsl(var(--foreground))' }}
         >
           {copied ? <Check size={13} strokeWidth={2} /> : <Copy size={13} strokeWidth={1.5} />}
           {copied ? 'Copié !' : 'Copier'}
@@ -554,7 +555,7 @@ function ResultView({ content, onReset, navigate }: { content: string; onReset: 
         <button
           onClick={onReset}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-all hover:opacity-70 ml-auto"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#5b6078' }}
+          style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}
         >
           <RotateCcw size={12} strokeWidth={1.5} />
           Recommencer
@@ -562,10 +563,10 @@ function ResultView({ content, onReset, navigate }: { content: string; onReset: 
       </div>
 
       {/* File content */}
-      <div className="relative rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
-        <div className="px-4 py-2 flex items-center gap-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+      <div className="relative rounded-xl overflow-hidden" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
+        <div className="px-4 py-2 flex items-center gap-2" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
           <FileCode size={12} strokeWidth={1.5} style={{ color: '#8b5cf6' }} />
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>CLAUDE.md</span>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>CLAUDE.md</span>
         </div>
         <pre className="px-5 py-4 overflow-x-auto text-[11.5px] leading-relaxed max-h-[480px] overflow-y-auto" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
           <code>{content}</code>
@@ -603,6 +604,8 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
   const [values, setValues] = useState<WizardValues>({ ...DEFAULT })
   const [done, setDone] = useState(false)
   const [output, setOutput] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [genError, setGenError] = useState('')
 
   const set = useCallback((k: keyof WizardValues, val: unknown) => {
     setValues(prev => ({ ...prev, [k]: val }))
@@ -615,9 +618,45 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
     return true
   }
 
-  const handleGenerate = () => {
-    setOutput(generateClaudeMd(values))
-    setDone(true)
+  const handleGenerate = async () => {
+    setIsGenerating(true)
+    setGenError('')
+    try {
+      const langMap: Record<string, string> = { fr: 'Français', en: 'Anglais', both: 'Français + Anglais' }
+      const { data, error } = await supabase.functions.invoke('claude-generators', {
+        body: {
+          type: 'claude-md',
+          payload: {
+            projectName:       values.projectName,
+            description:       values.projectDescription,
+            businessObjective: values.businessObjective,
+            targetAudience:    values.targetAudience,
+            frontend:          'React 18 + TypeScript + Vite + Tailwind CSS',
+            backend:           `Supabase (PostgreSQL + Auth${values.storageEnabled ? ' + Storage' : ''} + Edge Functions)`,
+            payment:           'Stripe Checkout',
+            hosting:           'Vercel',
+            otherTools:        'Resend (emails), Lucide (icônes)',
+            features:          values.features,
+            tables:            values.tables,
+            rls:               values.rlsEnabled ? 'oui' : 'non',
+            authMethods:       values.authMethods.join(', '),
+            monetization:      values.monetizationType,
+            pricing:           values.plans,
+            codeLanguage:      langMap[values.commentLanguage] ?? values.commentLanguage,
+            conventions:       values.otherProhibitions || '',
+            neverModify:       values.filesToNeverModify,
+            businessRules:     [values.businessRules, values.otherProhibitions].filter(Boolean).join('\n'),
+          },
+        },
+      })
+      if (error) throw error
+      setOutput((data as { result: string }).result)
+      setDone(true)
+    } catch (e) {
+      setGenError(e instanceof Error ? e.message : String(e))
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const handleReset = () => {
@@ -625,6 +664,7 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
     setStep(1)
     setDone(false)
     setOutput('')
+    setGenError('')
   }
 
   const current = STEP_LABELS[step - 1]
@@ -637,7 +677,7 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
         <button
           onClick={() => done ? setDone(false) : step > 1 ? setStep(s => s - 1) : window.history.back()}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>{done ? 'Retour au générateur' : step > 1 ? 'Étape précédente' : 'Retour à CLAUDE.md'}</span>
@@ -651,10 +691,10 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
                 Générateur
               </span>
             </div>
-            <h1 className="text-[22px] font-extrabold mb-1.5" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+            <h1 className="text-[22px] font-extrabold mb-1.5" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
               Générateur CLAUDE.md
             </h1>
-            <p className="text-[13px]" style={{ color: '#5b6078' }}>
+            <p className="text-[13px]" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Réponds aux 6 questions. Ton CLAUDE.md est généré automatiquement.
             </p>
           </div>
@@ -672,9 +712,9 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
                 <span className="text-[10px] font-black tabular-nums px-2 py-0.5 rounded-md" style={{ background: 'rgba(139,92,246,0.1)', color: '#8b5cf6', border: '0.5px solid rgba(139,92,246,0.25)', fontFamily: 'Geist Mono, monospace' }}>
                   {String(current.num).padStart(2, '0')}
                 </span>
-                <h2 className="text-[16px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>{current.title}</h2>
+                <h2 className="text-[16px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>{current.title}</h2>
               </div>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>{current.desc}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{current.desc}</p>
             </div>
 
             {/* Step content */}
@@ -693,7 +733,7 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
                 <button
                   onClick={() => setStep(s => s - 1)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-all hover:opacity-70"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#9399b2' }}
+                  style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}
                 >
                   <ChevronLeft size={14} strokeWidth={1.5} />
                   Précédent
@@ -703,7 +743,7 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
                 <button
                   onClick={() => canNext() && setStep(s => s + 1)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto"
-                  style={{ background: canNext() ? '#8b5cf6' : 'rgba(255,255,255,0.05)', color: canNext() ? '#fff' : '#5b6078', cursor: canNext() ? 'pointer' : 'not-allowed', opacity: canNext() ? 1 : 0.5 }}
+                  style={{ background: canNext() ? '#8b5cf6' : 'hsl(var(--secondary))', color: canNext() ? '#fff' : 'hsl(var(--muted-foreground))', cursor: canNext() ? 'pointer' : 'not-allowed', opacity: canNext() ? 1 : 0.5 }}
                 >
                   Suivant
                   <ChevronRight size={14} strokeWidth={2} />
@@ -711,14 +751,23 @@ export function ClaudeMdGeneratorPage({ navigate }: Props) {
               ) : (
                 <button
                   onClick={handleGenerate}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto hover:opacity-90"
+                  disabled={isGenerating}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-bold transition-all ml-auto hover:opacity-90 disabled:opacity-60"
                   style={{ background: '#8b5cf6', color: '#fff' }}
                 >
-                  <FileCode size={14} strokeWidth={2} />
-                  Générer mon CLAUDE.md
+                  {isGenerating ? (
+                    <><Loader2 size={14} strokeWidth={2} className="animate-spin" />Génération...</>
+                  ) : (
+                    <><FileCode size={14} strokeWidth={2} />Générer mon CLAUDE.md</>
+                  )}
                 </button>
               )}
             </div>
+            {genError && (
+              <p className="mt-3 text-[12px] rounded-xl px-4 py-3" style={{ color: '#ef4444', background: 'rgba(239,68,68,0.08)', border: '0.5px solid rgba(239,68,68,0.2)' }}>
+                {genError}
+              </p>
+            )}
           </>
         )}
       </div>

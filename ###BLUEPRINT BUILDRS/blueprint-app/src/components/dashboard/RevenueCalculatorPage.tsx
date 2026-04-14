@@ -194,15 +194,7 @@ export function RevenueCalculatorPage({ navigate }: Props) {
         className="rounded-2xl border border-border p-8 text-center space-y-3"
         style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(16,185,129,0.04) 100%)' }}
       >
-        <div className="flex justify-center">
-          <span
-            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
-            style={{ background: 'rgba(16,185,129,0.15)', color: '#10B981' }}
-          >
-            <Euro size={12} strokeWidth={1.5} />
-            Outil gratuit
-          </span>
-        </div>
+
         <h1
           className="text-3xl font-black tracking-tight text-foreground"
           style={{ letterSpacing: '-0.04em' }}

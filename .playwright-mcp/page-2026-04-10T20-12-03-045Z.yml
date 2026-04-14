@@ -1,0 +1,1211 @@
+- generic [ref=e2]:
+  - region
+  - generic [ref=e3]:
+    - link "Skip to content" [ref=e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=e6]:
+      - heading "Navigation Menu" [level=2] [ref=e7]
+      - generic [ref=e8]:
+        - link "Homepage" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img [ref=e11]
+        - generic [ref=e13]:
+          - navigation "Global" [ref=e16]:
+            - list [ref=e17]:
+              - listitem [ref=e18]:
+                - button "Platform" [ref=e20] [cursor=pointer]:
+                  - text: Platform
+                  - img [ref=e21]
+              - listitem [ref=e23]:
+                - button "Solutions" [ref=e25] [cursor=pointer]:
+                  - text: Solutions
+                  - img [ref=e26]
+              - listitem [ref=e28]:
+                - button "Resources" [ref=e30] [cursor=pointer]:
+                  - text: Resources
+                  - img [ref=e31]
+              - listitem [ref=e33]:
+                - button "Open Source" [ref=e35] [cursor=pointer]:
+                  - text: Open Source
+                  - img [ref=e36]
+              - listitem [ref=e38]:
+                - button "Enterprise" [ref=e40] [cursor=pointer]:
+                  - text: Enterprise
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Pricing" [ref=e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+                  - generic [ref=e45]: Pricing
+          - generic [ref=e46]:
+            - button "Search or jump to…" [ref=e49] [cursor=pointer]:
+              - img [ref=e51]
+            - link "Sign in" [ref=e54] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2FJCodesMore%2Fai-website-cloner-template
+            - link "Sign up" [ref=e55] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=JCodesMore%2Fai-website-cloner-template
+            - button "Appearance settings" [ref=e58] [cursor=pointer]:
+              - img
+  - main [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e66]:
+          - img [ref=e67]
+          - link "JCodesMore" [ref=e70] [cursor=pointer]:
+            - /url: /JCodesMore
+          - generic [ref=e71]: /
+          - strong [ref=e72]:
+            - link "ai-website-cloner-template" [ref=e73] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template
+          - generic [ref=e74]: Public template
+        - generic [ref=e75]:
+          - list:
+            - listitem [ref=e76]:
+              - link "You must be signed in to change notification settings" [ref=e77] [cursor=pointer]:
+                - /url: /login?return_to=%2FJCodesMore%2Fai-website-cloner-template
+                - img [ref=e78]
+                - text: Notifications
+            - listitem [ref=e80]:
+              - link "Fork 1.3k" [ref=e81] [cursor=pointer]:
+                - /url: /login?return_to=%2FJCodesMore%2Fai-website-cloner-template
+                - img [ref=e82]
+                - text: Fork
+                - generic "1,323" [ref=e84]: 1.3k
+            - listitem [ref=e85]:
+              - link "You must be signed in to star a repository" [ref=e87] [cursor=pointer]:
+                - /url: /login?return_to=%2FJCodesMore%2Fai-website-cloner-template
+                - img [ref=e88]
+                - text: Star
+                - generic "9538 users starred this repository" [ref=e90]: 9.5k
+      - navigation "Repository" [ref=e91]:
+        - list [ref=e92]:
+          - listitem [ref=e93]:
+            - link "Code" [ref=e94] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template
+              - img [ref=e95]
+              - generic [ref=e97]: Code
+          - listitem [ref=e98]:
+            - link "Issues 4" [ref=e99] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/issues
+              - img [ref=e100]
+              - generic [ref=e103]: Issues
+              - generic "4" [ref=e104]
+          - listitem [ref=e105]:
+            - link "Pull requests 5" [ref=e106] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/pulls
+              - img [ref=e107]
+              - generic [ref=e109]: Pull requests
+              - generic "5" [ref=e110]
+          - listitem [ref=e111]:
+            - link "Actions" [ref=e112] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/actions
+              - img [ref=e113]
+              - generic [ref=e115]: Actions
+          - listitem [ref=e116]:
+            - link "Projects" [ref=e117] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/projects
+              - img [ref=e118]
+              - generic [ref=e120]: Projects
+          - listitem [ref=e121]:
+            - link "Security and quality" [ref=e122] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/security
+              - img [ref=e123]
+              - generic [ref=e125]: Security and quality
+          - listitem [ref=e126]:
+            - link "Insights" [ref=e127] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/pulse
+              - img [ref=e128]
+              - generic [ref=e130]: Insights
+    - generic [ref=e143]:
+      - heading "JCodesMore/ai-website-cloner-template" [level=1] [ref=e145]
+      - generic [ref=e146]:
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - generic [ref=e151]:
+              - button "master branch" [ref=e153] [cursor=pointer]:
+                - generic [ref=e154]:
+                  - generic [ref=e156]:
+                    - img [ref=e158]
+                    - generic [ref=e161]: master
+                  - generic:
+                    - img
+              - generic [ref=e162]:
+                - link "1 Branch" [ref=e163] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/branches
+                  - generic [ref=e164]:
+                    - generic:
+                      - img
+                    - generic [ref=e166]:
+                      - strong [ref=e167]: "1"
+                      - text: Branch
+                - link "5 Tags" [ref=e168] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/tags
+                  - generic [ref=e169]:
+                    - generic:
+                      - img
+                    - generic [ref=e171]:
+                      - strong [ref=e172]: "5"
+                      - text: Tags
+            - generic [ref=e173]:
+              - generic [ref=e177]:
+                - img [ref=e179]
+                - combobox "Go to file" [ref=e181]
+              - button "Code" [ref=e182] [cursor=pointer]:
+                - generic [ref=e183]:
+                  - generic:
+                    - img
+                  - generic [ref=e184]: Code
+                  - generic:
+                    - img
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - heading "Folders and files" [level=2] [ref=e187]
+              - table "Folders and files" [ref=e188]:
+                - rowgroup:
+                  - row "Name Last commit message Last commit date":
+                    - columnheader "Name"
+                    - columnheader "Last commit message":
+                      - generic "Last commit message"
+                    - columnheader "Last commit date":
+                      - generic "Last commit date"
+                - rowgroup [ref=e189]:
+                  - 'row "Latest commit JCodesMore oz-agent commits by JCodesMore and commits by oz-agent chore: align repo baseline to Node 24 Open commit details success Commit 25dc8ef · Mar 30, 20262 weeks ago History 37 Commits" [ref=e190]':
+                    - 'cell "Latest commit JCodesMore oz-agent commits by JCodesMore and commits by oz-agent chore: align repo baseline to Node 24 Open commit details success Commit 25dc8ef · Mar 30, 20262 weeks ago History 37 Commits" [ref=e191]':
+                      - generic [ref=e192]:
+                        - heading "Latest commit" [level=2] [ref=e193]
+                        - generic [ref=e194]:
+                          - generic [ref=e195]:
+                            - generic [ref=e197]:
+                              - img "JCodesMore" [ref=e198]
+                              - img "oz-agent" [ref=e199]
+                            - link "commits by JCodesMore" [ref=e201] [cursor=pointer]:
+                              - /url: /JCodesMore/ai-website-cloner-template/commits?author=JCodesMore
+                              - text: JCodesMore
+                            - generic [ref=e202]: and
+                            - link "commits by oz-agent" [ref=e204] [cursor=pointer]:
+                              - /url: /JCodesMore/ai-website-cloner-template/commits?author=oz-agent
+                              - text: oz-agent
+                          - generic [ref=e205]:
+                            - 'link "chore: align repo baseline to Node 24" [ref=e208] [cursor=pointer]':
+                              - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                            - button "Open commit details" [ref=e209] [cursor=pointer]:
+                              - img [ref=e210]
+                            - button "success" [ref=e212] [cursor=pointer]:
+                              - img [ref=e213]
+                        - generic [ref=e215]:
+                          - generic [ref=e217]:
+                            - link "Commit 25dc8ef" [ref=e218] [cursor=pointer]:
+                              - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                              - text: 25dc8ef
+                            - text: ·
+                            - generic "Mar 30, 2026, 7:16 AM GMT+2" [ref=e219]: Mar 30, 20262 weeks ago
+                          - generic [ref=e220]:
+                            - heading "History" [level=2] [ref=e221]
+                            - link "37 Commits" [ref=e222] [cursor=pointer]:
+                              - /url: /JCodesMore/ai-website-cloner-template/commits/master/
+                              - generic [ref=e223]:
+                                - generic:
+                                  - img
+                                - generic [ref=e224]: 37 Commits
+                  - 'row ".amazonq, (Directory) chore: release v0.3.1 Mar 30, 20262 weeks ago" [ref=e225]':
+                    - cell ".amazonq, (Directory)" [ref=e226]:
+                      - generic [ref=e227]:
+                        - img [ref=e228]
+                        - link ".amazonq, (Directory)" [ref=e233] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.amazonq
+                          - text: .amazonq
+                    - 'cell "chore: release v0.3.1" [ref=e234]':
+                      - 'link "chore: release v0.3.1" [ref=e237] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/960cc2bbb63c2d66708d5c6fbcfaa1742bcf17d7
+                    - cell "Mar 30, 20262 weeks ago" [ref=e238]:
+                      - generic [ref=e239]: Mar 30, 20262 weeks ago
+                  - row ".augment/commands, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e240]:
+                    - cell ".augment/commands, (Directory)" [ref=e241]:
+                      - generic [ref=e242]:
+                        - img [ref=e243]
+                        - link ".augment/commands, (Directory)" [ref=e248] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.augment/commands
+                          - text: .augment/commands
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e249]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e252] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e253]:
+                      - generic [ref=e254]: Mar 29, 20262 weeks ago
+                  - row ".claude/skills/clone-website, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e255]:
+                    - cell ".claude/skills/clone-website, (Directory)" [ref=e256]:
+                      - generic [ref=e257]:
+                        - img [ref=e258]
+                        - link ".claude/skills/clone-website, (Directory)" [ref=e263] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.claude/skills/clone-website
+                          - text: .claude/skills/clone-website
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e264]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e267] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e268]:
+                      - generic [ref=e269]: Mar 29, 20262 weeks ago
+                  - row ".codex/skills/clone-website, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e270]:
+                    - cell ".codex/skills/clone-website, (Directory)" [ref=e271]:
+                      - generic [ref=e272]:
+                        - img [ref=e273]
+                        - link ".codex/skills/clone-website, (Directory)" [ref=e278] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.codex/skills/clone-website
+                          - text: .codex/skills/clone-website
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e279]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e282] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e283]:
+                      - generic [ref=e284]: Mar 29, 20262 weeks ago
+                  - 'row ".continue, (Directory) chore: release v0.3.1 Mar 30, 20262 weeks ago" [ref=e285]':
+                    - cell ".continue, (Directory)" [ref=e286]:
+                      - generic [ref=e287]:
+                        - img [ref=e288]
+                        - link ".continue, (Directory)" [ref=e293] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.continue
+                          - text: .continue
+                    - 'cell "chore: release v0.3.1" [ref=e294]':
+                      - 'link "chore: release v0.3.1" [ref=e297] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/960cc2bbb63c2d66708d5c6fbcfaa1742bcf17d7
+                    - cell "Mar 30, 20262 weeks ago" [ref=e298]:
+                      - generic [ref=e299]: Mar 30, 20262 weeks ago
+                  - row ".cursor, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e300]:
+                    - cell ".cursor, (Directory)" [ref=e301]:
+                      - generic [ref=e302]:
+                        - img [ref=e303]
+                        - link ".cursor, (Directory)" [ref=e308] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.cursor
+                          - text: .cursor
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e309]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e312] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e313]:
+                      - generic [ref=e314]: Mar 29, 20262 weeks ago
+                  - row ".gemini/commands, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e315]:
+                    - cell ".gemini/commands, (Directory)" [ref=e316]:
+                      - generic [ref=e317]:
+                        - img [ref=e318]
+                        - link ".gemini/commands, (Directory)" [ref=e323] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.gemini/commands
+                          - text: .gemini/commands
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e324]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e327] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e328]:
+                      - generic [ref=e329]: Mar 29, 20262 weeks ago
+                  - 'row ".github, (Directory) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e330]':
+                    - cell ".github, (Directory)" [ref=e331]:
+                      - generic [ref=e332]:
+                        - img [ref=e333]
+                        - link ".github, (Directory)" [ref=e338] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.github
+                          - text: .github
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e339]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e342] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e343]:
+                      - generic [ref=e344]: Mar 30, 20262 weeks ago
+                  - row ".opencode/commands, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e345]:
+                    - cell ".opencode/commands, (Directory)" [ref=e346]:
+                      - generic [ref=e347]:
+                        - img [ref=e348]
+                        - link ".opencode/commands, (Directory)" [ref=e353] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.opencode/commands
+                          - text: .opencode/commands
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e354]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e357] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e358]:
+                      - generic [ref=e359]: Mar 29, 20262 weeks ago
+                  - row ".windsurf/workflows, (Directory) Enhance clone-website functionality to support multiple URLs. Updated… Mar 29, 20262 weeks ago" [ref=e360]:
+                    - cell ".windsurf/workflows, (Directory)" [ref=e361]:
+                      - generic [ref=e362]:
+                        - img [ref=e363]
+                        - link ".windsurf/workflows, (Directory)" [ref=e368] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/.windsurf/workflows
+                          - text: .windsurf/workflows
+                    - cell "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e369]:
+                      - link "Enhance clone-website functionality to support multiple URLs. Updated…" [ref=e372] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aaf3b1b3e45d2749dbe152183cccd0e7d82de6b0
+                    - cell "Mar 29, 20262 weeks ago" [ref=e373]:
+                      - generic [ref=e374]: Mar 29, 20262 weeks ago
+                  - row "docs, (Directory) Update README.md to enhance user guidance and add demo section Mar 26, 20262 weeks ago" [ref=e375]:
+                    - cell "docs, (Directory)" [ref=e376]:
+                      - generic [ref=e377]:
+                        - img [ref=e378]
+                        - link "docs, (Directory)" [ref=e383] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/docs
+                          - text: docs
+                    - cell "Update README.md to enhance user guidance and add demo section" [ref=e384]:
+                      - link "Update README.md to enhance user guidance and add demo section" [ref=e387] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/186e9183ad765cb59551b9b600cc2209de7cd62f
+                    - cell "Mar 26, 20262 weeks ago" [ref=e388]:
+                      - generic [ref=e389]: Mar 26, 20262 weeks ago
+                  - 'row "public, (Directory) feat: introduce website reverse-engineer template and remove outdated… Mar 24, 20262 weeks ago" [ref=e390]':
+                    - cell "public, (Directory)" [ref=e391]:
+                      - generic [ref=e392]:
+                        - img [ref=e393]
+                        - link "public, (Directory)" [ref=e398] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/public
+                          - text: public
+                    - 'cell "feat: introduce website reverse-engineer template and remove outdated…" [ref=e399]':
+                      - 'link "feat: introduce website reverse-engineer template and remove outdated…" [ref=e402] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/95ac8a968db6ddfef68f4fcca4372ca6cc5cbc99
+                    - cell "Mar 24, 20262 weeks ago" [ref=e403]:
+                      - generic [ref=e404]: Mar 24, 20262 weeks ago
+                  - 'row "scripts, (Directory) chore: release v0.3.1 Mar 30, 20262 weeks ago" [ref=e405]':
+                    - cell "scripts, (Directory)" [ref=e406]:
+                      - generic [ref=e407]:
+                        - img [ref=e408]
+                        - link "scripts, (Directory)" [ref=e413] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/scripts
+                          - text: scripts
+                    - 'cell "chore: release v0.3.1" [ref=e414]':
+                      - 'link "chore: release v0.3.1" [ref=e417] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/960cc2bbb63c2d66708d5c6fbcfaa1742bcf17d7
+                    - cell "Mar 30, 20262 weeks ago" [ref=e418]:
+                      - generic [ref=e419]: Mar 30, 20262 weeks ago
+                  - 'row "src, (Directory) feat: introduce website reverse-engineer template and remove outdated… Mar 24, 20262 weeks ago" [ref=e420]':
+                    - cell "src, (Directory)" [ref=e421]:
+                      - generic [ref=e422]:
+                        - img [ref=e423]
+                        - link "src, (Directory)" [ref=e428] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/tree/master/src
+                          - text: src
+                    - 'cell "feat: introduce website reverse-engineer template and remove outdated…" [ref=e429]':
+                      - 'link "feat: introduce website reverse-engineer template and remove outdated…" [ref=e432] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/95ac8a968db6ddfef68f4fcca4372ca6cc5cbc99
+                    - cell "Mar 24, 20262 weeks ago" [ref=e433]:
+                      - generic [ref=e434]: Mar 24, 20262 weeks ago
+                  - 'row ".aider.conf.yml, (File) feat: add multi-platform AI agent support Mar 28, 20262 weeks ago" [ref=e435]':
+                    - cell ".aider.conf.yml, (File)" [ref=e436]:
+                      - generic [ref=e437]:
+                        - img [ref=e438]
+                        - link ".aider.conf.yml, (File)" [ref=e443] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.aider.conf.yml
+                          - text: .aider.conf.yml
+                    - 'cell "feat: add multi-platform AI agent support" [ref=e444]':
+                      - 'link "feat: add multi-platform AI agent support" [ref=e447] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/e083fbcafb61182348f6f54ac30ef00be42beb02
+                    - cell "Mar 28, 20262 weeks ago" [ref=e448]:
+                      - generic [ref=e449]: Mar 28, 20262 weeks ago
+                  - 'row ".clinerules, (File) chore: release v0.3.1 Mar 30, 20262 weeks ago" [ref=e450]':
+                    - cell ".clinerules, (File)" [ref=e451]:
+                      - generic [ref=e452]:
+                        - img [ref=e453]
+                        - link ".clinerules, (File)" [ref=e458] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.clinerules
+                          - text: .clinerules
+                    - 'cell "chore: release v0.3.1" [ref=e459]':
+                      - 'link "chore: release v0.3.1" [ref=e462] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/960cc2bbb63c2d66708d5c6fbcfaa1742bcf17d7
+                    - cell "Mar 30, 20262 weeks ago" [ref=e463]:
+                      - generic [ref=e464]: Mar 30, 20262 weeks ago
+                  - row ".dockerignore, (File) add Docker support with multi-stage production builds and development… Mar 30, 20262 weeks ago" [ref=e465]:
+                    - cell ".dockerignore, (File)" [ref=e466]:
+                      - generic [ref=e467]:
+                        - img [ref=e468]
+                        - link ".dockerignore, (File)" [ref=e473] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.dockerignore
+                          - text: .dockerignore
+                    - cell "add Docker support with multi-stage production builds and development…" [ref=e474]:
+                      - link "add Docker support with multi-stage production builds and development…" [ref=e477] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/16ca665356b97236371b6d54ea315af8d8dbd0b5
+                    - cell "Mar 30, 20262 weeks ago" [ref=e478]:
+                      - generic [ref=e479]: Mar 30, 20262 weeks ago
+                  - row ".gitattributes, (File) Refactor project documentation and configuration files for clarity an… Mar 30, 20262 weeks ago" [ref=e480]:
+                    - cell ".gitattributes, (File)" [ref=e481]:
+                      - generic [ref=e482]:
+                        - img [ref=e483]
+                        - link ".gitattributes, (File)" [ref=e488] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.gitattributes
+                          - text: .gitattributes
+                    - cell "Refactor project documentation and configuration files for clarity an…" [ref=e489]:
+                      - link "Refactor project documentation and configuration files for clarity an…" [ref=e492] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/a948e3775071e08b189f0cd3041d01cebb850341
+                    - cell "Mar 30, 20262 weeks ago" [ref=e493]:
+                      - generic [ref=e494]: Mar 30, 20262 weeks ago
+                  - row ".gitignore, (File) Update .gitignore to include the release directory for user-specific … Mar 30, 20262 weeks ago" [ref=e495]:
+                    - cell ".gitignore, (File)" [ref=e496]:
+                      - generic [ref=e497]:
+                        - img [ref=e498]
+                        - link ".gitignore, (File)" [ref=e503] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.gitignore
+                          - text: .gitignore
+                    - cell "Update .gitignore to include the release directory for user-specific …" [ref=e504]:
+                      - link "Update .gitignore to include the release directory for user-specific …" [ref=e507] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/ba9e462197c77724e855d49edde910a43d3b41d8
+                    - cell "Mar 30, 20262 weeks ago" [ref=e508]:
+                      - generic [ref=e509]: Mar 30, 20262 weeks ago
+                  - 'row ".nvmrc, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e510]':
+                    - cell ".nvmrc, (File)" [ref=e511]:
+                      - generic [ref=e512]:
+                        - img [ref=e513]
+                        - link ".nvmrc, (File)" [ref=e518] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.nvmrc
+                          - text: .nvmrc
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e519]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e522] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e523]:
+                      - generic [ref=e524]: Mar 30, 20262 weeks ago
+                  - 'row ".windsurfrules, (File) feat: add multi-platform AI agent support Mar 28, 20262 weeks ago" [ref=e525]':
+                    - cell ".windsurfrules, (File)" [ref=e526]:
+                      - generic [ref=e527]:
+                        - img [ref=e528]
+                        - link ".windsurfrules, (File)" [ref=e533] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/.windsurfrules
+                          - text: .windsurfrules
+                    - 'cell "feat: add multi-platform AI agent support" [ref=e534]':
+                      - 'link "feat: add multi-platform AI agent support" [ref=e537] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/e083fbcafb61182348f6f54ac30ef00be42beb02
+                    - cell "Mar 28, 20262 weeks ago" [ref=e538]:
+                      - generic [ref=e539]: Mar 28, 20262 weeks ago
+                  - 'row "AGENTS.md, (File) Update AGENTS.md and README.md to clarify usage of the `/clone-websit… Mar 30, 20262 weeks ago" [ref=e540]':
+                    - cell "AGENTS.md, (File)" [ref=e541]:
+                      - generic [ref=e542]:
+                        - img [ref=e543]
+                        - link "AGENTS.md, (File)" [ref=e548] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/AGENTS.md
+                          - text: AGENTS.md
+                    - 'cell "Update AGENTS.md and README.md to clarify usage of the `/clone-websit…" [ref=e549]':
+                      - 'link "Update AGENTS.md and README.md to clarify usage of the `/clone-websit…" [ref=e552] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/aec896046678f40617d6b9aa14239f7510f12c76
+                    - cell "Mar 30, 20262 weeks ago" [ref=e553]:
+                      - generic [ref=e554]: Mar 30, 20262 weeks ago
+                  - 'row "CHANGELOG.md, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e555]':
+                    - cell "CHANGELOG.md, (File)" [ref=e556]:
+                      - generic [ref=e557]:
+                        - img [ref=e558]
+                        - link "CHANGELOG.md, (File)" [ref=e563] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/CHANGELOG.md
+                          - text: CHANGELOG.md
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e564]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e567] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e568]:
+                      - generic [ref=e569]: Mar 30, 20262 weeks ago
+                  - 'row "CLAUDE.md, (File) feat: initial commit Mar 24, 20262 weeks ago" [ref=e570]':
+                    - cell "CLAUDE.md, (File)" [ref=e571]:
+                      - generic [ref=e572]:
+                        - img [ref=e573]
+                        - link "CLAUDE.md, (File)" [ref=e578] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/CLAUDE.md
+                          - text: CLAUDE.md
+                    - 'cell "feat: initial commit" [ref=e579]':
+                      - 'link "feat: initial commit" [ref=e582] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/43286ba528d29fd48163d70dd65f5edd3d976685
+                    - cell "Mar 24, 20262 weeks ago" [ref=e583]:
+                      - generic [ref=e584]: Mar 24, 20262 weeks ago
+                  - 'row "Dockerfile, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e585]':
+                    - cell "Dockerfile, (File)" [ref=e586]:
+                      - generic [ref=e587]:
+                        - img [ref=e588]
+                        - link "Dockerfile, (File)" [ref=e593] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/Dockerfile
+                          - text: Dockerfile
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e594]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e597] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e598]:
+                      - generic [ref=e599]: Mar 30, 20262 weeks ago
+                  - 'row "Dockerfile.dev, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e600]':
+                    - cell "Dockerfile.dev, (File)" [ref=e601]:
+                      - generic [ref=e602]:
+                        - img [ref=e603]
+                        - link "Dockerfile.dev, (File)" [ref=e608] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/Dockerfile.dev
+                          - text: Dockerfile.dev
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e609]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e612] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e613]:
+                      - generic [ref=e614]: Mar 30, 20262 weeks ago
+                  - 'row "GEMINI.md, (File) feat: add multi-platform AI agent support Mar 28, 20262 weeks ago" [ref=e615]':
+                    - cell "GEMINI.md, (File)" [ref=e616]:
+                      - generic [ref=e617]:
+                        - img [ref=e618]
+                        - link "GEMINI.md, (File)" [ref=e623] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/GEMINI.md
+                          - text: GEMINI.md
+                    - 'cell "feat: add multi-platform AI agent support" [ref=e624]':
+                      - 'link "feat: add multi-platform AI agent support" [ref=e627] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/e083fbcafb61182348f6f54ac30ef00be42beb02
+                    - cell "Mar 28, 20262 weeks ago" [ref=e628]:
+                      - generic [ref=e629]: Mar 28, 20262 weeks ago
+                  - 'row "LICENSE, (File) chore: add project hygiene files and package metadata Mar 28, 20262 weeks ago" [ref=e630]':
+                    - cell "LICENSE, (File)" [ref=e631]:
+                      - generic [ref=e632]:
+                        - img [ref=e633]
+                        - link "LICENSE, (File)" [ref=e638] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/LICENSE
+                          - text: LICENSE
+                    - 'cell "chore: add project hygiene files and package metadata" [ref=e639]':
+                      - 'link "chore: add project hygiene files and package metadata" [ref=e642] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/bc6ab1baa2f63f61f1dc2de5fb314461d3081c81
+                    - cell "Mar 28, 20262 weeks ago" [ref=e643]:
+                      - generic [ref=e644]: Mar 28, 20262 weeks ago
+                  - 'row "README.md, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e645]':
+                    - cell "README.md, (File)" [ref=e646]:
+                      - generic [ref=e647]:
+                        - img [ref=e648]
+                        - link "README.md, (File)" [ref=e653] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/README.md
+                          - text: README.md
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e654]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e657] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e658]:
+                      - generic [ref=e659]: Mar 30, 20262 weeks ago
+                  - 'row "components.json, (File) feat: initial commit Mar 24, 20262 weeks ago" [ref=e660]':
+                    - cell "components.json, (File)" [ref=e661]:
+                      - generic [ref=e662]:
+                        - img [ref=e663]
+                        - link "components.json, (File)" [ref=e668] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/components.json
+                          - text: components.json
+                    - 'cell "feat: initial commit" [ref=e669]':
+                      - 'link "feat: initial commit" [ref=e672] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/43286ba528d29fd48163d70dd65f5edd3d976685
+                    - cell "Mar 24, 20262 weeks ago" [ref=e673]:
+                      - generic [ref=e674]: Mar 24, 20262 weeks ago
+                  - row "docker-compose.yml, (File) add Docker support with multi-stage production builds and development… Mar 30, 20262 weeks ago" [ref=e675]:
+                    - cell "docker-compose.yml, (File)" [ref=e676]:
+                      - generic [ref=e677]:
+                        - img [ref=e678]
+                        - link "docker-compose.yml, (File)" [ref=e683] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/docker-compose.yml
+                          - text: docker-compose.yml
+                    - cell "add Docker support with multi-stage production builds and development…" [ref=e684]:
+                      - link "add Docker support with multi-stage production builds and development…" [ref=e687] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/16ca665356b97236371b6d54ea315af8d8dbd0b5
+                    - cell "Mar 30, 20262 weeks ago" [ref=e688]:
+                      - generic [ref=e689]: Mar 30, 20262 weeks ago
+                  - 'row "eslint.config.mjs, (File) feat: initial commit Mar 24, 20262 weeks ago" [ref=e690]':
+                    - cell "eslint.config.mjs, (File)" [ref=e691]:
+                      - generic [ref=e692]:
+                        - img [ref=e693]
+                        - link "eslint.config.mjs, (File)" [ref=e698] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/eslint.config.mjs
+                          - text: eslint.config.mjs
+                    - 'cell "feat: initial commit" [ref=e699]':
+                      - 'link "feat: initial commit" [ref=e702] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/43286ba528d29fd48163d70dd65f5edd3d976685
+                    - cell "Mar 24, 20262 weeks ago" [ref=e703]:
+                      - generic [ref=e704]: Mar 24, 20262 weeks ago
+                  - row "next.config.ts, (File) add Docker support with multi-stage production builds and development… Mar 30, 20262 weeks ago" [ref=e705]:
+                    - cell "next.config.ts, (File)" [ref=e706]:
+                      - generic [ref=e707]:
+                        - img [ref=e708]
+                        - link "next.config.ts, (File)" [ref=e713] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/next.config.ts
+                          - text: next.config.ts
+                    - cell "add Docker support with multi-stage production builds and development…" [ref=e714]:
+                      - link "add Docker support with multi-stage production builds and development…" [ref=e717] [cursor=pointer]:
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/16ca665356b97236371b6d54ea315af8d8dbd0b5
+                    - cell "Mar 30, 20262 weeks ago" [ref=e718]:
+                      - generic [ref=e719]: Mar 30, 20262 weeks ago
+                  - 'row "package-lock.json, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e720]':
+                    - cell "package-lock.json, (File)" [ref=e721]:
+                      - generic [ref=e722]:
+                        - img [ref=e723]
+                        - link "package-lock.json, (File)" [ref=e728] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/package-lock.json
+                          - text: package-lock.json
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e729]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e732] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e733]:
+                      - generic [ref=e734]: Mar 30, 20262 weeks ago
+                  - 'row "package.json, (File) chore: align repo baseline to Node 24 Mar 30, 20262 weeks ago" [ref=e735]':
+                    - cell "package.json, (File)" [ref=e736]:
+                      - generic [ref=e737]:
+                        - img [ref=e738]
+                        - link "package.json, (File)" [ref=e743] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/package.json
+                          - text: package.json
+                    - 'cell "chore: align repo baseline to Node 24" [ref=e744]':
+                      - 'link "chore: align repo baseline to Node 24" [ref=e747] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/25dc8ef0a5165deae48e130b3323c0bee5e7eeb4
+                    - cell "Mar 30, 20262 weeks ago" [ref=e748]:
+                      - generic [ref=e749]: Mar 30, 20262 weeks ago
+                  - 'row "postcss.config.mjs, (File) feat: initial commit Mar 24, 20262 weeks ago" [ref=e750]':
+                    - cell "postcss.config.mjs, (File)" [ref=e751]:
+                      - generic [ref=e752]:
+                        - img [ref=e753]
+                        - link "postcss.config.mjs, (File)" [ref=e758] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/postcss.config.mjs
+                          - text: postcss.config.mjs
+                    - 'cell "feat: initial commit" [ref=e759]':
+                      - 'link "feat: initial commit" [ref=e762] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/43286ba528d29fd48163d70dd65f5edd3d976685
+                    - cell "Mar 24, 20262 weeks ago" [ref=e763]:
+                      - generic [ref=e764]: Mar 24, 20262 weeks ago
+                  - 'row "tsconfig.json, (File) feat: initial commit Mar 24, 20262 weeks ago" [ref=e765]':
+                    - cell "tsconfig.json, (File)" [ref=e766]:
+                      - generic [ref=e767]:
+                        - img [ref=e768]
+                        - link "tsconfig.json, (File)" [ref=e773] [cursor=pointer]:
+                          - /url: /JCodesMore/ai-website-cloner-template/blob/master/tsconfig.json
+                          - text: tsconfig.json
+                    - 'cell "feat: initial commit" [ref=e774]':
+                      - 'link "feat: initial commit" [ref=e777] [cursor=pointer]':
+                        - /url: /JCodesMore/ai-website-cloner-template/commit/43286ba528d29fd48163d70dd65f5edd3d976685
+                    - cell "Mar 24, 20262 weeks ago" [ref=e778]:
+                      - generic [ref=e779]: Mar 24, 20262 weeks ago
+            - generic [ref=e781]:
+              - generic [ref=e782]:
+                - heading "Repository files navigation" [level=2] [ref=e783]
+                - navigation "Repository files" [ref=e784]:
+                  - list [ref=e785]:
+                    - listitem [ref=e786]:
+                      - link "README" [ref=e787] [cursor=pointer]:
+                        - /url: "#"
+                        - img [ref=e789]
+                        - generic [ref=e791]: README
+                    - listitem [ref=e792]:
+                      - link "MIT license" [ref=e793] [cursor=pointer]:
+                        - /url: "#"
+                        - img [ref=e795]
+                        - generic [ref=e797]: MIT license
+                - button "Outline" [ref=e798] [cursor=pointer]:
+                  - img [ref=e799]
+              - article [ref=e802]:
+                - generic [ref=e803]:
+                  - heading "AI Website Cloner Template" [level=1] [ref=e804]
+                  - 'link "Permalink: AI Website Cloner Template" [ref=e805] [cursor=pointer]':
+                    - /url: "#ai-website-cloner-template"
+                    - img [ref=e806]
+                - paragraph [ref=e808]:
+                  - link "MIT License" [ref=e809] [cursor=pointer]:
+                    - /url: https://github.com/JCodesMore/ai-website-cloner-template/blob/master/LICENSE
+                    - img "MIT License" [ref=e810]
+                  - link "Stars" [ref=e811] [cursor=pointer]:
+                    - /url: https://github.com/JCodesMore/ai-website-cloner-template/stargazers
+                    - img "Stars" [ref=e812]
+                  - link "Discord" [ref=e813] [cursor=pointer]:
+                    - /url: https://discord.gg/hrTSX5yTpB
+                    - img "Discord" [ref=e814]
+                - paragraph [ref=e815]: A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents.
+                - paragraph [ref=e816]:
+                  - strong [ref=e817]:
+                    - text: "Recommended:"
+                    - link "Claude Code" [ref=e818] [cursor=pointer]:
+                      - /url: https://docs.anthropic.com/en/docs/claude-code
+                    - text: with Opus 4.6 for best results
+                  - text: — but works with a variety of AI coding agents.
+                - paragraph [ref=e819]:
+                  - text: Point it at a URL, run
+                  - code [ref=e820]: /clone-website
+                  - text: ", and your AI agent will inspect the site, extract design tokens and assets, write component specs, and dispatch parallel builders to reconstruct every section."
+                - generic [ref=e821]:
+                  - heading "Demo" [level=2] [ref=e822]
+                  - 'link "Permalink: Demo" [ref=e823] [cursor=pointer]':
+                    - /url: "#demo"
+                    - img [ref=e824]
+                - paragraph [ref=e826]:
+                  - link "Watch the demo" [ref=e827] [cursor=pointer]:
+                    - /url: https://youtu.be/O669pVZ_qr0
+                    - img "Watch the demo" [ref=e828]
+                - blockquote [ref=e829]:
+                  - paragraph [ref=e830]: Click the image above to watch the full demo on YouTube.
+                - generic [ref=e831]:
+                  - heading "Quick Start" [level=2] [ref=e832]
+                  - 'link "Permalink: Quick Start" [ref=e833] [cursor=pointer]':
+                    - /url: "#quick-start"
+                    - img [ref=e834]
+                - list [ref=e836]:
+                  - listitem [ref=e837]:
+                    - strong [ref=e838]: Clone this repository
+                    - generic [ref=e839]:
+                      - generic [ref=e840]: git clone https://github.com/JCodesMore/ai-website-cloner-template.git my-clone cd my-clone
+                      - button "Copy" [ref=e842] [cursor=pointer]:
+                        - img [ref=e843]
+                  - listitem [ref=e846]:
+                    - strong [ref=e847]: Install dependencies
+                    - generic [ref=e848]:
+                      - generic [ref=e849]: npm install
+                      - button "Copy" [ref=e851] [cursor=pointer]:
+                        - img [ref=e852]
+                  - listitem [ref=e855]:
+                    - strong [ref=e856]: Start your AI agent
+                    - text: "— Claude Code recommended:"
+                    - generic [ref=e857]:
+                      - generic [ref=e858]: claude --chrome
+                      - button "Copy" [ref=e860] [cursor=pointer]:
+                        - img [ref=e861]
+                  - listitem [ref=e864]:
+                    - strong [ref=e865]: Run the skill
+                    - text: ":"
+                    - generic [ref=e866]:
+                      - code [ref=e868]: /clone-website <target-url1> [<target-url2> ...]
+                      - button "Copy" [ref=e870] [cursor=pointer]:
+                        - img [ref=e871]
+                  - listitem [ref=e874]:
+                    - strong [ref=e875]: Customize
+                    - text: (optional) — after the base clone is built, modify as needed
+                - blockquote [ref=e876]:
+                  - paragraph [ref=e877]:
+                    - text: Using a different agent? Open
+                    - code [ref=e878]: AGENTS.md
+                    - text: for project instructions — most agents pick it up automatically.
+                - generic [ref=e879]:
+                  - heading "Supported Platforms" [level=2] [ref=e880]
+                  - 'link "Permalink: Supported Platforms" [ref=e881] [cursor=pointer]':
+                    - /url: "#supported-platforms"
+                    - img [ref=e882]
+                - table [ref=e885]:
+                  - rowgroup [ref=e886]:
+                    - row "Agent Status" [ref=e887]:
+                      - columnheader "Agent" [ref=e888]
+                      - columnheader "Status" [ref=e889]
+                  - rowgroup [ref=e890]:
+                    - row "Claude Code Recommended — Opus 4.6" [ref=e891]:
+                      - cell "Claude Code" [ref=e892]:
+                        - link "Claude Code" [ref=e893] [cursor=pointer]:
+                          - /url: https://docs.anthropic.com/en/docs/claude-code
+                      - cell "Recommended — Opus 4.6" [ref=e894]:
+                        - strong [ref=e895]: Recommended
+                        - text: — Opus 4.6
+                    - row "Codex CLI Supported" [ref=e896]:
+                      - cell "Codex CLI" [ref=e897]:
+                        - link "Codex CLI" [ref=e898] [cursor=pointer]:
+                          - /url: https://github.com/openai/codex
+                      - cell "Supported" [ref=e899]
+                    - row "OpenCode Supported" [ref=e900]:
+                      - cell "OpenCode" [ref=e901]:
+                        - link "OpenCode" [ref=e902] [cursor=pointer]:
+                          - /url: https://opencode.ai/
+                      - cell "Supported" [ref=e903]
+                    - row "GitHub Copilot Supported" [ref=e904]:
+                      - cell "GitHub Copilot" [ref=e905]:
+                        - link "GitHub Copilot" [ref=e906] [cursor=pointer]:
+                          - /url: https://github.com/features/copilot
+                      - cell "Supported" [ref=e907]
+                    - row "Cursor Supported" [ref=e908]:
+                      - cell "Cursor" [ref=e909]:
+                        - link "Cursor" [ref=e910] [cursor=pointer]:
+                          - /url: https://cursor.com/
+                      - cell "Supported" [ref=e911]
+                    - row "Windsurf Supported" [ref=e912]:
+                      - cell "Windsurf" [ref=e913]:
+                        - link "Windsurf" [ref=e914] [cursor=pointer]:
+                          - /url: https://codeium.com/windsurf
+                      - cell "Supported" [ref=e915]
+                    - row "Gemini CLI Supported" [ref=e916]:
+                      - cell "Gemini CLI" [ref=e917]:
+                        - link "Gemini CLI" [ref=e918] [cursor=pointer]:
+                          - /url: https://github.com/google-gemini/gemini-cli
+                      - cell "Supported" [ref=e919]
+                    - row "Cline Supported" [ref=e920]:
+                      - cell "Cline" [ref=e921]:
+                        - link "Cline" [ref=e922] [cursor=pointer]:
+                          - /url: https://github.com/cline/cline
+                      - cell "Supported" [ref=e923]
+                    - row "Roo Code Supported" [ref=e924]:
+                      - cell "Roo Code" [ref=e925]:
+                        - link "Roo Code" [ref=e926] [cursor=pointer]:
+                          - /url: https://github.com/RooCodeInc/Roo-Code
+                      - cell "Supported" [ref=e927]
+                    - row "Continue Supported" [ref=e928]:
+                      - cell "Continue" [ref=e929]:
+                        - link "Continue" [ref=e930] [cursor=pointer]:
+                          - /url: https://continue.dev/
+                      - cell "Supported" [ref=e931]
+                    - row "Amazon Q Supported" [ref=e932]:
+                      - cell "Amazon Q" [ref=e933]:
+                        - link "Amazon Q" [ref=e934] [cursor=pointer]:
+                          - /url: https://aws.amazon.com/q/developer/
+                      - cell "Supported" [ref=e935]
+                    - row "Augment Code Supported" [ref=e936]:
+                      - cell "Augment Code" [ref=e937]:
+                        - link "Augment Code" [ref=e938] [cursor=pointer]:
+                          - /url: https://www.augmentcode.com/
+                      - cell "Supported" [ref=e939]
+                    - row "Aider Supported" [ref=e940]:
+                      - cell "Aider" [ref=e941]:
+                        - link "Aider" [ref=e942] [cursor=pointer]:
+                          - /url: https://aider.chat/
+                      - cell "Supported" [ref=e943]
+                - generic [ref=e944]:
+                  - heading "Prerequisites" [level=2] [ref=e945]
+                  - 'link "Permalink: Prerequisites" [ref=e946] [cursor=pointer]':
+                    - /url: "#prerequisites"
+                    - img [ref=e947]
+                - list [ref=e949]:
+                  - listitem [ref=e950]:
+                    - link "Node.js" [ref=e951] [cursor=pointer]:
+                      - /url: https://nodejs.org/
+                    - text: 24+
+                  - listitem [ref=e952]:
+                    - text: An AI coding agent (see
+                    - link "Supported Platforms" [ref=e953] [cursor=pointer]:
+                      - /url: "#supported-platforms"
+                    - text: )
+                - generic [ref=e954]:
+                  - heading "Tech Stack" [level=2] [ref=e955]
+                  - 'link "Permalink: Tech Stack" [ref=e956] [cursor=pointer]':
+                    - /url: "#tech-stack"
+                    - img [ref=e957]
+                - list [ref=e959]:
+                  - listitem [ref=e960]:
+                    - strong [ref=e961]: Next.js 16
+                    - text: — App Router, React 19, TypeScript strict
+                  - listitem [ref=e962]:
+                    - strong [ref=e963]: shadcn/ui
+                    - text: — Radix primitives + Tailwind CSS v4
+                  - listitem [ref=e964]:
+                    - strong [ref=e965]: Tailwind CSS v4
+                    - text: — oklch design tokens
+                  - listitem [ref=e966]:
+                    - strong [ref=e967]: Lucide React
+                    - text: — default icons (replaced by extracted SVGs during cloning)
+                - generic [ref=e968]:
+                  - heading "How It Works" [level=2] [ref=e969]
+                  - 'link "Permalink: How It Works" [ref=e970] [cursor=pointer]':
+                    - /url: "#how-it-works"
+                    - img [ref=e971]
+                - paragraph [ref=e973]:
+                  - text: The
+                  - code [ref=e974]: /clone-website
+                  - text: "skill runs a multi-phase pipeline:"
+                - list [ref=e975]:
+                  - listitem [ref=e976]:
+                    - strong [ref=e977]: Reconnaissance
+                    - text: — screenshots, design token extraction, interaction sweep (scroll, click, hover, responsive)
+                  - listitem [ref=e978]:
+                    - strong [ref=e979]: Foundation
+                    - text: — updates fonts, colors, globals, downloads all assets
+                  - listitem [ref=e980]:
+                    - strong [ref=e981]: Component Specs
+                    - text: — writes detailed spec files (
+                    - code [ref=e982]: docs/research/components/
+                    - text: ) with exact computed CSS values, states, behaviors, and content
+                  - listitem [ref=e983]:
+                    - strong [ref=e984]: Parallel Build
+                    - text: — dispatches builder agents in git worktrees, one per section/component
+                  - listitem [ref=e985]:
+                    - strong [ref=e986]: Assembly & QA
+                    - text: — merges worktrees, wires up the page, runs visual diff against the original
+                - paragraph [ref=e987]:
+                  - text: Each builder agent receives the full component specification inline — exact
+                  - code [ref=e988]: getComputedStyle()
+                  - text: values, interaction models, multi-state content, responsive breakpoints, and asset paths. No guessing.
+                - generic [ref=e989]:
+                  - heading "Use Cases" [level=2] [ref=e990]
+                  - 'link "Permalink: Use Cases" [ref=e991] [cursor=pointer]':
+                    - /url: "#use-cases"
+                    - img [ref=e992]
+                - list [ref=e994]:
+                  - listitem [ref=e995]:
+                    - strong [ref=e996]: Platform migration
+                    - text: — rebuild a site you own from WordPress/Webflow/Squarespace into a modern Next.js codebase
+                  - listitem [ref=e997]:
+                    - strong [ref=e998]: Lost source code
+                    - text: — your site is live but the repo is gone, the developer left, or the stack is legacy. Get the code back in a modern format
+                  - listitem [ref=e999]:
+                    - strong [ref=e1000]: Learning
+                    - text: — deconstruct how production sites achieve specific layouts, animations, and responsive behavior by working with real code
+                - generic [ref=e1001]:
+                  - heading "Not Intended For" [level=2] [ref=e1002]
+                  - 'link "Permalink: Not Intended For" [ref=e1003] [cursor=pointer]':
+                    - /url: "#not-intended-for"
+                    - img [ref=e1004]
+                - list [ref=e1006]:
+                  - listitem [ref=e1007]:
+                    - strong [ref=e1008]: Phishing or impersonation
+                    - text: — this project must not be used for deceptive purposes, impersonation, or any activity that breaks the law.
+                  - listitem [ref=e1009]:
+                    - strong [ref=e1010]: Passing off someone's design as your own
+                    - text: — logos, brand assets, and original copy belong to their owners.
+                  - listitem [ref=e1011]:
+                    - strong [ref=e1012]: Violating terms of service
+                    - text: — some sites explicitly prohibit scraping or reproduction. Check first.
+                - generic [ref=e1013]:
+                  - heading "Project Structure" [level=2] [ref=e1014]
+                  - 'link "Permalink: Project Structure" [ref=e1015] [cursor=pointer]':
+                    - /url: "#project-structure"
+                    - img [ref=e1016]
+                - generic [ref=e1018]:
+                  - code [ref=e1020]: "src/ app/ # Next.js routes components/ # React components ui/ # shadcn/ui primitives icons.tsx # Extracted SVG icons lib/utils.ts # cn() utility types/ # TypeScript interfaces hooks/ # Custom React hooks public/ images/ # Downloaded images from target videos/ # Downloaded videos from target seo/ # Favicons, OG images docs/ research/ # Extraction output & component specs design-references/ # Screenshots scripts/ sync-agent-rules.sh # Regenerate agent instruction files sync-skills.mjs # Regenerate /clone-website for all platforms AGENTS.md # Agent instructions (single source of truth) CLAUDE.md # Claude Code config (imports AGENTS.md) GEMINI.md # Gemini CLI config (imports AGENTS.md)"
+                  - button "Copy" [ref=e1022] [cursor=pointer]:
+                    - img [ref=e1023]
+                - generic [ref=e1026]:
+                  - heading "Commands" [level=2] [ref=e1027]
+                  - 'link "Permalink: Commands" [ref=e1028] [cursor=pointer]':
+                    - /url: "#commands"
+                    - img [ref=e1029]
+                - generic [ref=e1031]:
+                  - generic [ref=e1032]:
+                    - text: npm run dev
+                    - generic [ref=e1033]: "# Start dev server"
+                    - text: npm run build
+                    - generic [ref=e1034]: "# Production build"
+                    - text: npm run lint
+                    - generic [ref=e1035]: "# ESLint check"
+                    - text: npm run typecheck
+                    - generic [ref=e1036]: "# TypeScript check"
+                    - text: npm run check
+                    - generic [ref=e1037]: "# Run lint + typecheck + build"
+                  - button "Copy" [ref=e1039] [cursor=pointer]:
+                    - img [ref=e1040]
+                - generic [ref=e1043]:
+                  - heading "If using docker" [level=3] [ref=e1044]
+                  - 'link "Permalink: If using docker" [ref=e1045] [cursor=pointer]':
+                    - /url: "#if-using-docker"
+                    - img [ref=e1046]
+                - generic [ref=e1048]:
+                  - generic [ref=e1049]:
+                    - text: docker compose up app --build
+                    - generic [ref=e1050]: "# build and run the app"
+                    - text: docker compose up dev --build
+                    - generic [ref=e1051]: "# run the app in dev mode on port 3001"
+                  - button "Copy" [ref=e1053] [cursor=pointer]:
+                    - img [ref=e1054]
+                - generic [ref=e1057]:
+                  - heading "Updating for Other Platforms" [level=2] [ref=e1058]
+                  - 'link "Permalink: Updating for Other Platforms" [ref=e1059] [cursor=pointer]':
+                    - /url: "#updating-for-other-platforms"
+                    - img [ref=e1060]
+                - paragraph [ref=e1062]: "Two source-of-truth files power all platform support. Edit the source, then run the sync script:"
+                - table [ref=e1064]:
+                  - rowgroup [ref=e1065]:
+                    - row "What Source of truth Sync command" [ref=e1066]:
+                      - columnheader "What" [ref=e1067]
+                      - columnheader "Source of truth" [ref=e1068]
+                      - columnheader "Sync command" [ref=e1069]
+                  - rowgroup [ref=e1070]:
+                    - row "Project instructions AGENTS.md bash scripts/sync-agent-rules.sh" [ref=e1071]:
+                      - cell "Project instructions" [ref=e1072]
+                      - cell "AGENTS.md" [ref=e1073]:
+                        - code [ref=e1074]: AGENTS.md
+                      - cell "bash scripts/sync-agent-rules.sh" [ref=e1075]:
+                        - code [ref=e1076]: bash scripts/sync-agent-rules.sh
+                    - row "/clone-website skill .claude/skills/clone-website/SKILL.md node scripts/sync-skills.mjs" [ref=e1077]:
+                      - cell "/clone-website skill" [ref=e1078]:
+                        - code [ref=e1079]: /clone-website
+                        - text: skill
+                      - cell ".claude/skills/clone-website/SKILL.md" [ref=e1080]:
+                        - code [ref=e1081]: .claude/skills/clone-website/SKILL.md
+                      - cell "node scripts/sync-skills.mjs" [ref=e1082]:
+                        - code [ref=e1083]: node scripts/sync-skills.mjs
+                - paragraph [ref=e1084]: Each script regenerates the platform-specific copies automatically. Agents that read the source files natively need no regeneration.
+                - generic [ref=e1085]:
+                  - heading "Star History" [level=2] [ref=e1086]
+                  - 'link "Permalink: Star History" [ref=e1087] [cursor=pointer]':
+                    - /url: "#star-history"
+                    - img [ref=e1088]
+                - paragraph [ref=e1090]:
+                  - link "Star History Chart" [ref=e1091] [cursor=pointer]:
+                    - /url: https://star-history.com/#JCodesMore/ai-website-cloner-template&Date
+                    - img "Star History Chart" [ref=e1092]
+                - generic [ref=e1093]:
+                  - heading "License" [level=2] [ref=e1094]
+                  - 'link "Permalink: License" [ref=e1095] [cursor=pointer]':
+                    - /url: "#license"
+                    - img [ref=e1096]
+                - paragraph [ref=e1098]: MIT
+        - generic [ref=e1102]:
+          - generic [ref=e1105]:
+            - heading "About" [level=2] [ref=e1106]
+            - paragraph [ref=e1107]: Clone any website with one command using AI coding agents
+            - generic [ref=e1108]:
+              - img [ref=e1109]
+              - link "dsc.gg/jcodesmore" [ref=e1112] [cursor=pointer]:
+                - /url: https://dsc.gg/jcodesmore
+            - heading "Topics" [level=3] [ref=e1113]
+            - generic [ref=e1115]:
+              - link "react" [ref=e1116] [cursor=pointer]:
+                - /url: /topics/react
+              - link "template" [ref=e1117] [cursor=pointer]:
+                - /url: /topics/template
+              - link "boilerplate" [ref=e1118] [cursor=pointer]:
+                - /url: /topics/boilerplate
+              - link "automation" [ref=e1119] [cursor=pointer]:
+                - /url: /topics/automation
+              - link "typescript" [ref=e1120] [cursor=pointer]:
+                - /url: /topics/typescript
+              - link "ai" [ref=e1121] [cursor=pointer]:
+                - /url: /topics/ai
+              - link "clone" [ref=e1122] [cursor=pointer]:
+                - /url: /topics/clone
+              - link "skills" [ref=e1123] [cursor=pointer]:
+                - /url: /topics/skills
+              - link "nextjs" [ref=e1124] [cursor=pointer]:
+                - /url: /topics/nextjs
+              - link "reverse-engineering" [ref=e1125] [cursor=pointer]:
+                - /url: /topics/reverse-engineering
+              - link "web-scraping" [ref=e1126] [cursor=pointer]:
+                - /url: /topics/web-scraping
+              - link "developer-tools" [ref=e1127] [cursor=pointer]:
+                - /url: /topics/developer-tools
+              - link "ai-agents" [ref=e1128] [cursor=pointer]:
+                - /url: /topics/ai-agents
+              - link "claude" [ref=e1129] [cursor=pointer]:
+                - /url: /topics/claude
+              - link "tailwindcss" [ref=e1130] [cursor=pointer]:
+                - /url: /topics/tailwindcss
+              - link "website-clone" [ref=e1131] [cursor=pointer]:
+                - /url: /topics/website-clone
+              - link "ai-tools" [ref=e1132] [cursor=pointer]:
+                - /url: /topics/ai-tools
+              - link "shadcn-ui" [ref=e1133] [cursor=pointer]:
+                - /url: /topics/shadcn-ui
+              - link "claude-code" [ref=e1134] [cursor=pointer]:
+                - /url: /topics/claude-code
+            - heading "Resources" [level=3] [ref=e1135]
+            - link "Readme" [ref=e1137] [cursor=pointer]:
+              - /url: "#readme-ov-file"
+              - img [ref=e1138]
+              - text: Readme
+            - heading "License" [level=3] [ref=e1140]
+            - link "MIT license" [ref=e1142] [cursor=pointer]:
+              - /url: "#MIT-1-ov-file"
+              - img [ref=e1143]
+              - text: MIT license
+            - link "Activity" [ref=e1146] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/activity
+              - img [ref=e1147]
+              - text: Activity
+            - heading "Stars" [level=3] [ref=e1149]
+            - link "9.5k stars" [ref=e1151] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/stargazers
+              - img [ref=e1152]
+              - strong [ref=e1154]: 9.5k
+              - text: stars
+            - heading "Watchers" [level=3] [ref=e1155]
+            - link "61 watching" [ref=e1157] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/watchers
+              - img [ref=e1158]
+              - strong [ref=e1160]: "61"
+              - text: watching
+            - heading "Forks" [level=3] [ref=e1161]
+            - link "1.3k forks" [ref=e1163] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/forks
+              - img [ref=e1164]
+              - strong [ref=e1166]: 1.3k
+              - text: forks
+            - link "Report repository" [ref=e1168] [cursor=pointer]:
+              - /url: /contact/report-content?content_url=https%3A%2F%2Fgithub.com%2FJCodesMore%2Fai-website-cloner-template&report=JCodesMore+%28user%29
+          - generic [ref=e1170]:
+            - heading "Releases 5" [level=2] [ref=e1171]:
+              - link "Releases 5" [ref=e1172] [cursor=pointer]:
+                - /url: /JCodesMore/ai-website-cloner-template/releases
+                - text: Releases
+                - generic "5" [ref=e1173]
+            - link "v0.3.1 - Windows CRLF Fix for Agent Rules Sync Latest Mar 30, 20262 weeks ago" [ref=e1174] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/releases/tag/v0.3.1
+              - img [ref=e1175]
+              - generic [ref=e1177]:
+                - generic [ref=e1178]:
+                  - generic [ref=e1179]: v0.3.1 - Windows CRLF Fix for Agent Rules Sync
+                  - 'generic "Label: Latest" [ref=e1180]': Latest
+                - generic [ref=e1181]: Mar 30, 20262 weeks ago
+            - link "+ 4 releases" [ref=e1183] [cursor=pointer]:
+              - /url: /JCodesMore/ai-website-cloner-template/releases
+          - generic [ref=e1185]:
+            - heading "Packages" [level=2] [ref=e1186]:
+              - link "Packages" [ref=e1187] [cursor=pointer]:
+                - /url: /users/JCodesMore/packages?repo_name=ai-website-cloner-template
+            - generic [ref=e1188]: No packages published
+          - generic [ref=e1190]:
+            - heading "Contributors 7" [level=2] [ref=e1191]:
+              - link "Contributors 7" [ref=e1192] [cursor=pointer]:
+                - /url: /JCodesMore/ai-website-cloner-template/graphs/contributors
+                - text: Contributors
+                - generic "7" [ref=e1193]
+            - list [ref=e1194]:
+              - listitem [ref=e1195]:
+                - link "@JCodesMore" [ref=e1196] [cursor=pointer]:
+                  - /url: https://github.com/JCodesMore
+                  - img "@JCodesMore" [ref=e1197]
+              - listitem [ref=e1198]:
+                - link "@claude" [ref=e1199] [cursor=pointer]:
+                  - /url: https://github.com/claude
+                  - img "@claude" [ref=e1200]
+              - listitem [ref=e1201]:
+                - link "@oz-agent" [ref=e1202] [cursor=pointer]:
+                  - /url: https://github.com/oz-agent
+                  - img "@oz-agent" [ref=e1203]
+              - listitem [ref=e1204]:
+                - link "@rishikeshmanohar" [ref=e1205] [cursor=pointer]:
+                  - /url: https://github.com/rishikeshmanohar
+                  - img "@rishikeshmanohar" [ref=e1206]
+              - listitem [ref=e1207]:
+                - link "@SABUJ123472" [ref=e1208] [cursor=pointer]:
+                  - /url: https://github.com/SABUJ123472
+                  - img "@SABUJ123472" [ref=e1209]
+              - listitem [ref=e1210]:
+                - link "@biisal" [ref=e1211] [cursor=pointer]:
+                  - /url: https://github.com/biisal
+                  - img "@biisal" [ref=e1212]
+              - listitem [ref=e1213]:
+                - link "@krataratha" [ref=e1214] [cursor=pointer]:
+                  - /url: https://github.com/krataratha
+                  - img "@krataratha" [ref=e1215]
+          - generic [ref=e1217]:
+            - heading "Languages" [level=2] [ref=e1218]
+            - list [ref=e1226]:
+              - listitem [ref=e1227]:
+                - link "TypeScript 23.1%" [ref=e1228] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/search?l=typescript
+                  - img [ref=e1229]
+                  - generic [ref=e1231]: TypeScript
+                  - generic [ref=e1232]: 23.1%
+              - listitem [ref=e1233]:
+                - link "CSS 22.2%" [ref=e1234] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/search?l=css
+                  - img [ref=e1235]
+                  - generic [ref=e1237]: CSS
+                  - generic [ref=e1238]: 22.2%
+              - listitem [ref=e1239]:
+                - link "JavaScript 20.4%" [ref=e1240] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/search?l=javascript
+                  - img [ref=e1241]
+                  - generic [ref=e1243]: JavaScript
+                  - generic [ref=e1244]: 20.4%
+              - listitem [ref=e1245]:
+                - link "Dockerfile 20.2%" [ref=e1246] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/search?l=dockerfile
+                  - img [ref=e1247]
+                  - generic [ref=e1249]: Dockerfile
+                  - generic [ref=e1250]: 20.2%
+              - listitem [ref=e1251]:
+                - link "Shell 14.1%" [ref=e1252] [cursor=pointer]:
+                  - /url: /JCodesMore/ai-website-cloner-template/search?l=shell
+                  - img [ref=e1253]
+                  - generic [ref=e1255]: Shell
+                  - generic [ref=e1256]: 14.1%
+  - contentinfo [ref=e1258]:
+    - heading "Footer" [level=2] [ref=e1259]
+    - generic [ref=e1260]:
+      - generic [ref=e1261]:
+        - link "GitHub Homepage" [ref=e1262] [cursor=pointer]:
+          - /url: https://github.com
+          - img [ref=e1263]
+        - generic [ref=e1265]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=e1266]:
+        - heading "Footer navigation" [level=3] [ref=e1267]
+        - list "Footer navigation" [ref=e1268]:
+          - listitem [ref=e1269]:
+            - link "Terms" [ref=e1270] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=e1271]:
+            - link "Privacy" [ref=e1272] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=e1273]:
+            - link "Security" [ref=e1274] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=e1275]:
+            - link "Status" [ref=e1276] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=e1277]:
+            - link "Community" [ref=e1278] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=e1279]:
+            - link "Docs" [ref=e1280] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=e1281]:
+            - link "Contact" [ref=e1282] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=e1283]:
+            - button "Manage cookies" [ref=e1285] [cursor=pointer]
+          - listitem [ref=e1286]:
+            - button "Do not share my personal information" [ref=e1288] [cursor=pointer]

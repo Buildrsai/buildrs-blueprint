@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"for wt in ace01d15 acb74e90 aeb2d1f0 a53eb41b ae86736f; do\\n  echo \\\"=== $wt ===\\\" \\n  find /Users/alfredorsini/CLAUDE/.claude/worktrees/agent-$wt/Users/alfredorsini/CLAUDE/Linear/linear-c...",
+  "error": "Exit code 1\n=== ace01d15 ===\n=== acb74e90 ===\n=== aeb2d1f0 ===\n=== a53eb41b ===\n=== ae86736f ===",
+  "timestamp": "2026-04-12T10:37:15.683Z",
+  "retry_count": 1
+}

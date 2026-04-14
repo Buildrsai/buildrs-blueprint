@@ -25,7 +25,7 @@ La 1ère idée DOIT s'inspirer directement de ce SaaS, adaptée au profil du bui
 Les 2 autres idées peuvent être complémentaires ou différentes.`
     : `Pas de source spécifique. Génère 3 idées originales adaptées au profil.`
 
-  return `Tu es l'expert en micro-SaaS de Buildrs. Génère 3 opportunités PERSONNALISÉES et ACTIONNABLES.
+  return `Tu es l'expert en micro-SaaS de Buildrs. Ta méthode : PROBLÈME D'ABORD, solution ensuite.
 
 ${sourceBlock}
 
@@ -35,34 +35,45 @@ PROFIL DU BUILDER :
 - Niveau : ${answers.level === 'beginner' ? 'Débutant complet' : answers.level === 'intermediate' ? 'Quelques bases IA/code' : 'A déjà lancé des projets'}
 - Délai : ${answers.timeline || '2-3 semaines'}
 
-RÈGLES ABSOLUES :
+MÉTHODE OBLIGATOIRE — pour chaque idée, raisonne dans cet ordre :
+1. PROBLÈME RÉCURRENT : identifie un problème RÉEL et FRÉQUENT dans la niche. Pas un "nice to have" — un truc qui fait perdre du temps, de l'argent ou des clients CHAQUE SEMAINE.
+2. FRICTION ACTUELLE : comment ces gens gèrent ce problème AUJOURD'HUI ? (Excel, papier, WhatsApp, outil trop cher, process manuel...). C'est la preuve qu'il y a un marché.
+3. SOLUTION SAAS : le micro-SaaS qui remplace cette friction. Simple, ciblé, une seule feature core qui résout LE problème.
+4. PREUVE DE MARCHÉ : cite un concurrent qui existe (même partiel), un subreddit actif, un mot-clé Google avec du volume, ou un budget déjà dépensé par la cible.
+
+RÈGLES :
+- Niche ULTRA-PRÉCISE (ex: "studios de yoga 1-3 salles en France" pas juste "fitness")
+- Le problème doit être RÉCURRENT (hebdo ou quotidien), pas ponctuel
+- La cible doit DÉJÀ dépenser de l'argent ou du temps significatif sur ce problème
 - Buildable avec Claude Code + Supabase + Stripe en ${answers.timeline || '2-3 semaines'}
-- Niche TRÈS précise (ex: "cabinets dentaires 5-10 praticiens" pas juste "santé")
-- Prix réaliste entre 19€ et 299€/mois selon la niche
+- Prix réaliste entre 19€ et 299€/mois selon la valeur du problème résolu
 - Si objectif flip : build_score >= 70, revente visée 5-20x MRR annuel
 - Si objectif client : une cible entreprise claire avec budget connu
 - Adapte la complexité au niveau du builder
+- INTERDICTION de proposer des idées vagues ("outil de gestion", "plateforme de...") — chaque idée doit résoudre UN problème précis
 
 Réponds UNIQUEMENT en JSON valide :
 {
   "ideas": [
     {
-      "title": "string (nom court et percutant, ex: 'Agent RDV pour kinés')",
-      "target_niche": "string (niche très précise en français)",
-      "problem_solved": "string (1 phrase : QUI a le problème et POURQUOI)",
-      "traction_score": number (0-100, demande marché prouvée),
-      "traction_explanation": "string (1 phrase avec preuve concrète)",
+      "title": "string (nom court et percutant, ex: 'NoShow Killer pour kinés')",
+      "target_niche": "string (niche très précise avec taille : ex 'kinés libéraux 1-2 cabinets, ~80 000 en France')",
+      "problem_solved": "string (LE problème récurrent : QUI souffre, COMBIEN de fois par semaine, et combien ça coûte)",
+      "current_friction": "string (comment ils gèrent aujourd'hui : quel outil/process manuel/workaround)",
+      "market_proof": "string (preuve concrète : concurrent existant, subreddit, volume Google, budget existant de la cible)",
+      "traction_score": number (0-100, basé sur la preuve de marché réelle),
+      "traction_explanation": "string (1 phrase : pourquoi la demande est prouvée, avec donnée concrète)",
       "buildability_score": number (0-100, facilité de construction),
-      "buildability_explanation": "string (1 phrase : ce qu'il faut construire exactement)",
+      "buildability_explanation": "string (1 phrase : ce qu'il faut construire exactement pour le MVP)",
       "monetization_score": number (0-100, potentiel revenus),
-      "monetization_explanation": "string (1 phrase : qui paie, combien, pourquoi)",
+      "monetization_explanation": "string (1 phrase : qui paie, combien, et pourquoi ce prix est évident vu le problème résolu)",
       "build_score": number (0-100, score global = t*0.3 + b*0.4 + m*0.3),
       "recommended_stack": ["string (4 outils max: Claude Code, Supabase, Stripe, Vercel, Resend, etc.)"],
-      "mvp_features": ["string (4 features clés, descriptions simples et actionnables)"],
-      "pricing_suggestion": "string (ex: '49€/mois par praticien')",
+      "mvp_features": ["string (4 features clés — la 1ère DOIT être la feature qui résout le problème core)"],
+      "pricing_suggestion": "string (ex: '49€/mois — économise 3h/semaine au kiné soit ~150€ de valeur')",
       "estimated_build_time": "string (ex: '7-10 jours')",
-      "acquisition_channel": "string (canal principal concret pour atteindre cette niche)",
-      "why_now": "string (1 phrase : pourquoi 2026 est le bon moment)"
+      "acquisition_channel": "string (canal principal concret : OÙ ces gens traînent et comment les atteindre)",
+      "why_now": "string (1 phrase : pourquoi 2026 est le bon moment — IA, régulation, tendance marché)"
     }
   ]
 }`
@@ -116,7 +127,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 4000,
+        max_tokens: 8000,
         messages: [{ role: 'user', content: buildPrompt(source, answers) }],
       }),
     })
@@ -124,35 +135,84 @@ Deno.serve(async (req) => {
     if (!res.ok) {
       const errText = await res.text()
       console.error('[generator-recommend] Claude API error:', errText)
-      return new Response(JSON.stringify({ error: 'Erreur IA, réessaie.' }), {
+      return new Response(JSON.stringify({ error: `Claude API ${res.status}: ${errText.slice(0, 200)}` }), {
         status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
-    const data = await res.json()
-    const text: string = data?.content?.[0]?.text ?? ''
-    const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/(\{[\s\S]*\})/)
-    if (!jsonMatch) {
-      console.error('[generator-recommend] No JSON in response:', text.slice(0, 200))
-      throw new Error('Réponse non-JSON de Claude')
+    // ── Parse Claude response ─────────────────────────────────────────────────
+    let claudeData: { content?: { text: string }[]; stop_reason?: string; error?: { message: string } }
+    try {
+      claudeData = await res.json()
+    } catch (e) {
+      return new Response(JSON.stringify({ error: `Claude response not JSON: ${e}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
     }
 
-    const parsed = JSON.parse(jsonMatch[1] || jsonMatch[0]) as { ideas: unknown[] }
+    // Handle Claude-level errors (e.g. overload, invalid request)
+    if (claudeData.error) {
+      console.error('[generator-recommend] Claude error in body:', claudeData.error)
+      return new Response(JSON.stringify({ error: `Claude: ${claudeData.error.message}` }), {
+        status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
-    // Save session (fire and forget)
-    supabaseService.from('generator_sessions').insert({
-      user_id:    user.id,
-      mode:       source ? 'copy' : 'find',
-      input_data: { source, answers },
-      output_data: parsed,
-    }).catch((e: unknown) => console.error('[generator-recommend] Session save error:', e))
+    const text: string = claudeData?.content?.[0]?.text ?? ''
+    console.log('[generator-recommend] stop_reason:', claudeData?.stop_reason, '| text length:', text.length)
+
+    if (!text) {
+      console.error('[generator-recommend] Empty text. Full response:', JSON.stringify(claudeData).slice(0, 500))
+      return new Response(JSON.stringify({ error: `Empty response from model. stop_reason: ${claudeData?.stop_reason}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // ── Extract JSON ─────────────────────────────────────────────────────────
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
+    const bareObjectMatch = text.match(/\{[\s\S]*\}/)
+    const rawJson = codeBlockMatch ? codeBlockMatch[1] : bareObjectMatch ? bareObjectMatch[0] : null
+
+    if (!rawJson) {
+      console.error('[generator-recommend] No JSON found. Text preview:', text.slice(0, 300))
+      return new Response(JSON.stringify({ error: `No JSON in response. Preview: ${text.slice(0, 200)}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    let parsed: { ideas: unknown[] }
+    try {
+      parsed = JSON.parse(rawJson) as { ideas: unknown[] }
+    } catch (e) {
+      console.error('[generator-recommend] JSON.parse failed. rawJson preview:', rawJson.slice(0, 300))
+      return new Response(JSON.stringify({ error: `JSON parse error: ${e}. Preview: ${rawJson.slice(0, 200)}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    if (!parsed.ideas || !Array.isArray(parsed.ideas) || parsed.ideas.length === 0) {
+      console.error('[generator-recommend] No ideas in parsed result:', JSON.stringify(parsed).slice(0, 300))
+      return new Response(JSON.stringify({ error: `No ideas in response. Keys: ${Object.keys(parsed).join(', ')}` }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // ── Save session (fire and forget) ────────────────────────────────────────
+    void Promise.resolve(
+      supabaseService.from('generator_sessions').insert({
+        user_id:    user.id,
+        mode:       source ? 'copy' : 'find',
+        input_data: { source, answers },
+        output_data: parsed,
+      })
+    ).catch((e: unknown) => console.error('[generator-recommend] Session save error:', e))
 
     return new Response(JSON.stringify(parsed), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   } catch (err) {
     console.error('[generator-recommend] Unhandled error:', err)
-    return new Response(JSON.stringify({ error: String(err) }), {
+    return new Response(JSON.stringify({ error: `Unhandled: ${String(err)}` }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
   }

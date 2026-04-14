@@ -16,10 +16,10 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
   }, [code])
 
   return (
-    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
@@ -28,7 +28,7 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
       <button
         onClick={doCopy}
         className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
       >
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
@@ -47,7 +47,7 @@ function Comparison({ bad, good }: { bad: string; good: string }) {
           <X size={10} strokeWidth={2} style={{ color: '#ef4444' }} />
           <span className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#ef4444' }}>Mauvais prompt</span>
         </div>
-        <pre className="px-4 py-3 text-[12px] leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#9399b2' }}>
+        <pre className="px-4 py-3 text-[12px] leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: 'hsl(var(--muted-foreground))' }}>
           <code>{bad}</code>
         </pre>
       </div>
@@ -73,7 +73,7 @@ function Callout({ children, type = 'info' }: { children: React.ReactNode; type?
   return (
     <div className="rounded-xl px-4 py-3.5 my-4" style={{ background: s.bg, border: `0.5px solid ${s.border}` }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: s.color }}>{s.label}</p>
-      <div className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{children}</div>
+      <div className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</div>
     </div>
   )
 }
@@ -82,29 +82,29 @@ function Callout({ children, type = 'info' }: { children: React.ReactNode; type?
 
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
-    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
+    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
       <span className="text-[10px] font-black tabular-nums px-2 py-0.5 rounded-md flex-shrink-0" style={{ background: 'rgba(77,150,255,0.1)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)', letterSpacing: '0.03em' }}>
         {num}
       </span>
-      <h2 className="text-[17px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.025em' }}>{title}</h2>
+      <h2 className="text-[17px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.025em' }}>{title}</h2>
     </div>
   )
 }
 
 function SubTitle({ title }: { title: string }) {
-  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
 }
 
 function Body({ children }: { children: React.ReactNode }) {
-  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: '#9399b2' }}>{children}</p>
+  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</p>
 }
 
 function PCard({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl p-5 mb-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-xl p-5 mb-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
       <div className="flex items-center gap-2.5 mb-3">
         <span className="text-[9px] font-black px-2 py-0.5 rounded-md" style={{ background: 'rgba(77,150,255,0.12)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)' }}>{id}</span>
-        <h3 className="text-[13px] font-bold" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+        <h3 className="text-[13px] font-bold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
       </div>
       {children}
     </div>
@@ -113,12 +113,12 @@ function PCard({ id, title, children }: { id: string; title: string; children: R
 
 function ECard({ id, title, desc, children }: { id: string; title: string; desc: string; children?: React.ReactNode }) {
   return (
-    <div className="rounded-xl p-5 mb-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-xl p-5 mb-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
       <div className="flex items-center gap-2.5 mb-2">
         <span className="text-[9px] font-black px-2 py-0.5 rounded-md" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '0.5px solid rgba(239,68,68,0.25)' }}>{id}</span>
-        <h3 className="text-[13px] font-bold" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+        <h3 className="text-[13px] font-bold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
       </div>
-      <p className="text-[12.5px] leading-relaxed mb-1" style={{ color: '#9399b2' }}>{desc}</p>
+      <p className="text-[12.5px] leading-relaxed mb-1" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
       {children}
     </div>
   )
@@ -135,7 +135,7 @@ export function PromptsFormationPage({ navigate }: Props) {
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-10 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Prompts</span>
@@ -144,10 +144,10 @@ export function PromptsFormationPage({ navigate }: Props) {
         {/* Header */}
         <div className="mb-8">
           <span className="text-[9px] font-bold uppercase tracking-[0.12em] block mb-3" style={{ color: '#4d96ff' }}>Formation</span>
-          <h1 className="text-[24px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+          <h1 className="text-[24px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
             Les 5 principes et le framework CTAR
           </h1>
-          <p className="text-[13.5px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <p className="text-[13.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Un bon prompt transforme Claude d'un assistant générique en expert de TON projet. Un mauvais prompt donne des résultats médiocres. La différence ? 5 principes et 10 minutes de pratique.
           </p>
         </div>
@@ -181,14 +181,14 @@ Utilise Framer Motion pour une animation fade-in au scroll.`}
         />
 
         <Callout>
-          <strong style={{ color: '#f0f0f5' }}>La règle :</strong> Plus tu es précis, meilleur est le résultat. Claude ne devine pas — il suit tes instructions.
+          <strong style={{ color: 'hsl(var(--foreground))' }}>La règle :</strong> Plus tu es précis, meilleur est le résultat. Claude ne devine pas — il suit tes instructions.
         </Callout>
 
         {/* ── 02 ─────────────────────────────────────────────────────── */}
         <SectionTitle num="02" title="Les 5 principes d'un prompt parfait" />
 
         <PCard id="P1" title="Sois explicite, pas implicite">
-          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Claude répond bien aux instructions claires et directes. Ne compte jamais sur l'inférence.
           </p>
           <Comparison
@@ -197,13 +197,13 @@ Utilise Framer Motion pour une animation fade-in au scroll.`}
     3 cartes métriques en haut (revenus, utilisateurs, churn),
     et un graphique d'évolution mensuelle en dessous."`}
           />
-          <p className="text-[12px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Si tu veux un comportement "au-delà des attentes", demande-le explicitement plutôt que de compter sur le modèle pour le deviner.
           </p>
         </PCard>
 
         <PCard id="P2" title="Structure avec des sections claires">
-          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Organise ton prompt en blocs logiques. Claude traite mieux les instructions structurées que les paragraphes denses.
           </p>
           <CodeBlock label="Structure de base" code={`CONTEXTE :
@@ -217,7 +217,7 @@ CONTRAINTES :
 
 FORMAT DE SORTIE :
 [Comment tu veux le résultat]`} />
-          <p className="text-[12px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Pour les prompts complexes, utilise des balises XML — Claude les traite nativement :
           </p>
           <CodeBlock label="xml" code={`<context>
@@ -236,7 +236,7 @@ Crée le composant React pour la page d'onboarding.
         </PCard>
 
         <PCard id="P3" title="Assigne un rôle précis">
-          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Ne dis pas juste "tu es un expert". Dis QUI il est, CE QU'IL SAIT, et COMMENT il doit se comporter.
           </p>
           <Comparison
@@ -250,7 +250,7 @@ Crée le composant React pour la page d'onboarding.
         </PCard>
 
         <PCard id="P4" title="Montre des exemples plutôt que d'expliquer longuement">
-          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Un exemple vaut 100 lignes d'instructions. Claude apprend mieux par l'exemple que par la théorie.
           </p>
           <Comparison
@@ -265,7 +265,7 @@ Crée le composant React pour la page d'onboarding.
         </PCard>
 
         <PCard id="P5" title="Demande le raisonnement avant l'action">
-          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: '#9399b2' }}>
+          <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Pour les tâches complexes, demande à Claude de réfléchir avant de coder. C'est le "think step by step" qui fait la différence.
           </p>
           <CodeBlock code={`"Avant de coder, analyse :
@@ -275,8 +275,8 @@ Crée le composant React pour la page d'onboarding.
 4. Quels risques de sécurité existent ?
 
 Puis implémente."`} />
-          <p className="text-[12px] leading-relaxed" style={{ color: '#9399b2' }}>
-            Dans Claude Code, tu peux aussi utiliser l'<strong style={{ color: '#f0f0f5' }}>extended thinking</strong> en demandant explicitement à Claude de réfléchir plus longtemps sur un problème complexe.
+          <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
+            Dans Claude Code, tu peux aussi utiliser l'<strong style={{ color: 'hsl(var(--foreground))' }}>extended thinking</strong> en demandant explicitement à Claude de réfléchir plus longtemps sur un problème complexe.
           </p>
         </PCard>
 
@@ -367,7 +367,7 @@ Structure :
    Étape 2 : 'Propose un plan de refactoring'
    Étape 3 : 'Implémente la première tâche du plan'"`}
           />
-          <p className="text-[12px] mt-2" style={{ color: '#9399b2' }}>
+          <p className="text-[12px] mt-2" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Ou utilise le pipeline Superpowers :{' '}
             <code style={{ color: '#4d96ff', fontFamily: 'Geist Mono, monospace' }}>/superpowers:brainstorm</code>
             {' → '}
@@ -379,7 +379,7 @@ Structure :
 
         <ECard id="E3" title="Ne pas donner le contexte projet" desc="Claude ne connaît pas ton projet. Sans CLAUDE.md ni system prompt, il part de zéro à chaque session.">
           <Callout>
-            <strong style={{ color: '#f0f0f5' }}>Solution :</strong> Crée ton CLAUDE.md (module CLAUDE.md) et ton prompt système. Claude les lit automatiquement au démarrage.
+            <strong style={{ color: 'hsl(var(--foreground))' }}>Solution :</strong> Crée ton CLAUDE.md (module CLAUDE.md) et ton prompt système. Claude les lit automatiquement au démarrage.
           </Callout>
         </ECard>
 
@@ -402,7 +402,7 @@ Structure :
 - Le spacing est trop serré entre les cartes, utilise gap-6
 - Le CTA devrait être plus visible, utilise un bouton primary
 - Ajoute un empty state quand il n'y a pas de données"`} />
-          <p className="text-[12px]" style={{ color: '#9399b2' }}>Claude s'améliore à chaque itération. C'est comme ça qu'on travaille chez Buildrs.</p>
+          <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Claude s'améliore à chaque itération. C'est comme ça qu'on travaille chez Buildrs.</p>
         </ECard>
 
         {/* ── 05 ─────────────────────────────────────────────────────── */}
@@ -511,9 +511,9 @@ Optimise :
             <div key={letter} className="rounded-xl p-4" style={{ background: 'rgba(77,150,255,0.06)', border: '0.5px solid rgba(77,150,255,0.18)' }}>
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-[20px] font-black" style={{ color: '#4d96ff', letterSpacing: '-0.04em' }}>{letter}</span>
-                <span className="text-[12px] font-bold" style={{ color: '#f0f0f5' }}>{label}</span>
+                <span className="text-[12px] font-bold" style={{ color: 'hsl(var(--foreground))' }}>{label}</span>
               </div>
-              <p className="text-[11.5px] leading-relaxed" style={{ color: '#9399b2' }}>{desc}</p>
+              <p className="text-[11.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -539,8 +539,8 @@ RÉSULTAT :
 Un fichier app/(auth)/signup/page.tsx complet et fonctionnel.`} />
 
         {/* ── Sources ───────────────────────────────────────────────── */}
-        <div className="rounded-xl px-5 py-4 mt-10 mb-6" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: '#5b6078' }}>Documentation officielle</p>
+        <div className="rounded-xl px-5 py-4 mt-10 mb-6" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Documentation officielle</p>
           <div className="flex flex-col gap-2">
             {[
               { label: 'Prompting best practices — Anthropic Docs', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices' },
@@ -564,8 +564,8 @@ Un fichier app/(auth)/signup/page.tsx complet et fonctionnel.`} />
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: '#4d96ff' }}>Et maintenant ?</p>
-              <p className="text-[14px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>Générateur de Prompt Parfait</p>
-              <p className="text-[12px] leading-relaxed" style={{ color: '#9399b2' }}>
+              <p className="text-[14px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>Générateur de Prompt Parfait</p>
+              <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 Tu connais les 5 principes et le framework CTAR. Crée maintenant ton system prompt personnalisé — le prompt qui encode toutes tes règles pour que Claude les applique automatiquement à chaque session.
               </p>
             </div>

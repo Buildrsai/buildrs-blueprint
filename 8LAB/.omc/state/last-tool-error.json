@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"/Users/alfredorsini/CLAUDE/8LAB/docs/research/assets-discovery.json\",\"offset\":0,\"limit\":200}",
+  "error": "File content (98855 tokens) exceeds maximum allowed tokens (10000). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+  "timestamp": "2026-04-12T09:59:49.410Z",
+  "retry_count": 2
+}

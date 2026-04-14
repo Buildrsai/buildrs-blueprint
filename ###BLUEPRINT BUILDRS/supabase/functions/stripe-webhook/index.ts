@@ -21,7 +21,53 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const RESEND_API_KEY            = Deno.env.get('RESEND_API_KEY')!
 const WEBHOOK_SECRET            = Deno.env.get('STRIPE_WEBHOOK_SECRET')!
 
+const META_PIXEL_ID = '1457975302620059'
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Envoie un event Purchase à la Meta Conversions API depuis le serveur.
+ * Safety net : capture les achats même si le browser se ferme avant le return URL.
+ * L'event_id commence par "srv_" pour distinguer du client-side (qui commence sans préfixe).
+ * Meta déduplique via em (email hashé) + event_time sur une fenêtre de 48h.
+ */
+async function sendCAPIPurchase(
+  email:       string | null,
+  amountCents: number,
+  currency:    string,
+): Promise<void> {
+  const capiToken = Deno.env.get('META_CAPI_TOKEN')
+  if (!capiToken) return
+
+  const userData: Record<string, string> = {}
+  if (email) {
+    const normalized = email.trim().toLowerCase()
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(normalized))
+    userData.em = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('')
+  }
+
+  const eventData = {
+    event_name:        'Purchase',
+    event_time:        Math.floor(Date.now() / 1000),
+    event_id:          `srv_${crypto.randomUUID()}`,
+    action_source:     'website',
+    event_source_url:  'https://buildrs.fr',
+    user_data:         userData,
+    custom_data: {
+      value:    amountCents / 100,
+      currency: (currency || 'eur').toUpperCase(),
+    },
+  }
+
+  await fetch(
+    `https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events?access_token=${capiToken}`,
+    {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ data: [eventData] }),
+    }
+  ).catch(err => console.error('[CAPI Purchase]', err))
+}
 
 async function insertEmailSequence(
   email:   string,
@@ -110,6 +156,11 @@ Deno.serve(async (req) => {
   const email   = session.customer_details?.email ?? session.customer_email
   const userId  = session.metadata?.user_id
 
+  // ── Meta CAPI Purchase — safety net server-side ───────────────────────────
+  // Fire-and-forget — n'impacte pas le reste du webhook
+  sendCAPIPurchase(email, session.amount_total ?? 0, session.currency ?? 'eur')
+    .catch(err => console.error('[CAPI]', err))
+
   // ── Dual-write: user_purchases (nouvelle table) ──────────────────────────
   // Écrit pour tout achat via create-product-checkout ou create-pack-checkout
   if (userId) {
@@ -183,7 +234,8 @@ Deno.serve(async (req) => {
     })
   }
 
-  const hasOrderBump = session.metadata?.has_order_bump === 'true'
+  const hasOrderBump       = session.metadata?.has_order_bump === 'true'
+  const hasAcquisitionBump = session.metadata?.has_acquisition_bump === 'true'
   const productLabel = hasOrderBump ? 'blueprint_bump' : 'blueprint'
 
   // Si OB Claude acheté avec Blueprint → stocker pour réconcilier au login
@@ -203,6 +255,25 @@ Deno.serve(async (req) => {
       }),
     })
     console.log(`OB claude-code enregistré pour ${email}`)
+  }
+
+  // Si OB Acquisition acheté → stocker pour réconcilier au login
+  if (hasAcquisitionBump && email) {
+    await fetch(`${SUPABASE_URL}/rest/v1/purchases`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_SERVICE_ROLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify({
+        email,
+        product:           'acquisition',
+        stripe_session_id: session.id,
+      }),
+    })
+    console.log(`OB acquisition enregistré pour ${email}`)
   }
 
   try {

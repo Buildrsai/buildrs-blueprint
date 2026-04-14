@@ -10,7 +10,17 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const isDark = document.documentElement.classList.contains('dark');
+    // Observe class changes on <html> so we react when theme toggles
+    let isDark = document.documentElement.classList.contains('dark');
+    const observer = new MutationObserver(() => {
+      isDark = document.documentElement.classList.contains('dark');
+      const c = isDark ? 1 : 0.15;
+      const colors = geometry.attributes.color.array as Float32Array;
+      for (let i = 0; i < colors.length; i++) colors[i] = c;
+      geometry.attributes.color.needsUpdate = true;
+      material.opacity = isDark ? 0.35 : 0.25;
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     const SEPARATION = 150;
     const AMOUNTX = 40;
@@ -95,6 +105,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
     animate();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
       geometry.dispose();

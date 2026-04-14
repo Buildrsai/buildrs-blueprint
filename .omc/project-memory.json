@@ -1,0 +1,526 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776153947775,
+  "projectRoot": "/Users/alfredorsini/CLAUDE",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "###BLUEPRINT BUILDRS": {
+      "path": "###BLUEPRINT BUILDRS",
+      "purpose": null,
+      "fileCount": 19,
+      "lastAccessed": 1776153947625,
+      "keyFiles": [
+        "ARCHITECTURE-EMAILS-BUILDRS-V4.md",
+        "BUILDRS-DASHBOARD-V2-ARCHITECTURE.md",
+        "BUILDRS-DESIGN-SYSTEM.md",
+        "BUILDRS-LAB-PRODUCT-SPEC-V2.md",
+        "BUILDRS_BLUEPRINT_BRIEF_INTERNE.md"
+      ]
+    },
+    "#COWORK": {
+      "path": "#COWORK",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776153947626,
+      "keyFiles": []
+    },
+    "8LAB": {
+      "path": "8LAB",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776153947632,
+      "keyFiles": []
+    },
+    "Création de contenu": {
+      "path": "Création de contenu",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1776153947635,
+      "keyFiles": [
+        "ALFRED.md",
+        "BRAND.md",
+        "CALENDAR-30J.md",
+        "CLAUDE.md",
+        "IDEAS-BOARD.md"
+      ]
+    },
+    "GFIT": {
+      "path": "GFIT",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1776153947636,
+      "keyFiles": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md",
+        "eslint.config.mjs",
+        "next-env.d.ts"
+      ]
+    },
+    "Le Lab": {
+      "path": "Le Lab",
+      "purpose": null,
+      "fileCount": 19,
+      "lastAccessed": 1776153947638,
+      "keyFiles": [
+        "11BUILDRS-LAB-PRODUCT-SPEC-V2.md",
+        "BUILDRS-LAB-DOC-MAITRE.md",
+        "CLAUDE.md",
+        "ORCHESTRATION.md",
+        "antigravity-1.jpeg"
+      ]
+    },
+    "Linear": {
+      "path": "Linear",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1776153947638,
+      "keyFiles": []
+    },
+    "OUTILS": {
+      "path": "OUTILS",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1776153947638,
+      "keyFiles": []
+    },
+    "SUPERPOWERS": {
+      "path": "SUPERPOWERS",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1776153947639,
+      "keyFiles": [
+        "LICENSE",
+        "README.md",
+        "RELEASE-NOTES.md"
+      ]
+    },
+    "XAIxBuildrs": {
+      "path": "XAIxBuildrs",
+      "purpose": null,
+      "fileCount": 13,
+      "lastAccessed": 1776153947769,
+      "keyFiles": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md",
+        "components.json",
+        "eslint.config.mjs"
+      ]
+    },
+    "discord-claude-bot": {
+      "path": "discord-claude-bot",
+      "purpose": null,
+      "fileCount": 9,
+      "lastAccessed": 1776153947770,
+      "keyFiles": [
+        "SETUP.md",
+        "commands.js",
+        "conversation.js",
+        "index.js",
+        "package-lock.json"
+      ]
+    },
+    "taap-it-clone": {
+      "path": "taap-it-clone",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1776153947771,
+      "keyFiles": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md",
+        "components.json",
+        "eslint.config.mjs"
+      ]
+    },
+    "8LAB/app": {
+      "path": "8LAB/app",
+      "purpose": "Application code",
+      "fileCount": 12,
+      "lastAccessed": 1776153947773,
+      "keyFiles": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md"
+      ]
+    },
+    "8LAB/docs": {
+      "path": "8LAB/docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1776153947773,
+      "keyFiles": []
+    },
+    "8LAB/scripts": {
+      "path": "8LAB/scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1776153947773,
+      "keyFiles": [
+        "download-assets.mjs"
+      ]
+    },
+    "Création de contenu/docs": {
+      "path": "Création de contenu/docs",
+      "purpose": "Documentation",
+      "fileCount": 1,
+      "lastAccessed": 1776153947774,
+      "keyFiles": []
+    },
+    "discord-claude-bot/node_modules": {
+      "path": "discord-claude-bot/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 1,
+      "lastAccessed": 1776153947775,
+      "keyFiles": []
+    },
+    "taap-it-clone/docs": {
+      "path": "taap-it-clone/docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1776153947775,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/LandingPage.tsx",
+      "accessCount": 253,
+      "lastAccessed": 1776160364647,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/Sidebar.tsx",
+      "accessCount": 21,
+      "lastAccessed": 1775980605186,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/App.tsx",
+      "accessCount": 14,
+      "lastAccessed": 1775983686080,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/content/TeamAgentsGeneratorPage.tsx",
+      "accessCount": 12,
+      "lastAccessed": 1775982455837,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src",
+      "accessCount": 12,
+      "lastAccessed": 1776158427266,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/content/PromptGeneratorPage.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1775982181609,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/content/SkillsGeneratorPage.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1775982276248,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/dashboard-preview.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1776158898183,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/content/ClaudeMdGeneratorPage.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1775982330631,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app",
+      "accessCount": 7,
+      "lastAccessed": 1775857090805,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/DashboardSection.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1775980261267,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/functions/claude-generators/index.ts",
+      "accessCount": 7,
+      "lastAccessed": 1775983353954,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/index.css",
+      "accessCount": 7,
+      "lastAccessed": 1776154710399,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/orbital-claude.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1776156709791,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS",
+      "accessCount": 5,
+      "lastAccessed": 1775983655970,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/index.html",
+      "accessCount": 4,
+      "lastAccessed": 1775866301696,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/CheckoutPage.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1775979419928,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/functions/stripe-webhook/index.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775979488527,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/BuilderAvatar.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1775980130693,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/tailwind.config.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775857755912,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/grid-pattern.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775865641441,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/main.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775866540199,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/functions/create-ob-checkout/index.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775979440974,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/SettingsPage.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775980055677,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/functions/generator-recommend/index.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775981785003,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/stacked-circular-footer.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857097728,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/testimonials-section.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857098073,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/morphing-card-stack.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857098446,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/word-rotate.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857099390,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/vite.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775857101220,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775857124701,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui",
+      "accessCount": 1,
+      "lastAccessed": 1775857129972,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/public/fonts",
+      "accessCount": 1,
+      "lastAccessed": 1775857136245,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/testimonials-columns.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857136880,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/bg-pattern.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857137835,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/saas-marquee.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775857138658,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/ui/dotted-surface.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775864661031,
+      "type": "file"
+    },
+    {
+      "path": "GFIT/docs/research/global-extract.json",
+      "accessCount": 1,
+      "lastAccessed": 1775865483944,
+      "type": "file"
+    },
+    {
+      "path": "GFIT/docs/research/assets-extract.json",
+      "accessCount": 1,
+      "lastAccessed": 1775865484336,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/migrations/20260331_purchases.sql",
+      "accessCount": 1,
+      "lastAccessed": 1775979141881,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/migrations/20260408_003_user_tables.sql",
+      "accessCount": 1,
+      "lastAccessed": 1775979142106,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/migrations/20260402_products_system.sql",
+      "accessCount": 1,
+      "lastAccessed": 1775979210300,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/supabase/functions/create-checkout/index.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775979496541,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/hooks/useAuth.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775979513450,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/DashboardLayout.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775980011176,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/ClaudeOSPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775980030837,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/Header.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775980031943,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/hooks/useProfile.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775980190481,
+      "type": "directory"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/docs/superpowers/specs/2026-04-12-claude-os-generators-refonte-design.md",
+      "accessCount": 1,
+      "lastAccessed": 1775981657673,
+      "type": "file"
+    },
+    {
+      "path": "###BLUEPRINT BUILDRS/blueprint-app/src/components/dashboard/content/McpGeneratorPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775981893286,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -122,6 +122,10 @@ export function DashboardLayout({
         contentRows={contentRows}
         onRequestPurchase={setPurchaseSlug}
         profile={profile}
+        userEmail={userEmail}
+        userFirstName={userFirstName}
+        userAvatarUrl={userAvatarUrl}
+        onSignOut={onSignOut}
       />
 
       {/* ── MAIN CONTENT ── */}

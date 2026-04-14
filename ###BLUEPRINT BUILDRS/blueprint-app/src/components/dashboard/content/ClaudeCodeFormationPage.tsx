@@ -15,10 +15,10 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
@@ -27,7 +27,7 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
       <button
         onClick={doCopy}
         className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
       >
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
@@ -45,37 +45,37 @@ function Callout({ children, type = 'info' }: { children: React.ReactNode; type?
   return (
     <div className="rounded-xl px-4 py-3.5 my-4" style={{ background: s.bg, border: `0.5px solid ${s.border}` }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: s.color }}>{s.label}</p>
-      <div className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{children}</div>
+      <div className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</div>
     </div>
   )
 }
 
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
-    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
+    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
       <span className="text-[10px] font-black tabular-nums px-2 py-0.5 rounded-md flex-shrink-0" style={{ background: 'rgba(77,150,255,0.1)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)', letterSpacing: '0.03em' }}>
         {num}
       </span>
-      <h2 className="text-[17px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.025em' }}>{title}</h2>
+      <h2 className="text-[17px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.025em' }}>{title}</h2>
     </div>
   )
 }
 
 function SubTitle({ title }: { title: string }) {
-  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
 }
 
 function Body({ children }: { children: React.ReactNode }) {
-  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: '#9399b2' }}>{children}</p>
+  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</p>
 }
 
 // ── Stat card for Section 01 ───────────────────────────────────────────────
 
 function StatCard({ value, label, color }: { value: string; label: string; color: string }) {
   return (
-    <div className="rounded-xl p-4 text-center" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+    <div className="rounded-xl p-4 text-center" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
       <p className="text-[22px] font-extrabold mb-1" style={{ color, fontFamily: 'Geist Mono, monospace', letterSpacing: '-0.03em' }}>{value}</p>
-      <p className="text-[11px]" style={{ color: '#5b6078' }}>{label}</p>
+      <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{label}</p>
     </div>
   )
 }
@@ -92,17 +92,17 @@ function CmdRow({ cmd, desc }: { cmd: string; desc: string }) {
   return (
     <div
       className="flex items-start gap-3 py-2.5"
-      style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)' }}
+      style={{ borderBottom: '0.5px solid hsl(var(--border))' }}
     >
       <button
         onClick={doCopy}
         className="flex-shrink-0 flex items-center gap-1.5 rounded-lg px-2.5 py-1 transition-all"
-        style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.1)', fontFamily: 'Geist Mono, monospace', fontSize: '11px', color: copied ? '#22c55e' : '#c9d1d9', minWidth: 0 }}
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', fontFamily: 'Geist Mono, monospace', fontSize: '11px', color: copied ? '#22c55e' : 'hsl(var(--foreground))', minWidth: 0 }}
       >
         {copied ? <Check size={9} strokeWidth={2} /> : <Copy size={9} strokeWidth={1.5} />}
         {cmd}
       </button>
-      <p className="text-[12px] leading-relaxed pt-0.5" style={{ color: '#5b6078' }}>{desc}</p>
+      <p className="text-[12px] leading-relaxed pt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
     </div>
   )
 }
@@ -111,11 +111,11 @@ function CmdRow({ cmd, desc }: { cmd: string; desc: string }) {
 
 function RuleCard({ num, title, desc }: { num: string; title: string; desc: string }) {
   return (
-    <div className="flex gap-4 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+    <div className="flex gap-4 p-4 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
       <span className="text-[13px] font-black flex-shrink-0 mt-0.5" style={{ color: '#4d96ff', fontFamily: 'Geist Mono, monospace' }}>{num}</span>
       <div>
-        <p className="text-[13px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{title}</p>
-        <p className="text-[12px] leading-relaxed" style={{ color: '#5b6078' }}>{desc}</p>
+        <p className="text-[13px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{title}</p>
+        <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
       </div>
     </div>
   )
@@ -132,7 +132,7 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour à Claude OS</span>
@@ -145,10 +145,10 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
               Formation
             </span>
           </div>
-          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.035em' }}>
+          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.035em' }}>
             Claude Code
           </h1>
-          <p className="text-[14px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <p className="text-[14px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             L'outil qui transforme n'importe qui en product builder.
             Pas un chatbot — un agent qui agit directement dans ton code, ton terminal, tes fichiers.
           </p>
@@ -178,13 +178,13 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
         </Callout>
 
         <SubTitle title="La différence fondamentale" />
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
           <div className="grid grid-cols-2">
             <div className="p-4" style={{ background: 'rgba(239,68,68,0.04)', borderRight: '0.5px solid rgba(255,255,255,0.06)' }}>
               <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: '#ef4444' }}>ChatGPT / Claude.ai</p>
               <ul className="space-y-2">
                 {['Tu poses une question', 'Tu reçois une réponse', 'Tu copies-colles', 'Tu corriges les imports', 'Tu re-copie-colles', 'Tu perds 2h'].map(t => (
-                  <li key={t} className="text-[12px]" style={{ color: '#5b6078' }}>— {t}</li>
+                  <li key={t} className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>— {t}</li>
                 ))}
               </ul>
             </div>
@@ -192,7 +192,7 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
               <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: '#22c55e' }}>Claude Code</p>
               <ul className="space-y-2">
                 {['Tu décris ce que tu veux', 'Il lit ton projet complet', 'Il écrit directement dans les fichiers', 'Il exécute et vérifie', 'Il corrige si besoin', 'C\'est livré en 15 min'].map(t => (
-                  <li key={t} className="text-[12px]" style={{ color: '#9399b2' }}>+ {t}</li>
+                  <li key={t} className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>+ {t}</li>
                 ))}
               </ul>
             </div>
@@ -228,12 +228,12 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
             { n: '4', text: "C'est installé." },
           ].map(step => (
             <div key={step.n} className="flex items-start gap-3 px-4 py-2.5 rounded-lg"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+              style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <span className="text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                 style={{ background: 'rgba(77,150,255,0.15)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.3)' }}>
                 {step.n}
               </span>
-              <span className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{step.text}</span>
+              <span className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{step.text}</span>
             </div>
           ))}
         </div>
@@ -241,7 +241,7 @@ export function ClaudeCodeFormationPage({ navigate }: Props) {
         <SubTitle title="Étape 3 — Lance Claude Code" />
         <Body>
           Cmd+Shift+P (Mac) ou Ctrl+Shift+P (Windows)
-          <br />→ Tape <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 5px', background: 'rgba(255,255,255,0.07)', borderRadius: 4, color: '#c9d1d9' }}>Claude Code: Open in New Tab</code>
+          <br />→ Tape <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 5px', background: 'hsl(var(--secondary))', borderRadius: 4, color: '#c9d1d9' }}>Claude Code: Open in New Tab</code>
           <br />→ Connecte-toi à ton compte Claude
           <br />→ C'est parti.
         </Body>
@@ -321,9 +321,9 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         </Body>
 
         <SubTitle title="Commandes de session" />
-        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>Session</p>
+        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>Session</p>
           </div>
           <div className="px-4 py-2">
             <CmdRow cmd="/clear" desc="Vide la mémoire de la session. À faire quand tu changes de sujet ou que Claude devient confus." />
@@ -334,9 +334,9 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         </div>
 
         <SubTitle title="Commandes de projet" />
-        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>Projet</p>
+        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>Projet</p>
           </div>
           <div className="px-4 py-2">
             <CmdRow cmd="/init" desc="Analyse ton projet et génère un CLAUDE.md initial. Lance ça sur tout nouveau projet." />
@@ -346,9 +346,9 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         </div>
 
         <SubTitle title="Commandes de workflow (via Superpowers)" />
-        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>Workflow — nécessite plugin Superpowers</p>
+        <div className="rounded-xl overflow-hidden my-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+          <div className="px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>Workflow — nécessite plugin Superpowers</p>
           </div>
           <div className="px-4 py-2">
             <CmdRow cmd="/superpowers:brainstorm" desc="Structure une idée avant de coder. Cadrage, contraintes, architecture." />
@@ -361,7 +361,7 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
 
         <Callout>
           Pour installer le plugin Superpowers :{' '}
-          <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/install-plugin superpowers@superpowers-marketplace</code>
+          <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/install-plugin superpowers@superpowers-marketplace</code>
         </Callout>
 
         {/* ── Section 05 ─────────────────────────────────────────────────── */}
@@ -409,7 +409,7 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         />
 
         <Callout type="success">
-          Un bon CLAUDE.md économise 2h de corrections par projet. Claude arrête d'inventer des conventions et suit les tiennes. Lance <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/init</code> dans Claude Code pour en générer un automatiquement.
+          Un bon CLAUDE.md économise 2h de corrections par projet. Claude arrête d'inventer des conventions et suit les tiennes. Lance <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/init</code> dans Claude Code pour en générer un automatiquement.
         </Callout>
 
         <SubTitle title="Hiérarchie des CLAUDE.md" />
@@ -437,15 +437,15 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         <div className="space-y-3 my-4">
           {[
             { name: 'Supabase', desc: 'Lire et modifier ta base de données, gérer les migrations, configurer le RLS — depuis Claude Code.', color: '#22c55e' },
-            { name: 'Vercel', desc: 'Déployer, voir les logs, gérer les variables d\'environnement, inspecter les builds.', color: '#f0f0f5' },
+            { name: 'Vercel', desc: 'Déployer, voir les logs, gérer les variables d\'environnement, inspecter les builds.', color: 'hsl(var(--foreground))' },
             { name: 'Stripe', desc: 'Créer des produits, tester les webhooks, voir les paiements — sans aller sur le dashboard.', color: '#8b5cf6' },
-            { name: 'GitHub', desc: 'Commits, PRs, issues — tout le workflow Git depuis la conversation.', color: '#9399b2' },
+            { name: 'GitHub', desc: 'Commits, PRs, issues — tout le workflow Git depuis la conversation.', color: 'hsl(var(--muted-foreground))' },
           ].map(item => (
-            <div key={item.name} className="flex gap-3 p-3.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div key={item.name} className="flex gap-3 p-3.5 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <div className="w-1.5 rounded-full flex-shrink-0 mt-1" style={{ background: item.color, minHeight: 16 }} />
               <div>
-                <p className="text-[12px] font-bold mb-0.5" style={{ color: '#f0f0f5' }}>{item.name}</p>
-                <p className="text-[12px]" style={{ color: '#5b6078' }}>{item.desc}</p>
+                <p className="text-[12px] font-bold mb-0.5" style={{ color: 'hsl(var(--foreground))' }}>{item.name}</p>
+                <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.desc}</p>
               </div>
             </div>
           ))}
@@ -463,7 +463,7 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
 /install-plugin github@claude-plugins-official`} />
 
         <Callout>
-          Voir l'onglet <strong style={{ color: '#f0f0f5' }}>Équiper</strong> → Bibliothèque MCP pour la liste complète des connecteurs disponibles et leurs commandes d'installation.
+          Voir l'onglet <strong style={{ color: 'hsl(var(--foreground))' }}>Équiper</strong> → Bibliothèque MCP pour la liste complète des connecteurs disponibles et leurs commandes d'installation.
         </Callout>
 
         {/* ── Section 07 ─────────────────────────────────────────────────── */}
@@ -512,10 +512,10 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
           Claude Code utilise ton compte Anthropic. Voici les options disponibles en 2026.
         </Body>
 
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <div className="grid grid-cols-4 px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
+          <div className="grid grid-cols-4 px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
             {['Plan', 'Prix', 'Modèles', 'Pour qui'].map(h => (
-              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>{h}</p>
+              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>{h}</p>
             ))}
           </div>
           {[
@@ -525,10 +525,10 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
             { plan: 'API', prix: 'Usage', modeles: 'Tous', pour: 'Usage très intensif / équipes' },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-4 px-4 py-3" style={{ borderBottom: i < 3 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
-              <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{row.plan}</p>
+              <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{row.plan}</p>
               <p className="text-[12px]" style={{ color: '#22c55e', fontFamily: 'Geist Mono, monospace' }}>{row.prix}</p>
-              <p className="text-[12px]" style={{ color: '#9399b2' }}>{row.modeles}</p>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>{row.pour}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{row.modeles}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{row.pour}</p>
             </div>
           ))}
         </div>
@@ -538,8 +538,8 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         </Callout>
 
         {/* ── Sources ────────────────────────────────────────────────────── */}
-        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: '#5b6078' }}>Sources</p>
+        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>Sources</p>
           <div className="flex flex-col gap-2">
             {[
               { label: 'Documentation officielle Claude Code', url: 'https://docs.anthropic.com/claude-code' },
@@ -569,9 +569,9 @@ Ne code pas encore la feature principale — d'abord les fondations.`}
         >
           <div className="flex items-center justify-center gap-2 mb-2">
             <Terminal size={16} strokeWidth={1.5} style={{ color: '#4d96ff' }} />
-            <p className="text-[14px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
+            <p className="text-[14px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
           </div>
-          <p className="text-[12px] mb-4" style={{ color: '#5b6078' }}>
+          <p className="text-[12px] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Tu connais Claude Code. Maintenant configure ton environnement complet.
           </p>
           <button

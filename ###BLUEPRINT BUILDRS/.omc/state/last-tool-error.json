@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/alfredorsini/CLAUDE/###BLUEPRINT BUILDRS\\\" && supabase functions logs create-cohort-checkout --limit 20 2>&1\",\"description\":\"Get edge function logs for create-cohort-checkout\"}",
+  "error": "Exit code 1\nUsage:\n  supabase functions [command]\n\nAvailable Commands:\n  delete      Delete a Function from Supabase\n  deploy      Deploy a Function to Supabase\n  download    Download a Function from Supabase\n  list        List all Functions in Supabase\n  new         Create a new Function locally\n  serve       Serve all Functions locally\n\nFlags:\n  -h, --help   help for functions\n\nGlobal Flags:\n      --create-ticket                                  create a support ticket for any CLI error\n      ...",
+  "timestamp": "2026-04-12T08:49:56.873Z",
+  "retry_count": 1
+}

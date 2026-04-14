@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen } from "lucide-react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin } from "lucide-react"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
 
-import { DashboardPreview } from "./ui/dashboard-preview"
+import { DashboardPreviewV2 as DashboardPreview } from "./ui/dashboard-preview"
 import { DottedSurface } from "./ui/dotted-surface"
 import { OrbitalClaude } from "./ui/orbital-claude"
 import { WordRotate } from "./ui/word-rotate"
@@ -61,9 +61,9 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
 ]
 
 const stats = [
-  { num: "6 jours", desc: "De l'idée au produit live avec Claude", sub: "" },
-  { num: "3 000€/mois", desc: "Objectif de revenus récurrents", sub: "sous 60 jours" },
-  { num: "+110", desc: "Micro-SaaS IA lancés avec Buildrs", sub: "" },
+  { num: "6 jours", desc: "De l'idée au produit live", sub: "" },
+  { num: "1 SaaS", desc: "Déployé, en ligne, prêt à vendre", sub: "" },
+  { num: "0 ligne", desc: "de code — Claude construit. Tu pilotes.", sub: "" },
 ]
 
 const pains = [
@@ -137,23 +137,12 @@ const faqs = [
   },
 ]
 
-const features: { text: string; value: string }[] = [
-  { text: "Le système en 7 étapes — de l'idée au Micro-SaaS IA monétisé", value: "valeur 497€" },
-  { text: "3 stratégies de départ : copier une fonctionnalité d'un Micro-SaaS IA existant, résoudre un problème que tu as identifié, ou explorer les opportunités", value: "valeur 97€" },
-  { text: "Le Générateur d'Idées — trouve des Micro-SaaS IA rentables prêts à lancer avec fiches produit prêtes (niche, cible, fonctionnalité, MRR potentiel)", value: "valeur 197€" },
-  { text: "Le Validateur — score ton idée de Micro-SaaS IA avant de la builder. Rentabilité, concurrence, faisabilité — tu sais si ça vaut le coup avant de démarrer", value: "valeur 147€" },
-  { text: "50+ prompts testés à copier-coller — les instructions exactes à donner à Claude", value: "valeur 147€" },
-  { text: "3 modèles de monétisation avec guide : revenus récurrents, revente du Micro-SaaS IA, ou prestation client", value: "valeur 97€" },
-  { text: "Checklist de progression — tu ne seras jamais perdu, tu sais exactement quoi faire ensuite", value: "valeur 47€" },
-  { text: "Le Dashboard Buildrs — ton espace projet, tes outils et ta progression au même endroit", value: "valeur 197€" },
-  { text: "Accès à la communauté Buildrs — pose tes questions, avance avec les autres builders, partage tes victoires", value: "valeur 97€" },
-  { text: "Accès à vie + toutes les mises à jour futures", value: "valeur 57€" },
-]
-
-const bonuses: { text: string; value: string }[] = [
-  { text: "Jarvis IA — ton copilote intelligent qui te guide à chaque étape en temps réel", value: "valeur 97€" },
-  { text: "Toolbox Pro — les meilleurs outils IA du marché pour créer ton Micro-SaaS IA, testés, avec les prompts et configs prêts à l'emploi", value: "valeur 47€" },
-  { text: "WhatsApp Buildrs — accès privé à Alfred & Jarvis via le canal WhatsApp Buildrs", value: "valeur 47€" },
+const features: { title: string; desc: string }[] = [
+  { title: 'Le système complet', desc: "Plan guidé en 7 étapes — de l'idée au produit IA monétisé. Checklist de progression intégrée." },
+  { title: 'Générateurs IA', desc: "Marketplace de projets validés + Générateur d'idées + Validateur avec score de viabilité + Calculateur de revenus." },
+  { title: 'Le cockpit', desc: "Dashboard de pilotage — ton projet, ta progression, tes métriques, tout au même endroit." },
+  { title: 'Les ressources Claude', desc: "50+ prompts testés, configs prêtes à l'emploi, le kit complet pour construire avec Claude." },
+  { title: 'La communauté', desc: "Accès aux autres builders + mises à jour à vie." },
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
@@ -203,18 +192,7 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
         {/* Right */}
         <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-transparent text-muted-foreground transition-colors hover:bg-accent cursor-pointer"
-            aria-label="Changer le thème"
-          >
-            {dark ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            )}
-          </button>
-          <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[8px] bg-foreground px-4 py-2 text-[13px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
+          <a href="#tarif" onClick={onCTA} className="flex items-center gap-2 rounded-[8px] px-4 py-2 text-[13px] font-semibold text-white transition-all hover:border-white/40 no-underline" style={{ background: "#09090b", border: "1px solid rgba(255,255,255,0.18)" }}>
             Accéder au Blueprint →
           </a>
         </div>
@@ -226,13 +204,11 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 // ─── TYPING IDEA BAR ──────────────────────────────────────────────────────────
 
 const TYPING_IDEAS = [
-  "Un coach nutrition IA à 9,99€/mois",
-  "Un tracker de loyers pour propriétaires Airbnb",
-  "Un générateur de contrats freelance en 30 sec",
-  "Une app qui résume tes réunions Zoom auto",
+  "Une application de matching pour entrepreneurs",
+  "Un gestionnaire de prix pour e-commerce",
+  "Un éditeur visuel d'agents IA",
+  "Un assistant juridique pour auto-entrepreneurs",
   "Un CRM vocal pour commerciaux terrain",
-  "Un outil de pricing dynamique pour e-commerce",
-  "Un assistant juridique IA pour auto-entrepreneurs",
 ]
 
 function TypingIdea() {
@@ -246,13 +222,13 @@ function TypingIdea() {
 
     if (phase === 'typing') {
       if (text.length < full.length) {
-        timer = setTimeout(() => setText(full.slice(0, text.length + 1)), 60)
+        timer = setTimeout(() => setText(full.slice(0, text.length + 1)), 55)
       } else {
-        timer = setTimeout(() => setPhase('deleting'), 2000)
+        timer = setTimeout(() => setPhase('deleting'), 2200)
       }
     } else if (phase === 'deleting') {
       if (text.length > 0) {
-        timer = setTimeout(() => setText(text.slice(0, -1)), 30)
+        timer = setTimeout(() => setText(text.slice(0, -1)), 25)
       } else {
         setIdx(i => (i + 1) % TYPING_IDEAS.length)
         setPhase('typing')
@@ -264,21 +240,31 @@ function TypingIdea() {
 
   return (
     <div
-      className="mb-8 flex items-center gap-2.5 rounded-full px-5 py-3 w-full max-w-[360px] justify-center"
+      className="mb-8 flex items-center justify-between gap-3 rounded-2xl px-5 py-4 w-full max-w-[480px]"
       style={{
-        background: '#09090b',
+        background: '#111113',
         border: '1px solid rgba(255,255,255,0.10)',
-        boxShadow: '0 0 0 1px rgba(255,255,255,0.03), 0 8px 24px rgba(0,0,0,0.25)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
       }}
     >
-      <span className="text-[14px] whitespace-nowrap font-medium shrink-0" style={{ color: 'rgba(255,255,255,0.4)' }}>
-        Ton idée :
-      </span>
-      <span className="text-[14px] font-semibold text-white min-w-0 flex-1 truncate">{text}</span>
-      <span
-        className="text-white font-light text-[16px] leading-none shrink-0"
-        style={{ animation: 'cursor-blink 0.9s step-end infinite' }}
-      >|</span>
+      <div className="flex flex-col min-w-0 flex-1">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          Tu as une idée, l'IA lui donne vie
+        </span>
+        <div className="flex items-center gap-1">
+          <span className="text-[14px] font-medium text-white/80 min-w-0 truncate">{text}</span>
+          <span
+            className="text-white/70 font-light text-[15px] leading-none shrink-0"
+            style={{ animation: 'cursor-blink 0.9s step-end infinite' }}
+          >|</span>
+        </div>
+      </div>
+      <div
+        className="shrink-0 flex items-center justify-center rounded-full"
+        style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </div>
     </div>
   )
 }
@@ -511,9 +497,54 @@ function HeroDashboardMockup() {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 
+// ─── STAR FIELD ───────────────────────────────────────────────────────────────
+// Hardcoded star positions [cx%, cy%, r, opacity]
+const STARS: [number, number, number, number][] = [
+  [5,8,1,0.7],[12,3,0.8,0.45],[18,15,1.2,0.8],[25,5,0.6,0.35],[32,12,1,0.6],
+  [38,7,1.5,0.85],[45,2,0.8,0.5],[52,18,1,0.65],[60,6,1.2,0.8],[68,11,0.7,0.4],
+  [75,4,1,0.6],[82,16,1.3,0.9],[88,8,0.8,0.5],[94,13,1,0.7],[8,22,1.5,0.55],
+  [20,28,0.8,0.35],[35,25,1,0.65],[48,30,1.2,0.5],[62,20,0.9,0.75],[78,32,1,0.6],
+  [90,24,1.4,0.7],[15,40,0.7,0.4],[28,45,1,0.6],[42,38,1.3,0.8],[55,42,0.8,0.45],
+  [70,35,1,0.65],[85,48,1.2,0.55],[3,55,0.9,0.35],[18,60,1.5,0.7],[33,52,0.7,0.45],
+  [47,65,1,0.6],[60,58,1.2,0.75],[73,62,0.8,0.4],[87,55,1,0.65],[10,72,1.3,0.5],
+  [25,68,0.8,0.6],[40,75,1,0.7],[55,70,1.5,0.4],[70,78,0.9,0.75],[85,72,1,0.6],
+  [2,82,1.2,0.45],[15,88,0.7,0.65],[30,85,1,0.4],[45,92,1.3,0.6],[58,80,0.8,0.75],
+  [72,90,1,0.5],[88,85,1.2,0.65],[95,78,0.9,0.35],[22,95,1,0.55],[50,95,0.8,0.45],
+  [65,90,1.1,0.5],[80,95,0.7,0.6],[7,50,0.9,0.4],[93,50,1,0.5],[50,50,0.6,0.3],
+]
+
+function StarField() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        {STARS.map(([cx, cy, r, op], i) => (
+          <circle key={i} cx={`${cx}%`} cy={`${cy}%`} r={r} fill="white" opacity={op} />
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
+      {/* Stars */}
+      <StarField />
+
+      {/* Moon glow — top right */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          top: -80,
+          right: -80,
+          width: 420,
+          height: 420,
+          background: 'radial-gradient(circle, rgba(200,220,255,0.50) 0%, rgba(140,170,255,0.18) 30%, rgba(80,120,255,0.06) 55%, transparent 72%)',
+          filter: 'blur(32px)',
+          zIndex: 0,
+        }}
+      />
+
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -525,7 +556,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       />
       <div
         className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
-        style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.10) 0%, transparent 65%)" }}
+        style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.08) 0%, transparent 65%)" }}
       />
 
       <div className="relative mx-auto max-w-[700px] flex flex-col items-center text-center">
@@ -535,7 +566,22 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Badge */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-            <Zap size={13} strokeWidth={1.5} className="shrink-0 text-foreground" />
+            <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="shrink-0 text-foreground">
+              <rect x="7" y="0" width="2" height="3" fill="currentColor"/>
+              <rect x="15" y="0" width="2" height="3" fill="currentColor"/>
+              <rect x="5" y="2" width="2" height="2" fill="currentColor"/>
+              <rect x="17" y="2" width="2" height="2" fill="currentColor"/>
+              <rect x="3" y="4" width="18" height="12" rx="2" fill="currentColor"/>
+              <rect x="6" y="7" width="4" height="4" rx="1" fill="#09090b"/>
+              <rect x="14" y="7" width="4" height="4" rx="1" fill="#09090b"/>
+              <rect x="7" y="8" width="2" height="2" fill="currentColor"/>
+              <rect x="15" y="8" width="2" height="2" fill="currentColor"/>
+              <rect x="9" y="13" width="6" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
+              <rect x="5" y="17" width="4" height="4" rx="1" fill="currentColor"/>
+              <rect x="15" y="17" width="4" height="4" rx="1" fill="currentColor"/>
+              <rect x="4" y="20" width="3" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
+              <rect x="17" y="20" width="3" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
+            </svg>
             <span>Rejoins les 110+ builders qui ont déjà lancé</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
@@ -543,16 +589,19 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           {/* H1 */}
           <h1
             className="mb-7 text-foreground mx-auto max-w-[900px]"
-            style={{ fontSize: "clamp(38px, 4.5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            style={{ fontSize: "clamp(32px, 3.8vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
           >
-            Ton premier SaaS IA rentable et autonome. En 6 jours.
+            Ton premier produit IA qui te rapporte pendant que tu dors. En 6 jours. Avec l'IA.
           </h1>
 
           {/* Sub */}
-          <p className="mb-6 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-            Creer un SaaS avec Claude, tout le monde peut le faire.{" "}
-            <strong className="font-semibold text-foreground">Trouver le bon SaaS IA, le monétiser et le vendre — c'est là que 98% échouent.</strong>
+          <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
+            Un système guidé, de l'idée au premier euro.{" "}
+            <strong className="font-semibold text-foreground">Zéro compétence technique. Claude Code fait le travail.</strong>
           </p>
+
+          {/* Typing idea */}
+          <TypingIdea />
 
           {/* CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
@@ -561,29 +610,6 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             </a>
           </div>
 
-          {/* Progress bar */}
-          <div className="mb-6 w-full max-w-[420px]">
-            <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
-              <span>110/200 places réclamées</span>
-              <span>54% restant</span>
-            </div>
-            <div className="h-1.5 w-full rounded-full bg-border overflow-hidden">
-              <div className="h-full rounded-full bg-foreground/70" style={{ width: "55%" }} />
-            </div>
-          </div>
-
-          {/* Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {["Sans savoir coder", "Débutant ou confirmé", "Claude Code comme moteur"].map((label) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3.5 py-1.5 text-[12px] font-medium text-muted-foreground"
-              >
-                <Check className="h-3 w-3 text-green-500 shrink-0" strokeWidth={2.5} />
-                {label}
-              </span>
-            ))}
-          </div>
         </div>
 
       </div>
@@ -602,18 +628,11 @@ function Marquee() {
       <div className="overflow-hidden">
         <div
           className="flex items-center gap-8"
-          style={{ width: "max-content", animation: "marquee-scroll 32s linear infinite" }}
+          style={{ width: "max-content", animation: "marquee-scroll 40s linear infinite" }}
         >
-          <div className="flex items-center gap-8 shrink-0">
-            {tools.map(({ label, Icon }) => (
-              <Icon key={label} aria-label={label} className="h-7 w-7 shrink-0 text-foreground/30 hover:text-foreground/60 transition-colors" />
-            ))}
-          </div>
-          <div className="flex items-center gap-8 shrink-0">
-            {tools.map(({ label, Icon }) => (
-              <Icon key={label + '-2'} aria-label={label} className="h-7 w-7 shrink-0 text-foreground/30 hover:text-foreground/60 transition-colors" />
-            ))}
-          </div>
+          {[...tools, ...tools, ...tools, ...tools].map(({ label, Icon }, i) => (
+            <Icon key={i} aria-label={label} className="h-7 w-7 shrink-0 text-foreground/30 hover:text-foreground/60 transition-colors" />
+          ))}
         </div>
       </div>
     </section>
@@ -649,22 +668,49 @@ function Stats() {
 // ─── WHY SAAS ────────────────────────────────────────────────────────────────
 
 
+const whySaasStats = [
+  { num: "0 ligne de code", desc: "Tu décris, l'IA construit" },
+  { num: "100% solo", desc: "Aucune équipe nécessaire" },
+  { num: "27€", desc: "pour tout démarrer", sub: "Paiement unique, accès à vie" },
+]
+
 function WhySaaS() {
   return (
-    <section id="resultats" className="relative py-24 bg-background overflow-hidden">
+    <section id="resultats" className="relative py-24 overflow-hidden" style={{ background: "#0a0a0a" }}>
+      <StarField />
       <div className="mx-auto max-w-[760px] px-6 text-center">
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40">
           Pourquoi maintenant
         </p>
         <h2
           style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
-          className="mb-6 text-foreground"
+          className="mb-6 text-white"
         >
           Il y a 1 an, créer un SaaS demandait +6 mois et +20 000€. Aujourd'hui : 6 jours et 27€.
         </h2>
-        <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
+        <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-white/50">
           Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction. Tu décris ce que tu veux — l'IA construit. Bienvenue en 2026.
         </p>
+      </div>
+
+      {/* Orbital animation */}
+      <div className="mx-auto mt-10 max-w-[460px] px-6">
+        <OrbitalClaude />
+      </div>
+
+      {/* Stat badges */}
+      <div className="mx-auto mt-8 max-w-[900px] px-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {whySaasStats.map(({ num, desc, sub }) => (
+          <div
+            key={num}
+            className="rounded-2xl px-6 py-5 text-center"
+            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <p className="text-[20px] font-bold text-white leading-tight">{num}</p>
+            <p className="mt-1 text-[13px] text-white/50">{desc}</p>
+            {sub && <p className="mt-0.5 text-[11px] text-white/30">{sub}</p>}
+          </div>
+        ))}
       </div>
     </section>
   )
@@ -814,7 +860,7 @@ const beforeItems = [
 const afterItems = [
   "Tu as un produit live accessible au monde entier",
   "Tu sais construire n'importe quel produit IA avec Claude en quelques jours",
-  "Tu crées des Micro-SaaS IA qui résolvent un vrai problème et génèrent des revenus",
+  "Tu crées des SaaS IA qui résolvent un vrai problème et génèrent des revenus",
   "Tu possèdes un actif digital qui travaille pour toi — même quand tu dors",
 ]
 
@@ -916,8 +962,9 @@ function DashboardSection() {
           >
             Pas un PDF. Pas une vidéo.<br />Un vrai copilote IA.
           </h2>
-          <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-muted-foreground">
-            Tout ce qu'il te faut pour passer de l'idée au produit live — dans un seul endroit.
+          <p className="mx-auto max-w-[580px] text-[17px] leading-[1.65] text-muted-foreground">
+            Trouve ton idée. Valide-la. Construis-la. Monétise-la.<br />
+            Tout dans un seul système.
           </p>
         </div>
 
@@ -1192,50 +1239,55 @@ const whatsappTestimonials = [
 ]
 
 function UniqueTestimonialSection() {
+  const doubled = [...whatsappTestimonials, ...whatsappTestimonials]
   return (
-    <section id="resultats" className="py-24" style={{ background: "#0a0a0a" }}>
-      <div className="mx-auto max-w-[1100px] px-6">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40">
-            Ils l'ont fait
-          </p>
-          <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-            className="text-white"
-          >
-            Les messages de notre WhatsApp.
-          </h2>
-          <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-[1.65] text-white/50">
-            Sans background technique. Sans équipe. Avec Claude et le système Blueprint.
-          </p>
-        </div>
+    <section id="resultats" className="py-24 overflow-hidden" style={{ background: "#0a0a0a" }}>
+      <div className="mb-14 text-center px-6">
+        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40">
+          Ils l'ont fait
+        </p>
+        <h2
+          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          className="text-white"
+        >
+          Les messages de notre WhatsApp.
+        </h2>
+        <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-[1.65] text-white/50">
+          Sans background technique. Sans équipe. Avec Claude et le système Blueprint.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {whatsappTestimonials.map((item) => (
+      <div className="relative w-full overflow-hidden">
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-24 z-10" style={{ background: "linear-gradient(to right, #0a0a0a, transparent)" }} />
+        <div
+          className="flex"
+          style={{ width: "max-content", animation: "marquee-scroll 28s linear infinite" }}
+        >
+          {doubled.map((item, i) => (
             <div
-              key={item.img}
-              className="rounded-2xl overflow-hidden hover:opacity-90 transition-opacity"
+              key={i}
+              className="mx-3 w-80 shrink-0 rounded-2xl overflow-hidden"
               style={{ border: "1px solid rgba(255,255,255,0.08)", background: "#141414" }}
             >
               <img
                 src={item.img}
                 alt={item.label}
                 loading="lazy"
-                className="w-full object-cover"
-                style={{ maxHeight: 240, objectPosition: "top" }}
+                className="w-full h-auto block"
               />
-              <div className="px-5 py-4">
-                <p className="text-[14px] font-semibold text-white">{item.label}</p>
-                <p className="mt-0.5 text-[12px] text-white/40">{item.sub}</p>
+              <div className="px-4 py-3">
+                <p className="text-[13px] font-semibold text-white leading-snug">{item.label}</p>
+                <p className="mt-0.5 text-[11px] text-white/40">{item.sub}</p>
               </div>
             </div>
           ))}
         </div>
-
-        <p className="mt-8 text-center text-[13px] text-white/25">
-          Messages réels — Canal WhatsApp Buildrs
-        </p>
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-24 z-10" style={{ background: "linear-gradient(to left, #0a0a0a, transparent)" }} />
       </div>
+
+      <p className="mt-10 text-center text-[13px] text-white/25 px-6">
+        Messages réels — Canal WhatsApp Buildrs
+      </p>
     </section>
   )
 }
@@ -1248,10 +1300,10 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       <div className="mx-auto max-w-[1100px] px-6">
         <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p>
         <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-4 text-foreground">
-          Tout ce qu'il te faut pour lancer<br />ton Micro-SaaS IA.
+          Tout ce qu'il te faut pour lancer<br />ton produit avec l'IA.
         </h2>
         <p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
-          Un seul paiement. Accès à vie. Si tu ne le fais pas maintenant, tu ne le feras jamais.
+          Un seul paiement. Accès à vie. Zéro risque.
         </p>
 
         {/* Shine border wrapper */}
@@ -1282,92 +1334,25 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             <hr className="mb-7 border-border" />
 
             {/* Features */}
-            <ul className="mb-4 flex flex-col gap-[10px] text-[14px]">
-              {features.map((f) => {
-                const dashIdx = f.text.indexOf(' — ')
-                const colonIdx = f.text.indexOf(' : ')
-
-                let content: React.ReactNode
-
-                if (dashIdx !== -1) {
-                  const title = f.text.slice(0, dashIdx)
-                  const desc = f.text.slice(dashIdx + 3)
-                  content = <span className="text-muted-foreground"><span className="font-bold text-foreground">{title}</span> — {desc}</span>
-                } else if (colonIdx !== -1) {
-                  const title = f.text.slice(0, colonIdx)
-                  const rest = f.text.slice(colonIdx + 3)
-                  content = <span className="text-muted-foreground"><span className="font-bold text-foreground">{title}</span> : {rest}</span>
-                } else {
-                  content = <span className="font-bold text-foreground">{f.text}</span>
-                }
-
-                return (
-                  <li key={f.text} className="flex items-start gap-2.5">
-                    <Check size={15} strokeWidth={2} className="mt-[1px] shrink-0 text-foreground" />
-                    <div className="flex-1 min-w-0">
-                      {content}
-                      <span className="mt-1 block text-[11px] text-muted-foreground/40">({f.value})</span>
-                    </div>
-                  </li>
-                )
-              })}
+            <ul className="mb-7 flex flex-col gap-3 text-[14px]">
+              {features.map((f) => (
+                <li key={f.title} className="flex items-start gap-2.5">
+                  <Check size={15} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
+                  <span className="text-muted-foreground">
+                    <span className="font-semibold text-foreground">{f.title}</span>
+                    {' '}— {f.desc}
+                  </span>
+                </li>
+              ))}
             </ul>
 
-            {/* Total */}
-            <div className="mb-6 border-t border-border pt-4 text-right">
-              <div className="text-[12px] text-muted-foreground/50 line-through">Valeur totale : 1 583€</div>
-              <div className="text-[13px] font-bold text-foreground">Ton prix aujourd'hui : 27€</div>
-            </div>
-
-            {/* Bonuses */}
-            <div className="mb-7 rounded-xl border border-dashed border-border bg-muted px-4 py-4">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Bonus inclus pour les 200 premiers</p>
-              <ul className="flex flex-col gap-[10px]">
-                {bonuses.map((b) => {
-                  const dashIdx = b.text.indexOf(' — ')
-                  const isJarvis = b.text.startsWith('Jarvis IA')
-                  const isValidator = b.text.startsWith('Agent Validator')
-                  const isToolbox = b.text.startsWith('Toolbox Pro')
-                  const isWhatsApp = b.text.startsWith('WhatsApp')
-                  const name = dashIdx !== -1 ? b.text.slice(0, dashIdx) : b.text
-                  const desc = dashIdx !== -1 ? b.text.slice(dashIdx + 3) : null
-
-                  const iconEl = isJarvis
-                    ? <RobotJarvis size={20} />
-                    : isValidator
-                    ? <RobotValidator size={20} />
-                    : isToolbox
-                    ? <ClaudeIcon size={16} className="mt-[1px] shrink-0 text-foreground" />
-                    : isWhatsApp
-                    ? <WhatsAppIcon size={16} className="mt-[1px] shrink-0 text-foreground" />
-                    : <Zap size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
-
-                  return (
-                    <li key={b.text} className="flex items-start gap-2.5 text-[14px]">
-                      <span className="shrink-0 mt-[1px]">{iconEl}</span>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-muted-foreground">
-                          {isJarvis ? (
-                            <span
-                              className="font-bold"
-                              style={{ background: 'linear-gradient(90deg, #cc5de8, #4d96ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-                            >Jarvis IA</span>
-                          ) : isValidator ? (
-                            <span
-                              className="font-bold"
-                              style={{ background: 'linear-gradient(90deg, #22c55e, #86efac)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-                            >Agent Validator</span>
-                          ) : (
-                            <span className="font-bold text-foreground">{name}</span>
-                          )}
-                          {desc && <> — {desc}</>}
-                        </span>
-                        <span className="mt-1 block text-[11px] text-muted-foreground/40">({b.value})</span>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
+            {/* Bonus — single line */}
+            <div className="mb-7 flex items-start gap-2.5 rounded-xl border border-dashed border-border bg-muted px-4 py-3.5">
+              <Zap size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
+              <p className="text-[13px] text-muted-foreground">
+                <span className="font-semibold text-foreground">Bonus pour les 200 premiers</span>
+                {' '}— Jarvis IA + Toolbox Pro + accès WhatsApp privé Buildrs.
+              </p>
             </div>
 
             {/* CTA */}
@@ -1381,20 +1366,187 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
               Satisfait ou remboursé 30 jours · zéro condition.
             </p>
-            <div className="mt-4 w-full">
-              <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
-                <span>110/200 places réclamées</span>
-                <span>Ensuite 297€</span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-border overflow-hidden">
-                <div className="h-full rounded-full bg-foreground/70" style={{ width: "55%" }} />
-              </div>
-            </div>
-            <p className="mt-3.5 text-center text-[12px] text-muted-foreground/60">
+            <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
               Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
             </p>
           </div>
         </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── TEAM ─────────────────────────────────────────────────────────────────────
+
+// ── Pixel-art robot monochrome pour les cards team ──────────────────────────
+function TeamRobot({ isAI }: { isAI?: boolean }) {
+  const body = isAI ? "#a78bfa" : "rgba(255,255,255,0.88)"
+  const dark = "#111113"
+  const mid  = isAI ? "#7c3aed" : "rgba(255,255,255,0.45)"
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ width: 96, height: 96 }}>
+      {/* antennae */}
+      <rect x="7"  y="0" width="2" height="3" fill={body}/>
+      <rect x="15" y="0" width="2" height="3" fill={body}/>
+      <rect x="5"  y="2" width="2" height="2" fill={body}/>
+      <rect x="17" y="2" width="2" height="2" fill={body}/>
+      {/* body */}
+      <rect x="3" y="4" width="18" height="12" rx="2" fill={body}/>
+      {/* eye sockets */}
+      <rect x="6"  y="7" width="4" height="4" rx="1" fill={dark}/>
+      <rect x="14" y="7" width="4" height="4" rx="1" fill={dark}/>
+      {/* pupils */}
+      <rect x="7"  y="8" width="2" height="2" fill={body}/>
+      <rect x="15" y="8" width="2" height="2" fill={body}/>
+      {/* mouth */}
+      <rect x="9" y="13" width="6" height="2" rx="1" fill={mid}/>
+      {/* legs */}
+      <rect x="5"  y="17" width="4" height="4" rx="1" fill={body}/>
+      <rect x="15" y="17" width="4" height="4" rx="1" fill={body}/>
+      <rect x="4"  y="20" width="3" height="2" rx="1" fill={mid}/>
+      <rect x="17" y="20" width="3" height="2" rx="1" fill={mid}/>
+    </svg>
+  )
+}
+
+type HologramVariant = 'a' | 'b' | 'c' | 'd'
+
+function HologramFigure({ uid, variant }: { uid: string; variant: HologramVariant }) {
+  const cfg = {
+    a: { hCy: 82, hRx: 41, hRy: 50, body: "M54,140 Q100,120 146,140 L153,220 H47 Z" },
+    b: { hCy: 79, hRx: 39, hRy: 52, body: "M48,142 Q100,118 152,142 L160,220 H40 Z" },
+    c: { hCy: 84, hRx: 43, hRy: 48, body: "M58,137 Q100,119 142,137 L149,220 H51 Z" },
+    d: { hCy: 80, hRx: 46, hRy: 46, body: "M44,140 Q100,114 156,140 L166,220 H34 Z" },
+  }[variant]
+  const neckY = cfg.hCy + cfg.hRy - 2
+  const glowId = `glow-${uid}`
+  const isJarvis = variant === 'd'
+  // Blanc pour les humains, violet pour Jarvis
+  const lineColor = isJarvis ? "#a78bfa" : "rgba(255,255,255,0.85)"
+  const eyeCenter = isJarvis ? "#c4b5fd" : "#ffffff"
+
+  return (
+    <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <defs>
+        <radialGradient id={glowId} cx="50%" cy="42%" r="50%">
+          <stop offset="0%" stopColor={lineColor} stopOpacity={isJarvis ? "0.35" : "0.22"}/>
+          <stop offset="100%" stopColor={lineColor} stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="200" height="240" fill="#08080a"/>
+      <ellipse cx="100" cy="105" rx="90" ry="115" fill={`url(#${glowId})`}/>
+      {/* scan lines */}
+      {Array.from({ length: 12 }).map((_, i) => (
+        <line key={i} x1="0" y1={i * 20 + 8} x2="200" y2={i * 20 + 8} stroke={lineColor} strokeOpacity="0.04" strokeWidth="1"/>
+      ))}
+      {/* head */}
+      <ellipse cx="100" cy={cfg.hCy} rx={cfg.hRx} ry={cfg.hRy} stroke={lineColor} strokeWidth="1" fill="#0c0c14" fillOpacity="0.97"/>
+      {/* triangulation lines */}
+      <line x1={100 - cfg.hRx + 2} y1={cfg.hCy} x2={100 + cfg.hRx - 2} y2={cfg.hCy} stroke={lineColor} strokeOpacity="0.18" strokeWidth="0.7"/>
+      <line x1="100" y1={cfg.hCy - cfg.hRy + 4} x2={100 - cfg.hRx + 8} y2={cfg.hCy + cfg.hRy - 8} stroke={lineColor} strokeOpacity="0.14" strokeWidth="0.7"/>
+      <line x1="100" y1={cfg.hCy - cfg.hRy + 4} x2={100 + cfg.hRx - 8} y2={cfg.hCy + cfg.hRy - 8} stroke={lineColor} strokeOpacity="0.14" strokeWidth="0.7"/>
+      <line x1={100 - cfg.hRx + 8} y1={cfg.hCy - 18} x2={100 + cfg.hRx - 8} y2={cfg.hCy - 18} stroke={lineColor} strokeOpacity="0.12" strokeWidth="0.6"/>
+      {/* eyes */}
+      <ellipse cx={isJarvis ? 86 : 87} cy={cfg.hCy - 9} rx="7" ry={isJarvis ? 5 : 3.5} fill={lineColor} fillOpacity="0.55"/>
+      <ellipse cx={isJarvis ? 114 : 113} cy={cfg.hCy - 9} rx="7" ry={isJarvis ? 5 : 3.5} fill={lineColor} fillOpacity="0.55"/>
+      <circle cx={isJarvis ? 86 : 87} cy={cfg.hCy - 9} r="2.5" fill={eyeCenter}/>
+      <circle cx={isJarvis ? 114 : 113} cy={cfg.hCy - 9} r="2.5" fill={eyeCenter}/>
+      {/* jarvis extra: brow lines */}
+      {isJarvis && <><line x1="80" y1={cfg.hCy - 17} x2="93" y2={cfg.hCy - 14} stroke={eyeCenter} strokeOpacity="0.6" strokeWidth="1.2"/><line x1="120" y1={cfg.hCy - 17} x2="107" y2={cfg.hCy - 14} stroke={eyeCenter} strokeOpacity="0.6" strokeWidth="1.2"/></>}
+      {/* neck */}
+      <rect x="88" y={neckY} width="24" height="16" fill="#0c0c14" stroke={lineColor} strokeWidth="0.8" strokeOpacity="0.35"/>
+      {/* body */}
+      <path d={cfg.body} fill="#0c0c14" fillOpacity="0.97" stroke={lineColor} strokeWidth="1"/>
+      <line x1="100" y1={neckY + 16} x2="100" y2="218" stroke={lineColor} strokeOpacity="0.15" strokeWidth="0.6"/>
+      <line x1="62" y1="168" x2="138" y2="168" stroke={lineColor} strokeOpacity="0.11" strokeWidth="0.6"/>
+      <line x1="56" y1="190" x2="144" y2="190" stroke={lineColor} strokeOpacity="0.08" strokeWidth="0.6"/>
+      {/* top glow */}
+      <ellipse cx="100" cy={cfg.hCy - cfg.hRy + 8} rx="18" ry="6" fill={eyeCenter} fillOpacity={isJarvis ? "0.14" : "0.10"}/>
+    </svg>
+  )
+}
+
+const teamData: { uid: string; variant: HologramVariant; name: string; role: string; bio: string; isAI?: boolean }[] = [
+  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Co-Founder",  bio: "Développement produit, vision et architecture du groupe." },
+  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Vibe Coder",  bio: "Marketing, acquisition et développement commercial." },
+  { uid: "tim",    variant: "c", name: "Tim",     role: "CTO & Vibe Coder",  bio: "Implémentation IA et accompagnement des membres du Lab." },
+  { uid: "jarvis", variant: "d", name: "Jarvis",  role: "Chief AI Officer",  bio: "Intelligence Artificielle Autonome. Pilote 40 agents IA chez Buildrs.", isAI: true },
+]
+
+function TeamSection() {
+  return (
+    <section className="py-24" style={{ background: "#0a0a0a" }}>
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5" style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}>
+            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/40">Qui sommes-nous</span>
+          </div>
+          <h2
+            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            className="text-white"
+          >
+            Des experts IA qui construisent avec vous.
+          </h2>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {teamData.map(({ uid, variant, name, role, bio, isAI }) => (
+            <div
+              key={uid}
+              className="rounded-2xl overflow-hidden"
+              style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
+            >
+              <div className="h-52 flex items-center justify-center" style={{ background: isAI ? "rgba(139,92,246,0.07)" : "rgba(255,255,255,0.025)" }}>
+                <TeamRobot isAI={isAI} />
+              </div>
+              <div className="p-4">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <p className="text-[14px] font-bold text-white">{name}</p>
+                  {isAI && (
+                    <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style={{ background: "rgba(168,85,247,0.15)", color: "rgba(168,85,247,0.9)", border: "1px solid rgba(168,85,247,0.2)" }}>AI</span>
+                  )}
+                </div>
+                <p className="text-[11px] text-white/40 mb-2">{role}</p>
+                <p className="text-[12px] text-white/55 leading-relaxed">{bio}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Credibility block */}
+        <div
+          className="rounded-2xl px-8 py-8"
+          style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-start gap-8">
+            {/* Stats */}
+            <div className="flex gap-8 shrink-0">
+              <div className="text-center">
+                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>+35</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">SaaS créés</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>3</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Revendus 5 chiffres</p>
+              </div>
+            </div>
+            {/* Divider */}
+            <div className="hidden sm:block w-px self-stretch" style={{ background: "rgba(255,255,255,0.08)" }} />
+            {/* Copy */}
+            <div>
+              <p className="text-[15px] font-bold text-white mb-2" style={{ letterSpacing: "-0.02em" }}>
+                Pas des coachs. Des geeks, experts en produit et en IA.
+              </p>
+              <p className="text-[13px] leading-[1.7] text-white/45">
+                On utilise l'intelligence artificielle comme levier d'enrichissement — pas pour en parler, pour en vivre. +35 SaaS créés, déployés et mis sur le marché, pour des entreprises et pour nous. 3 revendus à 5 chiffres. On a décidé, il y a quelques mois, de rendre ce système accessible. Buildrs, c'est un mouvement. Pas une formation.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   )
@@ -1480,74 +1632,24 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
 const sprintDays = [
   {
-    day: "01", label: "Module 1", title: "Fondations",
-    deliverable: "Ta stratégie de lancement définie",
-    items: [
-      "Tu comprends pourquoi l'IA fait 90% du travail à ta place",
-      "Tu choisis ton format : app, SaaS ou logiciel",
-      "Tu poses ton objectif financier — le système s'adapte",
-    ],
-    accent: "#4d96ff",
+    day: "01", label: "Phase 1", title: "Trouver",
+    deliverable: "Ton idée validée, prête à construire.",
+    items: [], accent: "#4d96ff",
   },
   {
-    day: "02", label: "Module 2", title: "Ton espace de travail",
-    deliverable: "Un environnement configuré, prêt à builder",
-    items: [
-      "Tu installes les outils essentiels — Claude, VS Code, les bases",
-      "Tu connectes ton premier projet à Claude Code",
-      "Tu es prêt à builder — l'environnement fonctionne",
-    ],
-    accent: "#6bcb77",
+    day: "02", label: "Phase 2", title: "Construire",
+    deliverable: "Ton produit fonctionnel, designé, architecturé.",
+    items: [], accent: "#cc5de8",
   },
   {
-    day: "03", label: "Module 3", title: "Trouver & Valider",
-    deliverable: "Ton idée validée et ta fiche produit prête",
-    items: [
-      "Tu génères 5 idées de Micro-SaaS IA rentables en 1 clic",
-      "Tu valides ton marché en 30 minutes — tu décides",
-      "Tu repars avec ta fiche produit : nom, cible, prix",
-    ],
-    accent: "#cc5de8",
+    day: "03", label: "Phase 3", title: "Déployer",
+    deliverable: "En ligne, accessible au monde entier.",
+    items: [], accent: "#22c55e",
   },
   {
-    day: "04", label: "Module 4", title: "Design & Architecture",
-    deliverable: "Le design et l'architecture prêts à construire",
-    items: [
-      "Tu crées ton identité visuelle en t'inspirant des meilleures apps",
-      "Tu génères ton parcours utilisateur page par page",
-      "Tu obtiens la structure technique — prête à builder",
-    ],
-    accent: "#eab308",
-  },
-  {
-    day: "05", label: "Module 5", title: "Construire",
-    deliverable: "Un produit fonctionnel qui tourne",
-    items: [
-      "Tu décris ce que tu veux — Claude génère ton produit",
-      "Ta fonctionnalité principale est live et fonctionnelle",
-      "L'inscription et l'onboarding sont en place",
-    ],
-    accent: "#ff6b6b",
-  },
-  {
-    day: "06", label: "Module 6", title: "Déployer",
-    deliverable: "Ton produit en ligne, accessible au monde entier",
-    items: [
-      "Ton produit est mis en ligne en 1 clic avec Vercel",
-      "Ton domaine personnalisé est connecté",
-      "Paiements et emails automatiques sont branchés",
-    ],
-    accent: "#22c55e",
-  },
-  {
-    day: "07", label: "Module 7", title: "Monétiser & Lancer",
-    deliverable: "Tes premiers revenus, ta communication lancée",
-    items: [
-      "Tu valides ta stratégie de prix : abonnement, unique, freemium",
-      "Ta page de vente est créée par Claude — tu publies",
-      "Ta première campagne est configurée — le trafic arrive",
-    ],
-    accent: "#f97316",
+    day: "04", label: "Phase 4", title: "Monétiser",
+    deliverable: "Tes premiers revenus, ta stratégie de croissance.",
+    items: [], accent: "#f97316",
   },
 ]
 
@@ -1564,83 +1666,62 @@ function Sprint() {
         >
           Un système en 7 étapes.<br />Un produit live à la fin.
         </h2>
-        <p className="mb-12 md:mb-20 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          Pas un cours. Un système étape par étape. Tu suis, Claude construit. À la fin, ton SaaS IA ou ton app est live et génère du MRR.
+        <p className="mb-14 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
+          <span className="font-semibold text-foreground">Toi tu décides. L'IA construit. Tu encaisses.</span>
         </p>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Ligne centrale — desktop uniquement */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-border hidden md:block" />
-          {/* Ligne gauche — mobile uniquement */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-border md:hidden" />
-
-          <div className="flex flex-col gap-10 md:gap-16">
-            {sprintDays.map(({ day, label, title, items, deliverable, accent }, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <motion.div
-                  key={day}
-                  initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-                  className={`relative md:grid md:grid-cols-2 md:gap-8 md:items-center pl-14 md:pl-0 ${isLeft ? "" : "md:[&>*:first-child]:order-2"}`}
-                >
-                  {/* Card */}
-                  <div className="rounded-2xl border border-border bg-card p-6 md:p-7 shadow-sm">
-                    <div className="mb-4 flex items-center justify-end">
-                      <span
-                        className="font-mono text-[11px] font-bold"
-                        style={{ color: accent }}
-                      >
-                        Étape {day}
-                      </span>
-                    </div>
-                    <h3 className="mb-3 text-[18px] md:text-[20px] font-bold tracking-tight text-foreground">{title}</h3>
-                    <div
-                      className="mb-4 rounded-lg px-3.5 py-2.5 text-[12px] font-semibold"
-                      style={{ background: `${accent}18`, color: accent }}
-                    >
-                      {deliverable}
-                    </div>
-                    <ul className="flex flex-col gap-2.5">
-                      {items.map((item) => (
-                        <li key={item} className="flex items-start gap-2.5 text-[13px] md:text-[14px] text-muted-foreground">
-                          <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: accent }} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Dot + ghost number — desktop uniquement */}
-                  <div className={`hidden md:flex items-center ${isLeft ? "justify-start pl-8" : "justify-end pr-8"}`}>
-                    <div
-                      className="absolute left-1/2 -translate-x-1/2 flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-foreground shadow-sm"
-                      style={{ zIndex: 1 }}
-                    >
-                      <span className="font-mono text-[11px] font-bold text-background">{day}</span>
-                    </div>
-                    <div
-                      className="select-none font-mono leading-none text-muted-foreground/[0.06]"
-                      style={{ fontSize: 120, fontWeight: 800, letterSpacing: "-0.06em" }}
-                    >
-                      {day}
-                    </div>
-                  </div>
-
-                  {/* Dot mobile — absolu, après les items grid pour ne pas casser [&>*:first-child] */}
+        {/* Timeline horizontale — desktop */}
+        <div className="hidden md:block">
+          {/* Ligne de connexion */}
+          <div className="relative mb-6">
+            <div className="absolute top-4 left-[calc(100%/14)] right-[calc(100%/14)] h-px bg-border" />
+            <div className="grid grid-cols-4 gap-0">
+              {sprintDays.map(({ day, accent }) => (
+                <div key={day} className="flex flex-col items-center">
                   <div
-                    className="absolute left-0 top-6 flex h-8 w-8 items-center justify-center rounded-full border-2 border-muted bg-foreground shadow-sm md:hidden"
-                    style={{ zIndex: 1 }}
+                    className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted"
+                    style={{ boxShadow: `0 0 0 3px hsl(var(--muted))` }}
                   >
-                    <span className="font-mono text-[10px] font-bold text-background">{day}</span>
+                    <span className="font-mono text-[10px] font-bold" style={{ color: accent }}>{day}</span>
                   </div>
-                </motion.div>
-              )
-            })}
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Contenu sous chaque dot */}
+          <div className="grid grid-cols-4 gap-3">
+            {sprintDays.map(({ day, title, deliverable, accent }) => (
+              <div key={day} className="flex flex-col gap-1.5 pt-1">
+                <p className="text-[13px] font-bold text-foreground leading-tight">{title}</p>
+                <p className="text-[11px] leading-[1.5] text-muted-foreground">{deliverable}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Timeline compacte — mobile */}
+        <div className="flex flex-col gap-0 md:hidden">
+          {sprintDays.map(({ day, title, deliverable, accent }, i) => (
+            <div key={day} className="flex gap-4">
+              {/* Colonne gauche — dot + ligne */}
+              <div className="flex flex-col items-center shrink-0">
+                <div
+                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border bg-muted"
+                >
+                  <span className="font-mono text-[9px] font-bold" style={{ color: accent }}>{day}</span>
+                </div>
+                {i < sprintDays.length - 1 && (
+                  <div className="w-px flex-1 bg-border mt-1 mb-1" style={{ minHeight: 24 }} />
+                )}
+              </div>
+              {/* Contenu */}
+              <div className="pb-5 pt-0.5">
+                <p className="text-[14px] font-bold text-foreground">{title}</p>
+                <p className="text-[12px] leading-[1.5] text-muted-foreground mt-0.5">{deliverable}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -1666,6 +1747,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <DashboardSection />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
+        <TeamSection />
         <FAQ />
         <FinalCTA onCTA={go} />
       </main>

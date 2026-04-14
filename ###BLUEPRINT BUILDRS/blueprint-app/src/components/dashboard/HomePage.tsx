@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import {
   Check, ArrowRight, Paperclip, Globe, Code2, Mic,
   Terminal, Database, Server, Mail, CreditCard, Github,
@@ -9,7 +9,6 @@ import type { AccessContext } from '../../hooks/useAccess'
 import type { BuildrsProfile } from '../../hooks/useProfile'
 import { CURRICULUM } from '../../data/curriculum'
 import { getXPProgress, getLevelInfo } from '../../data/levels'
-import { useMilestones } from '../../hooks/useMilestones'
 import { useMissions } from '../../hooks/useMissions'
 import { MissionCard } from './MissionCard'
 import { ScoreModal } from './ScoreModal'
@@ -220,9 +219,19 @@ export function HomePage({
   const [scoreModalOpen, setScoreModalOpen] = useState(false)
   const [jarvisInput,    setJarvisInput]    = useState('')
 
-  const { milestones } = useMilestones(userId)
-  const missions       = useMissions(userId, access)
-  const doneCount      = milestones.filter(m => m.kanban_status === 'done').length
+  const missions = useMissions(userId, access)
+
+  const pipelineDone = useMemo(() => {
+    const ORDER = ['00', 'setup', '01', 'valider', 'offre', '02', '03', '04', '05', '06', 'scaler']
+    let count = 0
+    for (const id of ORDER) {
+      try {
+        const saved = localStorage.getItem(`buildrs_module_checklist_${id}`)
+        if (saved) count += (JSON.parse(saved) as number[]).length
+      } catch {}
+    }
+    return count
+  }, [])
 
   useEffect(() => {
     if (!userId) { setLoading(false); return }
@@ -371,7 +380,7 @@ export function HomePage({
           className="text-[22px] font-extrabold text-foreground tabular-nums leading-none"
           style={{ letterSpacing: '-0.04em' }}
         >
-          {doneCount}
+          {pipelineDone}
         </p>
         <p className="text-[9px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 mt-2">Tâches</p>
       </div>
@@ -572,7 +581,7 @@ export function HomePage({
           </>
         ) : (
           <button
-            onClick={() => handleJarvis('Je veux valider mon idée SaaS')}
+            onClick={() => navigate('#/dashboard/generator')}
             className="text-[11px] text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2 text-left"
           >
             Valider ton idée →
@@ -617,7 +626,7 @@ export function HomePage({
           </>
         ) : (
           <button
-            onClick={() => handleJarvis('Calcule mon MRR estimé')}
+            onClick={() => navigate('#/dashboard/revenue-calculator')}
             className="text-[11px] text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2 text-left"
           >
             Calculer →

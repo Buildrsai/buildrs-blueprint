@@ -1,0 +1,559 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - link [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+      - generic [ref=e20]:
+        - button "Features" [ref=e22] [cursor=pointer]:
+          - text: Features
+          - img [ref=e23]
+        - link "Tarif" [ref=e25] [cursor=pointer]:
+          - /url: /pricing
+          - button "Tarif" [ref=e26]
+        - link "Affiliation" [ref=e27] [cursor=pointer]:
+          - /url: /affiliate
+          - button "Affiliation" [ref=e28]
+        - button [ref=e30] [cursor=pointer]:
+          - img [ref=e31]
+          - img [ref=e33]
+      - generic [ref=e35]:
+        - link "Connexion" [ref=e36] [cursor=pointer]:
+          - /url: /signin
+          - button "Connexion" [ref=e37]
+        - link "Créer un compte" [ref=e38] [cursor=pointer]:
+          - /url: /signup
+          - button "Créer un compte" [ref=e39]:
+            - generic [ref=e43]: Créer un compte
+    - generic [ref=e45]:
+      - link "Présentation du suivi des conversions En savoir plus" [ref=e46] [cursor=pointer]:
+        - /url: /conversion
+        - generic [ref=e47]:
+          - generic [ref=e48]: Présentation du suivi des conversions
+          - generic [ref=e49]:
+            - generic [ref=e50]: En savoir plus
+            - img [ref=e51]
+      - generic [ref=e55]:
+        - heading "Une solution tout-en-un, pour gérer tous vos liens." [level=1] [ref=e56]
+        - paragraph [ref=e57]: Créez les meilleures Links in bio, deeplinks et QR Codes avec taap.it
+      - generic [ref=e58]:
+        - link "Créer un compte" [ref=e59] [cursor=pointer]:
+          - /url: /signup
+          - button "Créer un compte" [ref=e60]:
+            - generic [ref=e64]: Créer un compte
+        - paragraph [ref=e65]: (c'est gratuit)
+      - paragraph [ref=e68]: Déjà adopté par les plus grands, pourquoi pas vous ?
+    - generic [ref=e70]:
+      - generic [ref=e71]: Un tour du propriétaire ?
+      - img [ref=e73]
+      - generic "Home version française" [ref=e86]
+    - generic [ref=e89]:
+      - heading "Un outil, trois façons de l'essayer." [level=2] [ref=e90]
+      - generic [ref=e91]:
+        - button "Link In Bio" [ref=e92] [cursor=pointer]:
+          - generic [ref=e93]: Link In Bio
+          - img [ref=e94]
+        - button "Deeplink" [ref=e97] [cursor=pointer]:
+          - generic [ref=e98]: Deeplink
+          - img [ref=e99]
+        - button "QR Code" [ref=e101] [cursor=pointer]:
+          - generic [ref=e102]: QR Code
+          - img [ref=e103]
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - paragraph [ref=e108]: Créez un Link in Bio qui fait toute la différence
+            - paragraph [ref=e109]: Regroupez tous vos liens au même endroit, sur une plateforme qui allie design et simplicité.
+          - generic [ref=e110]:
+            - paragraph [ref=e111]: Réclamez votre taap.it
+            - generic [ref=e112]:
+              - generic [ref=e113]:
+                - paragraph [ref=e114]: taap.it/
+                - textbox "pseudo" [ref=e116]
+              - link "Commencer" [ref=e117] [cursor=pointer]:
+                - /url: /signup
+                - button "Commencer" [ref=e118]:
+                  - generic [ref=e122]: Commencer
+        - generic [ref=e125]:
+          - paragraph [ref=e126]: taap.it/thewknd
+          - img "Link in Bio" [ref=e127]
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - generic [ref=e131]: FEATURES
+        - generic [ref=e132]:
+          - heading "Ce qui nous rend incontournables (et un peu fiers)." [level=2] [ref=e133]
+          - paragraph [ref=e134]: Créez les meilleurs Links in bio, deeplinks et QR Codes avec taap.it
+        - link "Créer un compte" [ref=e136] [cursor=pointer]:
+          - /url: /signup
+          - button "Créer un compte" [ref=e137]:
+            - generic [ref=e141]: Créer un compte
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - generic [ref=e145]:
+            - img "Le Link in Bio parfait" [ref=e146]
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - heading "Le Link in Bio parfait" [level=3] [ref=e149]
+                - paragraph [ref=e150]: Un seul lien, une infinité de possibilités. taap.it rassemble tout ce qui vous rend unique, avec classe et efficacité.
+              - button "Je crée mon link in bio" [ref=e151] [cursor=pointer]:
+                - generic [ref=e155]: Je crée mon link in bio
+          - generic [ref=e157]:
+            - img "Des QR Codes qu'on a envie de scanner" [ref=e158]
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - heading "Des QR Codes qu'on a envie de scanner" [level=3] [ref=e161]
+                - paragraph [ref=e162]: Des QR Codes dopés aux deeplinks, pour ne perdre aucune trace des potentiels clients qui les scannent.
+              - button "Je crée mon QR code" [ref=e163] [cursor=pointer]:
+                - generic [ref=e167]: Je crée mon QR code
+        - generic [ref=e180]:
+          - generic [ref=e182]:
+            - img "Deeplinks that convert." [ref=e184]
+            - generic [ref=e185]:
+              - generic [ref=e186]:
+                - paragraph [ref=e187]: Des liens deeplinks qui convertissent.
+                - paragraph [ref=e188]: Arrêtez de perdre des utilisateurs sur vos différents sociaux, et passez outre les navigateurs internes qui bloquent les users
+              - button "Je crée mon deeplink" [ref=e189] [cursor=pointer]:
+                - generic [ref=e193]: Je crée mon deeplink
+          - generic [ref=e195]:
+            - img "Le tout, à votre nom." [ref=e196]
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - heading "Le tout, à votre nom." [level=3] [ref=e199]
+                - paragraph [ref=e200]: Remplacez l'URL de taap.it par le votre pour que vos visiteurs restent plongés dans votre univers.
+              - button "Je personnalise mon URL" [ref=e201] [cursor=pointer]:
+                - generic [ref=e205]: Je personnalise mon URL
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - generic [ref=e209]: ANALYTICS
+        - generic [ref=e210]:
+          - heading "Suivez vos statistiques en temps réel" [level=2] [ref=e211]
+          - paragraph [ref=e212]: Créer des liens, c'est bien. Mais savoir qui clique, où et pourquoi, c'est encore mieux.
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - img [ref=e218]
+            - generic [ref=e220]:
+              - paragraph [ref=e221]: "25"
+              - paragraph [ref=e222]: Nombre de liens
+          - generic [ref=e223]:
+            - img [ref=e226]
+            - generic [ref=e231]:
+              - paragraph [ref=e232]: 242 000
+              - paragraph [ref=e233]: Nombre de clics total
+        - generic [ref=e234]:
+          - paragraph [ref=e236]: Clic récents
+          - generic [ref=e238]:
+            - paragraph [ref=e240]:
+              - text: Vous avez généré 242 000 clics
+              - text: au total
+            - generic [ref=e241]:
+              - button "All" [ref=e242] [cursor=pointer]
+              - button "1Y" [ref=e243] [cursor=pointer]
+              - button "3M" [ref=e244] [cursor=pointer]
+              - button "1M" [ref=e245] [cursor=pointer]
+              - button "1W" [ref=e246] [cursor=pointer]
+              - button "1D" [ref=e247] [cursor=pointer]
+          - img [ref=e252]:
+            - generic [ref=e261]:
+              - generic [ref=e263]: 01/23
+              - generic [ref=e265]: 03/23
+              - generic [ref=e267]: 05/23
+              - generic [ref=e269]: 07/23
+              - generic [ref=e271]: 09/23
+              - generic [ref=e273]: 11/23
+              - generic [ref=e275]: 01/24
+              - generic [ref=e277]: 03/24
+              - generic [ref=e279]: 05/24
+              - generic [ref=e281]: 07/24
+              - generic [ref=e283]: 09/24
+              - generic [ref=e285]: 11/24
+            - generic [ref=e286]:
+              - generic [ref=e288]: "0"
+              - generic [ref=e290]: 20,000
+              - generic [ref=e292]: 40,000
+              - generic [ref=e294]: 60,000
+    - generic [ref=e296]:
+      - generic [ref=e297]:
+        - generic [ref=e298]: AVANTAGES
+        - generic [ref=e299]:
+          - heading "On a tous une bonne raison de choisir taap.it" [level=2] [ref=e300]
+          - link "Créer un compte" [ref=e301] [cursor=pointer]:
+            - /url: /signup
+            - button "Créer un compte" [ref=e302]:
+              - generic [ref=e306]: Créer un compte
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - generic [ref=e310]:
+            - paragraph [ref=e311]:
+              - text: Tous vos liens,
+              - text: au même endroit.
+            - img "all link" [ref=e312]
+          - generic [ref=e314]:
+            - img "One link" [ref=e315]
+            - paragraph [ref=e316]: "One Link : le lien qui simplifie le téléchargement de votre app"
+        - generic [ref=e317]:
+          - generic [ref=e319]:
+            - img [ref=e320]
+            - paragraph [ref=e323]: de taux de conversion moyen
+          - generic [ref=e325]:
+            - generic [ref=e326]:
+              - img "Engagement" [ref=e328]
+              - img "Engagement" [ref=e330]
+              - img "Engagement" [ref=e332]
+            - paragraph [ref=e333]: Touchez + d'utilisateurs en facilitant l'engagement sur vos contenus
+          - generic [ref=e335]:
+            - paragraph [ref=e336]: Traquez les clics, comprenez votre audience
+            - img "Click tracking" [ref=e337]
+        - generic [ref=e338]:
+          - generic [ref=e340]:
+            - paragraph [ref=e341]: Dites au revoir aux pertes utilisateur
+            - paragraph [ref=e342]: Plus de 50 applications compatibles
+            - generic [ref=e343]:
+              - list [ref=e347]:
+                - listitem [ref=e348]:
+                  - img "youtubemusic" [ref=e351]
+                - listitem [ref=e352]:
+                  - img "youtube" [ref=e355]
+                - listitem [ref=e356]:
+                  - img "tiktok" [ref=e359]
+                - listitem [ref=e360]:
+                  - img "instagram" [ref=e363]
+                - listitem [ref=e364]:
+                  - img "amazon" [ref=e367]
+                - listitem [ref=e368]:
+                  - img "spotify" [ref=e371]
+                - listitem [ref=e372]:
+                  - img "applemusic" [ref=e375]
+                - listitem [ref=e376]:
+                  - img "whatsapp" [ref=e379]
+                - listitem [ref=e380]:
+                  - img "snapchat" [ref=e383]
+                - listitem [ref=e384]:
+                  - img "telegram" [ref=e387]
+                - listitem [ref=e388]:
+                  - img "facebook" [ref=e391]
+                - listitem [ref=e392]:
+                  - img "messenger" [ref=e395]
+                - listitem [ref=e396]:
+                  - img "grubhub" [ref=e399]
+              - list [ref=e403]:
+                - listitem [ref=e404]:
+                  - img "etsy" [ref=e407]
+                - listitem [ref=e408]:
+                  - img "shotgun" [ref=e411]
+                - listitem [ref=e412]:
+                  - img "twitter" [ref=e415]
+                - listitem [ref=e416]:
+                  - img "ubereats" [ref=e419]
+                - listitem [ref=e420]:
+                  - img "deliveroo" [ref=e423]
+                - listitem [ref=e424]:
+                  - img "linkedin" [ref=e427]
+                - listitem [ref=e428]:
+                  - img "airbnb" [ref=e431]
+                - listitem [ref=e432]:
+                  - img "yelp" [ref=e435]
+                - listitem [ref=e436]:
+                  - img "walmart" [ref=e439]
+                - listitem [ref=e440]:
+                  - img "googlesheets" [ref=e443]
+                - listitem [ref=e444]:
+                  - img "googledocs" [ref=e447]
+                - listitem [ref=e448]:
+                  - img "eventbrite" [ref=e451]
+                - listitem [ref=e452]:
+                  - img "skool" [ref=e455]
+          - generic [ref=e457]:
+            - paragraph [ref=e458]: Renforcez votre image de marque
+            - paragraph [ref=e459]: Rendez vos liens taap.it uniques en ajoutant votre propre nom de domaine grâce à l'URL Branding.
+            - img "Personal domain" [ref=e460]
+      - generic [ref=e463]:
+        - img "Stack replace" [ref=e464]
+        - generic [ref=e465]:
+          - paragraph [ref=e466]: $0
+          - paragraph [ref=e467]: Qui en fait autant pour vous ?
+          - paragraph [ref=e468]: Supprimez les multiples outils de votre stack, et gérez tous vos liens et analytics sur taap.it
+          - link "Commencez gratuitement !" [ref=e469] [cursor=pointer]:
+            - /url: /signup
+            - button "Commencez gratuitement !" [ref=e470]:
+              - generic [ref=e474]: Commencez gratuitement !
+    - generic [ref=e476]:
+      - generic [ref=e477]:
+        - generic [ref=e478]: TÉMOIGNAGES
+        - heading "Leurs avis valent mieux que tous nos arguments." [level=2] [ref=e480]
+      - generic [ref=e481]:
+        - list [ref=e485]:
+          - listitem [ref=e486]:
+            - generic [ref=e488]:
+              - generic [ref=e489]:
+                - img "profil pictures" [ref=e490]
+                - generic [ref=e491]:
+                  - paragraph [ref=e492]: Loic Iffly
+                  - generic [ref=e493]:
+                    - img [ref=e494]
+                    - img [ref=e496]
+                    - img [ref=e498]
+                    - img [ref=e500]
+                    - img [ref=e502]
+              - generic [ref=e504]:
+                - paragraph [ref=e505]: Une interface incroyable…
+                - paragraph [ref=e506]: Une interface incroyable et un outil qui est vraiment très utile, c’est parfait rien à dire. En plus le service client est disponible et répond à toutes vos questions très rapidement, merci encore ;)
+          - listitem [ref=e507]:
+            - generic [ref=e509]:
+              - generic [ref=e510]:
+                - img "profil pictures" [ref=e511]
+                - generic [ref=e512]:
+                  - paragraph [ref=e513]: Théo Gouman
+                  - generic [ref=e514]:
+                    - img [ref=e515]
+                    - img [ref=e517]
+                    - img [ref=e519]
+                    - img [ref=e521]
+                    - img [ref=e523]
+              - generic [ref=e525]:
+                - paragraph [ref=e526]: Taap it est le meilleur outil dans lequel j’ai investi
+                - paragraph [ref=e527]: J’ai longtemps été utilisateur de Bit.ly qui était trop compliqué à utiliser et pas restreint en fonctionnalité, Taap.it a changé ma vie de créateur de contenus
+          - listitem [ref=e528]:
+            - generic [ref=e530]:
+              - generic [ref=e531]:
+                - img "profil pictures" [ref=e532]
+                - generic [ref=e533]:
+                  - paragraph [ref=e534]: Louis - Osmoz
+                  - generic [ref=e535]:
+                    - img [ref=e536]
+                    - img [ref=e538]
+                    - img [ref=e540]
+                    - img [ref=e542]
+                    - img [ref=e544]
+              - generic [ref=e546]:
+                - paragraph [ref=e547]: Excellent outil que je recommande
+                - paragraph [ref=e548]: Excellent outil que je recommande ! Je l'utilise à titre perso pour mon contenu depuis quelques mois et l'utilise également pour les publicités de mes clients afin que les prospects soient directement redirigés dans le navigateur (afin de gagner en conversion) !
+          - listitem [ref=e549]:
+            - generic [ref=e551]:
+              - generic [ref=e552]:
+                - img "profil pictures" [ref=e553]
+                - generic [ref=e554]:
+                  - paragraph [ref=e555]: Romain Brunel
+                  - generic [ref=e556]:
+                    - img [ref=e557]
+                    - img [ref=e559]
+                    - img [ref=e561]
+                    - img [ref=e563]
+                    - img [ref=e565]
+              - generic [ref=e567]:
+                - paragraph [ref=e568]: Super plateforme de redirection de…
+                - paragraph [ref=e569]: Super plateforme de redirection de liens, je l'utilise tous les jours pour mes différents projets et je recommande fortement, utile pour des tonnes d'utilisation ! Vraiment je vois un avant et un après taap.it, merci !
+          - listitem [ref=e570]:
+            - generic [ref=e572]:
+              - generic [ref=e573]:
+                - img "profil pictures" [ref=e574]
+                - generic [ref=e575]:
+                  - paragraph [ref=e576]: Art-Milan Mazaud
+                  - generic [ref=e577]:
+                    - img [ref=e578]
+                    - img [ref=e580]
+                    - img [ref=e582]
+                    - img [ref=e584]
+                    - img [ref=e586]
+              - generic [ref=e588]:
+                - paragraph [ref=e589]: Mieux que tout ce que j'ai testé avant.
+                - paragraph [ref=e590]: Utiliser un outil comme Taap.it change tout en terme de taux de conversion quand on utilise les réseaux sociaux pour acquérir des clients. Non seulement l'outil est parfaitement fonctionnel mais EN PLUS l'interface est design, claire et ergonomique. C'est tellement rare de trouver un service qui comble ces deux aspects...
+        - list [ref=e594]:
+          - listitem [ref=e595]:
+            - generic [ref=e597]:
+              - generic [ref=e598]:
+                - img "profil pictures" [ref=e599]
+                - generic [ref=e600]:
+                  - paragraph [ref=e601]: Maxime Kurdali
+                  - generic [ref=e602]:
+                    - img [ref=e603]
+                    - img [ref=e605]
+                    - img [ref=e607]
+                    - img [ref=e609]
+                    - img [ref=e611]
+              - generic [ref=e613]:
+                - paragraph [ref=e614]: Une solution que je recommande partout au tour de moi
+                - paragraph [ref=e615]: Une solution énorme qui semble évidente une fois qu'elle a été créée. Je la recommande partout autour de moi
+          - listitem [ref=e616]:
+            - generic [ref=e618]:
+              - generic [ref=e619]:
+                - img "profil pictures" [ref=e620]
+                - generic [ref=e621]:
+                  - paragraph [ref=e622]: Déborah Achour
+                  - generic [ref=e623]:
+                    - img [ref=e624]
+                    - img [ref=e626]
+                    - img [ref=e628]
+                    - img [ref=e630]
+                    - img [ref=e632]
+              - generic [ref=e634]:
+                - paragraph [ref=e635]: Super outil ! Très ergonomique !
+                - paragraph [ref=e636]: Efficace, facile d'utilisation et donnée en temps réel ! Très utile pour tacker mon Tally sur LinkedIn ! Merci
+          - listitem [ref=e637]:
+            - generic [ref=e639]:
+              - generic [ref=e640]:
+                - img "profil pictures" [ref=e641]
+                - generic [ref=e642]:
+                  - paragraph [ref=e643]: Jules Laubie
+                  - generic [ref=e644]:
+                    - img [ref=e645]
+                    - img [ref=e647]
+                    - img [ref=e649]
+                    - img [ref=e651]
+                    - img [ref=e653]
+              - generic [ref=e655]:
+                - paragraph [ref=e656]: Taap.it change la vie
+                - paragraph [ref=e657]: "Taap.it change la vie ! Un seul conseil : ne réfléchissez pas et foncez, pour le prix c'est donné 🤩"
+          - listitem [ref=e658]:
+            - generic [ref=e660]:
+              - generic [ref=e661]:
+                - img "profil pictures" [ref=e662]
+                - generic [ref=e663]:
+                  - paragraph [ref=e664]: Nouhaila Kajjout
+                  - generic [ref=e665]:
+                    - img [ref=e666]
+                    - img [ref=e668]
+                    - img [ref=e670]
+                    - img [ref=e672]
+                    - img [ref=e674]
+              - generic [ref=e676]:
+                - paragraph [ref=e677]: Super solution
+                - paragraph [ref=e678]: Super solution, des liens de re-direction performants, l’interface est ergonomique en plus d’être esthétique et on peut tracker la donné. Le seul saas que j’utilise pour créer mes liens - en plus d’être prometteur
+          - listitem [ref=e679]:
+            - generic [ref=e681]:
+              - generic [ref=e682]:
+                - img "profil pictures" [ref=e683]
+                - generic [ref=e684]:
+                  - paragraph [ref=e685]: VF Prod Photographie Vidéo Com
+                  - generic [ref=e686]:
+                    - img [ref=e687]
+                    - img [ref=e689]
+                    - img [ref=e691]
+                    - img [ref=e693]
+                    - img [ref=e695]
+              - generic [ref=e697]:
+                - paragraph [ref=e698]: Un outil dont je ne peux plus me…
+                - paragraph [ref=e699]: Un outil dont je ne peux plus me passer. Facile à mettre en œuvre, le suivi des statistiques est top. Hyper pratique pour renvoyer vers notre page de vente ou nos vidéos dédiées
+    - generic [ref=e701]:
+      - generic [ref=e702]:
+        - heading "Encore des questions ?" [level=2] [ref=e703]
+        - heading "On a les réponses" [level=2] [ref=e704]
+        - generic [ref=e705]:
+          - text: Vous n'avez pas trouvé votre bonheur ?
+          - link "Réserver une démo" [ref=e707] [cursor=pointer]:
+            - /url: https://cal.com/kyliankhalifa/book-your-personalized-demo-today
+      - generic [ref=e709]:
+        - heading "C’est quoi taap.it ?" [level=3] [ref=e711]:
+          - button "C’est quoi taap.it ?" [ref=e712] [cursor=pointer]:
+            - heading "C’est quoi taap.it ?" [level=3] [ref=e713]
+            - img [ref=e715]
+        - heading "À qui s’adresse taap.it ?" [level=3] [ref=e717]:
+          - button "À qui s’adresse taap.it ?" [ref=e718] [cursor=pointer]:
+            - heading "À qui s’adresse taap.it ?" [level=3] [ref=e719]
+            - img [ref=e721]
+        - heading "Est-ce que taap.it est gratuit ?" [level=3] [ref=e723]:
+          - button "Est-ce que taap.it est gratuit ?" [ref=e724] [cursor=pointer]:
+            - heading "Est-ce que taap.it est gratuit ?" [level=3] [ref=e725]
+            - img [ref=e727]
+        - heading "En quoi taap.it est différent de Bitly, Linktree ou Rebrandly ?" [level=3] [ref=e729]:
+          - button "En quoi taap.it est différent de Bitly, Linktree ou Rebrandly ?" [ref=e730] [cursor=pointer]:
+            - heading "En quoi taap.it est différent de Bitly, Linktree ou Rebrandly ?" [level=3] [ref=e731]
+            - img [ref=e733]
+        - heading "Est-ce que je peux utiliser mon propre nom de domaine ?" [level=3] [ref=e735]:
+          - button "Est-ce que je peux utiliser mon propre nom de domaine ?" [ref=e736] [cursor=pointer]:
+            - heading "Est-ce que je peux utiliser mon propre nom de domaine ?" [level=3] [ref=e737]
+            - img [ref=e739]
+        - heading "Puis-je voir les performances de mes liens ?" [level=3] [ref=e741]:
+          - button "Puis-je voir les performances de mes liens ?" [ref=e742] [cursor=pointer]:
+            - heading "Puis-je voir les performances de mes liens ?" [level=3] [ref=e743]
+            - img [ref=e745]
+        - heading "Comment vous contacter si j’ai une question ?" [level=3] [ref=e747]:
+          - button "Comment vous contacter si j’ai une question ?" [ref=e748] [cursor=pointer]:
+            - heading "Comment vous contacter si j’ai une question ?" [level=3] [ref=e749]
+            - img [ref=e751]
+    - generic [ref=e753]:
+      - heading "Si vous êtes arrivé jusque-là, c'est qu'il est temps d'essayer." [level=2] [ref=e754]
+      - paragraph [ref=e755]: Profitez de 5 liens et QR Codes gratuits, ainsi qu'un Link In Bio offert
+      - button "Commencez gratuitement !" [ref=e756] [cursor=pointer]:
+        - generic [ref=e760]: Commencez gratuitement !
+    - generic [ref=e763]:
+      - img [ref=e765]
+      - generic [ref=e777]:
+        - heading "Toujours pas sûr que Taap.it soit fait pour vous ?" [level=4] [ref=e778]
+        - paragraph [ref=e780]: Laissez ChatGPT, Claude ou Perplexity réfléchir pour vous. Cliquez sur un bouton et découvrez ce que votre IA préférée dit à propos de Taap.it.
+      - generic [ref=e781]:
+        - button "Demander à ChatGPT" [ref=e782] [cursor=pointer]:
+          - generic [ref=e786]:
+            - img [ref=e788]
+            - text: Demander à ChatGPT
+        - button "Demander à Claude" [ref=e790] [cursor=pointer]:
+          - generic [ref=e794]:
+            - img [ref=e796]
+            - text: Demander à Claude
+        - button "Demander à Perplexity" [ref=e798] [cursor=pointer]:
+          - generic [ref=e802]:
+            - img [ref=e804]
+            - text: Demander à Perplexity
+    - generic [ref=e807]:
+      - generic [ref=e808]:
+        - generic [ref=e809]:
+          - img [ref=e810]
+          - generic [ref=e822]:
+            - paragraph [ref=e823]: On construit taap.it avec vous.
+            - link "Rejoignez-nous sur Discord." [ref=e824] [cursor=pointer]:
+              - /url: https://taap.it/ReTbhb
+              - generic [ref=e825]:
+                - generic [ref=e826]: Rejoignez-nous sur Discord.
+                - img [ref=e827]
+          - generic [ref=e829]:
+            - paragraph [ref=e830]: Notre vision est publique. La roadmap est là.
+            - button "Découvrir la roadmap" [ref=e831] [cursor=pointer]:
+              - generic [ref=e836]: Découvrir la roadmap
+        - generic [ref=e837]:
+          - generic [ref=e838]:
+            - heading "Fonctionnalités" [level=2] [ref=e839]
+            - generic [ref=e840]:
+              - link "Link in bio" [ref=e841] [cursor=pointer]:
+                - /url: /linkinbio
+              - link "Deeplink" [ref=e842] [cursor=pointer]:
+                - /url: /deeplink
+              - link "Onelink" [ref=e843] [cursor=pointer]:
+                - /url: /onelink
+              - link "Conversion" [ref=e844] [cursor=pointer]:
+                - /url: /conversion
+              - link "Visitors" [ref=e845] [cursor=pointer]:
+                - /url: /visitors
+              - link "API" [ref=e846] [cursor=pointer]:
+                - /url: https://docs.taap.it/fr
+          - generic [ref=e847]:
+            - heading "Légal" [level=2] [ref=e848]
+            - generic [ref=e849]:
+              - link "Conditions d'utilisation" [ref=e850] [cursor=pointer]:
+                - /url: /cgu
+              - link "DPA" [ref=e851] [cursor=pointer]:
+                - /url: /dpa
+              - link "Politique de confidentialité" [ref=e852] [cursor=pointer]:
+                - /url: /privacy-policy
+      - generic [ref=e854]:
+        - button "Français" [ref=e857] [cursor=pointer]:
+          - img [ref=e858]
+          - paragraph [ref=e860]: Français
+          - img [ref=e861]
+        - paragraph [ref=e864]: Build in public company 👀
+        - generic [ref=e865]:
+          - link "Instagram" [ref=e866] [cursor=pointer]:
+            - /url: https://www.instagram.com/taap_it
+            - img "Instagram" [ref=e867]
+          - link "LinkedIn" [ref=e868] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/taap-it
+            - img "LinkedIn" [ref=e869]
+          - link "X" [ref=e870] [cursor=pointer]:
+            - /url: https://x.com/taap__it
+            - img "X" [ref=e871]
+  - alert [ref=e872]
+  - iframe [ref=e873]:
+    
+  - button "Open Intercom Messenger" [ref=e874] [cursor=pointer]:
+    - img [ref=e876]
+    - generic:
+      - img

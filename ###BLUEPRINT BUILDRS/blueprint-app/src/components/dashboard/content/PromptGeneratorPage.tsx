@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react'
+import { ArrowLeft, Copy, Check, ChevronRight, ChevronLeft, Sparkles, Loader2 } from 'lucide-react'
+import { supabase } from '../../../lib/supabase'
 
 interface Props {
   navigate: (hash: string) => void
@@ -72,21 +73,6 @@ Paiements : Stripe Checkout.`,
   },
 ]
 
-// ── Output generator ───────────────────────────────────────────────────────
-
-function generatePrompt(values: Record<string, string>, projectName: string): string {
-  const sections = [
-    projectName ? `# Projet : ${projectName}\n` : '',
-    `## Identité\n${values.identite || '[Non renseigné]'}`,
-    `## Stack Technique\n${values.stack || '[Non renseigné]'}`,
-    `## Design System\n${values.design || '[Non renseigné]'}`,
-    `## Sécurité\n${values.securite || '[Non renseigné]'}`,
-    `## Comportement & Philosophie\n${values.comportement || '[Non renseigné]'}`,
-  ].filter(Boolean)
-
-  return sections.join('\n\n')
-}
-
 // ── Progress bar ───────────────────────────────────────────────────────────
 
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -96,10 +82,10 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
         <div
           key={i}
           className="flex-1 h-0.5 rounded-full transition-all duration-300"
-          style={{ background: i <= current ? '#4d96ff' : 'rgba(255,255,255,0.08)' }}
+          style={{ background: i <= current ? '#4d96ff' : 'hsl(var(--border))' }}
         />
       ))}
-      <span className="text-[10px] font-medium tabular-nums flex-shrink-0" style={{ color: '#5b6078' }}>
+      <span className="text-[10px] font-medium tabular-nums flex-shrink-0" style={{ color: 'hsl(var(--muted-foreground))' }}>
         {current + 1}/{total}
       </span>
     </div>
@@ -116,6 +102,7 @@ function StepView({
   onBack,
   isLast,
   isFirst,
+  isGenerating,
 }: {
   step: typeof STEPS[0]
   value: string
@@ -124,6 +111,7 @@ function StepView({
   onBack: () => void
   isLast: boolean
   isFirst: boolean
+  isGenerating?: boolean
 }) {
   return (
     <div>
@@ -136,13 +124,13 @@ function StepView({
           {step.letter}
         </div>
         <div>
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>{step.label}</p>
-          <h2 className="text-[16px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>{step.desc}</h2>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>{step.label}</p>
+          <h2 className="text-[16px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>{step.desc}</h2>
         </div>
       </div>
 
       {/* Hint */}
-      <p className="text-[12px] leading-relaxed mb-4 mt-4" style={{ color: '#5b6078' }}>
+      <p className="text-[12px] leading-relaxed mb-4 mt-4" style={{ color: 'hsl(var(--muted-foreground))' }}>
         {step.hint}
       </p>
 
@@ -154,9 +142,9 @@ function StepView({
         rows={8}
         className="w-full rounded-xl px-4 py-3 text-[12.5px] leading-relaxed resize-none focus:outline-none transition-all"
         style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: '0.5px solid rgba(255,255,255,0.1)',
-          color: '#f0f0f5',
+          background: 'hsl(var(--card))',
+          border: '0.5px solid hsl(var(--border))',
+          color: 'hsl(var(--foreground))',
           fontFamily: 'Geist Mono, ui-monospace, monospace',
           caretColor: '#4d96ff',
         }}
@@ -170,7 +158,7 @@ function StepView({
           onClick={onBack}
           disabled={isFirst}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all disabled:opacity-30"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#9399b2' }}
+          style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}
         >
           <ChevronLeft size={14} strokeWidth={1.5} />
           Précédent
@@ -178,14 +166,22 @@ function StepView({
 
         <button
           onClick={onNext}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all hover:opacity-90"
+          disabled={isLast && isGenerating}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all hover:opacity-90 disabled:opacity-60"
           style={{ background: '#4d96ff', color: '#fff' }}
         >
           {isLast ? (
-            <>
-              <Sparkles size={14} strokeWidth={1.5} />
-              Générer mon prompt
-            </>
+            isGenerating ? (
+              <>
+                <Loader2 size={14} strokeWidth={1.5} className="animate-spin" />
+                Génération en cours...
+              </>
+            ) : (
+              <>
+                <Sparkles size={14} strokeWidth={1.5} />
+                Générer mon prompt
+              </>
+            )
           ) : (
             <>
               Suivant
@@ -224,18 +220,18 @@ function ResultView({
         </div>
         <div>
           <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#22c55e' }}>Ton system prompt</p>
-          <h2 className="text-[16px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>Prêt à coller dans Claude Code</h2>
+          <h2 className="text-[16px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>Prêt à coller dans Claude Code</h2>
         </div>
       </div>
 
       {/* Output */}
-      <div className="relative rounded-xl overflow-hidden mb-4" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
-        <div className="flex items-center justify-between px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>CLAUDE.md / system prompt</span>
+      <div className="relative rounded-xl overflow-hidden mb-4" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
+        <div className="flex items-center justify-between px-4 py-2" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>CLAUDE.md / system prompt</span>
           <button
             onClick={doCopy}
             className="flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-            style={{ background: copied ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.07)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.12)'}`, color: copied ? '#22c55e' : '#5b6078' }}
+            style={{ background: copied ? 'rgba(34,197,94,0.1)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
           >
             {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
             <span className="text-[10px] font-medium">{copied ? 'Copié !' : 'Copier'}</span>
@@ -257,7 +253,7 @@ function ResultView({
           ].map(({ label, desc }) => (
             <div key={label} className="flex items-start gap-2">
               <code className="text-[10px] font-bold flex-shrink-0 mt-0.5" style={{ color: '#4d96ff', fontFamily: 'Geist Mono, monospace' }}>{label}</code>
-              <p className="text-[11.5px] leading-relaxed" style={{ color: '#9399b2' }}>{desc}</p>
+              <p className="text-[11.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -268,7 +264,7 @@ function ResultView({
         <button
           onClick={onRestart}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-medium transition-all"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.08)', color: '#9399b2' }}
+          style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}
         >
           Recommencer
         </button>
@@ -292,6 +288,9 @@ export function PromptGeneratorPage({ navigate }: Props) {
   const [projectName, setProjectName] = useState('')
   const [values, setValues] = useState<Record<string, string>>({})
   const [done, setDone] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [aiResult, setAiResult] = useState('')
+  const [genError, setGenError] = useState('')
 
   const currentStep = STEPS[step]
   const currentValue = values[currentStep?.id] ?? ''
@@ -300,11 +299,33 @@ export function PromptGeneratorPage({ navigate }: Props) {
     setValues(prev => ({ ...prev, [currentStep.id]: v }))
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < STEPS.length - 1) {
       setStep(s => s + 1)
     } else {
-      setDone(true)
+      setIsGenerating(true)
+      setGenError('')
+      try {
+        const { data, error } = await supabase.functions.invoke('claude-generators', {
+          body: {
+            type: 'prompt',
+            payload: {
+              projectName,
+              context:      values.identite      || '',
+              task:         values.stack         || '',
+              constraints:  [values.design, values.securite].filter(Boolean).join('\n\n'),
+              outputFormat: values.comportement  || '',
+            },
+          },
+        })
+        if (error) throw error
+        setAiResult((data as { result: string }).result)
+        setDone(true)
+      } catch (e) {
+        setGenError(e instanceof Error ? e.message : String(e))
+      } finally {
+        setIsGenerating(false)
+      }
     }
   }
 
@@ -317,9 +338,9 @@ export function PromptGeneratorPage({ navigate }: Props) {
     setValues({})
     setProjectName('')
     setDone(false)
+    setAiResult('')
+    setGenError('')
   }
-
-  const generatedPrompt = generatePrompt(values, projectName)
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -329,7 +350,7 @@ export function PromptGeneratorPage({ navigate }: Props) {
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-10 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Générer</span>
@@ -338,10 +359,10 @@ export function PromptGeneratorPage({ navigate }: Props) {
         {/* Header */}
         <div className="mb-8">
           <span className="text-[9px] font-bold uppercase tracking-[0.12em] block mb-3" style={{ color: '#8b5cf6' }}>Génération</span>
-          <h1 className="text-[24px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+          <h1 className="text-[24px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
             Générateur de Prompt Parfait
           </h1>
-          <p className="text-[13.5px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <p className="text-[13.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Réponds à 5 questions sur ton projet — on génère ton system prompt CTAR complet, prêt à coller dans CLAUDE.md.
           </p>
         </div>
@@ -351,7 +372,7 @@ export function PromptGeneratorPage({ navigate }: Props) {
             {/* Project name (step 0 only) */}
             {step === 0 && (
               <div className="mb-6">
-                <label className="block text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: '#5b6078' }}>
+                <label className="block text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: 'hsl(var(--muted-foreground))' }}>
                   Nom du projet (optionnel)
                 </label>
                 <input
@@ -361,9 +382,9 @@ export function PromptGeneratorPage({ navigate }: Props) {
                   placeholder="ex : Buildrs, MonSaaS, ..."
                   className="w-full rounded-xl px-4 py-2.5 text-[13px] focus:outline-none transition-all"
                   style={{
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '0.5px solid rgba(255,255,255,0.1)',
-                    color: '#f0f0f5',
+                    background: 'hsl(var(--card))',
+                    border: '0.5px solid hsl(var(--border))',
+                    color: 'hsl(var(--foreground))',
                   }}
                   onFocus={e => { e.target.style.border = '0.5px solid rgba(77,150,255,0.4)' }}
                   onBlur={e => { e.target.style.border = '0.5px solid rgba(255,255,255,0.1)' }}
@@ -383,13 +404,19 @@ export function PromptGeneratorPage({ navigate }: Props) {
               onBack={handleBack}
               isLast={step === STEPS.length - 1}
               isFirst={step === 0}
+              isGenerating={isGenerating}
             />
+            {genError && (
+              <p className="mt-3 text-[12px] rounded-xl px-4 py-3" style={{ color: '#ef4444', background: 'rgba(239,68,68,0.08)', border: '0.5px solid rgba(239,68,68,0.2)' }}>
+                {genError}
+              </p>
+            )}
           </>
         )}
 
         {done && (
           <ResultView
-            prompt={generatedPrompt}
+            prompt={aiResult}
             onRestart={handleRestart}
             navigate={navigate}
           />

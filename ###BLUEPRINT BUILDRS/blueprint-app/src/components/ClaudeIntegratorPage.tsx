@@ -252,7 +252,6 @@ export function ClaudeIntegratorPage({ onBack }: Props) {
   }
 
   return (
-    <div className="dark">
     <div className="min-h-screen bg-background" style={{ fontFamily: 'Geist, sans-serif' }}>
 
       {/* Nav */}
@@ -435,7 +434,6 @@ export function ClaudeIntegratorPage({ onBack }: Props) {
           </div>
         </div>
       </div>
-    </div>
     </div>
   )
 }

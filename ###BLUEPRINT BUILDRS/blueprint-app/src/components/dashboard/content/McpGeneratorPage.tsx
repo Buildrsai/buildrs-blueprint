@@ -193,7 +193,7 @@ function CopyBtn({ text, label }: { text: string; label?: string }) {
   return (
     <button onClick={doCopy}
       className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-medium transition-all"
-      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.06)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.1)'}`, color: copied ? '#22c55e' : '#94a3b8' }}>
+      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : '#94a3b8' }}>
       {copied ? <Check size={12} strokeWidth={2} /> : <Copy size={12} strokeWidth={1.5} />}
       {copied ? 'Copié !' : label ?? 'Copier'}
     </button>
@@ -208,17 +208,17 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden" style={{ background: 'rgba(0,0,0,0.4)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+    <div className="relative rounded-xl overflow-hidden" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[11px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
         <code>{code}</code>
       </pre>
       <button onClick={doCopy} className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -232,7 +232,7 @@ function Step1({ values, onChange }: { values: WizardValues; onChange: (v: Parti
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-[12px] font-semibold mb-3" style={{ color: '#e2e8f0' }}>Type de projet <span style={{ color: '#ef4444' }}>*</span></label>
+        <label className="block text-[12px] font-semibold mb-3" style={{ color: 'hsl(var(--foreground))' }}>Type de projet <span style={{ color: '#ef4444' }}>*</span></label>
         <div className="grid grid-cols-2 gap-2">
           {PROJECT_TYPES.map(pt => {
             const active = values.projectType === pt.id
@@ -240,8 +240,8 @@ function Step1({ values, onChange }: { values: WizardValues; onChange: (v: Parti
               <button key={pt.id} onClick={() => onChange({ projectType: pt.id })}
                 className="text-left px-4 py-3 rounded-xl text-[12px] font-medium transition-all"
                 style={{
-                  background: active ? `rgba(139,92,246,0.15)` : 'rgba(255,255,255,0.03)',
-                  border: `0.5px solid ${active ? 'rgba(139,92,246,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                  background: active ? `rgba(139,92,246,0.15)` : 'hsl(var(--secondary))',
+                  border: `0.5px solid ${active ? 'rgba(139,92,246,0.4)' : 'hsl(var(--secondary))'}`,
                   color: active ? '#e2e8f0' : '#94a3b8',
                 }}>
                 {pt.label}
@@ -251,13 +251,13 @@ function Step1({ values, onChange }: { values: WizardValues; onChange: (v: Parti
         </div>
       </div>
       <div>
-        <label className="block text-[12px] font-semibold mb-2" style={{ color: '#e2e8f0' }}>Description courte <span style={{ color: '#ef4444' }}>*</span></label>
+        <label className="block text-[12px] font-semibold mb-2" style={{ color: 'hsl(var(--foreground))' }}>Description courte <span style={{ color: '#ef4444' }}>*</span></label>
         <input
           value={values.description}
           onChange={e => onChange({ description: e.target.value })}
           placeholder="Ex: App de facturation pour freelances avec abonnement mensuel"
           className="w-full px-4 py-3 rounded-xl text-[13px] transition-all outline-none"
-          style={{ background: 'rgba(255,255,255,0.04)', border: `0.5px solid ${values.description ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.08)'}`, color: '#e2e8f0' }}
+          style={{ background: 'hsl(var(--card))', border: `0.5px solid ${values.description ? 'rgba(139,92,246,0.3)' : 'hsl(var(--border))'}`, color: 'hsl(var(--foreground))' }}
         />
       </div>
     </div>
@@ -271,7 +271,7 @@ function Step2({ values, onChange }: { values: WizardValues; onChange: (v: Parti
   }
   return (
     <div>
-      <p className="text-[12px] mb-4" style={{ color: '#5b6078' }}>Coche tout ce qui s'applique. Plus tu es précis, plus la recommandation sera pertinente.</p>
+      <p className="text-[12px] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>Coche tout ce qui s'applique. Plus tu es précis, plus la recommandation sera pertinente.</p>
       <div className="grid grid-cols-2 gap-2">
         {NEEDS_OPTIONS.map(n => {
           const active = values.needs.includes(n.id)
@@ -279,12 +279,12 @@ function Step2({ values, onChange }: { values: WizardValues; onChange: (v: Parti
             <button key={n.id} onClick={() => toggleNeed(n.id)}
               className="flex items-center gap-2 px-4 py-3 rounded-xl text-[12px] font-medium transition-all text-left"
               style={{
-                background: active ? 'rgba(139,92,246,0.12)' : 'rgba(255,255,255,0.03)',
-                border: `0.5px solid ${active ? 'rgba(139,92,246,0.35)' : 'rgba(255,255,255,0.07)'}`,
+                background: active ? 'rgba(139,92,246,0.12)' : 'hsl(var(--secondary))',
+                border: `0.5px solid ${active ? 'rgba(139,92,246,0.35)' : 'hsl(var(--secondary))'}`,
                 color: active ? '#e2e8f0' : '#94a3b8',
               }}>
               <div className="w-3.5 h-3.5 rounded-sm flex items-center justify-center shrink-0 transition-all"
-                style={{ background: active ? ACCENT : 'rgba(255,255,255,0.08)', border: `0.5px solid ${active ? ACCENT : 'rgba(255,255,255,0.15)'}` }}>
+                style={{ background: active ? ACCENT : 'hsl(var(--border))', border: `0.5px solid ${active ? ACCENT : 'hsl(var(--border))'}` }}>
                 {active && <Check size={9} strokeWidth={3} style={{ color: 'white' }} />}
               </div>
               {n.label}
@@ -307,11 +307,11 @@ function Step3({ values, navigate }: { values: WizardValues; navigate: (hash: st
     <div className="space-y-8">
       {/* Summary */}
       <div className="rounded-xl p-4" style={{ background: 'rgba(139,92,246,0.08)', border: '0.5px solid rgba(139,92,246,0.2)' }}>
-        <p className="text-[12px]" style={{ color: '#94a3b8' }}>
-          <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{ptLabel}</span>{' '}
+        <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>
+          <span style={{ color: 'hsl(var(--foreground))', fontWeight: 600 }}>{ptLabel}</span>{' '}
           {values.description && <span>— {values.description}</span>}
         </p>
-        <p className="text-[11px] mt-1" style={{ color: '#5b6078' }}>
+        <p className="text-[11px] mt-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
           {mcps.length} MCP Server{mcps.length > 1 ? 's' : ''} · {connectors.length} Connecteur{connectors.length > 1 ? 's' : ''}
         </p>
       </div>
@@ -324,7 +324,7 @@ function Step3({ values, navigate }: { values: WizardValues; navigate: (hash: st
         </div>
 
         {mcps.length === 0 ? (
-          <p className="text-[12px]" style={{ color: '#5b6078' }}>Aucun MCP Server spécifique requis pour ce projet. Les connecteurs Claude.ai suffisent.</p>
+          <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Aucun MCP Server spécifique requis pour ce projet. Les connecteurs Claude.ai suffisent.</p>
         ) : (
           <div className="space-y-4">
             {mcps.map(m => (
@@ -334,7 +334,7 @@ function Step3({ values, navigate }: { values: WizardValues; navigate: (hash: st
                     <span className="text-[12px] font-semibold" style={{ color: '#4d96ff', fontFamily: 'Geist Mono, monospace' }}>{m.name}</span>
                     {m.essential && <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ color: '#eab308', background: 'rgba(234,179,8,0.12)' }}>Essentiel</span>}
                   </div>
-                  <p className="text-[12px]" style={{ color: '#94a3b8' }}>{m.why}</p>
+                  <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{m.why}</p>
                 </div>
                 <div className="px-4 pb-4">
                   <CodeBlock label="bash" code={m.install} />
@@ -347,7 +347,7 @@ function Step3({ values, navigate }: { values: WizardValues; navigate: (hash: st
         {mcps.length > 0 && (
           <div className="mt-4">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-[11px] font-medium" style={{ color: '#e2e8f0' }}>.mcp.json complet prêt à utiliser</p>
+              <p className="text-[11px] font-medium" style={{ color: 'hsl(var(--foreground))' }}>.mcp.json complet prêt à utiliser</p>
               <CopyBtn text={mcpJson} label="Copier le .mcp.json" />
             </div>
             <CodeBlock label=".mcp.json" code={mcpJson} />
@@ -362,18 +362,18 @@ function Step3({ values, navigate }: { values: WizardValues; navigate: (hash: st
           <CopyBtn text={`Claude.ai → Settings → Integrations\n\n${connectorChecklist}`} label="Copier la checklist" />
         </div>
 
-        <p className="text-[11px] mb-3" style={{ color: '#5b6078', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → Settings → Integrations</p>
+        <p className="text-[11px] mb-3" style={{ color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → Settings → Integrations</p>
 
-        <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
+        <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))' }}>
           {connectors.map((c, i) => (
-            <div key={c.name} className="px-4 py-3" style={{ borderBottom: i < connectors.length - 1 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
+            <div key={c.name} className="px-4 py-3" style={{ borderBottom: i < connectors.length - 1 ? '0.5px solid hsl(var(--border))' : undefined }}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[12px] font-semibold" style={{ color: '#e2e8f0' }}>{c.name}</span>
+                    <span className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{c.name}</span>
                     {c.essential && <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ color: '#eab308', background: 'rgba(234,179,8,0.12)' }}>Essentiel</span>}
                   </div>
-                  <p className="text-[11px]" style={{ color: '#5b6078' }}>{c.why}</p>
+                  <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{c.why}</p>
                 </div>
                 <span className="text-[10px] shrink-0 px-2 py-1 rounded-lg" style={{ color: '#22c55e', background: 'rgba(34,197,94,0.1)', border: '0.5px solid rgba(34,197,94,0.2)' }}>→ Connect</span>
               </div>
@@ -435,14 +435,14 @@ export function McpGeneratorPage({ navigate }: Props) {
   }
 
   return (
-    <div className="min-h-screen pb-20" style={{ background: '#080909' }}>
+    <div className="min-h-screen pb-20" style={{ background: 'hsl(var(--background))' }}>
       {/* Header */}
-      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
         <button onClick={() => window.history.back()}
           className="flex items-center gap-2 mb-5 transition-colors"
-          style={{ color: '#5b6078' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+          style={{ color: 'hsl(var(--muted-foreground))' }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span className="text-[12px]">MCP & Connecteurs</span>
         </button>
@@ -457,10 +457,10 @@ export function McpGeneratorPage({ navigate }: Props) {
                 style={{ color: ACCENT, background: 'rgba(139,92,246,0.12)', border: '0.5px solid rgba(139,92,246,0.25)' }}>
                 Générateur
               </span>
-              <span className="text-[10px]" style={{ color: '#3d4466' }}>3 étapes · Résultat immédiat</span>
+              <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>3 étapes · Résultat immédiat</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#e2e8f0' }}>Générateur MCP</h1>
-            <p className="text-[13px] mt-1" style={{ color: '#5b6078' }}>
+            <h1 className="text-xl font-bold tracking-tight" style={{ color: 'hsl(var(--foreground))' }}>Générateur MCP</h1>
+            <p className="text-[13px] mt-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Décris ton projet — on te recommande les MCP Serveurs et Connecteurs essentiels avec les commandes exactes.
             </p>
           </div>
@@ -475,8 +475,8 @@ export function McpGeneratorPage({ navigate }: Props) {
               <div key={s} className="flex items-center gap-2">
                 <div className="flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-bold transition-all"
                   style={{
-                    background: s < step ? '#22c55e' : s === step ? ACCENT : 'rgba(255,255,255,0.06)',
-                    border: `0.5px solid ${s < step ? '#22c55e' : s === step ? ACCENT : 'rgba(255,255,255,0.1)'}`,
+                    background: s < step ? '#22c55e' : s === step ? ACCENT : 'hsl(var(--secondary))',
+                    border: `0.5px solid ${s < step ? '#22c55e' : s === step ? ACCENT : 'hsl(var(--border))'}`,
                     color: s <= step ? 'white' : '#3d4466',
                   }}>
                   {s < step ? <Check size={10} strokeWidth={3} /> : s}
@@ -484,18 +484,18 @@ export function McpGeneratorPage({ navigate }: Props) {
                 <span className="text-[11px] hidden sm:block" style={{ color: s === step ? '#e2e8f0' : '#3d4466' }}>
                   {STEP_LABELS[s - 1]}
                 </span>
-                {s < 3 && <ChevronRight size={12} strokeWidth={1.5} style={{ color: '#2a2d3e' }} />}
+                {s < 3 && <ChevronRight size={12} strokeWidth={1.5} style={{ color: 'hsl(var(--border))' }} />}
               </div>
             ))}
           </div>
         )}
 
         {/* Card */}
-        <div className="rounded-2xl p-6 mb-6" style={{ border: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+        <div className="rounded-2xl p-6 mb-6" style={{ border: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
           {!done ? (
             <>
-              <h2 className="text-[14px] font-semibold mb-1" style={{ color: '#e2e8f0' }}>Étape {step} — {STEP_LABELS[step - 1]}</h2>
-              <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>
+              <h2 className="text-[14px] font-semibold mb-1" style={{ color: 'hsl(var(--foreground))' }}>Étape {step} — {STEP_LABELS[step - 1]}</h2>
+              <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 {step === 1 && "On va te recommander les MCP Serveurs et Connecteurs essentiels pour ton projet."}
                 {step === 2 && "Plus tu es précis, plus la recommandation sera pertinente."}
                 {step === 3 && ""}
@@ -508,13 +508,13 @@ export function McpGeneratorPage({ navigate }: Props) {
             <>
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-[14px] font-semibold" style={{ color: '#e2e8f0' }}>Ton setup MCP & Connecteurs</h2>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#5b6078' }}>Checklist d'installation personnalisée</p>
+                  <h2 className="text-[14px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>Ton setup MCP & Connecteurs</h2>
+                  <p className="text-[12px] mt-0.5" style={{ color: 'hsl(var(--muted-foreground))' }}>Checklist d'installation personnalisée</p>
                 </div>
                 <button onClick={reset} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] transition-all"
-                  style={{ color: '#5b6078', border: '0.5px solid rgba(255,255,255,0.08)' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+                  style={{ color: 'hsl(var(--muted-foreground))', border: '0.5px solid hsl(var(--border))' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
                   <RotateCcw size={11} strokeWidth={1.5} /> Nouveau projet
                 </button>
               </div>
@@ -528,9 +528,9 @@ export function McpGeneratorPage({ navigate }: Props) {
           <div className="flex items-center justify-between">
             <button onClick={() => step > 1 ? setStep(s => s - 1) : window.history.back()}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[12px] font-medium transition-all"
-              style={{ color: '#5b6078', border: '0.5px solid rgba(255,255,255,0.08)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+              style={{ color: 'hsl(var(--muted-foreground))', border: '0.5px solid hsl(var(--border))' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
               <ChevronLeft size={14} strokeWidth={1.5} />
               {step === 1 ? 'Retour' : 'Précédent'}
             </button>
@@ -538,9 +538,9 @@ export function McpGeneratorPage({ navigate }: Props) {
             <button onClick={handleNext} disabled={!canNext()}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[12px] font-semibold transition-all"
               style={{
-                background: canNext() ? ACCENT : 'rgba(255,255,255,0.05)',
+                background: canNext() ? ACCENT : 'hsl(var(--secondary))',
                 color: canNext() ? 'white' : '#3d4466',
-                border: `0.5px solid ${canNext() ? ACCENT : 'rgba(255,255,255,0.08)'}`,
+                border: `0.5px solid ${canNext() ? ACCENT : 'hsl(var(--border))'}`,
                 cursor: canNext() ? 'pointer' : 'not-allowed',
               }}>
               {step === TOTAL_STEPS ? (

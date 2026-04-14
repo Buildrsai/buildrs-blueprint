@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Github } from 'lucide-react'
 import { BuildrsIcon } from '../ui/icons'
 import { useAuth } from '../../hooks/useAuth'
+import { trackEvent } from '../../lib/pixel'
 
 const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1'
 
@@ -54,6 +55,7 @@ export function SignupPage({ onSwitchToSignin, onSuccess }: Props) {
     const { error } = await signUpEmail(email, password, firstName.trim() || undefined)
     if (error) { setLoading(false); setError(error); return }
     await sendWelcomeEmail(email, firstName)
+    trackEvent('Lead', { content_name: 'Signup', email })
     setLoading(false)
     onSuccess()
   }

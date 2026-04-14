@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
         subscription_data: {
           metadata: { cancel_after_months: '3', product: 'cohort', payment_mode: 'three' },
         },
-        return_url: `${RETURN_BASE}/#/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+        return_url: `${RETURN_BASE}/#/confirmation?session_id={CHECKOUT_SESSION_ID}&source=cohort&price=499`,
       })
     } else {
       session = await stripe.checkout.sessions.create({
@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
         payment_intent_data: {
           metadata: { product: 'cohort', payment_mode: 'once' },
         },
-        return_url: `${RETURN_BASE}/#/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+        return_url: `${RETURN_BASE}/#/confirmation?session_id={CHECKOUT_SESSION_ID}&source=cohort&price=1497`,
       })
     }
 

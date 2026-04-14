@@ -13,17 +13,17 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
         <code>{code}</code>
       </pre>
       <button onClick={doCopy} className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -40,38 +40,38 @@ function Callout({ children, type = 'info' }: { children: React.ReactNode; type?
   return (
     <div className="rounded-xl px-4 py-3.5 my-4" style={{ background: s.bg, border: `0.5px solid ${s.border}` }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: s.color }}>{s.label}</p>
-      <div className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{children}</div>
+      <div className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</div>
     </div>
   )
 }
 
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
-    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
+    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
       <span className="text-[10px] font-black tabular-nums px-2 py-0.5 rounded-md flex-shrink-0"
         style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.25)', letterSpacing: '0.03em' }}>
         {num}
       </span>
-      <h2 className="text-[17px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.025em' }}>{title}</h2>
+      <h2 className="text-[17px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.025em' }}>{title}</h2>
     </div>
   )
 }
 
 function SubTitle({ title }: { title: string }) {
-  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
 }
 
 function Body({ children }: { children: React.ReactNode }) {
-  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: '#9399b2' }}>{children}</p>
+  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</p>
 }
 
 function TableRow({ cols, header }: { cols: string[]; header?: boolean }) {
   return (
     <div className={`grid px-4 py-2.5 ${cols.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}
-      style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)', background: header ? 'rgba(255,255,255,0.03)' : undefined }}>
+      style={{ borderBottom: '0.5px solid hsl(var(--border))', background: header ? 'hsl(var(--secondary))' : undefined }}>
       {cols.map((c, i) => (
         <p key={i} className={header ? 'text-[9px] font-bold uppercase tracking-[0.1em]' : 'text-[12px]'}
-          style={{ color: header ? '#5b6078' : i === 0 ? '#c9d1d9' : '#5b6078', fontFamily: (!header && i === 0) ? 'Geist Mono, monospace' : undefined }}>
+          style={{ color: header ? 'hsl(var(--muted-foreground))' : i === 0 ? '#c9d1d9' : 'hsl(var(--muted-foreground))', fontFamily: (!header && i === 0) ? 'Geist Mono, monospace' : undefined }}>
           {c}
         </p>
       ))}
@@ -81,7 +81,7 @@ function TableRow({ cols, header }: { cols: string[]; header?: boolean }) {
 
 function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
-    <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
+    <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
       <TableRow cols={headers} header />
       {rows.map((r, i) => <TableRow key={i} cols={r} />)}
     </div>
@@ -94,7 +94,7 @@ export function SkillsFormationPage({ navigate }: Props) {
       <div className="max-w-3xl mx-auto px-6 py-8">
 
         <button onClick={() => window.history.back()}
-          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: '#9399b2' }}>
+          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: 'hsl(var(--muted-foreground))' }}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour à Skills</span>
         </button>
@@ -104,12 +104,12 @@ export function SkillsFormationPage({ navigate }: Props) {
             <span className="text-[9px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded-md"
               style={{ background: 'rgba(77,150,255,0.12)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)' }}>Formation</span>
           </div>
-          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.035em' }}>Skills</h1>
-          <p className="text-[14px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.035em' }}>Skills</h1>
+          <p className="text-[14px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Des commandes personnalisées que tu crées une fois et que tu invoques en un mot.
-            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'rgba(255,255,255,0.08)', borderRadius: 4, margin: '0 2px' }}>/commit</code>
-            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'rgba(255,255,255,0.08)', borderRadius: 4, margin: '0 2px' }}>/deploy</code>
-            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'rgba(255,255,255,0.08)', borderRadius: 4, margin: '0 2px' }}>/review</code>
+            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'hsl(var(--border))', borderRadius: 4, margin: '0 2px' }}>/commit</code>
+            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'hsl(var(--border))', borderRadius: 4, margin: '0 2px' }}>/deploy</code>
+            <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '12px', padding: '1px 5px', background: 'hsl(var(--border))', borderRadius: 4, margin: '0 2px' }}>/review</code>
             — ton workflow automatisé, ton temps gagné.
           </p>
         </div>
@@ -120,19 +120,19 @@ export function SkillsFormationPage({ navigate }: Props) {
           Tu te retrouves à répéter les mêmes instructions à Claude Code : "fais un commit propre", "lance les tests et corrige les erreurs", "déploie en production"... Un skill transforme chacune de ces routines en une seule commande.
         </Body>
         <Body>
-          Un skill, c'est une <strong style={{ color: '#f0f0f5' }}>recette</strong> que tu donnes à Claude Code. Tu écris tes instructions une fois dans un fichier, et tu les invoques avec <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/nom-du-skill</code>. Un seul mot, une action complète.
+          Un skill, c'est une <strong style={{ color: 'hsl(var(--foreground))' }}>recette</strong> que tu donnes à Claude Code. Tu écris tes instructions une fois dans un fichier, et tu les invoques avec <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/nom-du-skill</code>. Un seul mot, une action complète.
         </Body>
         <Callout type="success">
-          Chez Buildrs, les skills sont ce qui transforme Claude Code d'un outil générique en <strong style={{ color: '#f0f0f5' }}>ton</strong> outil. Tes conventions, ton workflow, tes vérifications — tout encapsulé dans des commandes que tu lances en un mot. Des heures de répétition transformées en secondes.
+          Chez Buildrs, les skills sont ce qui transforme Claude Code d'un outil générique en <strong style={{ color: 'hsl(var(--foreground))' }}>ton</strong> outil. Tes conventions, ton workflow, tes vérifications — tout encapsulé dans des commandes que tu lances en un mot. Des heures de répétition transformées en secondes.
         </Callout>
         <SubTitle title="L'évolution : des slash commands aux skills" />
         <Body>
-          Si tu as déjà utilisé les anciennes slash commands (fichiers dans <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>.claude/commands/</code>), les skills sont leur évolution. Tes anciens fichiers continuent de fonctionner. Les skills ajoutent : un dossier complet pour les fichiers de support, un frontmatter YAML pour contrôler le comportement, et le chargement automatique.
+          Si tu as déjà utilisé les anciennes slash commands (fichiers dans <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>.claude/commands/</code>), les skills sont leur évolution. Tes anciens fichiers continuent de fonctionner. Les skills ajoutent : un dossier complet pour les fichiers de support, un frontmatter YAML pour contrôler le comportement, et le chargement automatique.
         </Body>
 
         {/* 02 */}
         <SectionTitle num="02" title="Anatomie d'un skill — La structure" />
-        <Body>Chaque skill est un dossier contenant au minimum un fichier <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>SKILL.md</code>.</Body>
+        <Body>Chaque skill est un dossier contenant au minimum un fichier <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>SKILL.md</code>.</Body>
         <CodeBlock label="Structure d'un skill" code={`mon-skill/
 ├── SKILL.md           # Instructions principales (obligatoire)
 ├── template.md        # Template que Claude peut utiliser (optionnel)
@@ -181,7 +181,7 @@ ${'{CLAUDE_SKILL_DIR}'}     # Dossier contenant le SKILL.md`} />
           ]}
         />
         <Callout type="success">
-          <strong style={{ color: '#f0f0f5' }}>Règle Buildrs :</strong> skill utile partout (commit, review, test) → <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px' }}>~/.claude/skills/</code> — skill spécifique à un SaaS (deploy Vercel, conventions du projet) → <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px' }}>.claude/skills/</code>
+          <strong style={{ color: 'hsl(var(--foreground))' }}>Règle Buildrs :</strong> skill utile partout (commit, review, test) → <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px' }}>~/.claude/skills/</code> — skill spécifique à un SaaS (deploy Vercel, conventions du projet) → <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px' }}>.claude/skills/</code>
         </Callout>
 
         {/* 04 */}
@@ -200,9 +200,9 @@ ${'{CLAUDE_SKILL_DIR}'}     # Dossier contenant le SKILL.md`} />
 
         {/* 05 */}
         <SectionTitle num="05" title="Skills vs Subagents — Quand utiliser quoi" />
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
-            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}> </p>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
+          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
+            <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}> </p>
             <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#22c55e' }}>Skill</p>
             <p className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#4d96ff' }}>Subagent</p>
           </div>
@@ -213,17 +213,17 @@ ${'{CLAUDE_SKILL_DIR}'}     # Dossier contenant le SKILL.md`} />
             ['Invocation', '/nom-du-skill', 'Délégation automatique par Claude'],
             ['Fichier', '.claude/skills/nom/SKILL.md', '.claude/agents/nom.md'],
           ].map((r, i) => (
-            <div key={i} className="grid grid-cols-3 px-4 py-2.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)' }}>
-              <p className="text-[11px] font-medium" style={{ color: '#5b6078' }}>{r[0]}</p>
-              <p className="text-[11px]" style={{ color: '#9399b2' }}>{r[1]}</p>
-              <p className="text-[11px]" style={{ color: '#9399b2' }}>{r[2]}</p>
+            <div key={i} className="grid grid-cols-3 px-4 py-2.5" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+              <p className="text-[11px] font-medium" style={{ color: 'hsl(var(--muted-foreground))' }}>{r[0]}</p>
+              <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{r[1]}</p>
+              <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{r[2]}</p>
             </div>
           ))}
         </div>
         <Callout>
-          <strong style={{ color: '#f0f0f5' }}>Règle Buildrs :</strong> Pour 90% des cas, les skills suffisent. Passe aux subagents uniquement si tu as besoin d'isolation stricte, d'un modèle différent, ou de parallélisme.
+          <strong style={{ color: 'hsl(var(--foreground))' }}>Règle Buildrs :</strong> Pour 90% des cas, les skills suffisent. Passe aux subagents uniquement si tu as besoin d'isolation stricte, d'un modèle différent, ou de parallélisme.
         </Callout>
-        <Body>Astuce combo : ajoute <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>context: fork</code> dans le frontmatter pour qu'un skill s'exécute dans un subagent tout en restant invocable via <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/nom</code>.</Body>
+        <Body>Astuce combo : ajoute <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>context: fork</code> dans le frontmatter pour qu'un skill s'exécute dans un subagent tout en restant invocable via <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/nom</code>.</Body>
 
         {/* 06 */}
         <SectionTitle num="06" title="Les skills bundled (intégrés à Claude Code)" />
@@ -242,7 +242,7 @@ ${'{CLAUDE_SKILL_DIR}'}     # Dossier contenant le SKILL.md`} />
         {/* 07 */}
         <SectionTitle num="07" title="Injecter du contexte dynamique" />
         <Body>
-          Les skills avancés utilisent la syntaxe <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>!`commande`</code> pour exécuter des commandes shell avant que Claude ne voie les instructions.
+          Les skills avancés utilisent la syntaxe <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>!`commande`</code> pour exécuter des commandes shell avant que Claude ne voie les instructions.
         </Body>
         <CodeBlock label="Exemple — Skill pr-summary avec contexte dynamique" code={`---
 name: pr-summary
@@ -262,7 +262,7 @@ Résume cette PR en français :
 1. Objectif principal
 2. Changements majeurs
 3. Points d'attention pour le reviewer`} />
-        <Body>Quand tu invoques <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/pr-summary</code>, les commandes <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>gh</code> s'exécutent d'abord, et Claude reçoit les résultats réels.</Body>
+        <Body>Quand tu invoques <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/pr-summary</code>, les commandes <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>gh</code> s'exécutent d'abord, et Claude reçoit les résultats réels.</Body>
 
         {/* 08 */}
         <SectionTitle num="08" title="Bonnes pratiques Buildrs" />
@@ -275,11 +275,11 @@ Résume cette PR en français :
             { num: '05', title: 'Teste et itère', desc: 'Comme du code, un skill se teste et s\'améliore. Commence simple, utilise-le quelques fois, affine.' },
             { num: '06', title: 'Versionne tes skills projet dans Git', desc: 'Les skills dans .claude/skills/ sont versionnés avec le code. Toute l\'équipe (et tes Team Agents) bénéficie du même setup.' },
           ].map(item => (
-            <div key={item.num} className="flex gap-4 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div key={item.num} className="flex gap-4 p-4 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <span className="text-[13px] font-black flex-shrink-0 mt-0.5" style={{ color: '#22c55e', fontFamily: 'Geist Mono, monospace' }}>{item.num}</span>
               <div>
-                <p className="text-[13px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{item.title}</p>
-                <p className="text-[12px] leading-relaxed" style={{ color: '#5b6078' }}>{item.desc}</p>
+                <p className="text-[13px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{item.title}</p>
+                <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.desc}</p>
               </div>
             </div>
           ))}
@@ -300,9 +300,9 @@ Résume cette PR en français :
             { cmd: '/superpowers:test-driven-development', desc: 'TDD strict — red-green-refactor automatisé' },
             { cmd: '/superpowers:verification-before-completion', desc: 'Vérifie tout avant de livrer' },
           ].map(item => (
-            <div key={item.cmd} className="flex items-start gap-3 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)' }}>
+            <div key={item.cmd} className="flex items-start gap-3 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
               <code className="text-[11px] flex-shrink-0" style={{ fontFamily: 'Geist Mono, monospace', color: '#22c55e' }}>{item.cmd}</code>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>{item.desc}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.desc}</p>
             </div>
           ))}
         </div>
@@ -314,7 +314,7 @@ Résume cette PR en français :
         {/* 10 */}
         <SectionTitle num="10" title="Le Skill Creator — Créer ses propres skills sans coder" />
         <CodeBlock label="Installation" code={`/install-plugin skill-creator@claude-plugins-official`} />
-        <Body>Puis tape <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/skill-creator</code> — Claude te pose des questions et génère le SKILL.md.</Body>
+        <Body>Puis tape <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/skill-creator</code> — Claude te pose des questions et génère le SKILL.md.</Body>
         <SubTitle title="Exemple concret" />
         <CodeBlock label="Prompt au Skill Creator" code={`/skill-creator
 
@@ -326,8 +326,8 @@ Crée un skill "landing-check" qui :
 - Produit un rapport avec score et recommandations`} />
 
         {/* Sources */}
-        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: '#5b6078' }}>Sources</p>
+        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>Sources</p>
           <div className="flex flex-col gap-2">
             {[
               { label: 'Extend Claude with skills — Documentation Anthropic', url: 'https://code.claude.com/docs/en/skills' },
@@ -345,8 +345,8 @@ Crée un skill "landing-check" qui :
 
         {/* CTA */}
         <div className="mt-10 rounded-2xl p-6" style={{ background: 'rgba(34,197,94,0.05)', border: '0.5px solid rgba(34,197,94,0.2)' }}>
-          <p className="text-[14px] font-extrabold mb-2" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
-          <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>Tu sais ce qu'est un skill. Consulte la bibliothèque pour voir les 70+ skills qu'on utilise chez Buildrs, et utilise le générateur pour créer les tiens.</p>
+          <p className="text-[14px] font-extrabold mb-2" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
+          <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>Tu sais ce qu'est un skill. Consulte la bibliothèque pour voir les 70+ skills qu'on utilise chez Buildrs, et utilise le générateur pour créer les tiens.</p>
           <div className="flex flex-col gap-2">
             <button onClick={() => navigate('#/dashboard/claude-os/apprendre/skills/ressources-buildrs')}
               className="flex items-center gap-2 text-[12px] transition-opacity hover:opacity-70" style={{ color: '#22c55e' }}>

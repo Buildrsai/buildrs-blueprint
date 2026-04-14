@@ -9,8 +9,8 @@ function StackedCircularFooter() {
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="flex flex-col items-center">
           {/* Logo */}
-          <div className="mb-8 rounded-full bg-white p-4">
-            <BuildrsIcon color="#09090b" className="h-8 w-8" />
+          <div className="mb-8 rounded-full bg-foreground p-4">
+            <BuildrsIcon color="hsl(var(--background))" className="h-8 w-8" />
           </div>
 
           {/* Nav links */}
@@ -43,40 +43,12 @@ function StackedCircularFooter() {
             ))}
           </div>
 
-          {/* Newsletter */}
-          <div className="mb-8 w-full max-w-md">
-            <h3 className="mb-3 text-center text-sm font-semibold tracking-tight">
-              Reçois les prochaines idées de SaaS rentables
-            </h3>
-            <form
-              className="flex gap-2"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <div className="flex-1">
-                <Label htmlFor="footer-email" className="sr-only">
-                  Email
-                </Label>
-                <Input
-                  id="footer-email"
-                  type="email"
-                  placeholder="ton@email.com"
-                />
-              </div>
-              <Button type="submit" className="shrink-0">
-                S'abonner
-              </Button>
-            </form>
-          </div>
-
           {/* Divider */}
           <div className="mb-8 w-full border-t border-border" />
 
           {/* Copyright */}
           <p className="text-center text-sm text-muted-foreground">
             © {new Date().getFullYear()} Buildrs Group. Tous droits réservés.
-          </p>
-          <p className="mt-1.5 text-center text-[11px] text-muted-foreground/50">
-            Buildrs Blueprint&nbsp;·&nbsp;Buildrs Lab&nbsp;·&nbsp;Buildrs Club&nbsp;·&nbsp;Buildrs Pro
           </p>
 
           {/* Legal links */}

@@ -17,7 +17,7 @@ function CopyBtn({ text, label }: { text: string; label?: string }) {
   return (
     <button onClick={doCopy}
       className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all shrink-0"
-      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.06)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.1)'}`, color: copied ? '#22c55e' : '#5b6078' }}>
+      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
       {copied ? <Check size={10} strokeWidth={2} /> : <Copy size={10} strokeWidth={1.5} />}
       <span className="text-[10px] font-medium">{copied ? 'Copié' : label ?? 'Copier'}</span>
     </button>
@@ -32,17 +32,17 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: 'rgba(0,0,0,0.4)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[11px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
         <code>{code}</code>
       </pre>
       <button onClick={doCopy} className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -232,33 +232,33 @@ const PLUGINS_COMMS: PluginDef[] = [
 function PluginCard({ p }: { p: PluginDef }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
       <button className="w-full flex items-center justify-between px-4 py-3 text-left transition-colors"
         onClick={() => setOpen(o => !o)}
-        style={{ background: open ? 'rgba(255,255,255,0.03)' : undefined }}>
+        style={{ background: open ? 'hsl(var(--secondary))' : undefined }}>
         <div className="flex items-center gap-3 min-w-0">
           {p.essential && <Star size={11} strokeWidth={2} style={{ color: '#eab308' }} />}
-          <code className="text-[12px] font-semibold truncate" style={{ fontFamily: 'Geist Mono, monospace', color: '#e2e8f0' }}>{p.name}</code>
+          <code className="text-[12px] font-semibold truncate" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--foreground))' }}>{p.name}</code>
           {p.essential && <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded shrink-0" style={{ color: '#eab308', background: 'rgba(234,179,8,0.12)', border: '0.5px solid rgba(234,179,8,0.25)' }}>Essentiel</span>}
           {p.stars && <span className="text-[10px] shrink-0" style={{ color: '#eab308' }}>⭐ {p.stars}</span>}
         </div>
-        <ChevronDown size={13} strokeWidth={1.5} style={{ color: '#3d4466', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
+        <ChevronDown size={13} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
       </button>
       {open && (
-        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid rgba(255,255,255,0.05)' }}>
-          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: '#94a3b8' }}>{p.why}</p>
+        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{p.why}</p>
           {p.prereq && (
             <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(234,179,8,0.06)', border: '0.5px solid rgba(234,179,8,0.2)' }}>
               <p className="text-[10px] font-semibold mb-1" style={{ color: '#eab308' }}>Prérequis — ajouter la marketplace d'abord</p>
               <div className="flex items-center justify-between gap-2">
-                <code className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: '#e2e8f0' }}>{p.prereq}</code>
+                <code className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--foreground))' }}>{p.prereq}</code>
                 <CopyBtn text={p.prereq} />
               </div>
             </div>
           )}
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider mb-1.5" style={{ color: '#3d4466' }}>Commande d'installation</p>
-            <div className="relative rounded-lg overflow-hidden" style={{ background: 'rgba(0,0,0,0.3)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>Commande d'installation</p>
+            <div className="relative rounded-lg overflow-hidden" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <code className="block px-4 py-3 text-[11px] pr-24 break-all" style={{ fontFamily: 'Geist Mono, monospace', color: '#c9d1d9' }}>
                 {p.command}
               </code>
@@ -269,7 +269,7 @@ function PluginCard({ p }: { p: PluginDef }) {
           </div>
           {p.skills && p.skills.length > 0 && (
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: '#3d4466' }}>Skills inclus</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--muted-foreground))' }}>Skills inclus</p>
               <div className="flex flex-wrap gap-1.5">
                 {p.skills.map(s => (
                   <span key={s} className="text-[10px] px-2 py-0.5 rounded-lg" style={{ fontFamily: 'Geist Mono, monospace', color: ACCENT, background: 'rgba(34,197,94,0.08)', border: '0.5px solid rgba(34,197,94,0.2)' }}>{s}</span>
@@ -279,11 +279,11 @@ function PluginCard({ p }: { p: PluginDef }) {
           )}
           {p.github && (
             <div className="flex items-center gap-2">
-              <ExternalLink size={11} strokeWidth={1.5} style={{ color: '#3d4466' }} />
+              <ExternalLink size={11} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))' }} />
               <a href={p.github} target="_blank" rel="noopener noreferrer"
-                className="text-[11px] transition-colors" style={{ color: '#5b6078' }}
+                className="text-[11px] transition-colors" style={{ color: 'hsl(var(--muted-foreground))' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#4d96ff')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+                onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
                 {p.github.replace('https://', '')}
               </a>
             </div>
@@ -294,7 +294,7 @@ function PluginCard({ p }: { p: PluginDef }) {
   )
 }
 
-function PluginGroup({ title, count, accent = '#5b6078', plugins }: { title: string; count: number; accent?: string; plugins: PluginDef[] }) {
+function PluginGroup({ title, count, accent = 'hsl(var(--muted-foreground))', plugins }: { title: string; count: number; accent?: string; plugins: PluginDef[] }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
@@ -341,13 +341,13 @@ const PHASE5 = `/install-plugin telegram@claude-plugins-official
 
 export function PluginsRessourcesPage({ navigate }: Props) {
   return (
-    <div className="min-h-screen pb-20" style={{ background: '#080909' }}>
-      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+    <div className="min-h-screen pb-20" style={{ background: 'hsl(var(--background))' }}>
+      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
         <button onClick={() => window.history.back()}
           className="flex items-center gap-2 mb-5 transition-colors"
-          style={{ color: '#5b6078' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+          style={{ color: 'hsl(var(--muted-foreground))' }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span className="text-[12px]">Plugins</span>
         </button>
@@ -362,10 +362,10 @@ export function PluginsRessourcesPage({ navigate }: Props) {
                 style={{ color: ACCENT, background: 'rgba(34,197,94,0.12)', border: '0.5px solid rgba(34,197,94,0.25)' }}>
                 Ressources
               </span>
-              <span className="text-[10px]" style={{ color: '#3d4466' }}>22 plugins · 5 phases · ~15 min</span>
+              <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>22 plugins · 5 phases · ~15 min</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#e2e8f0' }}>Bibliothèque Ressources Plugins</h1>
-            <p className="text-[13px] mt-1" style={{ color: '#5b6078' }}>
+            <h1 className="text-xl font-bold tracking-tight" style={{ color: 'hsl(var(--foreground))' }}>Bibliothèque Ressources Plugins</h1>
+            <p className="text-[13px] mt-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Tous les plugins qu'on utilise en interne chez Buildrs. Commandes exactes, skills inclus, ordre d'installation.
             </p>
           </div>
@@ -380,8 +380,8 @@ export function PluginsRessourcesPage({ navigate }: Props) {
         <PluginGroup title="Communication & Productivité" count={PLUGINS_COMMS.length} accent="#ef4444" plugins={PLUGINS_COMMS} />
 
         <section>
-          <h2 className="text-[15px] font-semibold mb-5" style={{ color: '#e2e8f0' }}>Ordre d'installation recommandé Buildrs</h2>
-          <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>5 phases dans l'ordre. Total : ~15 minutes.</p>
+          <h2 className="text-[15px] font-semibold mb-5" style={{ color: 'hsl(var(--foreground))' }}>Ordre d'installation recommandé Buildrs</h2>
+          <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>5 phases dans l'ordre. Total : ~15 minutes.</p>
           <div className="space-y-5">
             {[
               { phase: 1, title: 'Marketplaces', duration: '2 min', code: PHASE1 },
@@ -396,15 +396,15 @@ export function PluginsRessourcesPage({ navigate }: Props) {
                     style={{ background: 'rgba(34,197,94,0.15)', color: ACCENT, border: '0.5px solid rgba(34,197,94,0.3)' }}>
                     {ph.phase}
                   </span>
-                  <span className="text-[12px] font-semibold" style={{ color: '#e2e8f0' }}>Phase {ph.phase} — {ph.title}</span>
-                  <span className="text-[10px]" style={{ color: '#3d4466' }}>{ph.duration}</span>
+                  <span className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>Phase {ph.phase} — {ph.title}</span>
+                  <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{ph.duration}</span>
                 </div>
                 <CodeBlock label="Claude Code" code={ph.code} />
               </div>
             ))}
           </div>
-          <div className="rounded-xl p-3 mt-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-[11px]" style={{ color: '#5b6078' }}>Bibliothèque Buildrs · Mise à jour : 2026-04-04</p>
+          <div className="rounded-xl p-3 mt-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+            <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Bibliothèque Buildrs · Mise à jour : 2026-04-04</p>
           </div>
         </section>
       </div>

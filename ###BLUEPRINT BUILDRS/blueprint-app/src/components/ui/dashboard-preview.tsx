@@ -722,3 +722,319 @@ export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideT
     </div>
   )
 }
+
+// ── DashboardPreviewV2 — Cockpit 4-onglets ────────────────────────────────────
+
+const V2_TABS = ['Dashboard', 'Explorer', 'Construire', 'Monétiser']
+
+const V2_CHECKLIST = [
+  { label: 'Idée trouvée',       status: 'done'        },
+  { label: 'Idée validée',       status: 'done'        },
+  { label: 'Offre structurée',   status: 'done'        },
+  { label: 'MVP designé',        status: 'in_progress' },
+  { label: 'Produit déployé',    status: 'locked'      },
+  { label: 'Monétisation active',status: 'locked'      },
+]
+
+const SPARKLINE_BARS = [3, 5, 4, 7, 6, 8, 9]
+
+function V2Sidebar() {
+  return (
+    <div
+      className="hidden sm:flex flex-col shrink-0 h-full"
+      style={{ width: 200, borderRight: '0.5px solid rgba(255,255,255,0.07)', background: '#0a0b0e' }}
+    >
+      {/* Mon SaaS IA */}
+      <div className="px-3 pt-3 pb-2.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 6 }}>
+          Mon SaaS IA
+        </p>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#fafafa', marginBottom: 4 }}>PriceFlow</p>
+        <span style={{
+          display: 'inline-block', fontSize: 9, fontWeight: 600,
+          background: 'rgba(99,102,241,0.15)', color: '#818cf8',
+          border: '0.5px solid rgba(99,102,241,0.3)',
+          borderRadius: 20, padding: '2px 7px', marginBottom: 7,
+        }}>
+          Phase : Idéation
+        </span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>Score viabilité</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e' }}>78%</span>
+        </div>
+        <div style={{ height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
+          <div style={{ height: '100%', width: '78%', borderRadius: 99, background: '#22c55e' }} />
+        </div>
+      </div>
+
+      {/* Progression projet */}
+      <div className="flex-1 px-3 py-2.5 overflow-hidden">
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 8 }}>
+          Progression projet
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {V2_CHECKLIST.map(({ label, status }) => {
+            const isDone = status === 'done'
+            const isInProgress = status === 'in_progress'
+            const isLocked = status === 'locked'
+            return (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {/* Indicator */}
+                {isDone && (
+                  <div style={{ width: 14, height: 14, borderRadius: 99, background: 'rgba(34,197,94,0.15)', border: '0.5px solid rgba(34,197,94,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                )}
+                {isInProgress && (
+                  <div style={{ width: 14, height: 14, borderRadius: 99, background: 'rgba(234,179,8,0.15)', border: '0.5px solid rgba(234,179,8,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: 99, background: '#eab308' }} />
+                  </div>
+                )}
+                {isLocked && (
+                  <div style={{ width: 14, height: 14, borderRadius: 99, background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="2.5" strokeLinecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                  </div>
+                )}
+                <span style={{ fontSize: 10, color: isDone ? '#fafafa' : isInProgress ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.25)', fontWeight: isDone || isInProgress ? 500 : 400 }}>
+                  {label}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Accordéons Outils / Communauté */}
+      <div style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)', padding: '8px 12px' }}>
+        {['Outils', 'Communauté'].map(item => (
+          <div key={item} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 0', cursor: 'default' }}>
+            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)' }}>{item}</span>
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 7 }}>
+        <div style={{ width: 20, height: 20, borderRadius: 99, background: 'linear-gradient(135deg,#6366f1,#8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span style={{ fontSize: 9, fontWeight: 700, color: '#fff' }}>A</span>
+        </div>
+        <div>
+          <p style={{ fontSize: 10, fontWeight: 600, color: '#fafafa' }}>Alfred</p>
+          <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)' }}>Pro</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function V2CockpitContent() {
+  const maxBar = Math.max(...SPARKLINE_BARS)
+  return (
+    <div className="flex-1 overflow-hidden" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      {/* Header */}
+      <div>
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#fafafa', marginBottom: 2 }}>Bon retour, Alfred</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Voici où en est ton projet aujourd'hui</p>
+      </div>
+
+      {/* Row 1 — Progression globale */}
+      <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>Progression globale</p>
+          <span style={{ fontSize: 9, fontWeight: 600, background: 'rgba(99,102,241,0.15)', color: '#818cf8', border: '0.5px solid rgba(99,102,241,0.3)', borderRadius: 20, padding: '1px 7px' }}>Phase : Idéation</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ flex: 1, height: 4, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
+            <div style={{ height: '100%', width: '48%', borderRadius: 99, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)' }} />
+          </div>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#fafafa', flexShrink: 0 }}>48%</span>
+          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>3/6 étapes</span>
+        </div>
+      </div>
+
+      {/* Row 2 — Prochaine action */}
+      <div style={{ background: '#111113', border: '0.5px solid rgba(99,102,241,0.25)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(99,102,241,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 3 }}>Prochaine action</p>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#fafafa', marginBottom: 5 }}>Valider ton idée avec 3 prospects réels</p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 9, fontWeight: 600, color: '#818cf8', cursor: 'default' }}>
+            Ouvrir le générateur
+            <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3 — Métriques SaaS */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 7 }}>
+        {[
+          { label: 'Visiteurs', val: '0', sub: '— cette semaine' },
+          { label: 'Signups',   val: '0', sub: '— cette semaine' },
+          { label: 'MRR',       val: '0 €', sub: 'Lance ton produit' },
+        ].map(({ label, val, sub }) => (
+          <div key={label} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '8px 10px' }}>
+            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.3)', marginBottom: 3, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' }}>{label}</p>
+            <p style={{ fontSize: 16, fontWeight: 700, color: '#fafafa', marginBottom: 1 }}>{val}</p>
+            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)' }}>{sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Row 4 — Sparkline activité */}
+      <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', flex: 1, minHeight: 0 }}>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 8 }}>
+          Activité projet — 7 derniers jours
+        </p>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 28 }}>
+          {SPARKLINE_BARS.map((v, i) => (
+            <div
+              key={i}
+              style={{
+                flex: 1,
+                height: `${Math.round((v / maxBar) * 100)}%`,
+                borderRadius: 3,
+                background: i === SPARKLINE_BARS.length - 1
+                  ? 'linear-gradient(180deg,#6366f1,#8b5cf6)'
+                  : 'rgba(99,102,241,0.3)',
+                minHeight: 3,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function DashboardPreviewV2({ windowHeight = 560, mobileHeight = 260 }: {
+  windowHeight?: number
+  mobileHeight?: number
+}) {
+  return (
+    <div className="w-full select-none">
+      {/* Desktop window */}
+      <div className="hidden sm:block w-full" style={{ perspective: '1400px' }}>
+        <div
+          className="relative w-full overflow-hidden rounded-2xl"
+          style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            background: '#09090b',
+            height: windowHeight,
+            transform: 'rotateX(3deg) rotateY(-1deg)',
+            boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
+          }}
+        >
+          {/* Window chrome */}
+          <div className="flex items-center gap-1.5 px-3 py-2.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#ef4444' }} />
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#eab308' }} />
+            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#22c55e' }} />
+            <div className="mx-auto flex items-center gap-1.5 rounded-md px-3 py-1"
+              style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+              <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#22c55e' }} />
+              <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist Mono, monospace' }}>
+                app.buildrs.fr/dashboard
+              </span>
+            </div>
+          </div>
+
+          {/* Tab bar */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 2, padding: '0 16px', background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+            {V2_TABS.map((label) => {
+              const isActive = label === 'Dashboard'
+              return (
+                <div
+                  key={label}
+                  style={{
+                    padding: '7px 14px',
+                    fontSize: 11,
+                    fontWeight: isActive ? 600 : 500,
+                    color: isActive ? '#fafafa' : 'rgba(255,255,255,0.3)',
+                    borderBottom: isActive ? '1.5px solid #6366f1' : '1.5px solid transparent',
+                    cursor: 'default',
+                  }}
+                >
+                  {label}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Content */}
+          <div className="flex" style={{ height: windowHeight - 70 }}>
+            <V2Sidebar />
+            <V2CockpitContent />
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile window */}
+      <div className="sm:hidden w-full overflow-hidden rounded-xl"
+        style={{
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#09090b',
+          height: mobileHeight,
+          boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+        }}
+      >
+        {/* Chrome */}
+        <div className="flex items-center gap-1 px-2.5 py-1.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
+          {['#ef4444','#eab308','#22c55e'].map(c => (
+            <div key={c} className="h-2 w-2 rounded-full" style={{ background: c }} />
+          ))}
+          <div className="mx-auto flex items-center gap-1 rounded px-2 py-0.5" style={{ background: 'rgba(255,255,255,0.05)' }}>
+            <span className="text-[8px]" style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'Geist Mono, monospace' }}>app.buildrs.fr</span>
+          </div>
+        </div>
+        {/* Tab bar mobile */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0, background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)', overflowX: 'auto', scrollbarWidth: 'none' }}>
+          {V2_TABS.map((label) => {
+            const isActive = label === 'Dashboard'
+            return (
+              <div key={label} style={{ padding: '5px 10px', fontSize: 9, fontWeight: isActive ? 600 : 500, color: isActive ? '#fafafa' : 'rgba(255,255,255,0.3)', borderBottom: isActive ? '1.5px solid #6366f1' : '1.5px solid transparent', whiteSpace: 'nowrap', cursor: 'default' }}>
+                {label}
+              </div>
+            )
+          })}
+        </div>
+        {/* Content mobile — cockpit only, no sidebar */}
+        <div style={{ height: mobileHeight - 44, overflow: 'hidden', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#fafafa', marginBottom: 1 }}>Bon retour, Alfred</p>
+            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.4)' }}>Voici où en est ton projet</p>
+          </div>
+          {/* Progress mobile */}
+          <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '7px 9px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+              <p style={{ fontSize: 7, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Progression</p>
+              <span style={{ fontSize: 7, fontWeight: 600, background: 'rgba(99,102,241,0.15)', color: '#818cf8', borderRadius: 20, padding: '1px 5px' }}>Phase : Idéation</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ flex: 1, height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
+                <div style={{ height: '100%', width: '48%', borderRadius: 99, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)' }} />
+              </div>
+              <span style={{ fontSize: 9, fontWeight: 700, color: '#fafafa' }}>48%</span>
+            </div>
+          </div>
+          {/* Next action mobile */}
+          <div style={{ background: '#111113', border: '0.5px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '7px 9px' }}>
+            <p style={{ fontSize: 7, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 3 }}>Prochaine action</p>
+            <p style={{ fontSize: 9, fontWeight: 600, color: '#fafafa' }}>Valider ton idée avec 3 prospects</p>
+          </div>
+          {/* Metrics mobile */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
+            {[{ label: 'Visiteurs', val: '0' }, { label: 'Signups', val: '0' }, { label: 'MRR', val: '0 €' }].map(({ label, val }) => (
+              <div key={label} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 7, padding: '5px 7px' }}>
+                <p style={{ fontSize: 7, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 2 }}>{label}</p>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#fafafa' }}>{val}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

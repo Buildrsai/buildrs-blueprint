@@ -1,0 +1,219 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775860123530,
+  "projectRoot": "/Users/alfredorsini/CLAUDE/###BLUEPRINT BUILDRS/blueprint-app",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "8.0.1",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "lint": "eslint .",
+      "preview": "vite preview"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 34,
+      "lastAccessed": 1775860123498,
+      "keyFiles": [
+        "Alfred.png",
+        "Alfred_opt.jpg",
+        "Chris.png",
+        "Chris_opt.jpg",
+        "Claude Code Logo.png"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1775860123503,
+      "keyFiles": []
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 33,
+      "lastAccessed": 1775860123504,
+      "keyFiles": [
+        "Alfred.png",
+        "Alfred_opt.jpg",
+        "Chris.png",
+        "Chris_opt.jpg",
+        "Claude Code Logo.png"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 5,
+      "lastAccessed": 1775860123504,
+      "keyFiles": [
+        "App.css",
+        "App.tsx",
+        "index.css",
+        "main.tsx",
+        "preview-report.html"
+      ]
+    },
+    "src/assets": {
+      "path": "src/assets",
+      "purpose": "Static assets",
+      "fileCount": 3,
+      "lastAccessed": 1775860123505,
+      "keyFiles": [
+        "hero.png",
+        "react.svg",
+        "vite.svg"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 11,
+      "lastAccessed": 1775860123505,
+      "keyFiles": [
+        "BuildrsGroupPage.tsx",
+        "CheckoutPage.tsx",
+        "ClaudeCheckoutPage.tsx"
+      ]
+    },
+    "src/data": {
+      "path": "src/data",
+      "purpose": "Data files",
+      "fileCount": 7,
+      "lastAccessed": 1775860123506,
+      "keyFiles": [
+        "curriculum.ts",
+        "jarvis-intents.ts",
+        "levels.ts"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 3,
+      "lastAccessed": 1775860123506,
+      "keyFiles": [
+        "pixel.ts",
+        "supabase.ts",
+        "utils.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/components/LandingPage.tsx",
+      "accessCount": 37,
+      "lastAccessed": 1775865847194,
+      "type": "directory"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 2,
+      "lastAccessed": 1775865840509,
+      "type": "file"
+    },
+    {
+      "path": "public/Temoignages/IMG_8889.jpeg",
+      "accessCount": 1,
+      "lastAccessed": 1775861190879,
+      "type": "file"
+    },
+    {
+      "path": "public/Temoignages/IMG_8890.jpeg",
+      "accessCount": 1,
+      "lastAccessed": 1775861191357,
+      "type": "file"
+    },
+    {
+      "path": "public/Temoignages/IMG_8891.jpeg",
+      "accessCount": 1,
+      "lastAccessed": 1775861196385,
+      "type": "file"
+    },
+    {
+      "path": "public/Temoignages/IMG_8892.jpeg",
+      "accessCount": 1,
+      "lastAccessed": 1775861196625,
+      "type": "file"
+    },
+    {
+      "path": "src/components/CheckoutPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775865818752,
+      "type": "directory"
+    },
+    {
+      "path": "src/App.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775865822948,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

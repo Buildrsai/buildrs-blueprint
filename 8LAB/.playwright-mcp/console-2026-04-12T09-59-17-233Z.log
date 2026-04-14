@@ -1,0 +1,132 @@
+[     286ms] [WARNING] <link rel=preload> uses an unsupported `as` value @ https://www.8lab-ecosystem.com/:146
+[     542ms] [LOG] 🚀 Script chargé @ https://www.8lab-ecosystem.com/:281
+[     989ms] Uncaught TypeError: Cannot read properties of null (reading 'getAttribute')
+    at <anonymous> (https://cdn.prod.website-files.com/665f1c02fd605624c6b2d5a1/667ab6eb9183e93e0ad3d3d0_tabs-v2.txt:34:35)
+[     553ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     554ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     555ms] [WARNING] Invalid property opacity set to 0.25 Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property opacity set to 0.25 Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property opacity set to 0.25 Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property transformOrigin set to center center Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property transformOrigin set to center center Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property transformOrigin set to center center Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property transformOrigin set to center center Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] Invalid property transformOrigin set to center center Missing plugin? gsap.registerPlugin() @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     556ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target [object NodeList] not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [WARNING] GSAP target null not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     557ms] [LOG] 📄 DOM chargé @ https://www.8lab-ecosystem.com/:283
+[     558ms] [LOG] 🔄 Début du script... @ https://www.8lab-ecosystem.com/:249
+[     558ms] [LOG] 📊 4 éléments trouvés avec test="member-count" @ https://www.8lab-ecosystem.com/:252
+[     558ms] [LOG] 🌐 Appel API... @ https://www.8lab-ecosystem.com/:254
+[     564ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     564ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     564ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[     564ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    1021ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F1058113174%3Fapp_id%3D122963&dntp=1&display_name=Vimeo&url=https%3A%2F%2Fvimeo.com%2F1058113174&image=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F1984207965-47909f5414b3847c42caf94d6308b753b6d221be3347c82575657caf2df258fd-d_1280&type=text%2Fhtml&schema=vimeo:6
+[    1021ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F1058113174%3Fapp_id%3D122963&dntp=1&display_name=Vimeo&url=https%3A%2F%2Fvimeo.com%2F1058113174&image=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F1984207965-47909f5414b3847c42caf94d6308b753b6d221be3347c82575657caf2df258fd-d_1280&type=text%2Fhtml&schema=vimeo:6
+[    1021ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F1058113174%3Fapp_id%3D122963&dntp=1&display_name=Vimeo&url=https%3A%2F%2Fvimeo.com%2F1058113174&image=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F1984207965-47909f5414b3847c42caf94d6308b753b6d221be3347c82575657caf2df258fd-d_1280&type=text%2Fhtml&schema=vimeo:6
+[    1021ms] [WARNING] Allow attribute will take precedence over 'allowfullscreen'. @ https://cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fplayer.vimeo.com%2Fvideo%2F1058113174%3Fapp_id%3D122963&dntp=1&display_name=Vimeo&url=https%3A%2F%2Fvimeo.com%2F1058113174&image=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F1984207965-47909f5414b3847c42caf94d6308b753b6d221be3347c82575657caf2df258fd-d_1280&type=text%2Fhtml&schema=vimeo:6
+[    1829ms] [WARNING] `markdownToSafeHTML` should not be imported on the client side. @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[    1833ms] [WARNING] [DEPRECATED] Use `createWithEqualityFn` instead of `create` or use `useStoreWithEqualityFn` instead of `useStore`. They can be imported from 'zustand/traditional'. https://github.com/pmndrs/zustand/discussions/1937 @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[    1834ms] [WARNING] react-i18next:: You will need to pass in an i18next instance by using initReactI18next @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[    1845ms] [LOG] QuickAvailabilityCheck feature enabled: false @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[    1856ms] [LOG] QuickAvailabilityCheck feature enabled: false @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[    3565ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    3565ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    3689ms] [LOG] 📈 Données Discord: {count: 2536} @ https://www.8lab-ecosystem.com/:260
+[    3692ms] [LOG] ✅ Élément 1/4 mis à jour @ https://www.8lab-ecosystem.com/:271
+[    3692ms] [LOG] ✅ Élément 2/4 mis à jour @ https://www.8lab-ecosystem.com/:271
+[    3692ms] [LOG] ✅ Élément 3/4 mis à jour @ https://www.8lab-ecosystem.com/:271
+[    3692ms] [LOG] ✅ Élément 4/4 mis à jour @ https://www.8lab-ecosystem.com/:271
+[    5355ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[    6065ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    6065ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    8565ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[    8565ms] [WARNING] GSAP target  not found. https://gsap.com @ https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js:9
+[  305963ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[  612468ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[  913999ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[ 1214754ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[ 1335673ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://lensflare.vimeo.com/add/vimeo.play_video:0
+[ 1427569ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=f8892d2702b12cfa11103da5e07ac54e1e3789131775987958:0
+[ 1427644ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=cde3630b3c04034ea3bd0bee9cadc0d2dc1987181775987958:0
+[ 1427779ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=0b1b8096b79c664751939a0c92fb236c542caad91775987958:0
+[ 1436496ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=81de2c9bd126b5c4be8830cfaad5bd7478b1a1131775987958:0
+[ 1446980ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=f8892d2702b12cfa11103da5e07ac54e1e3789131775987958:0
+[ 1456831ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=0b1b8096b79c664751939a0c92fb236c542caad91775987958:0
+[ 1461049ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1461072ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1461124ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1461151ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1502485ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=cde3630b3c04034ea3bd0bee9cadc0d2dc1987181775987958:0
+[ 1503578ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=f8892d2702b12cfa11103da5e07ac54e1e3789131775987958:0
+[ 1503579ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=81de2c9bd126b5c4be8830cfaad5bd7478b1a1131775987958:0
+[ 1511126ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=0b1b8096b79c664751939a0c92fb236c542caad91775987958:0
+[ 1522210ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=81de2c9bd126b5c4be8830cfaad5bd7478b1a1131775987958:0
+[ 1528388ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://tr6.snapchat.com/p:0
+[ 1531794ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=cde3630b3c04034ea3bd0bee9cadc0d2dc1987181775987958:0
+[ 1532785ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1536568ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1536602ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1536658ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.finish_video:0
+[ 1536701ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://lensflare.vimeo.com/add/vimeo.watch_video_heartbeat:0
+[ 1576950ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://app.cal.com/api/trpc/slots/getSchedule?input=%7B%22json%22%3A%7B%22isTeamEvent%22%3Afalse%2C%22usernameList%22%3A%5B%22oceane%22%5D%2C%22eventTypeSlug%22%3A%22appel-strategique-de-decouverte%22%2C%22startTime%22%3A%222026-03-31T22%3A00%3A00.000Z%22%2C%22endTime%22%3A%222026-04-30T21%3A59%3A59.999Z%22%2C%22timeZone%22%3A%22Europe%2FParis%22%2C%22duration%22%3Anull%2C%22rescheduleUid%22%3Anull%2C%22orgSlug%22%3Anull%2C%22teamMemberEmail%22%3Anull%2C%22routedTeamMemberIds%22%3Anull%2C%22skipContactOwner%22%3Afalse%2C%22routingFormResponseId%22%3Anull%2C%22email%22%3Anull%2C%22embedConnectVersion%22%3A%220%22%2C%22_isDryRun%22%3Afalse%7D%2C%22meta%22%3A%7B%22values%22%3A%7B%22duration%22%3A%5B%22undefined%22%5D%2C%22orgSlug%22%3A%5B%22undefined%22%5D%2C%22teamMemberEmail%22%3A%5B%22undefined%22%5D%2C%22routingFormResponseId%22%3A%5B%22undefined%22%5D%7D%7D%7D:0
+[ 1576958ms] [ERROR] %c << query #8 %cviewer.slots.getSchedule%c %O 
+    background-color: #3fb0d8;
+    color: white;
+    padding: 2px;
+   
+    background-color: #3fb0d8;
+    color: white;
+    padding: 2px;
+  ; font-weight: bold; 
+    background-color: #3fb0d8;
+    color: white;
+    padding: 2px;
+  ; font-weight: normal; {input: Object, result: TRPCClientError: Failed to fetch
+    at eU.from (https://app.cal.com/_next/static/chunks/0e56-320tg…, elapsedMs: 65157, context: Object} @ https://app.cal.com/_next/static/chunks/13fnjw.jtfpzl.js:8
+[ 1577307ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=f8892d2702b12cfa11103da5e07ac54e1e3789131775987958:0
+[ 1577413ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=cde3630b3c04034ea3bd0bee9cadc0d2dc1987181775987958:0
+[ 1577773ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=0b1b8096b79c664751939a0c92fb236c542caad91775987958:0
+[ 1579952ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0
+[ 1586148ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=81de2c9bd126b5c4be8830cfaad5bd7478b1a1131775987958:0
+[ 1597078ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=f8892d2702b12cfa11103da5e07ac54e1e3789131775987958:0
+[ 1606726ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_TIMED_OUT @ https://arclight.vimeo.com/add/player-stats?beacon=1&session-id=cde3630b3c04034ea3bd0bee9cadc0d2dc1987181775987958:0
+[ 1623676ms] [WARNING] The resource https://app.cal.com/_next/static/media/CalSansUI%5Bwght%2CGEOM%5D-s.p.17~pqx5aww0vr.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://app.cal.com/oceane/appel-strategique-de-decouverte/embed?embed=appel-strategique-de-decouverte&layout=month_view&embedType=inline:0

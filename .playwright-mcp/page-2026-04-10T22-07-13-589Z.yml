@@ -1,0 +1,718 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "Buildrs" [ref=e5] [cursor=pointer]:
+        - /url: "#"
+        - img [ref=e6]
+        - generic [ref=e8]: Buildrs
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Le programme" [ref=e11] [cursor=pointer]:
+            - /url: "#modules"
+        - listitem [ref=e12]:
+          - link "Résultats" [ref=e13] [cursor=pointer]:
+            - /url: "#resultats"
+        - listitem [ref=e14]:
+          - link "Tarif" [ref=e15] [cursor=pointer]:
+            - /url: "#tarif"
+        - listitem [ref=e16]:
+          - link "FAQ" [ref=e17] [cursor=pointer]:
+            - /url: "#faq"
+      - generic [ref=e18]:
+        - button "Changer le thème" [ref=e19] [cursor=pointer]:
+          - img [ref=e20]
+        - link "Accéder au Blueprint →" [ref=e22] [cursor=pointer]:
+          - /url: "#tarif"
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - img
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - img [ref=e28]
+          - generic [ref=e30]: Rejoins les 110+ builders qui ont déjà lancé
+          - img [ref=e31]
+        - heading "Ton premier SaaS IA rentable et autonome. En 6 jours." [level=1] [ref=e33]:
+          - text: Ton premier SaaS IA rentable et autonome.
+          - text: En 6 jours.
+        - paragraph [ref=e34]:
+          - text: De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote.
+          - strong [ref=e35]: Même sans savoir coder avec une armée d'agents IA.
+        - generic [ref=e36]:
+          - generic [ref=e37]: "Ton idée :"
+          - generic [ref=e38]: "|"
+        - link "Accéder au Blueprint — 27€ →" [ref=e40] [cursor=pointer]:
+          - /url: "#tarif"
+        - paragraph [ref=e41]: "Valeur réelle : 1 235€ · Paiement unique · Accès à vie"
+        - generic [ref=e43]:
+          - generic [ref=e44]: 110/200 places réclamées
+          - generic [ref=e45]: 54% restant
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - img [ref=e50]
+            - text: Sans expertise en IA
+          - generic [ref=e52]:
+            - img [ref=e53]
+            - text: Débutant ou confirmé
+          - generic [ref=e55]:
+            - img [ref=e56]
+            - text: Claude Code comme moteur
+    - generic [ref=e58]:
+      - paragraph [ref=e59]: Claude Code pilote tous tes outils — tous gratuits ou presque.
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - img "Claude AI" [ref=e63]
+          - img "Stitch" [ref=e65]
+          - img "21st.dev" [ref=e67]
+          - img "VS Code" [ref=e69]
+          - img "Supabase" [ref=e71]
+          - img "Vercel" [ref=e73]
+          - img "Resend" [ref=e75]
+          - img "Stripe" [ref=e77]
+          - img "Hostinger" [ref=e79]
+          - img "GitHub" [ref=e81]
+          - img "Perplexity" [ref=e83]
+          - img "NotebookLM" [ref=e85]
+        - generic [ref=e87]:
+          - img "Claude AI" [ref=e88]
+          - img "Stitch" [ref=e90]
+          - img "21st.dev" [ref=e92]
+          - img "VS Code" [ref=e94]
+          - img "Supabase" [ref=e96]
+          - img "Vercel" [ref=e98]
+          - img "Resend" [ref=e100]
+          - img "Stripe" [ref=e102]
+          - img "Hostinger" [ref=e104]
+          - img "GitHub" [ref=e106]
+          - img "Perplexity" [ref=e108]
+          - img "NotebookLM" [ref=e110]
+    - generic [ref=e113]:
+      - generic [ref=e114]:
+        - generic [ref=e115]: 6 jours
+        - paragraph [ref=e116]: De l'idée au produit IA rentable
+      - generic [ref=e117]:
+        - generic [ref=e118]: 3 000€/mois
+        - paragraph [ref=e119]: Objectif de revenus récurrents
+        - paragraph [ref=e120]: sous 60 jours
+      - generic [ref=e121]:
+        - generic [ref=e122]: "+110"
+        - paragraph [ref=e123]: Produits IA (SaaS, App, Logiciels, Agents IA) lancés avec Buildrs
+    - generic [ref=e125]:
+      - paragraph [ref=e126]: Le constat
+      - heading "Tout le monde te parle d'IA. Personne ne te montre comment en vivre." [level=2] [ref=e127]:
+        - text: Tout le monde te parle d'IA.
+        - text: Personne ne te montre
+        - text: comment en vivre.
+      - paragraph [ref=e128]: Pendant ce temps, des gens sans background technique lancent des micro-SaaS, des apps et des logiciels à +5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système et de direction.
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - img [ref=e132]
+          - heading "Tu scrolles depuis des mois sans rien lancer" [level=3] [ref=e135]
+          - paragraph [ref=e136]: Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.
+        - generic [ref=e137]:
+          - img [ref=e139]
+          - heading "997€ de formations. Zéro produit en ligne." [level=3] [ref=e142]
+          - paragraph [ref=e143]: Tu as suivi des cours, regardé des heures de tutos, pris des notes. Mais à la fin, rien n'est live. Parce qu'on t'a appris la théorie, pas l'exécution.
+        - generic [ref=e144]:
+          - img [ref=e146]
+          - heading "Trop d'outils, zéro direction" [level=3] [ref=e150]
+          - paragraph [ref=e151]: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make... Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie."
+        - generic [ref=e152]:
+          - img [ref=e154]
+          - heading "Pendant ce temps, d'autres lancent" [level=3] [ref=e157]
+          - paragraph [ref=e158]: Sans background technique, sans équipe, sans budget. Ils n'ont rien de plus que toi. Ils ont juste un système et de la direction.
+      - paragraph [ref=e159]: Et si le problème, c'était pas toi — mais ta méthode ?
+    - generic [ref=e162]:
+      - generic [ref=e163]:
+        - paragraph [ref=e164]: Pourquoi maintenant
+        - 'heading "Il y a 1 an, créer un SaaS demandait +6 mois et +20 000€. Aujourd''hui : 6 jours et 27€." [level=2] [ref=e165]'
+        - paragraph [ref=e166]: "Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction. Tu décris ce que tu veux — l'IA construit. Bienvenue en 2026."
+      - generic [ref=e167]:
+        - img [ref=e171]
+        - img [ref=e175]
+        - img [ref=e179]
+        - img [ref=e183]
+        - img [ref=e187]
+        - img [ref=e191]
+        - img [ref=e195]
+      - generic [ref=e197]:
+        - generic [ref=e198]:
+          - paragraph [ref=e199]: 0 ligne de code
+          - paragraph [ref=e200]: Tu décris, l'IA construit
+        - generic [ref=e201]:
+          - paragraph [ref=e202]: 100% solo
+          - paragraph [ref=e203]: Aucune équipe nécessaire
+        - generic [ref=e204]:
+          - paragraph [ref=e205]: 27€
+          - paragraph [ref=e206]: pour tout démarrer
+          - paragraph [ref=e207]: Paiement unique, accès à vie
+    - generic [ref=e210]:
+      - generic [ref=e211]:
+        - paragraph [ref=e212]: Pourquoi un SaaS IA
+        - heading "Pourquoi un SaaS IA est le meilleur business model en 2026." [level=2] [ref=e213]
+        - paragraph [ref=e214]: Contrairement au e-commerce, au freelance ou au coaching, un SaaS ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - img [ref=e221]
+          - heading "Vendre sans limites" [level=3] [ref=e224]
+          - paragraph [ref=e225]: 24h/24 · Dans le monde entier
+          - paragraph [ref=e226]: Tu crées ton produit une fois. Il se vend à l'infini, dans tous les pays, sans stock à gérer, sans livraison, sans logistique. Claude code le produit une fois. Tu le vends à l'infini.
+        - generic [ref=e227]:
+          - img [ref=e232]
+          - heading "Revenus récurrents" [level=3] [ref=e235]
+          - paragraph [ref=e236]: 50 clients × 29€ = 1 450€/mois
+          - paragraph [ref=e237]: 50 clients × 29€ = 1 450€/mois. Sans équipe. Sans stock. Claude gère.
+        - generic [ref=e238]:
+          - img [ref=e243]
+          - heading "Dupliquer et automatiser" [level=3] [ref=e246]
+          - paragraph [ref=e247]: SaaS 1 → SaaS 2 → SaaS 3
+          - paragraph [ref=e248]: Tu configures ton écosystème IA une seule fois. Tes agents autonomes gèrent le support, l'acquisition, le contenu. Tu dupliques la méthode, tu lances un deuxième produit, un troisième. Chaque SaaS tourne en autopilote pendant que tu construis le suivant.
+        - generic [ref=e249]:
+          - img [ref=e254]
+          - heading "Revendre ou conserver" [level=3] [ref=e257]
+          - paragraph [ref=e258]: 1 000€/mois → 20 000 à 40 000€
+          - paragraph [ref=e259]: Tu gardes et développes ton SaaS, ou tu le revends entre 20x et 40x son MRR mensuel. C'est toi qui choisis.
+    - generic [ref=e261]:
+      - paragraph [ref=e262]: La transformation
+      - heading "6 jours. C'est tout ce qui sépare ton idée de ton premier produit." [level=2] [ref=e263]:
+        - text: 6 jours. C'est tout ce qui sépare
+        - text: ton idée de ton premier produit.
+      - generic [ref=e264]:
+        - generic [ref=e265]:
+          - paragraph [ref=e266]: Avant
+          - list [ref=e267]:
+            - listitem [ref=e268]:
+              - img [ref=e270]
+              - generic [ref=e272]: Tu scrolles du contenu sur l'IA sans rien lancer
+            - listitem [ref=e273]:
+              - img [ref=e275]
+              - generic [ref=e277]: Tu ne sais pas quel outil utiliser ni dans quel ordre
+            - listitem [ref=e278]:
+              - img [ref=e280]
+              - generic [ref=e282]: Tu penses qu'il faut être développeur ou avoir une grosse équipe
+            - listitem [ref=e283]:
+              - img [ref=e285]
+              - generic [ref=e287]: Tu as des idées mais elles restent dans ta tête
+        - generic [ref=e288]:
+          - paragraph [ref=e289]: Après
+          - list [ref=e290]:
+            - listitem [ref=e291]:
+              - img [ref=e293]
+              - generic [ref=e295]: Tu as un produit live accessible au monde entier
+            - listitem [ref=e296]:
+              - img [ref=e298]
+              - generic [ref=e300]: Tu sais construire n'importe quel produit IA avec Claude en quelques jours
+            - listitem [ref=e301]:
+              - img [ref=e303]
+              - generic [ref=e305]: Tu crées des Micro-SaaS IA qui résolvent un vrai problème et génèrent des revenus
+            - listitem [ref=e306]:
+              - img [ref=e308]
+              - generic [ref=e310]: Tu possèdes un actif digital qui travaille pour toi — même quand tu dors
+    - generic [ref=e312]:
+      - paragraph [ref=e313]: Le programme
+      - heading "Un système en 7 étapes. Un produit live à la fin." [level=2] [ref=e314]:
+        - text: Un système en 7 étapes.
+        - text: Un produit live à la fin.
+      - paragraph [ref=e315]: Pas un cours. Un système étape par étape. Tu suis, Claude construit. À la fin, ton SaaS IA ou ton app est live et génère du MRR.
+      - generic [ref=e318]:
+        - generic [ref=e319]:
+          - generic [ref=e320]:
+            - generic [ref=e322]: Étape 01
+            - heading "Fondations" [level=3] [ref=e323]
+            - generic [ref=e324]: Ta stratégie de lancement définie
+            - list [ref=e325]:
+              - listitem [ref=e326]: Tu comprends pourquoi l'IA fait 90% du travail à ta place
+              - listitem [ref=e328]: "Tu choisis ton format : app, SaaS ou logiciel"
+              - listitem [ref=e330]: Tu poses ton objectif financier — le système s'adapte
+          - generic [ref=e332]:
+            - generic [ref=e334]: "01"
+            - generic [ref=e335]: "01"
+        - generic [ref=e336]:
+          - generic [ref=e337]:
+            - generic [ref=e339]: Étape 02
+            - heading "Ton espace de travail" [level=3] [ref=e340]
+            - generic [ref=e341]: Un environnement configuré, prêt à builder
+            - list [ref=e342]:
+              - listitem [ref=e343]: Tu installes les outils essentiels — Claude, VS Code, les bases
+              - listitem [ref=e345]: Tu connectes ton premier projet à Claude Code
+              - listitem [ref=e347]: Tu es prêt à builder — l'environnement fonctionne
+          - generic [ref=e349]:
+            - generic [ref=e351]: "02"
+            - generic [ref=e352]: "02"
+        - generic [ref=e353]:
+          - generic [ref=e354]:
+            - generic [ref=e356]: Étape 03
+            - heading "Trouver & Valider" [level=3] [ref=e357]
+            - generic [ref=e358]: Ton idée validée et ta fiche produit prête
+            - list [ref=e359]:
+              - listitem [ref=e360]: Tu génères 5 idées de Micro-SaaS IA rentables en 1 clic
+              - listitem [ref=e362]: Tu valides ton marché en 30 minutes — tu décides
+              - listitem [ref=e364]: "Tu repars avec ta fiche produit : nom, cible, prix"
+          - generic [ref=e366]:
+            - generic [ref=e368]: "03"
+            - generic [ref=e369]: "03"
+        - generic [ref=e370]:
+          - generic [ref=e371]:
+            - generic [ref=e373]: Étape 04
+            - heading "Design & Architecture" [level=3] [ref=e374]
+            - generic [ref=e375]: Le design et l'architecture prêts à construire
+            - list [ref=e376]:
+              - listitem [ref=e377]: Tu crées ton identité visuelle en t'inspirant des meilleures apps
+              - listitem [ref=e379]: Tu génères ton parcours utilisateur page par page
+              - listitem [ref=e381]: Tu obtiens la structure technique — prête à builder
+          - generic [ref=e383]:
+            - generic [ref=e385]: "04"
+            - generic [ref=e386]: "04"
+        - generic [ref=e387]:
+          - generic [ref=e388]:
+            - generic [ref=e390]: Étape 05
+            - heading "Construire" [level=3] [ref=e391]
+            - generic [ref=e392]: Un produit fonctionnel qui tourne
+            - list [ref=e393]:
+              - listitem [ref=e394]: Tu décris ce que tu veux — Claude génère ton produit
+              - listitem [ref=e396]: Ta fonctionnalité principale est live et fonctionnelle
+              - listitem [ref=e398]: L'inscription et l'onboarding sont en place
+          - generic [ref=e400]:
+            - generic [ref=e402]: "05"
+            - generic [ref=e403]: "05"
+        - generic [ref=e404]:
+          - generic [ref=e405]:
+            - generic [ref=e407]: Étape 06
+            - heading "Déployer" [level=3] [ref=e408]
+            - generic [ref=e409]: Ton produit en ligne, accessible au monde entier
+            - list [ref=e410]:
+              - listitem [ref=e411]: Ton produit est mis en ligne en 1 clic avec Vercel
+              - listitem [ref=e413]: Ton domaine personnalisé est connecté
+              - listitem [ref=e415]: Paiements et emails automatiques sont branchés
+          - generic [ref=e417]:
+            - generic [ref=e419]: "06"
+            - generic [ref=e420]: "06"
+        - generic [ref=e421]:
+          - generic [ref=e422]:
+            - generic [ref=e424]: Étape 07
+            - heading "Monétiser & Lancer" [level=3] [ref=e425]
+            - generic [ref=e426]: Tes premiers revenus, ta communication lancée
+            - list [ref=e427]:
+              - listitem [ref=e428]: "Tu valides ta stratégie de prix : abonnement, unique, freemium"
+              - listitem [ref=e430]: Ta page de vente est créée par Claude — tu publies
+              - listitem [ref=e432]: Ta première campagne est configurée — le trafic arrive
+          - generic [ref=e434]:
+            - generic [ref=e436]: "07"
+            - generic [ref=e437]: "07"
+    - generic [ref=e439]:
+      - generic [ref=e440]:
+        - paragraph [ref=e441]: Ce que tu vas recevoir
+        - heading "Pas un PDF. Pas une vidéo. Un vrai copilote IA." [level=2] [ref=e442]:
+          - text: Pas un PDF. Pas une vidéo.
+          - text: Un vrai copilote IA.
+        - paragraph [ref=e443]: Tout ce qu'il te faut pour passer de l'idée au produit live — dans un seul endroit.
+      - generic [ref=e444]:
+        - generic [ref=e445]: Voici à quoi tu auras accès
+        - img [ref=e446]
+      - generic [ref=e448]:
+        - generic [ref=e450]:
+          - button "Accueil" [ref=e451] [cursor=pointer]
+          - button "Mon Parcours" [ref=e452] [cursor=pointer]
+          - button "Communauté" [ref=e453] [cursor=pointer]
+          - button "Jarvis" [ref=e454] [cursor=pointer]
+        - generic [ref=e456]:
+          - generic [ref=e463]: app.buildrs.fr/dashboard
+          - generic [ref=e464]:
+            - generic [ref=e465]:
+              - generic [ref=e466]:
+                - img [ref=e467]
+                - generic [ref=e473]: Buildrs
+              - generic [ref=e475]:
+                - img [ref=e476]
+                - generic [ref=e478]: EXPLORER
+                - generic [ref=e479]: 42 XP
+              - generic [ref=e482]:
+                - button "Accueil" [ref=e483] [cursor=pointer]:
+                  - img [ref=e485]
+                  - generic [ref=e488]: Accueil
+                - button "Claude OS" [ref=e489]:
+                  - img [ref=e491]
+                  - generic [ref=e493]: Claude OS
+                - button "MON PARCOURS" [ref=e494] [cursor=pointer]:
+                  - generic [ref=e495]: MON PARCOURS
+                  - img [ref=e496]
+                - generic [ref=e498]:
+                  - button "00 Fondations" [ref=e499] [cursor=pointer]:
+                    - generic [ref=e500]: "00"
+                    - generic [ref=e501]: Fondations
+                  - button "01 Configuration" [ref=e503] [cursor=pointer]:
+                    - generic [ref=e504]: "01"
+                    - generic [ref=e505]: Configuration
+                  - button "02 Trouver mon idée" [ref=e507] [cursor=pointer]:
+                    - generic [ref=e508]: "02"
+                    - generic [ref=e509]: Trouver mon idée
+                  - button "03 Valider mon produit" [ref=e511] [cursor=pointer]:
+                    - generic [ref=e512]: "03"
+                    - generic [ref=e513]: Valider mon produit
+                  - button "04 Structurer mon offre" [ref=e515] [cursor=pointer]:
+                    - generic [ref=e516]: "04"
+                    - generic [ref=e517]: Structurer mon offre
+                  - button "05 Designer" [ref=e518] [cursor=pointer]:
+                    - generic [ref=e519]: "05"
+                    - generic [ref=e520]: Designer
+                  - button "06 Architecturer" [ref=e521] [cursor=pointer]:
+                    - generic [ref=e522]: "06"
+                    - generic [ref=e523]: Architecturer
+                  - button "07 Construire" [ref=e524] [cursor=pointer]:
+                    - generic [ref=e525]: "07"
+                    - generic [ref=e526]: Construire
+                  - button "08 Déployer" [ref=e527] [cursor=pointer]:
+                    - generic [ref=e528]: "08"
+                    - generic [ref=e529]: Déployer
+                  - button "09 Monétiser" [ref=e530] [cursor=pointer]:
+                    - generic [ref=e531]: "09"
+                    - generic [ref=e532]: Monétiser
+                  - button "10 Scaler" [ref=e533] [cursor=pointer]:
+                    - generic [ref=e534]: "10"
+                    - generic [ref=e535]: Scaler
+                - button "MON SAAS IA" [ref=e536] [cursor=pointer]:
+                  - generic [ref=e537]: MON SAAS IA
+                  - img [ref=e538]
+                - button "OUTILS" [ref=e540] [cursor=pointer]:
+                  - generic [ref=e541]: OUTILS
+                  - img [ref=e542]
+                - button "COMMUNAUTÉ" [ref=e544] [cursor=pointer]:
+                  - generic [ref=e545]: COMMUNAUTÉ
+                  - img [ref=e546]
+                - button "ACCÈS BUILDRS" [ref=e548] [cursor=pointer]:
+                  - generic [ref=e549]: ACCÈS BUILDRS
+                  - img [ref=e550]
+              - generic [ref=e552]: Sprint & Cohorte avec Alfred →
+            - generic [ref=e553]:
+              - generic [ref=e554]:
+                - generic [ref=e555]:
+                  - generic [ref=e556]:
+                    - paragraph [ref=e557]: Salut, Alex 👋
+                    - paragraph [ref=e558]: Voici ton cockpit Buildrs
+                  - generic [ref=e559]: EXPLORER
+                - generic [ref=e560]:
+                  - generic [ref=e561]:
+                    - paragraph [ref=e562]: 3/14
+                    - paragraph [ref=e563]: Modules
+                  - generic [ref=e564]:
+                    - paragraph [ref=e565]: "8"
+                    - paragraph [ref=e566]: Tâches
+                  - generic [ref=e567]:
+                    - paragraph [ref=e568]: "72"
+                    - paragraph [ref=e569]: Score
+                - generic [ref=e570]:
+                  - generic [ref=e571]:
+                    - img [ref=e572]
+                    - generic [ref=e588]:
+                      - generic [ref=e589]: Jarvis
+                      - generic [ref=e590]: EN LIGNE
+                  - paragraph [ref=e592]: Ton environnement est prêt. Sur quoi tu veux bosser aujourd'hui ?
+                  - generic [ref=e593]:
+                    - paragraph [ref=e594]: Parle à Jarvis...
+                    - generic [ref=e595]:
+                      - generic [ref=e596]:
+                        - img [ref=e597]
+                        - img [ref=e599]
+                        - img [ref=e603]
+                      - img [ref=e608]
+                - generic [ref=e612]:
+                  - paragraph [ref=e613]: Checklist en cours
+                  - generic [ref=e614]:
+                    - generic [ref=e615]:
+                      - img [ref=e617]
+                      - generic [ref=e619]: Trouver & Valider
+                    - generic [ref=e620]:
+                      - img [ref=e622]
+                      - generic [ref=e624]: Préparer & Designer
+                    - generic [ref=e625]:
+                      - generic [ref=e627]: Construire
+                      - generic [ref=e628]: EN COURS
+                    - generic [ref=e631]: Déployer & Monétiser
+              - generic [ref=e632]:
+                - generic [ref=e633]:
+                  - paragraph [ref=e634]: Score viabilité
+                  - paragraph [ref=e635]: "72"
+                  - paragraph [ref=e636]: Idée fortement validée
+                - generic [ref=e637]:
+                  - paragraph [ref=e638]: Stack
+                  - generic [ref=e639]:
+                    - generic [ref=e641]: Claude Code
+                    - generic [ref=e644]: Supabase
+                    - generic [ref=e647]: Vercel
+                    - generic [ref=e650]: Resend
+                    - generic [ref=e653]: Hostinger
+                    - generic [ref=e656]: Stripe
+                    - generic [ref=e659]: GitHub
+                - generic [ref=e661]:
+                  - paragraph [ref=e662]: MRR estimé
+                  - paragraph [ref=e663]: 2 400€
+                  - paragraph [ref=e664]: /mois
+    - generic [ref=e666]:
+      - generic [ref=e667]:
+        - generic [ref=e668]: Exemples
+        - heading "De l'idée au produit live." [level=2] [ref=e669]
+        - paragraph [ref=e670]: Des exemples concrets de SaaS réalisables avec Blueprint — en moins d'une semaine.
+      - generic [ref=e671]:
+        - generic [ref=e672]:
+          - img "PriceFlow" [ref=e674]
+          - generic [ref=e675]:
+            - generic [ref=e676]: PriceFlow
+            - generic [ref=e677]:
+              - img [ref=e678]
+              - text: Construit avec Claude · 5 jours
+          - paragraph [ref=e680]: Ajuste les prix des e-commerçants en temps réel selon la concurrence et les stocks.
+          - generic [ref=e681]:
+            - generic [ref=e682]:
+              - generic [ref=e683]: Cible
+              - generic [ref=e684]: E-commerçants Shopify
+            - generic [ref=e685]:
+              - generic [ref=e686]: MRR Potentiel
+              - generic [ref=e687]: 50 clients × 29€ = 1 450€/mois
+            - generic [ref=e688]:
+              - generic [ref=e689]: Temps
+              - generic [ref=e690]: 5 jours
+          - separator [ref=e691]
+          - generic [ref=e692]:
+            - img "Thomas" [ref=e693]
+            - paragraph [ref=e694]: Thomas
+            - generic [ref=e695]:
+              - img [ref=e696]
+              - img [ref=e698]
+              - img [ref=e700]
+              - img [ref=e702]
+              - img [ref=e704]
+        - generic [ref=e706]:
+          - img "Brew App" [ref=e708]
+          - generic [ref=e709]:
+            - generic [ref=e710]: Brew App
+            - generic [ref=e711]:
+              - img [ref=e712]
+              - text: Construit avec Claude · 4 jours
+          - paragraph [ref=e714]: Carnet de dégustation pour amateurs de café — origines, profils, méthodes d'extraction.
+          - generic [ref=e715]:
+            - generic [ref=e716]:
+              - generic [ref=e717]: Cible
+              - generic [ref=e718]: Coffee lovers & baristas
+            - generic [ref=e719]:
+              - generic [ref=e720]: MRR Potentiel
+              - generic [ref=e721]: 100 users × 9€ = 900€/mois
+            - generic [ref=e722]:
+              - generic [ref=e723]: Temps
+              - generic [ref=e724]: 4 jours
+          - separator [ref=e725]
+          - generic [ref=e726]:
+            - img "Chris" [ref=e727]
+            - paragraph [ref=e728]: Chris
+            - generic [ref=e729]:
+              - img [ref=e730]
+              - img [ref=e732]
+              - img [ref=e734]
+              - img [ref=e736]
+              - img [ref=e738]
+        - generic [ref=e740]:
+          - img "StayTrack" [ref=e742]
+          - generic [ref=e743]:
+            - generic [ref=e744]: StayTrack
+            - generic [ref=e745]:
+              - img [ref=e746]
+              - text: Construit avec Claude · 6 jours
+          - paragraph [ref=e748]: "Gestion de locations : loyers, charges, taux d'occupation, alertes automatiques."
+          - generic [ref=e749]:
+            - generic [ref=e750]:
+              - generic [ref=e751]: Cible
+              - generic [ref=e752]: Propriétaires multi-biens
+            - generic [ref=e753]:
+              - generic [ref=e754]: MRR Potentiel
+              - generic [ref=e755]: 30 clients × 49€ = 1 470€/mois
+            - generic [ref=e756]:
+              - generic [ref=e757]: Temps
+              - generic [ref=e758]: 6 jours
+          - separator [ref=e759]
+          - generic [ref=e760]:
+            - img "Julie" [ref=e761]
+            - paragraph [ref=e762]: Julie
+            - generic [ref=e763]:
+              - img [ref=e764]
+              - img [ref=e766]
+              - img [ref=e768]
+              - img [ref=e770]
+              - img [ref=e772]
+    - generic [ref=e775]:
+      - paragraph [ref=e776]: Tarif
+      - heading "Ce que tu reçois." [level=2] [ref=e777]
+      - paragraph [ref=e778]: Un seul client sur ton SaaS et le Blueprint est rentabilisé 10 fois. Un seul paiement. Un accès à vie.
+      - generic [ref=e780]:
+        - generic [ref=e781]:
+          - paragraph [ref=e782]: Builders Blueprint
+          - generic [ref=e783]:
+            - img [ref=e784]
+            - text: Offre de lancement
+        - generic [ref=e786]:
+          - generic [ref=e787]: 297€
+          - generic [ref=e788]:
+            - generic [ref=e789]: €
+            - generic [ref=e790]: "27"
+        - paragraph [ref=e791]: Paiement unique · Accès à vie
+        - separator [ref=e792]
+        - list [ref=e793]:
+          - listitem [ref=e794]:
+            - img [ref=e795]
+            - generic [ref=e797]:
+              - generic [ref=e798]: Le système en 7 étapes — de l'idée au Produit IA monétisé
+              - generic [ref=e799]: (valeur 497€)
+          - listitem [ref=e800]:
+            - img [ref=e801]
+            - generic [ref=e803]:
+              - generic [ref=e804]: "3 stratégies de départ : copier une fonctionnalité d'un SaaS/App existant, résoudre un problème que tu as identifié, ou explorer les opportunités"
+              - generic [ref=e805]: (valeur 97€)
+          - listitem [ref=e806]:
+            - img [ref=e807]
+            - generic [ref=e809]:
+              - generic [ref=e810]: Le Générateur d'Idées — trouve des idées de SaaS IA rentables prêts à lancer avec fiches produit prêtes (niche, cible, fonctionnalité, MRR potentiel)
+              - generic [ref=e811]: (valeur 197€)
+          - listitem [ref=e812]:
+            - img [ref=e813]
+            - generic [ref=e815]:
+              - generic [ref=e816]: Le Validateur — score ton idée de produit IA avant de la builder. Rentabilité, concurrence, faisabilité — tu sais si ça vaut le coup avant de démarrer
+              - generic [ref=e817]: (valeur 147€)
+          - listitem [ref=e818]:
+            - img [ref=e819]
+            - generic [ref=e821]:
+              - generic [ref=e822]: 50+ prompts testés à copier-coller — les instructions exactes à donner à Claude
+              - generic [ref=e823]: (valeur 147€)
+          - listitem [ref=e824]:
+            - img [ref=e825]
+            - generic [ref=e827]:
+              - generic [ref=e828]: "3 modèles de monétisation avec guide : revenus récurrents, revente, ou prestation client"
+              - generic [ref=e829]: (valeur 97€)
+          - listitem [ref=e830]:
+            - img [ref=e831]
+            - generic [ref=e833]:
+              - generic [ref=e834]: Checklist de progression — tu ne seras jamais perdu, tu sais exactement quoi faire ensuite
+              - generic [ref=e835]: (valeur 47€)
+          - listitem [ref=e836]:
+            - img [ref=e837]
+            - generic [ref=e839]:
+              - generic [ref=e840]: Le Dashboard Buildrs — ton espace projet, tes outils et ta progression au même endroit
+              - generic [ref=e841]: (valeur 197€)
+          - listitem [ref=e842]:
+            - img [ref=e843]
+            - generic [ref=e845]:
+              - generic [ref=e846]: Accès à la communauté Buildrs — pose tes questions, avance avec les autres builders, partage tes victoires
+              - generic [ref=e847]: (valeur 97€)
+          - listitem [ref=e848]:
+            - img [ref=e849]
+            - generic [ref=e851]:
+              - text: Accès à vie + toutes les mises à jour futures
+              - generic [ref=e852]: (valeur 57€)
+        - generic [ref=e853]:
+          - generic [ref=e854]: "Valeur totale : 1 583€"
+          - generic [ref=e855]: "Ton prix aujourd'hui : 27€"
+        - generic [ref=e856]:
+          - paragraph [ref=e857]: Bonus inclus pour les 200 premiers
+          - list [ref=e858]:
+            - listitem [ref=e859]:
+              - img [ref=e861]
+              - generic [ref=e876]:
+                - generic [ref=e877]: Jarvis IA — ton copilote intelligent qui te guide à chaque étape en temps réel
+                - generic [ref=e878]: (valeur 97€)
+            - listitem [ref=e879]:
+              - img [ref=e881]
+              - generic [ref=e883]:
+                - generic [ref=e884]: Toolbox Pro — les meilleurs outils IA du marché pour créer un produit IA rentable, testés, avec les prompts et configs prêts à l'emploi
+                - generic [ref=e885]: (valeur 47€)
+            - listitem [ref=e886]:
+              - img [ref=e888]
+              - generic [ref=e890]:
+                - generic [ref=e891]: WhatsApp Buildrs — accès privé à Alfred & Jarvis via le canal WhatsApp Buildrs
+                - generic [ref=e892]: (valeur 47€)
+        - link "Accéder au Blueprint — 27€ →" [ref=e893] [cursor=pointer]:
+          - /url: "#"
+        - paragraph [ref=e894]: Satisfait ou remboursé 30 jours · zéro condition.
+        - generic [ref=e896]:
+          - generic [ref=e897]: 110/200 places réclamées
+          - generic [ref=e898]: Ensuite 297€
+        - paragraph [ref=e901]: Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
+    - generic [ref=e903]:
+      - paragraph [ref=e904]: FAQ
+      - heading "Tes questions. Nos réponses." [level=2] [ref=e905]:
+        - text: Tes questions.
+        - text: Nos réponses.
+      - generic [ref=e906]:
+        - generic [ref=e908] [cursor=pointer]:
+          - generic [ref=e909]: Est-ce que j'ai besoin de savoir coder ?
+          - img [ref=e911]
+        - generic [ref=e914] [cursor=pointer]:
+          - generic [ref=e915]: C'est une formation vidéo ?
+          - img [ref=e917]
+        - generic [ref=e920] [cursor=pointer]:
+          - generic [ref=e921]: Et si j'ai déjà une idée en tête ?
+          - img [ref=e923]
+        - generic [ref=e926] [cursor=pointer]:
+          - generic [ref=e927]: Combien de temps ça prend vraiment ?
+          - img [ref=e929]
+        - generic [ref=e932] [cursor=pointer]:
+          - generic [ref=e933]: Ça coûte combien en outils ?
+          - img [ref=e935]
+        - generic [ref=e938] [cursor=pointer]:
+          - generic [ref=e939]: C'est quoi la différence avec un bootcamp à 900€ ?
+          - img [ref=e941]
+        - generic [ref=e944] [cursor=pointer]:
+          - generic [ref=e945]: C'est quoi un Micro-SaaS IA exactement ?
+          - img [ref=e947]
+        - generic [ref=e950] [cursor=pointer]:
+          - generic [ref=e951]: Pourquoi Claude et pas ChatGPT / Cursor / Bolt ?
+          - img [ref=e953]
+        - generic [ref=e956] [cursor=pointer]:
+          - generic [ref=e957]: Quelle IA vous utilisez et pourquoi ?
+          - img [ref=e959]
+        - generic [ref=e962] [cursor=pointer]:
+          - generic [ref=e963]: Comment ça se passe après le paiement ?
+          - img [ref=e965]
+        - generic [ref=e968] [cursor=pointer]:
+          - generic [ref=e969]: Et si ça marche pas pour moi ?
+          - img [ref=e971]
+    - generic [ref=e973]:
+      - heading "Ton premier produit IA est à 6 jours d'ici." [level=2] [ref=e974]
+      - paragraph [ref=e975]: Pas dans 6 mois. Pas quand tu auras appris à coder. Pas quand tu auras trouvé le bon moment. En 6 jours.
+      - link "Commencer maintenant — 27€ (au lieu de 297€) →" [ref=e976] [cursor=pointer]:
+        - /url: "#tarif"
+      - paragraph [ref=e977]: "Valeur réelle : 1 235€ · Paiement unique · Accès à vie"
+      - generic [ref=e979]:
+        - generic [ref=e980]: 110/200 places réclamées
+        - generic [ref=e981]: Ensuite 297€
+  - contentinfo [ref=e984]:
+    - generic [ref=e986]:
+      - img [ref=e988]
+      - navigation [ref=e990]:
+        - link "Modules" [ref=e991] [cursor=pointer]:
+          - /url: "#"
+        - link "Comment ça marche" [ref=e992] [cursor=pointer]:
+          - /url: "#"
+        - link "Tarif" [ref=e993] [cursor=pointer]:
+          - /url: "#"
+        - link "FAQ" [ref=e994] [cursor=pointer]:
+          - /url: "#"
+        - link "Contact" [ref=e995] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e996]:
+        - button "LinkedIn" [ref=e997] [cursor=pointer]:
+          - img [ref=e998]
+        - button "X" [ref=e1000] [cursor=pointer]:
+          - img [ref=e1001]
+        - button "Instagram" [ref=e1003] [cursor=pointer]:
+          - img [ref=e1004]
+        - button "TikTok" [ref=e1006] [cursor=pointer]:
+          - img [ref=e1007]
+        - button "YouTube" [ref=e1009] [cursor=pointer]:
+          - img [ref=e1010]
+      - paragraph [ref=e1013]: © 2026 Buildrs Group. Tous droits réservés.
+      - generic [ref=e1014]:
+        - link "CGV" [ref=e1015] [cursor=pointer]:
+          - /url: "#/legal/cgv"
+        - link "Mentions légales" [ref=e1016] [cursor=pointer]:
+          - /url: "#/legal/mentions"
+        - link "Confidentialité" [ref=e1017] [cursor=pointer]:
+          - /url: "#/legal/confidentialite"
+        - link "Cookies" [ref=e1018] [cursor=pointer]:
+          - /url: "#/legal/cookies"
+      - paragraph [ref=e1019]: Ce site n'est pas affilié à Facebook™, Instagram™ ou Meta Platforms, Inc. Facebook™ et Instagram™ sont des marques déposées de Meta Platforms, Inc. Les résultats peuvent varier selon les individus et dépendent de nombreux facteurs. Ce site ne garantit aucun résultat spécifique.

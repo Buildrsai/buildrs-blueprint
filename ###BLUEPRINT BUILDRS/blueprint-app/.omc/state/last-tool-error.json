@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__plugin_playwright_playwright__browser_evaluate",
+  "tool_input_preview": "{\"expression\":\"window.scrollTo(0, 1800)\"}",
+  "error": "### Error\n[\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"function\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]",
+  "timestamp": "2026-04-10T22:45:37.130Z",
+  "retry_count": 1
+}

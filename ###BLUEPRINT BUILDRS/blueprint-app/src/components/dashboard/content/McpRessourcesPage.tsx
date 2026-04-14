@@ -17,7 +17,7 @@ function CopyBtn({ text, label }: { text: string; label?: string }) {
   return (
     <button onClick={doCopy}
       className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all shrink-0"
-      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'rgba(255,255,255,0.06)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.1)'}`, color: copied ? '#22c55e' : '#5b6078' }}>
+      style={{ background: copied ? 'rgba(34,197,94,0.12)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
       {copied ? <Check size={10} strokeWidth={2} /> : <Copy size={10} strokeWidth={1.5} />}
       <span className="text-[10px] font-medium">{copied ? 'Copié' : label ?? 'Copier'}</span>
     </button>
@@ -32,17 +32,17 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
         <code>{code}</code>
       </pre>
       <button onClick={doCopy} className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -195,23 +195,23 @@ const CONNECTORS_OPTIONAL: { name: string; desc: string }[] = [
 function McpServerCard({ s }: { s: McpServer }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
       <button className="w-full flex items-center justify-between px-4 py-3 transition-colors text-left"
         onClick={() => setOpen(o => !o)}
-        style={{ background: open ? 'rgba(255,255,255,0.03)' : undefined }}>
+        style={{ background: open ? 'hsl(var(--secondary))' : undefined }}>
         <div className="flex items-center gap-3">
           {s.essential && <Star size={11} strokeWidth={2} style={{ color: '#eab308' }} />}
-          <span className="text-[13px] font-semibold" style={{ color: '#e2e8f0', fontFamily: 'Geist Mono, monospace' }}>{s.title}</span>
+          <span className="text-[13px] font-semibold" style={{ color: 'hsl(var(--foreground))', fontFamily: 'Geist Mono, monospace' }}>{s.title}</span>
           {s.essential && <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ color: '#eab308', background: 'rgba(234,179,8,0.12)', border: '0.5px solid rgba(234,179,8,0.25)' }}>Essentiel</span>}
         </div>
-        <ChevronDown size={13} strokeWidth={1.5} style={{ color: '#3d4466', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
+        <ChevronDown size={13} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
       </button>
       {open && (
-        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid rgba(255,255,255,0.05)' }}>
-          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: '#94a3b8' }}>{s.why}</p>
+        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{s.why}</p>
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#3d4466' }}>Installation</p>
-            <div className="relative rounded-lg overflow-hidden" style={{ background: 'rgba(0,0,0,0.3)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'hsl(var(--muted-foreground))' }}>Installation</p>
+            <div className="relative rounded-lg overflow-hidden" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <pre className="px-4 py-3 overflow-x-auto text-[11px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
                 <code>{s.install}</code>
               </pre>
@@ -220,7 +220,7 @@ function McpServerCard({ s }: { s: McpServer }) {
               </div>
             </div>
             {s.installNote && (
-              <p className="text-[11px] mt-1.5" style={{ color: '#5b6078' }}>
+              <p className="text-[11px] mt-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 {s.tokenUrl ? (
                   <>Où trouver le token : <a href={s.tokenUrl} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: ACCENT }}>{s.tokenUrl.replace('https://', '')}</a></>
                 ) : s.installNote}
@@ -229,13 +229,13 @@ function McpServerCard({ s }: { s: McpServer }) {
           </div>
           {s.tools && s.tools.length > 0 && (
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: '#3d4466' }}>Outils disponibles</p>
-              <div className="rounded-lg overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.06)' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--muted-foreground))' }}>Outils disponibles</p>
+              <div className="rounded-lg overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))' }}>
                 {s.tools.map((t, i) => (
-                  <div key={t.name} className="flex items-center gap-3 px-3 py-2" style={{ borderBottom: i < s.tools!.length - 1 ? '0.5px solid rgba(255,255,255,0.04)' : undefined }}>
+                  <div key={t.name} className="flex items-center gap-3 px-3 py-2" style={{ borderBottom: i < s.tools!.length - 1 ? '0.5px solid hsl(var(--border))' : undefined }}>
                     <div className="flex items-center justify-between w-full">
                       <span className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: '#4d96ff' }}>{t.name}</span>
-                      <span className="text-[11px] text-right" style={{ color: '#5b6078', maxWidth: '55%' }}>{t.desc}</span>
+                      <span className="text-[11px] text-right" style={{ color: 'hsl(var(--muted-foreground))', maxWidth: '55%' }}>{t.desc}</span>
                     </div>
                     <CopyBtn text={t.name} label="cmd" />
                   </div>
@@ -252,33 +252,33 @@ function McpServerCard({ s }: { s: McpServer }) {
 function ConnectorCard({ c }: { c: Connector }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+    <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
       <button className="w-full flex items-center justify-between px-4 py-3 transition-colors text-left"
         onClick={() => setOpen(o => !o)}
-        style={{ background: open ? 'rgba(255,255,255,0.03)' : undefined }}>
+        style={{ background: open ? 'hsl(var(--secondary))' : undefined }}>
         <div className="flex items-center gap-3">
           {c.essential && <Star size={11} strokeWidth={2} style={{ color: '#eab308' }} />}
-          <span className="text-[13px] font-semibold" style={{ color: '#e2e8f0' }}>{c.name}</span>
+          <span className="text-[13px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{c.name}</span>
           {c.essential && <span className="text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ color: '#eab308', background: 'rgba(234,179,8,0.12)', border: '0.5px solid rgba(234,179,8,0.25)' }}>Essentiel</span>}
-          {c.req && <span className="text-[10px]" style={{ color: '#5b6078' }}>— {c.req}</span>}
+          {c.req && <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>— {c.req}</span>}
         </div>
-        <ChevronDown size={13} strokeWidth={1.5} style={{ color: '#3d4466', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
+        <ChevronDown size={13} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }} />
       </button>
       {open && (
-        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid rgba(255,255,255,0.05)' }}>
-          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: '#94a3b8' }}>{c.why}</p>
+        <div className="px-4 pb-4 space-y-3" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[12px] pt-3 leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{c.why}</p>
           <div className="flex items-center gap-2">
-            <span className="text-[11px]" style={{ color: '#5b6078' }}>Comment connecter :</span>
-            <span className="text-[11px] font-medium" style={{ color: '#e2e8f0', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → {c.how}</span>
+            <span className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Comment connecter :</span>
+            <span className="text-[11px] font-medium" style={{ color: 'hsl(var(--foreground))', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → {c.how}</span>
           </div>
           {c.tools && c.tools.length > 0 && (
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: '#3d4466' }}>Outils disponibles</p>
-              <div className="rounded-lg overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.06)' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--muted-foreground))' }}>Outils disponibles</p>
+              <div className="rounded-lg overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))' }}>
                 {c.tools.map((t, i) => (
-                  <div key={t.name} className="flex items-center justify-between px-3 py-2" style={{ borderBottom: i < c.tools!.length - 1 ? '0.5px solid rgba(255,255,255,0.04)' : undefined }}>
+                  <div key={t.name} className="flex items-center justify-between px-3 py-2" style={{ borderBottom: i < c.tools!.length - 1 ? '0.5px solid hsl(var(--border))' : undefined }}>
                     <span className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: '#22c55e' }}>{t.name}</span>
-                    <span className="text-[11px]" style={{ color: '#5b6078' }}>{t.desc}</span>
+                    <span className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{t.desc}</span>
                   </div>
                 ))}
               </div>
@@ -328,14 +328,14 @@ claude mcp add --transport stdio fetch \\
 
 export function McpRessourcesPage({ navigate }: Props) {
   return (
-    <div className="min-h-screen pb-20" style={{ background: '#080909' }}>
+    <div className="min-h-screen pb-20" style={{ background: 'hsl(var(--background))' }}>
       {/* Header */}
-      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
         <button onClick={() => window.history.back()}
           className="flex items-center gap-2 mb-5 transition-colors"
-          style={{ color: '#5b6078' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+          style={{ color: 'hsl(var(--muted-foreground))' }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span className="text-[12px]">MCP & Connecteurs</span>
         </button>
@@ -350,10 +350,10 @@ export function McpRessourcesPage({ navigate }: Props) {
                 style={{ color: ACCENT, background: 'rgba(34,197,94,0.12)', border: '0.5px solid rgba(34,197,94,0.25)' }}>
                 Ressources
               </span>
-              <span className="text-[10px]" style={{ color: '#3d4466' }}>8 MCP Servers · 20+ Connecteurs</span>
+              <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>8 MCP Servers · 20+ Connecteurs</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#e2e8f0' }}>Bibliothèque MCP & Connecteurs Buildrs</h1>
-            <p className="text-[13px] mt-1" style={{ color: '#5b6078' }}>
+            <h1 className="text-xl font-bold tracking-tight" style={{ color: 'hsl(var(--foreground))' }}>Bibliothèque MCP & Connecteurs Buildrs</h1>
+            <p className="text-[13px] mt-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Tous les MCP Serveurs et Connecteurs qu'on utilise en interne. Commandes d'installation exactes, outils disponibles, prérequis.
             </p>
           </div>
@@ -365,13 +365,13 @@ export function McpRessourcesPage({ navigate }: Props) {
         {/* MCP Servers */}
         <section>
           <div className="flex items-center gap-3 mb-5">
-            <h2 className="text-[15px] font-semibold" style={{ color: '#e2e8f0' }}>MCP Serveurs — Claude Code (terminal)</h2>
+            <h2 className="text-[15px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>MCP Serveurs — Claude Code (terminal)</h2>
             <span className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ color: '#4d96ff', background: 'rgba(77,150,255,0.12)', border: '0.5px solid rgba(77,150,255,0.2)' }}>
               {MCP_SERVERS.length} serveurs
             </span>
           </div>
-          <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>
-            Installés via <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, color: '#e2e8f0' }}>claude mcp add</code> ou le fichier <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, color: '#e2e8f0' }}>~/.mcp.json</code>. Claude Code peut AGIR directement dans ces outils.
+          <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>
+            Installés via <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, color: 'hsl(var(--foreground))' }}>claude mcp add</code> ou le fichier <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: 11, color: 'hsl(var(--foreground))' }}>~/.mcp.json</code>. Claude Code peut AGIR directement dans ces outils.
           </p>
           <div className="space-y-2">
             {MCP_SERVERS.map(s => <McpServerCard key={s.id} s={s} />)}
@@ -379,7 +379,7 @@ export function McpRessourcesPage({ navigate }: Props) {
 
           <div className="mt-6">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-[12px] font-semibold" style={{ color: '#e2e8f0' }}>.mcp.json recommandé Buildrs (projet type SaaS)</p>
+              <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>.mcp.json recommandé Buildrs (projet type SaaS)</p>
               <CopyBtn text={RECOMMENDED_MCP_JSON} label="Copier le JSON" />
             </div>
             <CodeBlock label=".mcp.json" code={RECOMMENDED_MCP_JSON} />
@@ -389,31 +389,31 @@ export function McpRessourcesPage({ navigate }: Props) {
         {/* Connecteurs */}
         <section>
           <div className="flex items-center gap-3 mb-5">
-            <h2 className="text-[15px] font-semibold" style={{ color: '#e2e8f0' }}>Connecteurs — Claude.ai / Cowork (interface graphique)</h2>
+            <h2 className="text-[15px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>Connecteurs — Claude.ai / Cowork (interface graphique)</h2>
             <span className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ color: ACCENT, background: 'rgba(34,197,94,0.12)', border: '0.5px solid rgba(34,197,94,0.2)' }}>
               Un clic suffit
             </span>
           </div>
-          <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>
-            Installés via <span style={{ color: '#e2e8f0', fontFamily: 'Geist Mono, monospace', fontSize: 11 }}>Claude.ai → Settings → Integrations → Connect</span>.
+          <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>
+            Installés via <span style={{ color: 'hsl(var(--foreground))', fontFamily: 'Geist Mono, monospace', fontSize: 11 }}>Claude.ai → Settings → Integrations → Connect</span>.
           </p>
 
-          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: '#5b6078' }}>Essentiels</h3>
+          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Essentiels</h3>
           <div className="space-y-2 mb-6">
             {CONNECTORS_ESSENTIAL.map(c => <ConnectorCard key={c.name} c={c} />)}
           </div>
 
-          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: '#5b6078' }}>Recommandés</h3>
+          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Recommandés</h3>
           <div className="space-y-2 mb-6">
             {CONNECTORS_RECOMMENDED.map(c => <ConnectorCard key={c.name} c={c} />)}
           </div>
 
-          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: '#5b6078' }}>Optionnels</h3>
-          <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid rgba(255,255,255,0.07)' }}>
+          <h3 className="text-[12px] font-semibold uppercase tracking-wider mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Optionnels</h3>
+          <div className="rounded-xl overflow-hidden" style={{ border: '0.5px solid hsl(var(--border))' }}>
             {CONNECTORS_OPTIONAL.map((c, i) => (
-              <div key={c.name} className="flex items-center justify-between px-4 py-3" style={{ borderBottom: i < CONNECTORS_OPTIONAL.length - 1 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
-                <span className="text-[12px] font-medium" style={{ color: '#e2e8f0' }}>{c.name}</span>
-                <span className="text-[12px]" style={{ color: '#5b6078' }}>{c.desc}</span>
+              <div key={c.name} className="flex items-center justify-between px-4 py-3" style={{ borderBottom: i < CONNECTORS_OPTIONAL.length - 1 ? '0.5px solid hsl(var(--border))' : undefined }}>
+                <span className="text-[12px] font-medium" style={{ color: 'hsl(var(--foreground))' }}>{c.name}</span>
+                <span className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{c.desc}</span>
               </div>
             ))}
           </div>
@@ -421,7 +421,7 @@ export function McpRessourcesPage({ navigate }: Props) {
 
         {/* Ordre d'installation */}
         <section>
-          <h2 className="text-[15px] font-semibold mb-5" style={{ color: '#e2e8f0' }}>Ordre d'installation recommandé Buildrs</h2>
+          <h2 className="text-[15px] font-semibold mb-5" style={{ color: 'hsl(var(--foreground))' }}>Ordre d'installation recommandé Buildrs</h2>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div>
@@ -430,28 +430,28 @@ export function McpRessourcesPage({ navigate }: Props) {
             </div>
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider mb-3" style={{ color: ACCENT }}>Connecteurs (Claude.ai) — 10 min</p>
-              <div className="rounded-xl p-4 space-y-2" style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
-                <p className="text-[11px] font-medium mb-3" style={{ color: '#5b6078', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → Settings → Integrations</p>
+              <div className="rounded-xl p-4 space-y-2" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+                <p className="text-[11px] font-medium mb-3" style={{ color: 'hsl(var(--muted-foreground))', fontFamily: 'Geist Mono, monospace' }}>Claude.ai → Settings → Integrations</p>
                 {['Vercel', 'Supabase', 'GitHub', 'Stripe', 'Context7', '21st.dev Magic', 'Figma', 'Notion', 'Stitch', 'tldraw', 'Tavily', 'Cloudflare'].map(n => (
                   <div key={n} className="flex items-center gap-2">
                     <span style={{ color: ACCENT, fontSize: 11 }}>→</span>
-                    <span className="text-[12px]" style={{ color: '#e2e8f0' }}>{n}</span>
-                    <span className="text-[10px]" style={{ color: '#3d4466' }}>— Connect</span>
+                    <span className="text-[12px]" style={{ color: 'hsl(var(--foreground))' }}>{n}</span>
+                    <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>— Connect</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.06)' }}>
-            <p className="text-[11px]" style={{ color: '#5b6078' }}>Bibliothèque Buildrs · Mise à jour : 2026-04-04</p>
+          <div className="rounded-xl p-3" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+            <p className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Bibliothèque Buildrs · Mise à jour : 2026-04-04</p>
           </div>
         </section>
 
         {/* CTA */}
         <div className="rounded-2xl p-6" style={{ background: 'rgba(34,197,94,0.06)', border: '0.5px solid rgba(34,197,94,0.2)' }}>
-          <h3 className="text-[14px] font-semibold mb-2" style={{ color: '#e2e8f0' }}>Pas sûr de quoi installer ?</h3>
-          <p className="text-[12px] mb-4" style={{ color: '#94a3b8' }}>
+          <h3 className="text-[14px] font-semibold mb-2" style={{ color: 'hsl(var(--foreground))' }}>Pas sûr de quoi installer ?</h3>
+          <p className="text-[12px] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Utilise le Générateur MCP — décris ton projet en 3 étapes et obtiens la checklist d'installation personnalisée avec les commandes exactes.
           </p>
           <button onClick={() => navigate('#/dashboard/claude-os/apprendre/mcp-connecteurs/generateur')}

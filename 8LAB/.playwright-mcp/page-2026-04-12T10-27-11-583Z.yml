@@ -1,0 +1,348 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Logo 8lab" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Logo 8lab" [ref=e5]
+      - generic [ref=e6]:
+        - link "Programme" [ref=e7] [cursor=pointer]:
+          - /url: "#programme"
+        - link "Processus" [ref=e8] [cursor=pointer]:
+          - /url: "#process"
+        - link "Team" [ref=e9] [cursor=pointer]:
+          - /url: "#team-8lab"
+        - link "Résultats" [ref=e10] [cursor=pointer]:
+          - /url: "#"
+      - link "Rejoindre maintenant" [ref=e11] [cursor=pointer]:
+        - /url: /offers
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: "8lab Ecosystem : The Infinite"
+        - heading "Le seul écosystème pour créer et scaler son empire e-commerce" [level=1] [ref=e16]:
+          - text: Le seul écosystème
+          - strong [ref=e17]: pour
+          - text: créer et scaler
+          - strong [ref=e18]: son
+          - text: empire e-commerce
+        - paragraph [ref=e19]: Le 8lab vous offre un plan étape par étape, le réseau et les outils pour créer une marque e-commerce pérenne.
+        - link "Rejoindre l'écosystème" [ref=e20] [cursor=pointer]:
+          - /url: /offers
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - img "client satisfait-8lab" [ref=e23]
+            - img "client satisfait-8lab" [ref=e24]
+            - img "client satisfait-8lab" [ref=e25]
+            - img "client satisfait-8lab" [ref=e26]
+            - img "client satisfait-8lab" [ref=e27]
+          - generic [ref=e28]:
+            - img "star" [ref=e29]
+            - img "star" [ref=e30]
+            - img "star" [ref=e31]
+            - img "star" [ref=e32]
+            - img "star" [ref=e33]
+          - generic [ref=e34]: +2 536 membres
+        - generic [ref=e35]:
+          - generic [ref=e36]: Formation
+          - generic [ref=e37]: Coaching
+          - generic [ref=e38]: Networking
+          - generic [ref=e39]: Sourcing
+          - generic [ref=e40]: Convention
+          - generic [ref=e41]: Branding
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: 2 536
+          - generic [ref=e45]: Nombre de membres actifs
+        - generic [ref=e46]:
+          - generic [ref=e47]: $45M+
+          - generic [ref=e48]: CA générés par les membres
+        - generic [ref=e49]:
+          - generic [ref=e50]: 99,8%
+          - generic [ref=e51]: Satisfaction de nos membres
+        - generic [ref=e52]:
+          - generic [ref=e53]: "150"
+          - generic [ref=e54]: Nombre d'heures de contenu
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]: 8lab Avantages
+        - heading "L'écosystème ultime. L'environnement parfait." [level=2] [ref=e59]
+        - generic [ref=e60]:
+          - paragraph [ref=e61]:
+            - strong [ref=e62]: Bien plus qu'une simple formation
+            - text: ", un environnement façonné pour maximiser la performance et la réussite."
+          - link "Rejoindre maintenant." [ref=e63] [cursor=pointer]:
+            - /url: /offers
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e66]: 8 lab
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - img [ref=e70]
+              - generic [ref=e72]: Méthodes éprouvées
+            - generic [ref=e73]:
+              - img [ref=e75]
+              - generic [ref=e77]: Coaching personnalisé
+            - generic [ref=e78]:
+              - img [ref=e80]
+              - generic [ref=e82]: Communauté d'entraide
+            - generic [ref=e83]:
+              - img [ref=e85]
+              - generic [ref=e87]: Sourcing et warehouse
+        - generic [ref=e88]:
+          - strong [ref=e90]: Apprendre Seul
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - img [ref=e94]
+              - generic [ref=e96]: Zéro vision et stratégie
+            - generic [ref=e97]:
+              - img [ref=e99]
+              - generic [ref=e101]: Confronter à soi-même
+            - generic [ref=e102]:
+              - img [ref=e104]
+              - generic [ref=e106]: Asymétrie des infos
+            - generic [ref=e107]:
+              - img [ref=e109]
+              - generic [ref=e111]: Des difficultés à sourcer
+        - generic [ref=e112]:
+          - strong [ref=e114]: Autres Formations
+          - generic [ref=e115]:
+            - generic [ref=e116]:
+              - img [ref=e118]
+              - generic [ref=e120]: Théorie sans concret
+            - generic [ref=e121]:
+              - img [ref=e123]
+              - generic [ref=e125]: Pas d'accompagnement
+            - generic [ref=e126]:
+              - img [ref=e128]
+              - generic [ref=e130]: Communauté inactive
+            - generic [ref=e131]:
+              - img [ref=e133]
+              - generic [ref=e135]: Vision court-terme
+    - generic [ref=e137]:
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - generic [ref=e140]: Academy
+          - heading "Le programme e-commerce avec le plus fort taux de réussite" [level=2] [ref=e141]
+          - paragraph [ref=e142]: La formation la plus poussée du marché pour apprendre l'e-commerce, peu importe vos connaissances et vos compétences de départ.
+        - link "Rejoindre l'écosystème" [ref=e143] [cursor=pointer]:
+          - /url: /offers
+      - img [ref=e146]
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - button "1 - Les fondations de ta réussite" [ref=e150] [cursor=pointer]:
+            - generic [ref=e151]: 1 - Les fondations de ta réussite
+            - img [ref=e152]
+          - paragraph [ref=e155]: "Découvrez les bases essentielles pour réussir en e-commerce : mindset, organisation et plan d'action."
+        - button "2 - Structuration et bases du e-commerce" [ref=e157] [cursor=pointer]:
+          - generic [ref=e158]: 2 - Structuration et bases du e-commerce
+          - img [ref=e159]
+        - button "3 - Sourcing et supply chain" [ref=e162] [cursor=pointer]:
+          - generic [ref=e163]: 3 - Sourcing et supply chain
+          - img [ref=e164]
+        - button "4 - Créer une boutique brandée de A à Z" [ref=e167] [cursor=pointer]:
+          - generic [ref=e168]: 4 - Créer une boutique brandée de A à Z
+          - img [ref=e169]
+        - button "5 - Créer ou récupérer du contenu publicitaire" [ref=e172] [cursor=pointer]:
+          - generic [ref=e173]: 5 - Créer ou récupérer du contenu publicitaire
+          - img [ref=e174]
+        - button "6 - Maîtriser les plateformes publicitaires" [ref=e177] [cursor=pointer]:
+          - generic [ref=e178]: 6 - Maîtriser les plateformes publicitaires
+          - img [ref=e179]
+        - button "7 - Gestion et optimisation des opérations" [ref=e182] [cursor=pointer]:
+          - generic [ref=e183]: 7 - Gestion et optimisation des opérations
+          - img [ref=e184]
+        - button "8 - Transition vers une semi-marque" [ref=e187] [cursor=pointer]:
+          - generic [ref=e188]: 8 - Transition vers une semi-marque
+          - img [ref=e189]
+        - button "9 - Empire Builder [NOUVEAUTÉ]" [ref=e192] [cursor=pointer]:
+          - generic [ref=e193]: 9 - Empire Builder [NOUVEAUTÉ]
+          - img [ref=e194]
+        - button "10 - Masterclass" [ref=e197] [cursor=pointer]:
+          - generic [ref=e198]: 10 - Masterclass
+          - img [ref=e199]
+      - generic [ref=e201]:
+        - generic [ref=e202]: 5 en 1
+        - paragraph [ref=e203]: Formation · Coaching · Networking · Sourcing · Convention
+    - generic [ref=e205]:
+      - generic [ref=e206]:
+        - generic [ref=e207]:
+          - generic [ref=e208]: Processus
+          - heading "3 étapes simples pour avoir des résultats" [level=2] [ref=e209]:
+            - text: 3 étapes simples
+            - text: pour avoir des résultats
+          - paragraph [ref=e210]:
+            - strong [ref=e211]: Une approche structuré en trois phases
+            - text: ", pour avancer efficacement et bâtir une marque solide."
+        - link "Rejoindre maintenant" [ref=e212] [cursor=pointer]:
+          - /url: /offers
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - strong [ref=e217]: 1 - Recherche produit et analyse concurrentielle
+          - generic [ref=e218]: Utilisez la psychologie et les tendances pour trouver les niches et produits rentables.
+        - generic [ref=e219]:
+          - strong [ref=e222]: 2 - Boutique qui convertit et image de marque forte
+          - generic [ref=e223]: Créez un véritable écosystème qui pousse les visiteurs à l'achat.
+        - generic [ref=e224]:
+          - strong [ref=e227]: 3 - Optimisation générale et scaling à l'international
+          - generic [ref=e228]: Transitionnez en une marque stable et pérenne, assurant un succès à long terme.
+    - generic [ref=e230]:
+      - generic [ref=e231]:
+        - generic [ref=e232]: L'équipe du Laboratoire
+        - heading "Les experts 8lab derrière l'Academy" [level=2] [ref=e233]:
+          - text: Les experts 8lab
+          - text: derrière l'Academy
+        - paragraph [ref=e234]:
+          - strong [ref=e235]: Des experts passionnés
+          - text: ", réunis pour vous transmettre les stratégies les plus efficaces et vous guider vers l'excellence."
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - generic [ref=e240]:
+            - strong [ref=e242]: Alex Shane
+            - generic [ref=e243]: Création de marque et semi marque
+          - paragraph [ref=e244]: Gérant plus de 3 marques simultanément et ayant généré plusieurs millions de CA, Alex te guidera pour bâtir une marque stable et pérenne.
+        - generic [ref=e245]:
+          - generic [ref=e248]:
+            - strong [ref=e250]: Maximilien Triora
+            - generic [ref=e251]: Créateur de la méthode 8lab
+          - paragraph [ref=e252]: Expert e-commerce ayant généré plusieurs millions de chiffre d'affaire. Créateur du process 8lab, il t'apprendra à transformer tes ambitions en réalité.
+        - generic [ref=e253]:
+          - generic [ref=e256]:
+            - strong [ref=e258]: Andrea & Camille (Hover)
+            - generic [ref=e259]: Optimisation du taux de conversion
+          - paragraph [ref=e260]: Passés de e-commerçants générants de millions à experts en optimisation de taux de conversion, UI/UX, etc., Andrea te donnera les meilleures méthodes pour optimiser ton site.
+      - generic [ref=e261]:
+        - button [disabled] [ref=e262]:
+          - img [ref=e263]
+        - button [ref=e265] [cursor=pointer]:
+          - img [ref=e266]
+    - generic [ref=e269]:
+      - generic [ref=e270]:
+        - heading "Rejoignez le 8lab et explosez en e-commerce" [level=2] [ref=e271]:
+          - text: Rejoignez le 8lab
+          - text: et explosez en
+          - text: e-commerce
+        - generic [ref=e274]: +2 536 membres
+      - generic [ref=e275]:
+        - generic [ref=e276]:
+          - generic [ref=e277]: 8lab Ecosystem - Full Access
+          - generic [ref=e278]:
+            - generic [ref=e279]: 1900€
+            - generic [ref=e280]: accès à vie
+        - generic [ref=e281]:
+          - paragraph [ref=e282]: "\"+100 000€ de CA en une seule journée\""
+          - generic [ref=e283]:
+            - img "Lou | Kaibaa" [ref=e284]
+            - generic [ref=e285]:
+              - generic [ref=e286]: Lou | Kaibaa
+              - generic [ref=e287]: "@kaibaa"
+          - paragraph [ref=e288]: Kaibaa a rejoint le 8lab avec une boutique qui tournait autour de 2 000€ par jour. Un an plus tard, il réalise des mois à plusieurs millions d'euros sur le marché français.
+        - generic [ref=e289]:
+          - generic [ref=e290]: "Ce qui est inclus:"
+          - generic [ref=e291]:
+            - generic [ref=e292]:
+              - img [ref=e294]
+              - generic [ref=e296]: "Academy : Formation + Masterclass"
+            - generic [ref=e297]:
+              - img [ref=e299]
+              - generic [ref=e301]: "Network : Groupe communautaire"
+            - generic [ref=e302]:
+              - img [ref=e304]
+              - generic [ref=e306]: "Coaching : Accompagnement 1:1"
+            - generic [ref=e307]:
+              - img [ref=e309]
+              - generic [ref=e311]: "Convention : Accès privilégiés"
+            - generic [ref=e312]:
+              - img [ref=e314]
+              - generic [ref=e316]: "Ressources : Documents et fiches"
+            - generic [ref=e317]:
+              - img [ref=e319]
+              - generic [ref=e321]: "Ecom Talks : Podcast privé full value"
+            - generic [ref=e322]:
+              - img [ref=e324]
+              - generic [ref=e326]: "Build In Public : Boutique révélée"
+            - generic [ref=e327]:
+              - img [ref=e329]
+              - generic [ref=e331]: "Études de cas : Analyse de succès"
+            - generic [ref=e332]:
+              - img [ref=e334]
+              - generic [ref=e336]: "Plateforme webapp : Compte personnel"
+          - link "Rejoindre l'écosystème" [ref=e337] [cursor=pointer]:
+            - /url: /offers
+      - heading "Ou réservez un appel" [level=2] [ref=e339]
+    - generic [ref=e341]:
+      - generic [ref=e342]:
+        - generic [ref=e343]: FAQ
+        - heading "Vos Questions. Nos Réponses" [level=2] [ref=e344]
+        - generic [ref=e345]:
+          - paragraph [ref=e346]:
+            - strong [ref=e347]: Si vous ne trouvez pas la réponse que vous cherchez,
+            - text: réservez un appel ou contactez-nous en cliquant ici.
+          - link "Contactez-nous" [ref=e348] [cursor=pointer]:
+            - /url: mailto:team@8labecosystem.com
+      - generic [ref=e349]:
+        - button "L'écosystème 8lab, c'est quoi ?" [ref=e351] [cursor=pointer]:
+          - generic [ref=e352]: L'écosystème 8lab, c'est quoi ?
+          - img [ref=e353]
+        - button "Comment rejoindre le 8lab ?" [ref=e356] [cursor=pointer]:
+          - generic [ref=e357]: Comment rejoindre le 8lab ?
+          - img [ref=e358]
+        - button "Est ce qu'il y a une garantie de remboursement ?" [ref=e361] [cursor=pointer]:
+          - generic [ref=e362]: Est ce qu'il y a une garantie de remboursement ?
+          - img [ref=e363]
+        - button "Suis-je accompagné lors de la formation ?" [ref=e366] [cursor=pointer]:
+          - generic [ref=e367]: Suis-je accompagné lors de la formation ?
+          - img [ref=e368]
+        - button "Abordez-vous l'administratif et le fiscal ?" [ref=e371] [cursor=pointer]:
+          - generic [ref=e372]: Abordez-vous l'administratif et le fiscal ?
+          - img [ref=e373]
+        - button "Quel est le budget idéal pour bien commencer ?" [ref=e376] [cursor=pointer]:
+          - generic [ref=e377]: Quel est le budget idéal pour bien commencer ?
+          - img [ref=e378]
+        - button "La formation est-elle adaptée pour débutants ?" [ref=e381] [cursor=pointer]:
+          - generic [ref=e382]: La formation est-elle adaptée pour débutants ?
+          - img [ref=e383]
+        - button "Pouvez-vous m'assurer que j'aurais des résultats ?" [ref=e386] [cursor=pointer]:
+          - generic [ref=e387]: Pouvez-vous m'assurer que j'aurais des résultats ?
+          - img [ref=e388]
+  - contentinfo [ref=e390]:
+    - generic [ref=e391]:
+      - generic [ref=e392]:
+        - heading "Infinite Is The New Norm" [level=2] [ref=e393]
+        - paragraph [ref=e394]:
+          - strong [ref=e395]: Repoussez les limites
+          - text: et évoluez dans un environnement où la
+          - strong [ref=e396]: performance et la réussite
+          - text: priment.
+        - generic [ref=e399]: +2 536 membres
+        - link "Rejoindre l'écosystème" [ref=e400] [cursor=pointer]:
+          - /url: /offers
+      - generic [ref=e401]:
+        - generic [ref=e402]:
+          - img "Logo 8lab" [ref=e403]
+          - link "team@8labecosystem.com" [ref=e404] [cursor=pointer]:
+            - /url: mailto:team@8labecosystem.com
+        - generic [ref=e405]:
+          - generic [ref=e406]: Navigation
+          - generic [ref=e407]:
+            - link "Programme" [ref=e408] [cursor=pointer]:
+              - /url: "#programme"
+            - link "Process" [ref=e409] [cursor=pointer]:
+              - /url: "#process"
+            - link "L'Équipe" [ref=e410] [cursor=pointer]:
+              - /url: "#team-8lab"
+            - link "Rejoindre" [ref=e411] [cursor=pointer]:
+              - /url: "#rejoindre"
+            - link "Avis" [ref=e412] [cursor=pointer]:
+              - /url: "#"
+            - link "FAQ" [ref=e413] [cursor=pointer]:
+              - /url: "#faq"
+        - generic [ref=e414]:
+          - generic [ref=e415]: Informations
+          - generic [ref=e416]:
+            - link "Mentions légales" [ref=e417] [cursor=pointer]:
+              - /url: "#"
+            - link "Conditions générales" [ref=e418] [cursor=pointer]:
+              - /url: "#"
+            - link "Politique de confidentialité" [ref=e419] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e420]: © 2025 8lab Corporation - All rights reserved.

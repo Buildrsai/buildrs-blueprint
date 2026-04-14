@@ -40,6 +40,7 @@ const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(
 const SourceDetailPage     = lazy(() => import('./SourceDetailPage').then(m => ({ default: m.SourceDetailPage })))
 const RevenueCalculatorPage = lazy(() => import('./RevenueCalculatorPage').then(m => ({ default: m.RevenueCalculatorPage })))
 const GeneratorPage         = lazy(() => import('./GeneratorPage').then(m => ({ default: m.GeneratorPage })))
+const AcquisitionBonusPage  = lazy(() => import('./AcquisitionBonusPage').then(m => ({ default: m.AcquisitionBonusPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
 const MembersPage        = lazy(() => import('./MembersPage').then(m => ({ default: m.MembersPage })))
@@ -68,7 +69,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   const { purchases } = usePurchases(user.id)
   const access = useAccess(user, purchases)
   const { rows: contentRows, isBrickCompleted, markBrickComplete } = useContentProgress(user.id)
-  const { profile, addXP } = useProfile(user.id)
+  const { profile, addXP, updateProfile } = useProfile(user.id)
 
   // XP-wrapped completion helpers
   const markCompleteWithXP = async (moduleId: string, lessonId: string) => {
@@ -127,6 +128,31 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
       await supabase.from('user_purchases').insert({
         user_id:      user.id,
         product_slug: 'claude-code',
+      }).throwOnError()
+      await supabase.from('purchases').update({ applied: true }).eq('id', data.id)
+      window.location.reload()
+    })()
+  }, [user.id])
+
+  // Réconciliation OB Acquisition : si acheté via Blueprint OB2 (avant inscription),
+  // la table `purchases` le contient (product='acquisition') → sync vers user_purchases
+  useEffect(() => {
+    if (access.hasProduct('acquisition-bonus')) return
+    const email = user.email
+    if (!email) return
+    ;(async () => {
+      const { data } = await supabase
+        .from('purchases')
+        .select('id')
+        .eq('email', email)
+        .eq('product', 'acquisition')
+        .eq('applied', false)
+        .limit(1)
+        .maybeSingle()
+      if (!data) return
+      await supabase.from('user_purchases').insert({
+        user_id:      user.id,
+        product_slug: 'acquisition-bonus',
       }).throwOnError()
       await supabase.from('purchases').update({ applied: true }).eq('id', data.id)
       window.location.reload()
@@ -284,6 +310,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'validator') return (<W><DashboardLayout {...layoutProps}><ValidatorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'revenue-calculator') return (<W><DashboardLayout {...layoutProps}><RevenueCalculatorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'generator') return (<W><DashboardLayout {...layoutProps}><GeneratorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
+  if (route.type === 'acquisition-bonus') return (<W><DashboardLayout {...layoutProps}><AcquisitionBonusPage subPath={route.moduleId ?? ''} navigate={navigate} hasBonus={access.hasProduct('acquisition-bonus')} userId={user.id} /></DashboardLayout></W>)
 
   if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
@@ -303,7 +330,7 @@ function getTitle(route: DashboardRoute): string {
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
     'claude-os': 'Claude OS',
-    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de micro-SaaS',
+    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de SaaS', 'acquisition-bonus': '100 premiers utilisateurs',
     'opportunity-detail': 'Opportunite',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',

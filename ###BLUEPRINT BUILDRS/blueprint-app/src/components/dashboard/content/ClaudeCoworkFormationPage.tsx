@@ -15,10 +15,10 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-4" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-4 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
@@ -27,7 +27,7 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
       <button
         onClick={doCopy}
         className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
       >
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
@@ -45,28 +45,28 @@ function Callout({ children, type = 'info' }: { children: React.ReactNode; type?
   return (
     <div className="rounded-xl px-4 py-3.5 my-4" style={{ background: s.bg, border: `0.5px solid ${s.border}` }}>
       <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ color: s.color }}>{s.label}</p>
-      <div className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{children}</div>
+      <div className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</div>
     </div>
   )
 }
 
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
-    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
+    <div className="flex items-center gap-3 mt-12 mb-6 pt-10" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
       <span className="text-[10px] font-black tabular-nums px-2 py-0.5 rounded-md flex-shrink-0" style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.25)', letterSpacing: '0.03em' }}>
         {num}
       </span>
-      <h2 className="text-[17px] font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.025em' }}>{title}</h2>
+      <h2 className="text-[17px] font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.025em' }}>{title}</h2>
     </div>
   )
 }
 
 function SubTitle({ title }: { title: string }) {
-  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: '#f0f0f5', letterSpacing: '-0.015em' }}>{title}</h3>
+  return <h3 className="text-[13px] font-bold mb-3 mt-7" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.015em' }}>{title}</h3>
 }
 
 function Body({ children }: { children: React.ReactNode }) {
-  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: '#9399b2' }}>{children}</p>
+  return <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>{children}</p>
 }
 
 // ── Use case card ──────────────────────────────────────────────────────────
@@ -81,7 +81,7 @@ function UseCaseCard({
 }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-xl overflow-hidden" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-3.5 text-left transition-all hover:opacity-80"
@@ -89,15 +89,15 @@ function UseCaseCard({
         <span className="text-[10px] font-black flex-shrink-0 px-1.5 py-0.5 rounded" style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', fontFamily: 'Geist Mono, monospace', border: '0.5px solid rgba(34,197,94,0.25)' }}>
           {num}
         </span>
-        <p className="text-[13px] font-semibold flex-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{title}</p>
-        <ChevronRight size={14} strokeWidth={1.5} style={{ color: '#5b6078', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 150ms' }} />
+        <p className="text-[13px] font-semibold flex-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{title}</p>
+        <ChevronRight size={14} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 150ms' }} />
       </button>
       {open && (
         <div className="px-4 pb-4" style={{ borderTop: '0.5px solid rgba(255,255,255,0.05)' }}>
           <div className="pt-4">{children}</div>
           <div className="mt-3 rounded-lg px-3 py-2.5" style={{ background: 'rgba(34,197,94,0.05)', border: '0.5px solid rgba(34,197,94,0.15)' }}>
             <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-1" style={{ color: '#22c55e' }}>Résultat</p>
-            <p className="text-[12px]" style={{ color: '#9399b2' }}>{result}</p>
+            <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{result}</p>
           </div>
         </div>
       )}
@@ -117,13 +117,13 @@ function PluginCard({
   exampleLabel?: string
 }) {
   return (
-    <div className="rounded-xl overflow-hidden mb-4" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
-      <div className="px-4 py-3.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.05)' }}>
-        <p className="text-[13px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{title}</p>
-        <p className="text-[12px] leading-relaxed mb-3" style={{ color: '#5b6078' }}>{desc}</p>
+    <div className="rounded-xl overflow-hidden mb-4" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+      <div className="px-4 py-3.5" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
+        <p className="text-[13px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{title}</p>
+        <p className="text-[12px] leading-relaxed mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
         <div className="flex flex-wrap gap-1.5">
           {connectors.map(c => (
-            <span key={c} className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.06)', color: '#9399b2', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+            <span key={c} className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'hsl(var(--secondary))', color: 'hsl(var(--muted-foreground))', border: '0.5px solid hsl(var(--border))' }}>
               {c}
             </span>
           ))}
@@ -145,7 +145,7 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour à Claude OS</span>
@@ -158,10 +158,10 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
               Formation
             </span>
           </div>
-          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.035em' }}>
+          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.035em' }}>
             Claude Cowork
           </h1>
-          <p className="text-[14px] leading-relaxed" style={{ color: '#9399b2' }}>
+          <p className="text-[14px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
             L'agent IA qui travaille sur tes fichiers pendant que toi, tu pilotes ton business.
             Pas de terminal, pas de code — juste des résultats.
           </p>
@@ -171,7 +171,7 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
         <SectionTitle num="01" title="Pourquoi Cowork est essentiel dans le système Buildrs" />
 
         <Body>
-          Claude Code build ton SaaS. Cowork gère <strong style={{ color: '#f0f0f5' }}>tout le reste</strong>.
+          Claude Code build ton SaaS. Cowork gère <strong style={{ color: 'hsl(var(--foreground))' }}>tout le reste</strong>.
         </Body>
 
         <Body>
@@ -185,13 +185,13 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
 
         <SubTitle title="Cowork vs Claude Code" />
 
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
           <div className="grid grid-cols-2">
             <div className="p-4" style={{ background: 'rgba(77,150,255,0.04)', borderRight: '0.5px solid rgba(255,255,255,0.06)' }}>
               <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: '#4d96ff' }}>Claude Code</p>
               <ul className="space-y-1.5">
                 {['Terminal & ligne de commande', 'Développeurs & builders', 'Code, Git, déploiement', 'Projets SaaS'].map(t => (
-                  <li key={t} className="text-[12px]" style={{ color: '#9399b2' }}>— {t}</li>
+                  <li key={t} className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>— {t}</li>
                 ))}
               </ul>
             </div>
@@ -199,7 +199,7 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
               <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-3" style={{ color: '#22c55e' }}>Claude Cowork</p>
               <ul className="space-y-1.5">
                 {['Interface graphique, zéro terminal', 'Knowledge workers & solopreneurs', 'Fichiers, documents, analyse', 'Gestion du business autour du SaaS'].map(t => (
-                  <li key={t} className="text-[12px]" style={{ color: '#9399b2' }}>— {t}</li>
+                  <li key={t} className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>— {t}</li>
                 ))}
               </ul>
             </div>
@@ -212,7 +212,7 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
 
         <SubTitle title="Ce que Cowork change concrètement" />
         <Body>
-          Tu peux empiler plusieurs tâches et laisser Claude les traiter en parallèle. Tu peux même lui envoyer des instructions depuis ton téléphone via <strong style={{ color: '#f0f0f5' }}>Dispatch</strong> et retrouver le travail terminé sur ton ordinateur. C'est un vrai collaborateur qui tourne en arrière-plan pendant que tu te concentres sur la stratégie.
+          Tu peux empiler plusieurs tâches et laisser Claude les traiter en parallèle. Tu peux même lui envoyer des instructions depuis ton téléphone via <strong style={{ color: 'hsl(var(--foreground))' }}>Dispatch</strong> et retrouver le travail terminé sur ton ordinateur. C'est un vrai collaborateur qui tourne en arrière-plan pendant que tu te concentres sur la stratégie.
         </Body>
 
         {/* ── Section 02 ─────────────────────────────────────────────────── */}
@@ -225,9 +225,9 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
             { label: 'Claude Desktop', desc: 'Téléchargeable sur claude.com/download' },
             { label: 'Abonnement Claude payant', desc: 'Pro à 20$/mois minimum' },
           ].map(item => (
-            <div key={item.label} className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div key={item.label} className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#22c55e' }} />
-              <p className="text-[12px]"><span className="font-semibold" style={{ color: '#f0f0f5' }}>{item.label}</span> <span style={{ color: '#5b6078' }}>— {item.desc}</span></p>
+              <p className="text-[12px]"><span className="font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{item.label}</span> <span style={{ color: 'hsl(var(--muted-foreground))' }}>— {item.desc}</span></p>
             </div>
           ))}
         </div>
@@ -239,18 +239,18 @@ export function ClaudeCoworkFormationPage({ navigate }: Props) {
             { step: '2', title: 'Ouvre l\'app et sélectionne Cowork', desc: 'Connecte-toi, puis choisis l\'onglet Cowork dans le sélecteur de mode.' },
             { step: '3', title: 'Accorde l\'accès à un dossier', desc: 'Claude ne voit que le dossier que tu autorises — le reste de ton disque est isolé.' },
           ].map(item => (
-            <div key={item.step} className="flex gap-4 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div key={item.step} className="flex gap-4 p-4 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <span className="text-[13px] font-black flex-shrink-0" style={{ color: '#22c55e', fontFamily: 'Geist Mono, monospace' }}>{item.step}</span>
               <div>
-                <p className="text-[13px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{item.title}</p>
-                <p className="text-[12px]" style={{ color: '#5b6078' }}>{item.desc}</p>
+                <p className="text-[13px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{item.title}</p>
+                <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
         <Callout type="success">
-          Crée un dossier dédié par projet SaaS. Par exemple <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/Buildrs/MonSaaS/</code> avec des sous-dossiers <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/docs</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/data</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/marketing</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/legal</code>. Cowork ne voit que le dossier autorisé.
+          Crée un dossier dédié par projet SaaS. Par exemple <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/Buildrs/MonSaaS/</code> avec des sous-dossiers <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/docs</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/data</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/marketing</code>, <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/legal</code>. Cowork ne voit que le dossier autorisé.
         </Callout>
 
         {/* ── Section 03 ─────────────────────────────────────────────────── */}
@@ -545,8 +545,8 @@ Connecteurs :
         <div className="rounded-xl p-5 my-6 flex gap-4" style={{ background: 'rgba(34,197,94,0.05)', border: '0.5px solid rgba(34,197,94,0.2)' }}>
           <Smartphone size={32} strokeWidth={1.5} style={{ color: '#22c55e', flexShrink: 0, marginTop: 2 }} />
           <div>
-            <p className="text-[13px] font-bold mb-1.5" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>Disponible depuis mars 2026</p>
-            <p className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>
+            <p className="text-[13px] font-bold mb-1.5" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>Disponible depuis mars 2026</p>
+            <p className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Dispatch te permet d'envoyer des instructions à Cowork depuis ton smartphone. Claude exécute la tâche sur ton ordinateur, même si tu es en déplacement. Ton ordinateur doit rester allumé.
             </p>
           </div>
@@ -563,13 +563,13 @@ Connecteurs :
               <span className="text-[10px] font-black flex-shrink-0 w-5 h-5 rounded flex items-center justify-center mt-0.5" style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', fontFamily: 'Geist Mono, monospace', border: '0.5px solid rgba(34,197,94,0.25)' }}>
                 {i + 1}
               </span>
-              <p className="text-[12.5px] leading-relaxed" style={{ color: '#9399b2' }}>{step}</p>
+              <p className="text-[12.5px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{step}</p>
             </div>
           ))}
         </div>
 
         <Callout type="success">
-          Exemple Buildrs concret : tu es en rendez-vous client, tu envoies depuis ton téléphone : <em style={{ color: '#f0f0f5' }}>"Prépare le devis pour [client] avec le template dans /templates/devis.docx, tarif Pro à 49€/mois, engagement 12 mois."</em> Quand tu reviens à ton bureau, le devis est prêt.
+          Exemple Buildrs concret : tu es en rendez-vous client, tu envoies depuis ton téléphone : <em style={{ color: 'hsl(var(--foreground))' }}>"Prépare le devis pour [client] avec le template dans /templates/devis.docx, tarif Pro à 49€/mois, engagement 12 mois."</em> Quand tu reviens à ton bureau, le devis est prêt.
         </Callout>
 
         {/* ── Section 06 ─────────────────────────────────────────────────── */}
@@ -582,11 +582,11 @@ Connecteurs :
             { rule: 'Sois explicite sur les suppressions', detail: 'Précise toujours "NE SUPPRIME RIEN" si tu ne veux pas de pertes. Claude demande confirmation avant de supprimer, mais mieux vaut prévenir.' },
             { rule: 'Vérifie les résultats', detail: 'Cowork est en research preview. Relis toujours les documents produits avant de les envoyer ou publier. Les chiffres doivent être vérifiés.' },
           ].map((item, i) => (
-            <div key={i} className="flex gap-4 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.07)' }}>
+            <div key={i} className="flex gap-4 p-4 rounded-xl" style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               <span className="text-[13px] font-black flex-shrink-0 mt-0.5" style={{ color: '#ef4444', fontFamily: 'Geist Mono, monospace' }}>0{i + 1}</span>
               <div>
-                <p className="text-[13px] font-bold mb-1" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{item.rule}</p>
-                <p className="text-[12px] leading-relaxed" style={{ color: '#5b6078' }}>{item.detail}</p>
+                <p className="text-[13px] font-bold mb-1" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{item.rule}</p>
+                <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.detail}</p>
               </div>
             </div>
           ))}
@@ -608,16 +608,16 @@ Connecteurs :
 
         <SubTitle title="Tâches planifiées" />
         <Body>
-          Tu peux programmer des tâches récurrentes avec <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'rgba(255,255,255,0.08)', borderRadius: 4 }}>/schedule</code> : briefing quotidien de ta boîte mail, veille concurrentielle hebdomadaire, rapport mensuel automatique. Les tâches planifiées tournent tant que ton ordinateur est allumé et l'app Claude ouverte.
+          Tu peux programmer des tâches récurrentes avec <code style={{ fontFamily: 'Geist Mono, monospace', fontSize: '11px', padding: '1px 4px', background: 'hsl(var(--border))', borderRadius: 4 }}>/schedule</code> : briefing quotidien de ta boîte mail, veille concurrentielle hebdomadaire, rapport mensuel automatique. Les tâches planifiées tournent tant que ton ordinateur est allumé et l'app Claude ouverte.
         </Body>
 
         {/* ── Section 07 ─────────────────────────────────────────────────── */}
         <SectionTitle num="07" title="Plans et coûts" />
 
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
+          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
             {['Plan', 'Prix', 'Notre avis'].map(h => (
-              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>{h}</p>
+              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>{h}</p>
             ))}
           </div>
           {[
@@ -626,9 +626,9 @@ Connecteurs :
             { plan: 'Max 20x', prix: '200$/mois', avis: 'Pour un usage très intensif', ok: false },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-3 px-4 py-3" style={{ borderBottom: i < 2 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
-              <p className="text-[12px] font-semibold" style={{ color: '#f0f0f5' }}>{row.plan}</p>
+              <p className="text-[12px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{row.plan}</p>
               <p className="text-[12px]" style={{ color: '#22c55e', fontFamily: 'Geist Mono, monospace' }}>{row.prix}</p>
-              <p className="text-[12px]" style={{ color: row.ok ? '#9399b2' : '#5b6078' }}>{row.avis}</p>
+              <p className="text-[12px]" style={{ color: row.ok ? 'hsl(var(--muted-foreground))' : 'hsl(var(--muted-foreground))' }}>{row.avis}</p>
             </div>
           ))}
         </div>
@@ -648,10 +648,10 @@ Connecteurs :
           Voici comment les outils Claude s'articulent dans ton workflow Buildrs. Chaque outil a une responsabilité claire.
         </Body>
 
-        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
-          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
+        <div className="rounded-xl overflow-hidden my-4" style={{ border: '0.5px solid hsl(var(--border))' }}>
+          <div className="grid grid-cols-3 px-4 py-2" style={{ borderBottom: '0.5px solid hsl(var(--border))', background: 'hsl(var(--secondary))' }}>
             {['Tâche', 'Outil', 'Exemple'].map(h => (
-              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: '#5b6078' }}>{h}</p>
+              <p key={h} className="text-[9px] font-bold uppercase tracking-[0.1em]" style={{ color: 'hsl(var(--muted-foreground))' }}>{h}</p>
             ))}
           </div>
           {[
@@ -661,12 +661,12 @@ Connecteurs :
             { tache: 'Contenu marketing', outil: 'Claude Cowork', color: '#22c55e', exemple: 'Articles, emails, posts LinkedIn' },
             { tache: 'Administratif', outil: 'Claude Cowork', color: '#22c55e', exemple: 'Factures, comptabilité, fichiers' },
             { tache: 'Piloter en déplacement', outil: 'Dispatch', color: '#8b5cf6', exemple: 'Lancer des tâches depuis ton mobile' },
-            { tache: 'Brainstorm & stratégie', outil: 'Claude Chat', color: '#9399b2', exemple: 'Réflexion, questions rapides' },
+            { tache: 'Brainstorm & stratégie', outil: 'Claude Chat', color: 'hsl(var(--muted-foreground))', exemple: 'Réflexion, questions rapides' },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-3 px-4 py-3" style={{ borderBottom: i < 6 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
-              <p className="text-[12px]" style={{ color: '#9399b2' }}>{row.tache}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{row.tache}</p>
               <p className="text-[12px] font-semibold" style={{ color: row.color }}>{row.outil}</p>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>{row.exemple}</p>
+              <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{row.exemple}</p>
             </div>
           ))}
         </div>
@@ -676,8 +676,8 @@ Connecteurs :
         </Callout>
 
         {/* ── Sources ────────────────────────────────────────────────────── */}
-        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)' }}>
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: '#5b6078' }}>Sources</p>
+        <div className="mt-12 pt-8" style={{ borderTop: '0.5px solid hsl(var(--border))' }}>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>Sources</p>
           <div className="flex flex-col gap-2">
             {[
               { label: 'Cowork — Guide de démarrage officiel', url: 'https://support.claude.com/en/articles/13345190-get-started-with-cowork' },
@@ -706,8 +706,8 @@ Connecteurs :
           className="mt-10 rounded-2xl p-6"
           style={{ background: 'rgba(34,197,94,0.05)', border: '0.5px solid rgba(34,197,94,0.2)' }}
         >
-          <p className="text-[14px] font-extrabold mb-2" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
-          <p className="text-[12px] mb-5" style={{ color: '#5b6078' }}>
+          <p className="text-[14px] font-extrabold mb-2" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>Et maintenant ?</p>
+          <p className="text-[12px] mb-5" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Tu sais comment Cowork gère tout ce qui n'est pas du code dans ton business SaaS. La suite du Claude OS te donne les armes techniques pour builder.
           </p>
           <div className="flex flex-col gap-2">

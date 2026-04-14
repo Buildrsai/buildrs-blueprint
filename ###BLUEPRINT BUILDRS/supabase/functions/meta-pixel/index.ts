@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
 
   try {
     const body = await req.json()
-    const { event_name, event_source_url, value, currency, fbc, fbp, email_hash } = body
+    const { event_name, event_id, event_source_url, value, currency, fbc, fbp, email_hash } = body
 
     if (!event_name) {
       return new Response(JSON.stringify({ error: 'event_name required' }), {
@@ -51,6 +51,8 @@ Deno.serve(async (req) => {
       event_source_url: event_source_url || 'https://buildrs.fr',
       user_data: userData,
     }
+    // event_id partagé avec fbq() côté browser → Meta déduplication correctement
+    if (event_id) eventData.event_id = event_id
 
     if (value !== undefined && value !== null) {
       eventData.custom_data = {

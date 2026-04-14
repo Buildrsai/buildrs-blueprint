@@ -1,0 +1,190 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]
+    - generic [ref=e25]:
+      - 'button "8lab Ecosystem : The Infinite" [ref=e26] [cursor=pointer]'
+      - heading "Le seul écosystème pour créer et scaler son empire e-commerce" [level=1] [ref=e33]
+      - generic [ref=e37]
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e39] [cursor=pointer]:
+        - /url: /offers
+      - generic [ref=e43]
+    - generic [ref=e65]:
+      - generic [ref=e66]
+      - generic [ref=e70]
+      - generic [ref=e74]
+      - generic [ref=e78]
+      - generic [ref=e82]
+      - generic [ref=e86]
+    - iframe [ref=e97]:
+      - iframe [ref=f1e4]:
+        - generic [ref=f13e2]:
+          - generic:
+            - generic:
+              - img
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+            - generic:
+              - img
+              - generic: Lecture en incrustation
+          - generic:
+            - generic:
+              - button "Lire" [ref=f13e10] [cursor=pointer]:
+                - img [ref=f13e11]
+                - generic:
+                  - generic: Lire
+                  - img [ref=f13e14]
+              - button "Plein écran" [ref=f13e19] [cursor=pointer]:
+                - img [ref=f13e20]
+                - generic:
+                  - generic: Plein écran
+    - generic [ref=e104]:
+      - generic [ref=e105]
+      - generic [ref=e108]
+      - generic [ref=e111]
+      - generic [ref=e114]
+    - img "bloor" [ref=e120]
+    - img "bloor" [ref=e121]
+  - generic [ref=e122]:
+    - generic [ref=e123]:
+      - img "Margin" [ref=e124]
+      - generic [ref=e125]
+    - img "Margin"
+  - generic [ref=e298]:
+    - generic [ref=e303]:
+      - generic [ref=e304]
+      - heading "Le programme e-commerce avec le plus fort taux de réussite" [level=2] [ref=e309]
+      - generic [ref=e310]
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e312] [cursor=pointer]:
+        - /url: /offers
+    - iframe [ref=e324]:
+      - iframe [ref=f2e4]:
+        - generic [ref=f14e4]:
+          - generic:
+            - generic:
+              - img
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+            - generic:
+              - img
+              - generic: Lecture en incrustation
+          - generic:
+            - generic:
+              - button "Lire" [ref=f14e12] [cursor=pointer]:
+                - img [ref=f14e13]
+                - generic:
+                  - generic: Lire
+                  - img [ref=f14e16]
+              - button "Plein écran" [ref=f14e19] [cursor=pointer]:
+                - img [ref=f14e20]
+                - generic:
+                  - generic: Plein écran
+    - generic [ref=e331]:
+      - button "1 - Les fondations de ta réussite" [ref=e333] [cursor=pointer]
+      - button "2 - Structuration et bases du e-commerce" [ref=e342] [cursor=pointer]
+      - button "3 - Sourcing et supply chain" [ref=e351] [cursor=pointer]
+      - button "4 - Créer une boutique brandée de A à Z" [ref=e360] [cursor=pointer]
+      - button "5 - Créer ou récupérer du contenu publicitaire" [ref=e369] [cursor=pointer]
+      - button "6 - Maîtriser les plateformes publicitaires" [ref=e378] [cursor=pointer]
+      - button "7 - Gestion et optimisation des opérations" [ref=e387] [cursor=pointer]
+      - button "8 - Transition vers une semi-marque" [ref=e396] [cursor=pointer]
+      - button "9 - Empire Builder [NOUVEAUTÉ]" [ref=e405] [cursor=pointer]
+      - button "10 - Masterclass" [ref=e414] [cursor=pointer]
+    - generic [ref=e429]:
+      - generic [ref=e431]: 5 en 1
+      - heading "L’écosystème du 8lab" [level=2] [ref=e434]: L’écosystème du 8lab
+      - generic [ref=e435]
+    - generic [ref=e444]:
+      - tablist [ref=e445]
+      - tabpanel "favicon Network" [ref=e458]
+    - generic [ref=e486]:
+      - generic [ref=e488]: Accès à notre webapp
+      - heading "Une plateforme pensée pour performer en e-commerce" [level=2] [ref=e491]: Une plateforme pensée pour performer en e-commerce
+      - generic [ref=e492]
+    - generic [ref=e501]:
+      - tablist [ref=e502]
+      - tabpanel "favicon Espace optimisé pour apprendre" [ref=e519]
+    - region "carousel" [ref=e549]:
+      - generic [ref=e550]
+      - button "previous slide" [ref=e667] [cursor=pointer]
+      - button "next slide" [ref=e671] [cursor=pointer]
+    - img "bloor" [ref=e675]
+    - img "bloor" [ref=e676]
+    - img "bloor" [ref=e677]
+    - img "bloor" [ref=e678]
+  - generic [ref=e680]:
+    - img "Margin" [ref=e681]
+    - generic [ref=e684]:
+      - generic [ref=e685]
+      - generic [ref=e705]
+  - generic [ref=e853]:
+    - generic [ref=e854]:
+      - strong [ref=e858]: L'équipe du Laboratoire
+      - generic [ref=e859]
+      - generic [ref=e868]
+    - region "carousel" [ref=e876]:
+      - generic [ref=e877]
+      - button "previous slide" [ref=e1200] [cursor=pointer]
+      - button "next slide" [ref=e1204] [cursor=pointer]
+    - img "Margin"
+  - generic [ref=e1208]:
+    - generic [ref=e1214]:
+      - generic [ref=e1215]
+      - generic [ref=e1226]
+    - generic [ref=e1246]:
+      - generic [ref=e1247]: 8lab Ecosystem - Full Access
+      - generic [ref=e1248]
+      - generic [ref=e1251]
+      - generic [ref=e1262]: "Ce qui est inclus:"
+      - generic [ref=e1263]
+      - generic [ref=e1266]
+      - generic [ref=e1269]
+      - generic [ref=e1272]
+      - generic [ref=e1275]
+      - generic [ref=e1278]
+      - generic [ref=e1281]
+      - generic [ref=e1284]
+      - generic [ref=e1287]
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e1292] [cursor=pointer]:
+        - /url: /offers
+    - generic [ref=e1298]:
+      - generic [ref=e1299]
+      - iframe [ref=e1317]:
+        
+    - generic [ref=e1325]:
+      - generic [ref=e1327]: 8lab Success Stories
+      - heading "S'ils l’ont fait, pourquoi pas vous ?" [level=2] [ref=e1330]
+      - generic [ref=e1331]
+      - link "cling vert Rejoindre maintenant fleche" [ref=e1334] [cursor=pointer]:
+        - /url: /offers
+    - link "Voir +" [ref=e1353] [cursor=pointer]:
+      - /url: /resultats
+      - generic [ref=e1354]: Voir +
+    - img "bloor" [ref=e1355]
+    - img "bloor" [ref=e1356]
+    - img "bloor" [ref=e1357]
+  - generic [ref=e1358]:
+    - generic [ref=e1359]:
+      - img "Margin" [ref=e1360]
+      - generic [ref=e1362]
+    - img "margin"
+  - generic [ref=e1434]:
+    - generic [ref=e1436]:
+      - heading "Infinite Is The New Norm" [level=2] [ref=e1437]
+      - generic [ref=e1438]
+      - generic [ref=e1441]
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e1456] [cursor=pointer]:
+        - /url: /offers
+    - generic [ref=e1465]:
+      - generic [ref=e1466]
+      - generic [ref=e1488]: © 2025 8lab Corporation - All rights reserved.
+    - img "bloor"
+  - link "icon whatsapp" [ref=e1489] [cursor=pointer]:
+    - /url: https://api.whatsapp.com/send/?phone=666413994&text&type=phone_number&app_absent=0
+    - img "icon whatsapp" [ref=e1492]

@@ -28,7 +28,7 @@ import { CheatsheetPage } from './content/CheatsheetPage'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type TabId = 'installer' | 'apprendre' | 'equiper' | 'generer' | 'hacks'
+type TabId = 'installer' | 'apprendre' | 'equiper' | 'generer'
 
 interface BadgeDef {
   label: string
@@ -92,7 +92,7 @@ const BADGE_TOOL_SKILLS: BadgeDef = { label: 'SKILLS', color: '#22c55e', bg: 'rg
 const BADGE_TOOL_MCP: BadgeDef = { label: 'MCP & CONNECTEURS', color: '#4d96ff', bg: 'rgba(77,150,255,0.12)', border: 'rgba(77,150,255,0.25)' }
 const BADGE_TOOL_PLUGINS: BadgeDef = { label: 'PLUGINS', color: '#06b6d4', bg: 'rgba(6,182,212,0.12)', border: 'rgba(6,182,212,0.25)' }
 const BADGE_TOOL_TEAMAGENTS: BadgeDef = { label: 'TEAM AGENTS', color: '#ec4899', bg: 'rgba(236,72,153,0.12)', border: 'rgba(236,72,153,0.25)' }
-const BADGE_DEFAULT: BadgeDef = { label: '', color: '#9399b2', bg: 'rgba(147,153,178,0.08)', border: 'rgba(147,153,178,0.18)' }
+const BADGE_DEFAULT: BadgeDef = { label: '', color: 'hsl(var(--muted-foreground))', bg: 'rgba(147,153,178,0.08)', border: 'rgba(147,153,178,0.18)' }
 
 // Installer tab badges
 const BADGE_CLAUDE_PRO: BadgeDef    = { label: 'CLAUDE PRO',    color: '#f59e0b', bg: 'rgba(245,158,11,0.12)',  border: 'rgba(245,158,11,0.25)'  }
@@ -317,7 +317,6 @@ const TABS: { id: TabId; label: string; Icon: React.ComponentType<{ size?: numbe
   { id: 'apprendre', label: 'Apprendre', Icon: BookOpen },
   { id: 'equiper',   label: 'Équiper',   Icon: Package },
   { id: 'generer',   label: 'Générer',   Icon: Sparkles },
-  { id: 'hacks',     label: 'Hacks',     Icon: Zap },
 ]
 
 // ── Hub sub-cards (apprendre cards that expand into sub-pages) ────────────────
@@ -371,7 +370,7 @@ function PagePlaceholder({
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour</span>
@@ -391,19 +390,19 @@ function PagePlaceholder({
               >
                 {badge.label}
               </span>
-              <h1 className="text-xl font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+              <h1 className="text-xl font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
                 {title}
               </h1>
             </div>
           </div>
-          <p className="text-sm leading-relaxed" style={{ color: '#9399b2' }}>{desc}</p>
+          <p className="text-sm leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{desc}</p>
         </div>
         <div
           className="rounded-2xl flex flex-col items-center justify-center text-center py-16 px-8"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '0.5px solid rgba(255,255,255,0.08)' }}
+          style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}
         >
-          <Construction size={32} strokeWidth={1.5} style={{ color: '#5b6078', marginBottom: 16 }} />
-          <p className="font-bold mb-2" style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}>
+          <Construction size={32} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', marginBottom: 16 }} />
+          <p className="font-bold mb-2" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.02em' }}>
             Section en construction
           </p>
           {isBeta ? (
@@ -411,7 +410,7 @@ function PagePlaceholder({
               Accès bêta actif — contenu disponible très prochainement.
             </p>
           ) : (
-            <p className="text-sm" style={{ color: '#5b6078' }}>
+            <p className="text-sm" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Ce contenu sera disponible avec la V3 le 07.04.2026.
             </p>
           )}
@@ -448,14 +447,14 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: '#5b6078' }}>
+          <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
             Progression
           </span>
-          <span className="text-[11px] font-bold" style={{ color: done === total ? '#22c55e' : '#e2e8f0' }}>
+          <span className="text-[11px] font-bold text-foreground" style={{ color: done === total ? '#22c55e' : undefined }}>
             {done}/{total} étapes
           </span>
         </div>
-        <div className="h-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+        <div className="h-1 rounded-full overflow-hidden" style={{ background: 'hsl(var(--border))' }}>
           <div
             className="h-full rounded-full transition-all duration-500"
             style={{
@@ -471,7 +470,7 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
         {/* Vertical line */}
         <div
           className="absolute left-[19px] top-4 bottom-4"
-          style={{ width: '1px', background: 'rgba(255,255,255,0.07)' }}
+          style={{ width: '1px', background: 'hsl(var(--border))' }}
         />
 
         <div className="space-y-3">
@@ -486,13 +485,13 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
                   onClick={() => toggle(step.n)}
                   className="relative z-10 shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 mt-0.5"
                   style={{
-                    background: isDone ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.04)',
-                    border: `1px solid ${isDone ? 'rgba(34,197,94,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                    background: isDone ? 'rgba(34,197,94,0.15)' : 'hsl(var(--secondary))',
+                    border: `1px solid ${isDone ? 'rgba(34,197,94,0.4)' : 'hsl(var(--border))'}`,
                   }}
                 >
                   {isDone
                     ? <CheckCircle2 size={16} strokeWidth={2} style={{ color: '#22c55e' }} />
-                    : <span className="text-[11px] font-bold" style={{ color: '#5b6078' }}>{step.n}</span>
+                    : <span className="text-[11px] font-bold text-muted-foreground">{step.n}</span>
                   }
                 </button>
 
@@ -511,7 +510,7 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
                         <p
                           className="text-[13px] font-semibold"
                           style={{
-                            color: isDone ? '#5b6078' : '#e2e8f0',
+                            color: isDone ? 'hsl(var(--muted-foreground))' : 'hsl(var(--foreground))',
                             letterSpacing: '-0.01em',
                             textDecoration: isDone ? 'line-through' : 'none',
                           }}
@@ -529,13 +528,13 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
                           {step.badge.label}
                         </span>
                       </div>
-                      <p className="text-[11px]" style={{ color: isDone ? '#3d4466' : '#5b6078' }}>
+                      <p className="text-[11px] text-muted-foreground">
                         {step.desc}
                       </p>
                     </div>
                     {step.external
-                      ? <ExternalLink size={13} strokeWidth={1.5} className="shrink-0 transition-colors" style={{ color: '#3d4466' }} />
-                      : <ChevronRight size={14} strokeWidth={1.5} className="shrink-0 transition-colors" style={{ color: '#3d4466' }} />
+                      ? <ExternalLink size={13} strokeWidth={1.5} className="shrink-0 transition-colors text-muted-foreground/50" />
+                      : <ChevronRight size={14} strokeWidth={1.5} className="shrink-0 transition-colors text-muted-foreground/50" />
                     }
                   </div>
                 </button>
@@ -550,7 +549,7 @@ function InstallerTab({ navigate, onLocked }: { navigate: (hash: string) => void
         <div className="mt-8 rounded-2xl px-6 py-5 text-center"
           style={{ background: 'rgba(34,197,94,0.06)', border: '0.5px solid rgba(34,197,94,0.25)' }}>
           <p className="text-[14px] font-bold mb-1" style={{ color: '#22c55e' }}>Setup complet ✓</p>
-          <p className="text-[12px]" style={{ color: '#5b6078' }}>
+          <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Tu es opérationnel. Passe à l'onglet Apprendre pour maîtriser chaque outil.
           </p>
         </div>
@@ -577,7 +576,7 @@ function HubPage({
         <button
           onClick={() => window.history.back()}
           className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70"
-          style={{ color: '#9399b2' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour</span>
@@ -600,12 +599,12 @@ function HubPage({
                 >
                   {(parentCard.badges[0] ?? BADGE_DEFAULT).label}
                 </span>
-                <h1 className="text-xl font-extrabold" style={{ color: '#f0f0f5', letterSpacing: '-0.03em' }}>
+                <h1 className="text-xl font-extrabold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em' }}>
                   {parentCard.title}
                 </h1>
               </div>
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: '#9399b2' }}>{parentCard.desc}</p>
+            <p className="text-sm leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{parentCard.desc}</p>
           </div>
         )}
 
@@ -733,7 +732,7 @@ function UnlockModal({ onClose, userId }: {
         style={{
           maxWidth: showCheckout ? 560 : 440,
           background: 'hsl(var(--card))',
-          border: '1px solid rgba(255,255,255,0.1)',
+          border: '1px solid hsl(var(--border))',
           boxShadow: '0 32px 80px rgba(0,0,0,0.5)',
           transition: 'max-width 0.3s ease',
         }}
@@ -743,7 +742,7 @@ function UnlockModal({ onClose, userId }: {
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 transition-opacity hover:opacity-60"
-          style={{ color: 'rgba(255,255,255,0.35)' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           <X size={15} strokeWidth={1.5} />
         </button>
@@ -752,20 +751,20 @@ function UnlockModal({ onClose, userId }: {
         {!showCheckout && (
           <div className="p-8 flex flex-col items-center text-center">
             <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)' }}>
-              <Lock size={24} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.7)' }} />
+              style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}>
+              <Lock size={24} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))' }} />
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.14em] mb-2 block" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] mb-2 block" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Accès restreint
             </span>
-            <h2 className="text-[20px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
+            <h2 className="text-[20px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
               Claude OS
             </h2>
-            <p className="text-[13px] leading-relaxed mb-6 max-w-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Inclus dans le <span style={{ color: 'rgba(255,255,255,0.75)', fontWeight: 600 }}>Module Claude</span> — l'add-on à 37€ du Blueprint.
+            <p className="text-[13px] leading-relaxed mb-6 max-w-xs" style={{ color: 'hsl(var(--muted-foreground))' }}>
+              Inclus dans le <span style={{ color: 'hsl(var(--foreground))', fontWeight: 600 }}>Module Claude</span> — l'add-on à 37€ du Blueprint.
             </p>
             <div className="w-full rounded-xl p-4 mb-6 text-left space-y-2.5"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+              style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
               {[
                 'Installation complète Claude Code + Claude AI',
                 'Formations : CLAUDE.md, Skills, MCP, Plugins',
@@ -774,8 +773,8 @@ function UnlockModal({ onClose, userId }: {
                 'Cheatsheet 80+ commandes + Hacks avancés',
               ].map(item => (
                 <div key={item} className="flex items-center gap-3">
-                  <div className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: 'rgba(255,255,255,0.12)', border: '0.5px solid rgba(255,255,255,0.2)' }} />
-                  <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.5)' }}>{item}</span>
+                  <div className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: 'hsl(var(--border))' }} />
+                  <span className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -798,11 +797,11 @@ function UnlockModal({ onClose, userId }: {
               <button
                 onClick={() => { checkoutRef.current?.destroy(); checkoutRef.current = null; setShowCheckout(false) }}
                 className="transition-opacity hover:opacity-60"
-                style={{ color: 'rgba(255,255,255,0.4)' }}
+                style={{ color: 'hsl(var(--muted-foreground))' }}
               >
                 <ArrowLeft size={14} strokeWidth={1.5} />
               </button>
-              <span className="text-[13px] font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>Module Claude — 37€</span>
+              <span className="text-[13px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>Module Claude — 37€</span>
             </div>
             <div ref={mountRef} />
           </div>
@@ -1032,15 +1031,15 @@ export function ClaudeOSPage({ subPath, navigate, hasClaudeOS = false, userId = 
               className="group text-left rounded-xl p-4 transition-all duration-150 hover:border-foreground/20 relative overflow-hidden"
               style={{
                 background: 'hsl(var(--card))',
-                border: !hasClaudeOS ? '0.5px solid rgba(255,255,255,0.08)' : '0.5px solid hsl(var(--border))',
+                border: '0.5px solid hsl(var(--border))',
                 opacity: !hasClaudeOS ? 0.7 : 1,
               }}
             >
               {/* Lock badge on locked cards */}
               {!hasClaudeOS && (
                 <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.15)' }}>
-                  <Lock size={9} strokeWidth={2} style={{ color: 'rgba(255,255,255,0.4)' }} />
+                  style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))' }}>
+                  <Lock size={9} strokeWidth={2} style={{ color: 'hsl(var(--muted-foreground))' }} />
                 </div>
               )}
               <div className="flex items-start gap-3">
@@ -1048,7 +1047,7 @@ export function ClaudeOSPage({ subPath, navigate, hasClaudeOS = false, userId = 
                 {card.logoSrc === 'buildrs' ? (
                   <div
                     className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-150 group-hover:scale-105"
-                    style={{ background: '#09090b', border: '0.5px solid rgba(255,255,255,0.15)' }}
+                    style={{ background: '#09090b', border: '0.5px solid hsl(var(--border))' }}
                   >
                     <BuildrsIcon color="#ffffff" size={18} />
                   </div>
@@ -1109,10 +1108,10 @@ export function ClaudeOSPage({ subPath, navigate, hasClaudeOS = false, userId = 
           <button
             onClick={() => setShowUnlockModal(true)}
             className="mt-4 w-full flex items-center justify-center gap-2 rounded-xl px-5 py-3 transition-all hover:opacity-80"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.1)' }}
+            style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))' }}
           >
-            <Lock size={12} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.4)' }} />
-            <span className="text-[12px] font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <Lock size={12} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))' }} />
+            <span className="text-[12px] font-semibold" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Débloquer Claude OS — Module Claude 37€
             </span>
           </button>
@@ -1126,10 +1125,10 @@ export function ClaudeOSPage({ subPath, navigate, hasClaudeOS = false, userId = 
               <p className="text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: ACCENT }}>
                 Session privée · 45 min
               </p>
-              <p className="text-[14px] font-bold mb-1" style={{ color: '#e2e8f0', letterSpacing: '-0.02em' }}>
+              <p className="text-[14px] font-bold mb-1 text-foreground" style={{ letterSpacing: '-0.02em' }}>
                 On configure tout ton environnement Claude en 45 min
               </p>
-              <p className="text-[12px]" style={{ color: '#5b6078' }}>
+              <p className="text-[12px] text-muted-foreground">
                 Claude AI + Claude Code + Cowork — connecteurs, MCP, skills, prompts, workflows. Tout configuré en visio.
               </p>
             </div>

@@ -1,0 +1,1095 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "Logo 8lab" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img "Logo 8lab" [ref=e8]
+        - navigation [ref=e9]:
+          - link "Programme" [ref=e10] [cursor=pointer]:
+            - /url: "#programme"
+          - link "Processus" [ref=e11] [cursor=pointer]:
+            - /url: "#process"
+          - link "Team" [ref=e12] [cursor=pointer]:
+            - /url: "#team-8lab"
+          - link "Résultats" [ref=e13] [cursor=pointer]:
+            - /url: /resultats
+        - link "Rejoindre maintenant" [ref=e16] [cursor=pointer]:
+          - /url: /offers
+          - generic [ref=e17]: Rejoindre maintenant
+    - generic [ref=e25]:
+      - 'button "8lab Ecosystem : The Infinite" [ref=e26] [cursor=pointer]':
+        - generic [ref=e32]: "8lab Ecosystem : The Infinite"
+      - heading "Le seul écosystème pour créer et scaler son empire e-commerce" [level=1] [ref=e33]:
+        - text: Le seul écosystème
+        - strong [ref=e34]: pour
+        - text: créer
+        - strong [ref=e35]: et
+        - text: scaler
+        - strong [ref=e36]: son
+        - text: empire e-commerce
+      - generic [ref=e37]:
+        - strong [ref=e38]: Le 8lab vous offre un plan étape par étape,
+        - text: le réseau et les outils pour créer une marque e-commerce pérenne.
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e39] [cursor=pointer]:
+        - /url: /offers
+        - img "cling vert" [ref=e40]
+        - generic [ref=e41]: Rejoindre l'écosystème
+        - img "fleche" [ref=e42]
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - img "client satisfait-8lab" [ref=e45]
+          - img "client satisfait-8lab" [ref=e46]
+          - img "client satisfait-8lab" [ref=e47]
+          - img "client satisfait-8lab" [ref=e48]
+          - img "client satisfait-8lab" [ref=e49]
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - img "star" [ref=e52]
+            - img "star" [ref=e53]
+            - img "star" [ref=e54]
+            - img "star" [ref=e55]
+            - img "star" [ref=e56]
+          - generic [ref=e57]: +2086 membres
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - img "favicon" [ref=e67]
+        - strong [ref=e69]: Formation
+      - generic [ref=e70]:
+        - img "favicon" [ref=e71]
+        - strong [ref=e73]: Coaching
+      - generic [ref=e74]:
+        - img "favicon" [ref=e75]
+        - strong [ref=e77]: Networking
+      - generic [ref=e78]:
+        - img "favicon" [ref=e79]
+        - strong [ref=e81]: Sourcing
+      - generic [ref=e82]:
+        - img "favicon" [ref=e83]
+        - strong [ref=e85]: Convention
+      - generic [ref=e86]:
+        - img "favicon" [ref=e87]
+        - strong [ref=e89]: Branding
+    - iframe [ref=e97]:
+      - iframe [ref=f1e4]:
+        - generic [ref=f13e2]:
+          - generic:
+            - generic:
+              - img
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+            - generic:
+              - img
+              - generic: Lecture en incrustation
+          - generic:
+            - generic:
+              - button "Lire" [ref=f13e10] [cursor=pointer]:
+                - img [ref=f13e11]
+                - generic:
+                  - generic: Lire
+                  - img [ref=f13e14]
+              - button "Plein écran" [ref=f13e19] [cursor=pointer]:
+                - img [ref=f13e20]
+                - generic:
+                  - generic: Plein écran
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - heading "Nombre de membres actifs" [level=2] [ref=e106]
+        - heading "1365" [level=3] [ref=e107]
+      - generic [ref=e108]:
+        - heading "CA générés par les membres" [level=2] [ref=e109]
+        - heading "$45M+" [level=3] [ref=e110]
+      - generic [ref=e111]:
+        - heading "Satisfaction de nos membres" [level=2] [ref=e112]
+        - heading "99,8%" [level=3] [ref=e113]
+      - generic [ref=e114]:
+        - heading "Nombre d'heures de contenu" [level=2] [ref=e115]
+        - heading "150" [level=3] [ref=e116]
+    - img "bloor" [ref=e120]
+    - img "bloor" [ref=e121]
+  - generic [ref=e122]:
+    - generic [ref=e123]:
+      - img "Margin" [ref=e124]
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e130]: 8lab Avantages
+            - heading "L’écosystème ultime. L'environnement parfait." [level=2] [ref=e131]:
+              - text: L’écosystème ultime.
+              - strong [ref=e132]: L'environnement parfait.
+            - generic [ref=e133]:
+              - strong [ref=e134]: Bien plus qu'une simple formation
+              - text: ", un environnement façonné pour maximiser la performance et la réussite."
+          - link "cling vert Rejoindre maintenant fleche" [ref=e136] [cursor=pointer]:
+            - /url: /offers
+            - img "cling vert" [ref=e137]
+            - generic [ref=e138]: Rejoindre maintenant
+            - img "fleche" [ref=e139]
+        - generic [ref=e140]:
+          - generic [ref=e144]:
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - img "Logo 8lab" [ref=e147]
+                - strong [ref=e149]: .
+              - generic [ref=e150]:
+                - img "favicon" [ref=e151]
+                - strong [ref=e153]: Méthodes éprouvées
+              - generic [ref=e154]:
+                - img "favicon" [ref=e155]
+                - strong [ref=e157]: Coaching personnalisé
+              - generic [ref=e158]:
+                - img "favicon" [ref=e159]
+                - strong [ref=e161]: Communauté d'entraide
+            - generic [ref=e162]:
+              - strong [ref=e165]: Apprendre Seul
+              - generic [ref=e166]:
+                - img "favicon" [ref=e167]
+                - strong [ref=e169]: Zéro vision et stratégie
+              - generic [ref=e170]:
+                - img "favicon" [ref=e171]
+                - strong [ref=e173]: Confronter à soi-même
+              - generic [ref=e174]:
+                - img "favicon" [ref=e175]
+                - strong [ref=e177]: Asymétrie des infos
+            - generic [ref=e178]:
+              - strong [ref=e181]: Autres Formations
+              - generic [ref=e182]:
+                - img "favicon" [ref=e183]
+                - strong [ref=e185]: Théorie sans concret
+              - generic [ref=e186]:
+                - img "favicon" [ref=e187]
+                - strong [ref=e189]: Pas d'accompagnement
+              - generic [ref=e190]:
+                - img "favicon" [ref=e191]
+                - strong [ref=e193]: Communauté inactive
+              - generic [ref=e194]:
+                - img "favicon" [ref=e195]
+                - strong [ref=e197]: Vision court-terme
+          - img "avis" [ref=e278]
+    - img "Margin"
+  - generic [ref=e298]:
+    - generic [ref=e303]:
+      - generic [ref=e304]:
+        - img "favicon" [ref=e305]
+        - generic [ref=e306]: Academy
+      - heading "Le programme e-commerce avec le plus fort taux de réussite" [level=2] [ref=e309]
+      - generic [ref=e310]:
+        - strong [ref=e311]: La formation la plus poussée du marché
+        - text: pour apprendre l'e-commerce, peu importe vos connaissances et vos compétences de départ.
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e312] [cursor=pointer]:
+        - /url: /offers
+        - img "cling vert" [ref=e313]
+        - generic [ref=e314]: Rejoindre l'écosystème
+        - img "fleche" [ref=e315]
+    - iframe [ref=e324]:
+      - iframe [ref=f2e4]:
+        - generic [ref=f14e4]:
+          - generic:
+            - generic:
+              - img
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - img
+            - generic:
+              - img
+              - generic: Lecture en incrustation
+          - generic:
+            - generic:
+              - button "Lire" [ref=f14e12] [cursor=pointer]:
+                - img [ref=f14e13]
+                - generic:
+                  - generic: Lire
+                  - img [ref=f14e16]
+              - button "Plein écran" [ref=f14e19] [cursor=pointer]:
+                - img [ref=f14e20]
+                - generic:
+                  - generic: Plein écran
+    - generic [ref=e331]:
+      - button "1 - Les fondations de ta réussite" [ref=e333] [cursor=pointer]:
+        - generic [ref=e334]:
+          - generic [ref=e335]: "1"
+          - generic [ref=e336]: "-"
+          - generic [ref=e337]: Les fondations de ta réussite
+      - button "2 - Structuration et bases du e-commerce" [ref=e342] [cursor=pointer]:
+        - generic [ref=e343]:
+          - generic [ref=e344]: "2"
+          - generic [ref=e345]: "-"
+          - generic [ref=e346]: Structuration et bases du e-commerce
+      - button "3 - Sourcing et supply chain" [ref=e351] [cursor=pointer]:
+        - generic [ref=e352]:
+          - generic [ref=e353]: "3"
+          - generic [ref=e354]: "-"
+          - generic [ref=e355]: Sourcing et supply chain
+      - button "4 - Créer une boutique brandée de A à Z" [ref=e360] [cursor=pointer]:
+        - generic [ref=e361]:
+          - generic [ref=e362]: "4"
+          - generic [ref=e363]: "-"
+          - generic [ref=e364]: Créer une boutique brandée de A à Z
+      - button "5 - Créer ou récupérer du contenu publicitaire" [ref=e369] [cursor=pointer]:
+        - generic [ref=e370]:
+          - generic [ref=e371]: "5"
+          - generic [ref=e372]: "-"
+          - generic [ref=e373]: Créer ou récupérer du contenu publicitaire
+      - button "6 - Maîtriser les plateformes publicitaires" [ref=e378] [cursor=pointer]:
+        - generic [ref=e379]:
+          - generic [ref=e380]: "6"
+          - generic [ref=e381]: "-"
+          - generic [ref=e382]: Maîtriser les plateformes publicitaires
+      - button "7 - Gestion et optimisation des opérations" [ref=e387] [cursor=pointer]:
+        - generic [ref=e388]:
+          - generic [ref=e389]: "7"
+          - generic [ref=e390]: "-"
+          - generic [ref=e391]: Gestion et optimisation des opérations
+      - button "8 - Transition vers une semi-marque" [ref=e396] [cursor=pointer]:
+        - generic [ref=e397]:
+          - generic [ref=e398]: "8"
+          - generic [ref=e399]: "-"
+          - generic [ref=e400]: Transition vers une semi-marque
+      - button "9 - Empire Builder [NOUVEAUTÉ]" [ref=e405] [cursor=pointer]:
+        - generic [ref=e406]:
+          - generic [ref=e407]: "9"
+          - generic [ref=e408]: "-"
+          - generic [ref=e409]: Empire Builder [NOUVEAUTÉ]
+      - button "10 - Masterclass" [ref=e414] [cursor=pointer]:
+        - generic [ref=e415]:
+          - generic [ref=e416]: "10"
+          - generic [ref=e417]: "-"
+          - generic [ref=e418]: Masterclass
+    - generic [ref=e429]:
+      - generic [ref=e431]: 5 en 1
+      - heading "L’écosystème du 8lab" [level=2] [ref=e434]: L’écosystème du 8lab
+      - generic [ref=e435]:
+        - strong [ref=e436]: Tout ce dont vous avez besoin pour réussir en e-commerce,
+        - text: réuni en un seul et unique endroit.
+    - generic [ref=e444]:
+      - tablist [ref=e445]:
+        - tab "favicon Network" [selected] [ref=e446] [cursor=pointer]:
+          - img "favicon" [ref=e447]
+          - generic [ref=e448]: Network
+        - tab "favicon Coaching" [ref=e449] [cursor=pointer]:
+          - img "favicon" [ref=e450]
+          - generic [ref=e451]: Coaching
+        - tab "favicon Infinite" [ref=e452] [cursor=pointer]:
+          - img "favicon"
+          - generic [ref=e453]: Infinite
+        - tab "favicon Convention" [ref=e454] [cursor=pointer]:
+          - img "favicon" [ref=e455]
+          - generic [ref=e456]: Convention
+      - tabpanel "favicon Network" [ref=e458]:
+        - iframe [ref=e461]:
+          - iframe [ref=f3e4]:
+            - generic [ref=f15e4]:
+              - generic:
+                - generic:
+                  - img
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                - generic:
+                  - img
+                  - generic: Lecture en incrustation
+              - generic:
+                - generic:
+                  - button "Lire" [ref=f15e12] [cursor=pointer]:
+                    - img [ref=f15e13]
+                    - generic:
+                      - generic: Lire
+                      - img [ref=f15e16]
+                  - button "Plein écran" [ref=f15e19] [cursor=pointer]:
+                    - img [ref=f15e20]
+                    - generic:
+                      - generic: Plein écran
+        - generic [ref=e462]:
+          - strong [ref=e465]: "Le Network : L'espace communautaire ultime pour les e-commerçants ambitieux"
+          - generic [ref=e466]:
+            - generic [ref=e467]:
+              - img "favicon"
+              - generic [ref=e468]:
+                - strong [ref=e469]: "Accès exclusif à Discord :"
+                - text: Rejoignez notre communauté d'entraide active.
+            - generic [ref=e470]:
+              - img "favicon"
+              - generic [ref=e471]:
+                - strong [ref=e472]: "Challenges réguliers :"
+                - text: Participez à des défis pour booster votre développement personnel et la croissance de votre boutique (Monk mode, Préparation Q4...).
+            - generic [ref=e473]:
+              - img "favicon"
+              - generic [ref=e474]:
+                - strong [ref=e475]: "Réseau d'experts :"
+                - text: Connectez-vous directement avec des e-commerçants à succès partageant leurs meilleures astuces et réussites.
+            - generic [ref=e476]:
+              - img "favicon"
+              - generic [ref=e477]:
+                - strong [ref=e478]: "Lives hebdomadaires :"
+                - text: Apprenez chaque semaine des experts ayant généré des millions en e-commerce.
+    - generic [ref=e486]:
+      - generic [ref=e488]: Accès à notre webapp
+      - heading "Une plateforme pensée pour performer en e-commerce" [level=2] [ref=e491]: Une plateforme pensée pour performer en e-commerce
+      - generic [ref=e492]:
+        - strong [ref=e493]: Apprendre, progresser, scaler.
+        - text: Depuis une seule interface.
+    - generic [ref=e501]:
+      - tablist [ref=e502]:
+        - tab "favicon Espace optimisé pour apprendre" [selected] [ref=e503] [cursor=pointer]:
+          - generic [ref=e504]:
+            - img "favicon" [ref=e505]
+            - heading "Espace optimisé pour apprendre" [level=3] [ref=e506]
+        - tab "favicon Coaching intégré et premium" [ref=e507] [cursor=pointer]:
+          - generic [ref=e508]:
+            - img "favicon" [ref=e509]
+            - heading "Coaching intégré et premium" [level=3] [ref=e510]
+        - tab "favicon Carte du monde pour connecter" [ref=e511] [cursor=pointer]:
+          - generic [ref=e512]:
+            - img "favicon"
+            - heading "Carte du monde pour connecter" [level=3] [ref=e513]
+        - tab "favicon Outils inédits pour réussir" [ref=e514] [cursor=pointer]:
+          - generic [ref=e515]:
+            - img "favicon" [ref=e516]
+            - heading "Outils inédits pour réussir" [level=3] [ref=e517]
+      - tabpanel "favicon Espace optimisé pour apprendre" [ref=e519]:
+        - iframe [ref=e523]:
+          - generic [ref=f7e4]:
+            - generic:
+              - generic:
+                - img
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+              - generic:
+                - img
+                - generic: Lecture en incrustation
+            - button "Pause" [ref=f7e11] [cursor=pointer]:
+              - img [ref=f7e12]
+              - generic:
+                - generic: Pause
+                - img [ref=f7e15]
+        - generic [ref=e524]:
+          - strong [ref=e527]: Tout ce qu’il faut pour te former sérieusement, dans les meilleures conditions.
+          - generic [ref=e528]:
+            - generic [ref=e529]:
+              - img "favicon"
+              - generic [ref=e530]:
+                - strong [ref=e531]: "Formation :"
+                - text: Apprends l’e-commerce de A à Z avec une pédagogie claire, progressive et actionnable.
+            - generic [ref=e532]:
+              - img "favicon"
+              - generic [ref=e533]:
+                - strong [ref=e534]: "Empire Builder :"
+                - text: Un espace dédié aux profils avancés qui veulent scaler, structurer et dominer.
+            - generic [ref=e535]:
+              - img "favicon"
+              - generic [ref=e536]:
+                - strong [ref=e537]: "Masterclass :"
+                - text: Conférences, modules spécifiques, rediffusions de lives hebdo Discord, podcasts exclusifs.
+            - generic [ref=e538]:
+              - img "favicon"
+              - generic [ref=e539]:
+                - strong [ref=e540]: "Ressources :"
+                - text: Tous les supports, templates et fichiers utiles liés à chaque module ou intervention.
+    - region "carousel" [ref=e549]:
+      - generic [ref=e550]:
+        - group "1 of 9" [ref=e551]:
+          - generic [ref=e554]:
+            - generic [ref=e556]:
+              - strong [ref=e558]: Mat
+              - generic [ref=e559]: "@matecom"
+            - generic [ref=e561]: "\"Il y a tout juste un an, je terminais mon alternance. La formation m’a énormément appris, la communauté et les coachs sont incroyables. Aujourd’hui, je réalise 100k par mois. N’abandonnez jamais : ça peut fonctionner pour vous aussi.\""
+        - group [ref=e562]:
+          - generic [ref=e564]:
+            - generic [ref=e565]:
+              - generic [ref=e566]:
+                - img [ref=e567]
+                - generic [ref=e568]:
+                  - strong [ref=e570]: Lisa Gusti
+                  - generic [ref=e571]: "@Lisaecom"
+              - generic [ref=e573]: "\"Je suis la depuis le tout début, et ça a totalement changé ma vision des choses, j’ai commencé en dropshipping et en 3 mois j’ai créé une vraie marque qui durera sur des années.\""
+            - img [ref=e574]
+        - group [ref=e575]:
+          - generic [ref=e577]:
+            - generic [ref=e578]:
+              - generic [ref=e579]:
+                - img [ref=e580]
+                - generic [ref=e581]:
+                  - strong [ref=e583]: Sean & Ewen
+                  - generic [ref=e584]: "@freezecom"
+              - generic [ref=e586]: "\"La formation est vraiment bonne et bien complète si tu veux connaître toutes les bases et faire tes premiers chiffres en e-commerce.\""
+            - img [ref=e587]
+        - group [ref=e588]:
+          - generic [ref=e590]:
+            - generic [ref=e591]:
+              - generic [ref=e592]:
+                - img [ref=e593]
+                - generic [ref=e594]:
+                  - strong [ref=e596]: Mr Givenche
+                  - generic [ref=e597]: "@MrGivenche"
+              - generic [ref=e599]: "\"En moins d’un an, j’ai généré plus de 4 millions de CA avec une belle marge. La formation est complète, continuellement mise à jour, actuelle et bénéficie d’un véritable suivi par les coachs et les équipes.\""
+            - img [ref=e600]
+        - group [ref=e601]:
+          - generic [ref=e603]:
+            - generic [ref=e604]:
+              - generic [ref=e605]:
+                - img [ref=e606]
+                - generic [ref=e607]:
+                  - strong [ref=e609]: Antoine
+                  - generic [ref=e610]: "@ungarsnormal"
+              - generic [ref=e612]: "\"La formation 8lab m’a apporté une vraie méthode et une vision claire de l’e-commerce. Le contenu est concret, applicable immédiatement, et l’accompagnement fait toute la différence.\""
+            - img [ref=e613]
+        - group [ref=e614]:
+          - generic [ref=e616]:
+            - generic [ref=e617]:
+              - generic [ref=e618]:
+                - img [ref=e619]
+                - generic [ref=e620]:
+                  - strong [ref=e622]: Sander WAVESURFER
+                  - generic [ref=e623]: "@wavesurferecom"
+              - generic [ref=e625]: "\"Les résultats des autres sont des sources de motivation incroyables, et la mentalité d'entraide qui y règne est un facteur clé de la réussite collective du lab.\""
+            - img [ref=e626]
+        - group [ref=e627]:
+          - generic [ref=e629]:
+            - generic [ref=e630]:
+              - generic [ref=e631]:
+                - img [ref=e632]
+                - generic [ref=e633]:
+                  - strong [ref=e635]: Nayu
+                  - generic [ref=e636]: "@NayuEcom"
+              - generic [ref=e638]: "\"Franchement, je faisais déjà un peu de chiffres en ecom avant de rejoindre le 8lab, mais ça m’a vraiment aidé à voir plus loin, à penser long terme. Les 10k days arrivent bientôt, restez branchés.\""
+            - img [ref=e639]
+        - group [ref=e640]:
+          - generic [ref=e642]:
+            - generic [ref=e643]:
+              - generic [ref=e644]:
+                - img [ref=e645]
+                - generic [ref=e646]:
+                  - strong [ref=e648]: Mat Ecom
+                  - generic [ref=e649]: "@mat_ecom"
+              - generic [ref=e651]: "\"Y’a que le charbon qui paye et en plus quand t’es entouré avec l’équipe de crack du 8lab, t’es obligé de tout exploser ♾️🔥\""
+            - img [ref=e652]
+        - group [ref=e653]:
+          - generic [ref=e655]:
+            - generic [ref=e656]:
+              - generic [ref=e657]:
+                - img [ref=e658]
+                - generic [ref=e659]:
+                  - strong [ref=e661]: Hippolyte
+                  - generic [ref=e662]: "@hippo"
+              - generic [ref=e664]: "\"J'ai rejoint le 8lab et ça m’a fait comprendre à quel point avoir une information de qualité est essentiel. Ça m’a permis d’atteindre mon premier 1k/day et de développer une marque sur le long terme.\""
+            - img [ref=e665]
+      - button "previous slide" [ref=e667] [cursor=pointer]:
+        - img [ref=e669]
+      - button "next slide" [ref=e671] [cursor=pointer]:
+        - img [ref=e673]
+    - img "bloor" [ref=e675]
+    - img "bloor" [ref=e676]
+    - img "bloor" [ref=e677]
+    - img "bloor" [ref=e678]
+  - generic [ref=e680]:
+    - img "Margin" [ref=e681]
+    - generic [ref=e684]:
+      - generic [ref=e685]:
+        - generic [ref=e687]:
+          - generic [ref=e690]: Processus
+          - generic [ref=e691]:
+            - generic [ref=e692]:
+              - heading "3 étapes simples" [level=2] [ref=e693]: 3 étapes simples
+              - img "favicon"
+            - heading "‍pour avoir des résultats" [level=2] [ref=e694]:
+              - text: ‍
+              - strong [ref=e695]: pour avoir des résultats
+          - generic [ref=e696]:
+            - strong [ref=e697]: Une approche structuré en trois phases
+            - text: ", pour avancer efficacement et bâtir une marque solide."
+        - link "cling vert Rejoindre maintenant fleche" [ref=e699] [cursor=pointer]:
+          - /url: /offers
+          - img "cling vert" [ref=e700]
+          - generic [ref=e701]: Rejoindre maintenant
+          - img "fleche" [ref=e702]
+      - generic [ref=e705]:
+        - generic [ref=e706]:
+          - img [ref=e709]
+          - generic [ref=e769]:
+            - strong [ref=e771]:
+              - text: 1 - Recherche produit
+              - text: et analyse concurrentielle
+            - generic [ref=e772]: Utilisez la psychologie et les tendances pour trouver les niches et produits rentables.
+        - generic [ref=e773]:
+          - img [ref=e776]
+          - generic [ref=e836]:
+            - strong [ref=e838]:
+              - text: 2 - Boutique qui convertit
+              - text: et image de marque forte
+            - generic [ref=e839]: Créez un véritable écosystème qui pousse les visiteurs à l’achat.
+        - generic [ref=e845]:
+          - strong [ref=e847]: 3 - Optimisation générale et scaling à l'international
+          - generic [ref=e848]: Transitionnez en une marque stable et pérenne, assurant un succès à long terme.
+  - generic [ref=e853]:
+    - generic [ref=e854]:
+      - strong [ref=e858]: L'équipe du Laboratoire
+      - generic [ref=e859]:
+        - generic [ref=e860]:
+          - heading "Les experts" [level=2] [ref=e861]: Les experts
+          - generic [ref=e862]:
+            - generic [ref=e863]:
+              - img "pp discord"
+            - generic [ref=e864]:
+              - img "photo alex"
+          - heading "8lab" [level=2] [ref=e865]: 8lab
+        - heading "derrière l'Academy" [level=2] [ref=e866]:
+          - strong [ref=e867]: derrière l'Academy
+      - generic [ref=e868]:
+        - strong [ref=e869]: Des experts passionnés
+        - text: ", réunis pour vous transmettre les stratégies les plus efficaces et vous guider vers l'excellence."
+    - region "carousel" [ref=e876]:
+      - generic [ref=e877]:
+        - group "1 of 30" [ref=e878]:
+          - generic [ref=e880]:
+            - generic [ref=e881]:
+              - img "photo alex" [ref=e882]
+              - generic [ref=e883]:
+                - strong [ref=e885]: Alex Shane
+                - generic [ref=e886]: Création de marque et semi marque
+            - generic [ref=e888]: Gérant plus de 3 marques simultanément et ayant généré plusieurs millions de CA, Alex te guidera pour bâtir une marque stable et pérenne.
+        - group [ref=e889]:
+          - generic [ref=e891]:
+            - generic [ref=e892]:
+              - img [ref=e893]
+              - generic [ref=e894]:
+                - strong [ref=e896]: Maximilien Triora
+                - generic [ref=e897]: Créateur de la méthode 8lab
+            - generic [ref=e899]: Expert e-commerce ayant généré plusieurs millions de chiffre d’affaire. Créateur du process 8lab, il t’apprendra à transformer tes ambitions en réalité
+        - group [ref=e900]:
+          - generic [ref=e902]:
+            - generic [ref=e903]:
+              - img [ref=e904]
+              - generic [ref=e905]:
+                - strong [ref=e907]: Andrea & Camille (Hover)
+                - generic [ref=e908]: Optimisation du taux de conversion
+            - generic [ref=e910]: Passés de e-commerçants générants de millions à experts en optimisation de taux de conversion, UI/UX, etc., Andrea te donnera les meilleures méthodes pour optimiser ton site.
+        - group [ref=e911]:
+          - generic [ref=e913]:
+            - generic [ref=e914]:
+              - img [ref=e915]
+              - generic [ref=e916]:
+                - strong [ref=e918]: Nicolas Del Gaudio
+                - generic [ref=e919]: Fondateur de Creative Crafters et Crafter Studio
+            - generic [ref=e921]: Expert en stratégie créative, il supervise la production de +1 000 créatives chaque mois, en collaboration avec les plus grandes marques e-commerce françaises. Il te partagera ses meilleurs conseils pour concevoir des créatives ultra-performantes.
+        - group [ref=e922]:
+          - generic [ref=e924]:
+            - generic [ref=e925]:
+              - img [ref=e926]
+              - generic [ref=e927]:
+                - strong [ref=e929]: Killyan | Examy
+                - generic [ref=e930]: Expert en Meta Ads
+            - generic [ref=e932]: Fort de son expérience sur Facebook, Examy génère plusieurs millions annuellement sur Meta Ads. Il t'apprendra à manier la régie publicitaire numéro 1 à la perfection.
+        - group [ref=e933]:
+          - generic [ref=e935]:
+            - generic [ref=e936]:
+              - img [ref=e937]
+              - generic [ref=e938]:
+                - strong [ref=e940]: Clément | Lemiento
+                - generic [ref=e941]: Ecom Brands & CEO 8lab
+            - generic [ref=e943]: Expert en e-commerce et en analyse concurrentielle, il t’aidera aussi à structurer des funnels de vente qui convertissent et à optimiser tes testing pour maximiser tes résultats.
+        - group [ref=e944]:
+          - generic [ref=e946]:
+            - generic [ref=e947]:
+              - img [ref=e948]
+              - generic [ref=e949]:
+                - strong [ref=e951]: Tess (Onially)
+                - generic [ref=e952]: Service après vente
+            - generic [ref=e954]: En gérant la stratégie de service après-vente de certaines des plus grosses marques e-commerce françaises, Tess vous montrera comment gérer à la perfection ce point crucial de votre business.
+        - group [ref=e955]:
+          - generic [ref=e957]:
+            - generic [ref=e958]:
+              - img [ref=e959]
+              - generic [ref=e960]:
+                - strong [ref=e962]: Charles | Karli
+                - generic [ref=e963]: Expert Google
+            - generic [ref=e965]: Expert en publicité sur Google Ads, Karli partagera toutes ses stratégies et conseils pour lancer des campagnes rentables et impactantes.
+        - group [ref=e966]:
+          - generic [ref=e968]:
+            - generic [ref=e969]:
+              - img [ref=e970]
+              - generic [ref=e971]:
+                - strong [ref=e973]: Emin & Khalifa
+                - generic [ref=e974]: Experts en Intelligence Artificielle
+            - generic [ref=e976]: Ayant intégré l’IA dans des dizaines de business et accompagné plusieurs grosses brand à 7 chiffres, Emin et Khalifa te démultiplierons ta productivité et ton CA grâce à l’IA.
+        - group [ref=e977]:
+          - generic [ref=e979]:
+            - generic [ref=e980]:
+              - img [ref=e981]
+              - generic [ref=e982]:
+                - strong [ref=e984]: Romain (ReveMedia)
+                - generic [ref=e985]: Expert en Email Marketing
+            - generic [ref=e986]: Après avoir accompagné +300 e-commerçants à optimiser leur backend avec des emails professionnels qui convertissent, il t’expliquera les rouages d’une stratégie éprouvée pour maximiser la rentabilité de ton shop et passer au niveau supérieur.
+        - group [ref=e987]:
+          - generic [ref=e989]:
+            - generic [ref=e990]:
+              - img [ref=e991]
+              - generic [ref=e992]:
+                - strong [ref=e994]: Alan | EcomGuy
+                - generic [ref=e995]: Expert en Pinterest Ads
+            - generic [ref=e997]: Réputé pour son expertise sur Pinterest depuis plus de 4 ans et ayant généré des chiffres impressionnants, te montrera comment exceller sur la plateforme.
+        - group [ref=e998]:
+          - generic [ref=e1000]:
+            - generic [ref=e1001]:
+              - img [ref=e1002]
+              - generic [ref=e1003]:
+                - strong [ref=e1005]: Jordan | Lhommebleu
+                - generic [ref=e1006]: Expert Photoshop
+            - generic [ref=e1008]: Jordan, réputé pour son expertise en création de miniatures YouTube à l'aide de Photoshop, vous montrera comment utiliser ce logiciel pour obtenir un avantage concurrentiel et améliorer votre image de marque.
+        - group [ref=e1009]:
+          - generic [ref=e1011]:
+            - generic [ref=e1012]:
+              - img [ref=e1013]
+              - generic [ref=e1014]:
+                - strong [ref=e1016]: Bilal
+                - generic [ref=e1017]: Expert en Marketing d’Influence
+            - generic [ref=e1019]: Grâce à une stratégie innovante et peu exploitée, il a développé une expertise unique dans le marketing d’influence en travaillant principalement avec des micro-influenceurs.
+        - group [ref=e1020]:
+          - generic [ref=e1022]:
+            - generic [ref=e1023]:
+              - img [ref=e1024]
+              - generic [ref=e1025]:
+                - strong [ref=e1027]: Jordan | As_EO
+                - generic [ref=e1028]: Développeur Shopify & Expert IA
+            - generic [ref=e1030]: Spécialiste en développement Shopify et en IA, il t'aidera à maîtriser les bases du code, créer tes propres sections pour ta boutique, exploiter Midjourney efficacement et comprendre les fondamentaux de l’IA.
+        - group [ref=e1031]:
+          - generic [ref=e1033]:
+            - generic [ref=e1034]:
+              - img [ref=e1035]
+              - generic [ref=e1036]:
+                - strong [ref=e1038]: Mika
+                - generic [ref=e1039]: Design de creatives images
+            - generic [ref=e1041]: Expert en branding et design avec plus de 10.000 creatives produites pour des dizaines de marques générant plusieurs millions de CA. Il t'apprendra à créer des publicités images rentables.
+        - group [ref=e1042]:
+          - generic [ref=e1044]:
+            - generic [ref=e1045]:
+              - img [ref=e1046]
+              - generic [ref=e1047]:
+                - strong [ref=e1049]: Arnaud Drilhon
+                - generic [ref=e1050]: Expert Amazon FBA
+            - generic [ref=e1052]: Spécialiste des marketplaces, Arnaud a lancé et développé plus de cinq marques sur Amazon, générant plus d’1 million d’euros de chiffre d’affaires.
+        - group [ref=e1053]:
+          - generic [ref=e1055]:
+            - generic [ref=e1056]:
+              - img [ref=e1057]
+              - generic [ref=e1058]:
+                - strong [ref=e1060]: Quentin
+                - generic [ref=e1061]: Expert Productivité
+            - generic [ref=e1063]: Financier à Monaco et à la tête de multiple side-business, Quentin s’appliquera à partager techniques et méthodes pour devenir productif et exploiter sainement ton véritable potentiel.
+        - group [ref=e1064]:
+          - generic [ref=e1066]:
+            - generic [ref=e1067]:
+              - img [ref=e1068]
+              - generic [ref=e1069]:
+                - strong [ref=e1071]: Tom (Digitalabs)
+                - generic [ref=e1072]: Photographe pour e-commerce
+            - generic [ref=e1074]: J’aide les marques à augmenter leurs ventes grâce à des visuels percutants. Je crée des photos qui transforment les visiteurs en clients.
+        - group [ref=e1075]:
+          - generic [ref=e1077]:
+            - generic [ref=e1078]:
+              - img [ref=e1079]
+              - generic [ref=e1080]:
+                - strong [ref=e1082]: Thomas Morel
+                - generic [ref=e1083]: Optimisation fiscale & structuration d’entreprise
+            - generic [ref=e1084]: Spécialiste de la fiscalité des dirigeants et cofondateur du Club du Patrimoine, Thomas a accompagné plusieurs centaines d’entrepreneurs dans la structuration de leur business pour réduire leur imposition, sécuriser leur modèle et booster leur rentabilité.
+        - group [ref=e1085]:
+          - generic [ref=e1087]:
+            - generic [ref=e1088]:
+              - img [ref=e1089]
+              - generic [ref=e1090]:
+                - strong [ref=e1092]: Louis Chenneveau
+                - generic [ref=e1093]: Expert en fiscalité internationale
+            - generic [ref=e1094]: "Ancien banquier privé et diplômé de Dauphine, Louis a accompagné plusieurs centaines d’entrepreneurs à structurer leur fiscalité à l’international de manière 100 % légale.Son objectif : t’éviter les pièges fiscaux pour scaler sereinement et durablement."
+        - group [ref=e1095]:
+          - generic [ref=e1097]:
+            - generic [ref=e1098]:
+              - img [ref=e1099]
+              - generic [ref=e1100]:
+                - strong [ref=e1102]: LenoLanding
+                - generic [ref=e1103]: Expert en presell pages & advertorials
+            - generic [ref=e1104]: Landing Page Specialist depuis plus de 3 ans, LenoLanding conçoit des advertoriaux et listicles qui font exploser le ROAS des marques. Il partagera ses méthodes éprouvées en copywriting et en optimisation de funnel, directement applicables pour booster tes conversions.
+        - group [ref=e1105]:
+          - generic [ref=e1107]:
+            - generic [ref=e1108]:
+              - img [ref=e1109]
+              - generic [ref=e1110]:
+                - strong [ref=e1112]: Kahel
+                - generic [ref=e1113]: Expert Creatives & CRO
+            - generic [ref=e1114]: Fondateur de l’agence Luma, Kahel aide des marques e‑commerce à scaler grâce à des creatives impactantes et une approche CRO orientée performance. Il te partagera ses méthodes pour optimiser tes pages, booster tes conversions et structurer un business rentable.
+        - group [ref=e1115]:
+          - generic [ref=e1117]:
+            - generic [ref=e1118]:
+              - img [ref=e1119]
+              - generic [ref=e1120]:
+                - strong [ref=e1122]: Victor Haegy
+                - generic [ref=e1123]: Expert direction créative, stratégique & design graphique
+            - generic [ref=e1124]: Directeur créatif et cofondateur d’ACI, Victor aide les marques à se démarquer grâce à un branding fort et cohérent. Il t’apprendra à faire évoluer ta marque avec une stratégie et une identité qui marque les esprits et soutient ta croissance sur le long terme.
+        - group [ref=e1125]:
+          - generic [ref=e1127]:
+            - generic [ref=e1128]:
+              - img [ref=e1129]
+              - generic [ref=e1130]:
+                - strong [ref=e1132]: Kevin | Zezinho
+                - generic [ref=e1133]: Expert en marques e‑commerce
+            - generic [ref=e1134]:
+              - text: Zezinho a généré plus de
+              - strong [ref=e1135]: 4 millions d’euros de CA
+              - text: en 12 mois grâce à ses sites de niche brandés. Spécialiste de la création de marques rentables, il partagera des stratégies concrètes pour bâtir un écosystème scalable, durable et hautement performant.
+        - group [ref=e1136]:
+          - generic [ref=e1138]:
+            - generic [ref=e1139]:
+              - img [ref=e1140]
+              - generic [ref=e1141]:
+                - strong [ref=e1143]: Lola Perez
+                - generic [ref=e1144]: Avocate en droit des affaires & des marques
+            - generic [ref=e1145]: Avocate et fondatrice de la marque My Better Period, Lola accompagne les e-commerçants dans la structuration juridique de leur business. Dans ce module, elle te partage les bons réflexes pour protéger ta marque, éviter les litiges et construire une activité solide, sans jargon — juste du concret issu du terrain.
+        - group [ref=e1146]:
+          - generic [ref=e1148]:
+            - generic [ref=e1149]:
+              - img [ref=e1150]
+              - generic [ref=e1151]:
+                - strong [ref=e1153]: Matéo Couturier
+                - generic [ref=e1154]: COO Infinite Fulfillment & expert logistique
+            - generic [ref=e1155]: "À seulement 21 ans, Matéo pilote le développement d’Infinite Fulfillment depuis Shenzhen. Il te partagera les coulisses de la logistique e-commerce : optimisation des process, gestion des imprévus et construction d’une supply chain pensée pour la croissance et la performance."
+        - group [ref=e1156]:
+          - generic [ref=e1158]:
+            - generic [ref=e1159]:
+              - img [ref=e1160]
+              - generic [ref=e1161]:
+                - strong [ref=e1163]: Romka
+                - generic [ref=e1164]: Expert Scaling & marques e‑commerce
+            - generic [ref=e1165]: Co-fondateur d’une marque ambitieuse lancée en 2024 avec une vision 360°, Romka partage ses apprentissages en marketing, gestion d’équipe, pilotage du cashflow et stratégies de croissance pour scaler un e‑commerce de façon solide et durable.
+        - group [ref=e1166]:
+          - generic [ref=e1168]:
+            - generic [ref=e1169]:
+              - img [ref=e1170]
+              - generic [ref=e1171]:
+                - strong [ref=e1173]: Coraline Faure
+                - generic [ref=e1174]: Fondatrice de Kanaya
+            - generic [ref=e1176]: Forte de son expertise en création de marque sur le marché français et créatrice de contenu, Elle transmet tout son savoir pour accompagner le lancement de marques féminines à succès.
+        - group [ref=e1177]:
+          - generic [ref=e1179]:
+            - generic [ref=e1180]:
+              - img [ref=e1181]
+              - generic [ref=e1182]:
+                - strong [ref=e1184]: Arthur (LegalSense)
+                - generic [ref=e1185]: Fondateur de LegalSense
+            - generic [ref=e1187]: Spécialisé en expatriation, création de société, ouverture de comptes bancaires et comptabilité. Il t'accompagne vers une expatriation réussie, optimisée et maîtrisée en termes de coûts.
+        - group [ref=e1188]:
+          - generic [ref=e1190]:
+            - generic [ref=e1191]:
+              - img [ref=e1192]
+              - generic [ref=e1193]:
+                - strong [ref=e1195]: Vincent | Bixente
+                - generic [ref=e1196]: Fondateur de Digifeel & Trendtrack
+            - generic [ref=e1198]: Fort d’une expertise terrain en e-commerce, il aide les entrepreneurs à structurer leur stratégie produit et leur positionnement pour créer des business performants et pérennes.
+      - button "previous slide" [ref=e1200] [cursor=pointer]:
+        - img [ref=e1202]
+      - button "next slide" [ref=e1204] [cursor=pointer]:
+        - img [ref=e1206]
+    - img "Margin"
+  - generic [ref=e1208]:
+    - generic [ref=e1214]:
+      - generic [ref=e1215]:
+        - generic [ref=e1216]:
+          - heading "Rejoignez le 8lab" [level=2] [ref=e1217]
+          - img "logo 8lab" [ref=e1218]
+        - generic [ref=e1219]:
+          - heading "et explosez" [level=2] [ref=e1221]
+          - generic [ref=e1222]:
+            - heading "en" [level=2] [ref=e1223]
+            - img "logo shopi" [ref=e1224]
+            - heading "e-commerce" [level=2] [ref=e1225]
+      - generic [ref=e1226]:
+        - generic [ref=e1227]:
+          - img "client satisfait-8lab" [ref=e1228]
+          - img "client satisfait-8lab" [ref=e1229]
+          - img "client satisfait-8lab" [ref=e1230]
+          - img "client satisfait-8lab" [ref=e1231]
+          - img "client satisfait-8lab" [ref=e1232]
+        - generic [ref=e1233]:
+          - generic [ref=e1234]:
+            - img "star" [ref=e1235]
+            - img "star" [ref=e1236]
+            - img "star" [ref=e1237]
+            - img "star" [ref=e1238]
+            - img "star" [ref=e1239]
+          - generic [ref=e1240]: +2086 membres
+    - generic [ref=e1246]:
+      - generic [ref=e1247]: 8lab Ecosystem - Full Access
+      - generic [ref=e1248]:
+        - heading "1900€" [level=2] [ref=e1249]
+        - generic [ref=e1250]: accès à vie
+      - generic [ref=e1251]:
+        - generic [ref=e1253]: "\"+100 000€ de CA en une seule journée\""
+        - generic [ref=e1254]:
+          - generic [ref=e1256]:
+            - generic [ref=e1257]: Lou | Kaibaa
+            - generic [ref=e1258]: "@kaibaa"
+          - generic [ref=e1259]: Kaibaa a rejoint le 8lab avec une boutique qui tournait autour de 2 000€ par jour. Un an plus tard, il réalise des mois à plus de 2 millions d’euros sur le marché français, avec une journée record dépassant les 100 000€ de chiffre d’affaires.
+      - generic [ref=e1262]: "Ce qui est inclus:"
+      - generic [ref=e1263]:
+        - img "favicon"
+        - strong [ref=e1265]: "Academy : Formation + Masterclass"
+      - generic [ref=e1266]:
+        - img "favicon"
+        - strong [ref=e1268]: "Network : Groupe communautaire"
+      - generic [ref=e1269]:
+        - img "favicon"
+        - strong [ref=e1271]: "Coaching : Accompagnement 1:1"
+      - generic [ref=e1272]:
+        - img "favicon"
+        - strong [ref=e1274]: "Convention : Accès privilégiés"
+      - generic [ref=e1275]:
+        - img "favicon"
+        - strong [ref=e1277]: "Ressources : Documents et fiches"
+      - generic [ref=e1278]:
+        - img "favicon"
+        - strong [ref=e1280]: "Ecom Talks : Podcast privé full value"
+      - generic [ref=e1281]:
+        - img "favicon"
+        - strong [ref=e1283]: "Build In Public : Boutique révélée"
+      - generic [ref=e1284]:
+        - img "favicon"
+        - strong [ref=e1286]: "Études de cas : Analyse de succès"
+      - generic [ref=e1287]:
+        - img "favicon"
+        - strong [ref=e1289]: "Plateforme webapp : Compte personnel"
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e1292] [cursor=pointer]:
+        - /url: /offers
+        - img "cling vert" [ref=e1293]
+        - generic [ref=e1294]: Rejoindre l'écosystème
+        - img "fleche" [ref=e1295]
+    - generic [ref=e1298]:
+      - generic [ref=e1299]:
+        - strong [ref=e1302]: En savoir plus
+        - generic [ref=e1303]:
+          - generic [ref=e1304]:
+            - heading "Ou réservez un" [level=2] [ref=e1305]
+            - img "logo shopi" [ref=e1306]
+          - heading "appel avec l’équipe" [level=2] [ref=e1307]
+        - generic [ref=e1308]:
+          - strong [ref=e1309]: Si vous êtes intéressé par l’ecosystème,
+          - text: réservez votre appel dès aujourd'hui avec un membre de la team.
+      - iframe [ref=e1317]:
+        - generic [active] [ref=f11e1]:
+          - img
+          - main [ref=f11e3]:
+            - generic [ref=f11e4]:
+              - generic [ref=f11e5]:
+                - generic [ref=f11e9]:
+                  - list [ref=f11e10]:
+                    - listitem [ref=f11e11]:
+                      - link "Océane Bernz" [ref=f11e12] [cursor=pointer]:
+                        - /url: https://cal.com/oceane?redirect=false
+                        - img "Océane Bernz" [ref=f11e14]
+                  - paragraph [ref=f11e15]: Océane Bernz
+                  - heading "Appel stratégique de découverte" [level=1] [ref=f11e16]
+                  - region "Description" [ref=f11e20]:
+                    - generic [ref=f11e21]:
+                      - paragraph [ref=f11e22]:
+                        - text: Réserve dès maintenant ton appel
+                        - strong [ref=f11e23]:
+                          - strong [ref=f11e24]: GRATUIT
+                        - text: avec un membre de l'équipe du 8lab.
+                      - paragraph [ref=f11e25]: Cet échange nous permettra de comprendre ta situation actuelle, d'identifier tes problématiques, et de voir comment notre écosystème peut éventuellement t'aider à lancer et faire croître ton projet e-commerce pour atteindre tes objectifs.
+                      - paragraph [ref=f11e26]:
+                        - strong [ref=f11e27]:
+                          - strong [ref=f11e28]: IMPORTANT
+                        - text: ":"
+                      - paragraph [ref=f11e29]: 1 - Si tu es déjà membre de l'écosystème, cet appel ne te concerne pas.
+                      - paragraph [ref=f11e30]: 2 - Sache qu'en cas d'absence à un rendez-vous que tu as toi-même programmé, nous nous réservons la possibilité de te retirer l'accès définitif à tout futur appel avec un expert 8lab.
+                  - generic [ref=f11e31]:
+                    - generic [ref=f11e32]:
+                      - img [ref=f11e33]
+                      - generic [ref=f11e35]: 30min
+                    - generic [ref=f11e39]:
+                      - img "Google Meet icon" [ref=f11e40]
+                      - paragraph [ref=f11e41]: Google Meet
+                    - generic [ref=f11e42] [cursor=pointer]:
+                      - img [ref=f11e43]
+                      - combobox "Timezone Select" [ref=f11e52]
+                - generic [ref=f11e54]:
+                  - generic [ref=f11e55]:
+                    - time [ref=f11e57]:
+                      - strong [ref=f11e58]: avril
+                      - text: "2026"
+                    - generic [ref=f11e60]:
+                      - button "Voir le mois précédent" [disabled] [ref=f11e61]:
+                        - img [ref=f11e62]
+                      - button "Voir le mois suivant" [ref=f11e64] [cursor=pointer]:
+                        - img [ref=f11e65]
+                  - generic [ref=f11e67]:
+                    - generic [ref=f11e68]: dim.
+                    - generic [ref=f11e69]: lun.
+                    - generic [ref=f11e70]: mar.
+                    - generic [ref=f11e71]: mer.
+                    - generic [ref=f11e72]: jeu.
+                    - generic [ref=f11e73]: ven.
+                    - generic [ref=f11e74]: sam.
+                  - generic [ref=f11e75]:
+                    - button [disabled] [ref=f11e80]
+                    - button [disabled] [ref=f11e83]
+                    - button [disabled] [ref=f11e86]
+                    - button [disabled] [ref=f11e89]
+                    - button [disabled] [ref=f11e92]
+                    - button [disabled] [ref=f11e95]
+                    - button [disabled] [ref=f11e98]
+                    - button [disabled] [ref=f11e101]
+                    - button [disabled] [ref=f11e104]
+                    - button [disabled] [ref=f11e107]
+                    - button [disabled] [ref=f11e110]
+                    - button [disabled] [ref=f11e113]
+                    - button [disabled] [ref=f11e116]
+                    - button [disabled] [ref=f11e119]
+                    - button [disabled] [ref=f11e122]
+                    - button [disabled] [ref=f11e125]
+                    - button [disabled] [ref=f11e128]
+                    - button [disabled] [ref=f11e131]
+                    - button [disabled] [ref=f11e134]
+                    - button [disabled] [ref=f11e137]
+                    - button [disabled] [ref=f11e140]
+                    - button [disabled] [ref=f11e143]
+                    - button [disabled] [ref=f11e146]
+                    - button [disabled] [ref=f11e149]
+                    - button [disabled] [ref=f11e152]
+                    - button [disabled] [ref=f11e155]
+                    - button [disabled] [ref=f11e158]
+                    - button [disabled] [ref=f11e161]
+                    - button [disabled] [ref=f11e164]
+                    - button [disabled] [ref=f11e167]
+              - link "Cal.com Logo" [ref=f11e171] [cursor=pointer]:
+                - /url: https://go.cal.com/booking
+                - img "Cal.com Logo" [ref=f11e172]
+            - region "Notifications alt+T"
+          - alert [ref=f11e173]
+          - generic:
+            - region "Notifications"
+          - generic:
+            - region "Notifications"
+    - generic [ref=e1325]:
+      - generic [ref=e1327]: 8lab Success Stories
+      - heading "S'ils l’ont fait, pourquoi pas vous ?" [level=2] [ref=e1330]
+      - generic [ref=e1331]:
+        - strong [ref=e1332]: Que vous soyez débutant ou plus avancé,
+        - text: vous aurez accès aux stratégies les plus abouties pour scaler une marque à plus de
+        - strong [ref=e1333]: 6 chiffres par mois en partant du dropshipping.
+      - link "cling vert Rejoindre maintenant fleche" [ref=e1334] [cursor=pointer]:
+        - /url: /offers
+        - img "cling vert" [ref=e1335]
+        - generic [ref=e1336]: Rejoindre maintenant
+        - img "fleche" [ref=e1337]
+    - link "Voir +" [ref=e1353] [cursor=pointer]:
+      - /url: /resultats
+      - generic [ref=e1354]: Voir +
+    - img "bloor" [ref=e1355]
+    - img "bloor" [ref=e1356]
+    - img "bloor" [ref=e1357]
+  - generic [ref=e1358]:
+    - generic [ref=e1359]:
+      - img "Margin" [ref=e1360]
+      - generic [ref=e1362]:
+        - generic [ref=e1363]:
+          - generic [ref=e1365]:
+            - generic [ref=e1368]: FAQ
+            - generic [ref=e1369]:
+              - heading "Vos Questions." [level=2] [ref=e1371]: Vos Questions.
+              - heading "Nos Réponses" [level=2] [ref=e1372]:
+                - strong [ref=e1373]: Nos Réponses
+            - generic [ref=e1374]:
+              - strong [ref=e1375]: Si vous ne trouvez pas la réponse que vous cherchez,
+              - text: réservez un appel ou contactez-nous en cliquant ici.
+          - link "cling vert Contactez-nous fleche" [ref=e1377] [cursor=pointer]:
+            - /url: https://api.whatsapp.com/send/?phone=33666413994&text&type=phone_number&app_absent=0
+            - img "cling vert" [ref=e1378]
+            - generic [ref=e1379]: Contactez-nous
+            - img "fleche" [ref=e1380]
+        - generic [ref=e1383]:
+          - button "L'écosystème 8lab, c'est quoi ?" [ref=e1385] [cursor=pointer]:
+            - heading "L'écosystème 8lab, c'est quoi ?" [level=3] [ref=e1386]
+          - button "Comment rejoindre le 8lab ?" [ref=e1391] [cursor=pointer]:
+            - heading "Comment rejoindre le 8lab ?" [level=3] [ref=e1392]
+          - button "Est ce qu'il y a une garantie de remboursement ?" [ref=e1397] [cursor=pointer]:
+            - heading "Est ce qu'il y a une garantie de remboursement ?" [level=3] [ref=e1398]
+          - button "Suis-je accompagné lors de la formation ?" [ref=e1403] [cursor=pointer]:
+            - heading "Suis-je accompagné lors de la formation ?" [level=3] [ref=e1404]
+          - button "Abordez-vous l'administratif et le fiscal ?" [ref=e1409] [cursor=pointer]:
+            - heading "Abordez-vous l'administratif et le fiscal ?" [level=3] [ref=e1410]
+          - button "Quel est le budget idéal pour bien commencer ?" [ref=e1415] [cursor=pointer]:
+            - heading "Quel est le budget idéal pour bien commencer ?" [level=3] [ref=e1416]
+          - button "La formation est-elle adaptée pour débutants ?" [ref=e1421] [cursor=pointer]:
+            - heading "La formation est-elle adaptée pour débutants ?" [level=3] [ref=e1422]
+          - button "Pouvez-vous m'assurer que j'aurais des résultats ?" [ref=e1427] [cursor=pointer]:
+            - heading "Pouvez-vous m'assurer que j'aurais des résultats ?" [level=3] [ref=e1428]
+    - img "margin"
+  - generic [ref=e1434]:
+    - generic [ref=e1436]:
+      - heading "Infinite Is The New Norm" [level=2] [ref=e1437]
+      - generic [ref=e1438]:
+        - strong [ref=e1439]: Repoussez les limites
+        - text: et évoluez dans un environnement où la
+        - strong [ref=e1440]: performance et la réussite
+        - text: priment.
+      - generic [ref=e1441]:
+        - generic [ref=e1442]:
+          - img "client satisfait-8lab" [ref=e1443]
+          - img "client satisfait-8lab" [ref=e1444]
+          - img "client satisfait-8lab" [ref=e1445]
+          - img "client satisfait-8lab" [ref=e1446]
+          - img "client satisfait-8lab" [ref=e1447]
+        - generic [ref=e1448]:
+          - generic [ref=e1449]:
+            - img "star" [ref=e1450]
+            - img "star" [ref=e1451]
+            - img "star" [ref=e1452]
+            - img "star" [ref=e1453]
+            - img "star" [ref=e1454]
+          - generic [ref=e1455]: +2086 membres
+      - link "cling vert Rejoindre l'écosystème fleche" [ref=e1456] [cursor=pointer]:
+        - /url: /offers
+        - img "cling vert" [ref=e1457]
+        - generic [ref=e1458]: Rejoindre l'écosystème
+        - img "fleche" [ref=e1459]
+    - generic [ref=e1465]:
+      - generic [ref=e1466]:
+        - generic [ref=e1467]:
+          - img "Logo 8lab" [ref=e1468]
+          - link "team@8labecosystem.com" [ref=e1470] [cursor=pointer]:
+            - /url: mailto:mailto:&#116;&#x65;&#x61;&#109;&#x40;&#56;&#108;&#x61;&#x62;&#110;&#x65;&#116;&#x77;&#111;&#114;&#x6b;&#x2e;&#99;&#111;&#109;
+        - generic [ref=e1471]:
+          - generic [ref=e1472]:
+            - generic [ref=e1473]: Navigation
+            - link "Programme" [ref=e1474] [cursor=pointer]:
+              - /url: "#programme"
+            - link "Process" [ref=e1475] [cursor=pointer]:
+              - /url: "#process"
+            - link "L'Équipe" [ref=e1476] [cursor=pointer]:
+              - /url: "#"
+            - link "Rejoindre" [ref=e1477] [cursor=pointer]:
+              - /url: "#rejoindre"
+            - link "Avis" [ref=e1478] [cursor=pointer]:
+              - /url: "#avis"
+            - link "FAQ" [ref=e1479] [cursor=pointer]:
+              - /url: "#faq"
+          - generic [ref=e1480]:
+            - generic [ref=e1481]: Informations
+            - link "Mentions légales" [ref=e1482] [cursor=pointer]:
+              - /url: /mention-legale
+            - link "Conditions générales" [ref=e1483] [cursor=pointer]:
+              - /url: /cgv
+            - link "Politique de confidentialité" [ref=e1484] [cursor=pointer]:
+              - /url: /politique-de-confidentialite
+      - generic [ref=e1488]: © 2025 8lab Corporation - All rights reserved.
+    - img "bloor"
+  - link "icon whatsapp" [ref=e1489] [cursor=pointer]:
+    - /url: https://api.whatsapp.com/send/?phone=666413994&text&type=phone_number&app_absent=0
+    - img "icon whatsapp" [ref=e1492]

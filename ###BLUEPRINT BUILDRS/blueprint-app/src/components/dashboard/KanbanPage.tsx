@@ -1,298 +1,363 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import {
-  Plus, LayoutGrid, List, CheckCircle2, Circle, Clock, Eye,
-  X, ChevronDown, FolderOpen, Zap, Lock,
+  CheckCircle2, ChevronRight, ChevronLeft,
+  ArrowRight, BookOpen, Zap, TrendingUp, Target,
 } from 'lucide-react'
-import {
-  DndContext,
-  closestCenter,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from '@dnd-kit/core'
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-  arrayMove,
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { useMilestones, type Milestone } from '../../hooks/useMilestones'
-import { supabase } from '../../lib/supabase'
+import { getModule } from '../../data/curriculum'
+import { MODULE_CHECKLISTS, MODULE_NUM, type CheckStep } from './ModulePage'
 
-interface ProjectInfo {
-  name: string
-  status: string
-  created_at: string
+// ── Pipeline phases order (display order, not CURRICULUM array order) ─────────
+const PIPELINE_MODULE_ORDER = [
+  '00', 'setup', '01', 'valider', 'offre', '02', '03', '04', '05', '06', 'scaler',
+] as const
+type PhaseModuleId = typeof PIPELINE_MODULE_ORDER[number]
+
+// ── Generator links for specific phases ─────────────────────────────────────
+const PHASE_GENERATOR: Record<string, { label: string; hash: string; Icon: React.ComponentType<{ size?: number; strokeWidth?: number }> }> = {
+  '01':      { label: 'NicheFinder',    hash: '#/dashboard/generator/ideas',    Icon: Target },
+  'valider': { label: 'MarketPulse',    hash: '#/dashboard/generator/validate', Icon: TrendingUp },
+  '06':      { label: 'FlipCalc',       hash: '#/dashboard/generator/mrr',      Icon: Zap },
 }
 
-// ── Constants ─────────────────────────────────────────────────────────────────
-
-const COLUMNS: { key: Milestone['kanban_status']; label: string; color: string }[] = [
-  { key: 'todo',        label: 'A faire',    color: '#6b7280' },
-  { key: 'in_progress', label: 'En cours',   color: '#3b82f6' },
-  { key: 'review',      label: 'A verifier', color: '#f59e0b' },
-  { key: 'done',        label: 'Termine',    color: '#22c55e' },
-]
-
-const STATUS_ICONS: Record<Milestone['kanban_status'], React.ComponentType<{ size?: number; strokeWidth?: number; style?: React.CSSProperties }>> = {
-  todo:        Circle,
-  in_progress: Clock,
-  review:      Eye,
-  done:        CheckCircle2,
+// ── LocalStorage helpers ──────────────────────────────────────────────────────
+function readChecked(moduleId: string): Set<number> {
+  try {
+    const saved = localStorage.getItem(`buildrs_module_checklist_${moduleId}`)
+    return saved ? new Set(JSON.parse(saved) as number[]) : new Set()
+  } catch { return new Set() }
 }
 
-// ── Sortable item (list view) ─────────────────────────────────────────────────
+function writeChecked(moduleId: string, set: Set<number>): void {
+  localStorage.setItem(`buildrs_module_checklist_${moduleId}`, JSON.stringify([...set]))
+}
 
-function SortableListItem({
-  m,
-  onStatusChange,
-  onOpen,
-}: {
-  m: Milestone
-  onStatusChange: (id: string, status: Milestone['kanban_status']) => void
-  onOpen: (m: Milestone) => void
-}) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: m.id })
-  const col = COLUMNS.find(c => c.key === m.kanban_status)
-  const StatusIcon = STATUS_ICONS[m.kanban_status]
+// ── Pipeline Strip ────────────────────────────────────────────────────────────
+interface PipelineStripProps {
+  selectedIdx: number
+  onSelect: (idx: number) => void
+  checkedMap: Record<string, Set<number>>
+}
+
+function PipelineStrip({ selectedIdx, onSelect, checkedMap }: PipelineStripProps) {
+  const stripRef = useRef<HTMLDivElement>(null)
+  const nodeRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  useEffect(() => {
+    const el = nodeRefs.current[selectedIdx]
+    if (el && stripRef.current) {
+      const container = stripRef.current
+      const nodeLeft  = el.offsetLeft
+      const nodeWidth = el.offsetWidth
+      const contWidth = container.offsetWidth
+      container.scrollTo({ left: nodeLeft - contWidth / 2 + nodeWidth / 2, behavior: 'smooth' })
+    }
+  }, [selectedIdx])
 
   return (
     <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
-      className="border border-border rounded-xl p-4 bg-card hover:border-foreground/20 transition-colors"
+      ref={stripRef}
+      className="overflow-x-auto flex-shrink-0 px-6 pb-4"
+      style={{ scrollbarWidth: 'none' }}
     >
-      <div className="flex items-center gap-3">
-        {/* Drag handle */}
-        <button
-          {...attributes}
-          {...listeners}
-          className="text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors cursor-grab active:cursor-grabbing flex-shrink-0 touch-none"
-          aria-label="Déplacer"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="4" cy="4" r="1.2" fill="currentColor" />
-            <circle cx="4" cy="7" r="1.2" fill="currentColor" />
-            <circle cx="4" cy="10" r="1.2" fill="currentColor" />
-            <circle cx="10" cy="4" r="1.2" fill="currentColor" />
-            <circle cx="10" cy="7" r="1.2" fill="currentColor" />
-            <circle cx="10" cy="10" r="1.2" fill="currentColor" />
-          </svg>
-        </button>
+      <div className="flex items-start gap-0 min-w-max">
+        {PIPELINE_MODULE_ORDER.map((moduleId, idx) => {
+          const mod     = getModule(moduleId)
+          const num     = MODULE_NUM[moduleId] ?? moduleId
+          const steps   = MODULE_CHECKLISTS[moduleId] ?? []
+          const checked = checkedMap[moduleId] ?? new Set<number>()
+          const done    = checked.size
+          const total   = steps.length
+          const status  = total === 0 ? 'not_started' : done === 0 ? 'not_started' : done >= total ? 'completed' : 'in_progress'
+          const isActive = selectedIdx === idx
 
-        <StatusIcon size={16} strokeWidth={1.5} style={{ color: col?.color, flexShrink: 0 }} />
+          const nextId     = idx < PIPELINE_MODULE_ORDER.length - 1 ? PIPELINE_MODULE_ORDER[idx + 1] : null
+          const nextSteps  = nextId ? (MODULE_CHECKLISTS[nextId] ?? []) : []
+          const nextDone   = nextId ? (checkedMap[nextId] ?? new Set<number>()).size : 0
+          const nextStatus = nextId ? (nextSteps.length === 0 ? 'not_started' : nextDone === 0 ? 'not_started' : nextDone >= nextSteps.length ? 'completed' : 'in_progress') : null
 
-        <div className="flex-1 min-w-0">
-          <button
-            onClick={() => onOpen(m)}
-            className={`text-sm font-medium text-left hover:underline underline-offset-2 ${m.kanban_status === 'done' ? 'line-through text-muted-foreground' : 'text-foreground'}`}
-          >
-            {m.title}
-          </button>
-          {m.description && (
-            <p className="text-xs text-muted-foreground mt-0.5 truncate">{m.description}</p>
-          )}
-          {m.notes && (
-            <p className="text-xs text-muted-foreground/60 mt-0.5 italic truncate">{m.notes}</p>
-          )}
-        </div>
+          const lineColor = status === 'completed' && nextStatus === 'completed'
+            ? '#22c55e'
+            : status === 'completed' || (nextStatus && nextStatus !== 'not_started')
+              ? '#3b82f6'
+              : 'hsl(var(--border))'
 
-        {/* Status selector */}
-        <div className="relative flex-shrink-0">
-          <select
-            value={m.kanban_status}
-            onChange={e => onStatusChange(m.id, e.target.value as Milestone['kanban_status'])}
-            className="appearance-none text-xs bg-secondary/50 border border-border rounded-lg pl-2 pr-5 py-1 outline-none cursor-pointer"
-            style={{ color: col?.color }}
-          >
-            {COLUMNS.map(c => (
-              <option key={c.key} value={c.key}>{c.label}</option>
-            ))}
-          </select>
-          <ChevronDown size={10} strokeWidth={1.5} className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground" />
-        </div>
+          return (
+            <div key={moduleId} className="flex items-start">
+              <div className="flex flex-col items-center gap-1.5" style={{ width: 72 }}>
+                <button
+                  ref={el => { nodeRefs.current[idx] = el }}
+                  onClick={() => onSelect(idx)}
+                  className="relative flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+                  style={{
+                    background: status === 'completed'
+                      ? '#22c55e'
+                      : status === 'in_progress'
+                        ? 'rgba(59,130,246,0.12)'
+                        : 'hsl(var(--secondary))',
+                    border: `2px solid ${
+                      status === 'completed' ? '#22c55e'
+                      : status === 'in_progress' ? '#3b82f6'
+                      : isActive ? 'hsl(var(--foreground))'
+                      : 'hsl(var(--border))'
+                    }`,
+                    boxShadow: isActive && status !== 'completed' ? '0 0 0 3px rgba(255,255,255,0.06)' : 'none',
+                    transform: isActive ? 'scale(1.12)' : 'scale(1)',
+                  }}
+                >
+                  {status === 'completed'
+                    ? <CheckCircle2 size={16} strokeWidth={2.5} color="#fff" />
+                    : <span
+                        className="text-[10px] font-black tabular-nums"
+                        style={{ color: status === 'in_progress' ? '#3b82f6' : isActive ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))' }}
+                      >
+                        {num}
+                      </span>
+                  }
+                </button>
+                <span
+                  className="text-center leading-tight"
+                  style={{
+                    fontSize: 9,
+                    fontWeight: isActive ? 700 : 500,
+                    color: status === 'completed' ? '#22c55e' : status === 'in_progress' ? '#3b82f6' : isActive ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
+                    maxWidth: 68,
+                  }}
+                >
+                  {mod?.title ?? moduleId}
+                </span>
+                {total > 0 && (
+                  <span style={{ fontSize: 8, color: 'hsl(var(--muted-foreground))', opacity: 0.7 }}>
+                    {done}/{total}
+                  </span>
+                )}
+              </div>
+
+              {idx < PIPELINE_MODULE_ORDER.length - 1 && (
+                <div
+                  className="flex-shrink-0 mt-[19px]"
+                  style={{ width: 20, height: 2, background: lineColor, transition: 'background 0.3s' }}
+                />
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
 
-// ── Milestone Drawer ──────────────────────────────────────────────────────────
-
-function MilestoneDrawer({
-  milestone,
-  onClose,
-  onUpdate,
-  navigate,
-  hasPack,
-  onMilestoneDone,
-}: {
-  milestone: Milestone
-  onClose: () => void
-  onUpdate: (id: string, updates: Partial<Pick<Milestone, 'title' | 'description' | 'kanban_status' | 'notes'>>) => Promise<void>
+// ── Phase Detail ──────────────────────────────────────────────────────────────
+interface PhaseDetailProps {
+  moduleId: string
+  phaseIdx: number
+  totalPhases: number
+  checked: Set<number>
   navigate: (hash: string) => void
-  hasPack?: boolean
-  onMilestoneDone?: () => void
-}) {
-  const [title, setTitle]       = useState(milestone.title)
-  const [desc, setDesc]         = useState(milestone.description ?? '')
-  const [notes, setNotes]       = useState(milestone.notes ?? '')
-  const [status, setStatus]     = useState(milestone.kanban_status)
-  const [saving, setSaving]     = useState(false)
+  onToggle: (moduleId: string, n: number) => void
+  onPrev: () => void
+  onNext: () => void
+}
 
-  const col = COLUMNS.find(c => c.key === status)
+function PhaseDetail({ moduleId, phaseIdx, totalPhases, checked, navigate, onToggle, onPrev, onNext }: PhaseDetailProps) {
+  const mod   = getModule(moduleId)
+  const steps = MODULE_CHECKLISTS[moduleId] ?? []
+  const num   = MODULE_NUM[moduleId] ?? moduleId
+  const done  = checked.size
+  const total = steps.length
+  const pct   = total > 0 ? Math.round((done / total) * 100) : 0
+  const gen   = PHASE_GENERATOR[moduleId] ?? null
 
-  const handleSave = async () => {
-    setSaving(true)
-    const wasDone = milestone.kanban_status === 'done'
-    await onUpdate(milestone.id, { title, description: desc, notes, kanban_status: status })
-    setSaving(false)
-    if (!wasDone && status === 'done') onMilestoneDone?.()
-    onClose()
-  }
+  if (!mod) return null
 
   return (
-    <>
-      {/* Backdrop */}
+    <div className="flex flex-col flex-1">
+
+      {/* Phase header card */}
       <div
-        className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-sm border-l border-border bg-background flex flex-col shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
-          <p className="text-sm font-bold text-foreground">Detail du milestone</p>
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
-            <X size={16} strokeWidth={1.5} />
-          </button>
-        </div>
-
-        {/* Body */}
-        <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5">
-
-          {/* Status */}
-          <div>
-            <label className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 block mb-2">Statut</label>
-            <div className="flex flex-wrap gap-2">
-              {COLUMNS.map(c => (
-                <button
-                  key={c.key}
-                  onClick={() => setStatus(c.key)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150"
+        className="mx-6 mb-4 rounded-2xl p-5 flex-shrink-0"
+        style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))' }}
+      >
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60 mb-0.5">
+              Module {num}
+            </p>
+            <h2 className="text-xl font-extrabold text-foreground mb-3" style={{ letterSpacing: '-0.03em' }}>
+              {mod.title}
+            </h2>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'hsl(var(--border))' }}>
+                <div
+                  className="h-full rounded-full transition-all duration-500"
                   style={{
-                    borderColor: status === c.key ? c.color + '60' : 'hsl(var(--border))',
-                    background:  status === c.key ? c.color + '15' : 'transparent',
-                    color:       status === c.key ? c.color : 'hsl(var(--muted-foreground))',
+                    width: `${Math.max(pct, pct > 0 ? 2 : 0)}%`,
+                    background: done === total && total > 0 ? '#22c55e' : 'linear-gradient(90deg, #4d96ff, #22c55e)',
                   }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: c.color }} />
-                  {c.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Title */}
-          <div>
-            <label className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 block mb-2">Titre</label>
-            <input
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              className="w-full text-sm font-medium text-foreground bg-secondary/40 border border-border rounded-lg px-3 py-2.5 outline-none focus:border-foreground/30 transition-colors"
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 block mb-2">Description</label>
-            <textarea
-              value={desc}
-              onChange={e => setDesc(e.target.value)}
-              rows={3}
-              placeholder="Decris cette etape..."
-              className="w-full text-sm text-foreground bg-secondary/40 border border-border rounded-lg px-3 py-2.5 outline-none focus:border-foreground/30 transition-colors resize-none placeholder:text-muted-foreground/50"
-            />
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 block mb-2">Notes personnelles</label>
-            <textarea
-              value={notes}
-              onChange={e => setNotes(e.target.value)}
-              rows={4}
-              placeholder="Tes notes, idees, liens..."
-              className="w-full text-sm text-foreground bg-secondary/40 border border-border rounded-lg px-3 py-2.5 outline-none focus:border-foreground/30 transition-colors resize-none placeholder:text-muted-foreground/50"
-            />
-          </div>
-
-          {/* Agent lié */}
-          {milestone.linked_agent && (
-            <div className="rounded-xl border p-4" style={{
-              borderColor: hasPack ? 'rgba(77,150,255,0.3)' : 'hsl(var(--border))',
-              background:  hasPack ? 'rgba(77,150,255,0.05)' : 'hsl(var(--secondary)/0.3)',
-            }}>
-              <div className="flex items-center gap-2 mb-1">
-                <Zap size={12} strokeWidth={1.5} style={{ color: '#4d96ff', flexShrink: 0 }} />
-                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60">Agent recommande</p>
+                />
               </div>
-              <p className="text-sm font-semibold text-foreground capitalize mb-0.5">
-                {milestone.linked_agent.replace(/-/g, ' ')}
-              </p>
-              <p className="text-xs text-muted-foreground mb-3">
-                Cet agent peut t'aider a avancer sur cette etape.
-              </p>
-              {hasPack ? (
-                <button
-                  onClick={() => { onClose(); navigate(`#/dashboard/agent-chat/${milestone.linked_agent}`) }}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold transition-colors"
-                  style={{ background: '#4d96ff', color: '#fff' }}
-                >
-                  <Zap size={11} strokeWidth={2} />
-                  Lancer l'agent →
-                </button>
-              ) : (
-                <button
-                  onClick={() => { onClose(); navigate('#/dashboard/offers') }}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium border border-border transition-colors hover:bg-secondary/60"
-                >
-                  <Lock size={11} strokeWidth={1.5} className="text-muted-foreground" />
-                  <span className="text-muted-foreground">Debloquer les agents</span>
-                </button>
-              )}
+              <span
+                className="text-[11px] font-bold tabular-nums flex-shrink-0"
+                style={{ color: done === total && total > 0 ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
+              >
+                {done}/{total}
+              </span>
             </div>
-          )}
-
-          {/* Status badge */}
-          <div className="flex items-center gap-2 py-2 border-t border-border">
-            <div className="w-2 h-2 rounded-full" style={{ background: col?.color }} />
-            <p className="text-xs text-muted-foreground">Statut actuel : <span className="font-semibold text-foreground">{col?.label}</span></p>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="px-5 py-4 border-t border-border flex-shrink-0">
-          <button
-            onClick={handleSave}
-            disabled={saving || !title.trim()}
-            className="w-full py-3 rounded-xl text-sm font-bold transition-all duration-150"
-            style={{
-              background: saving ? 'hsl(var(--secondary))' : 'hsl(var(--foreground))',
-              color:      saving ? 'hsl(var(--muted-foreground))' : 'hsl(var(--background))',
-            }}
-          >
-            {saving ? 'Sauvegarde...' : 'Sauvegarder'}
-          </button>
+          <div className="flex flex-col gap-2 items-end">
+            <button
+              onClick={() => navigate(`#/dashboard/module/${moduleId}`)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all hover:opacity-80"
+              style={{ background: 'hsl(var(--secondary))', color: 'hsl(var(--foreground))', border: '0.5px solid hsl(var(--border))' }}
+            >
+              <BookOpen size={11} strokeWidth={1.5} />
+              Formation
+              <ChevronRight size={10} strokeWidth={1.5} />
+            </button>
+            {gen && (
+              <button
+                onClick={() => navigate(gen.hash)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all hover:opacity-80"
+                style={{ background: 'rgba(77,150,255,0.1)', color: '#4d96ff', border: '0.5px solid rgba(77,150,255,0.25)' }}
+              >
+                <gen.Icon size={11} strokeWidth={1.5} />
+                {gen.label}
+                <ArrowRight size={10} strokeWidth={1.5} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </>
+
+      {/* Checklist */}
+      <div className="px-6 flex-1">
+        {steps.length > 0 ? (
+          <div className="relative max-w-2xl">
+            <div
+              className="absolute left-[19px] top-4 bottom-4"
+              style={{ width: '1px', background: 'hsl(var(--border))' }}
+            />
+            <div className="flex flex-col gap-2">
+              {steps.map((step: CheckStep) => {
+                const isDone = checked.has(step.n)
+                return (
+                  <div key={step.n} className="relative flex items-start gap-4">
+                    <button
+                      onClick={() => onToggle(moduleId, step.n)}
+                      className="relative z-10 shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 mt-0.5"
+                      style={{
+                        background: isDone ? 'rgba(34,197,94,0.15)' : 'hsl(var(--secondary))',
+                        border: `1px solid ${isDone ? 'rgba(34,197,94,0.4)' : 'hsl(var(--border))'}`,
+                      }}
+                    >
+                      {isDone
+                        ? <CheckCircle2 size={16} strokeWidth={2} style={{ color: '#22c55e' }} />
+                        : <span className="text-[11px] font-bold text-muted-foreground">{step.n}</span>
+                      }
+                    </button>
+                    <div
+                      className="flex-1 rounded-xl px-4 py-3 transition-all duration-150 cursor-pointer"
+                      onClick={() => onToggle(moduleId, step.n)}
+                      style={{
+                        background: isDone ? 'rgba(34,197,94,0.04)' : 'hsl(var(--card))',
+                        border: `0.5px solid ${isDone ? 'rgba(34,197,94,0.2)' : 'hsl(var(--border))'}`,
+                      }}
+                    >
+                      <p
+                        className="text-[13px] font-semibold mb-0.5"
+                        style={{
+                          color: isDone ? 'hsl(var(--muted-foreground))' : 'hsl(var(--foreground))',
+                          textDecoration: isDone ? 'line-through' : 'none',
+                          letterSpacing: '-0.01em',
+                        }}
+                      >
+                        {step.title}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">{step.desc}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground py-8 text-center">Checklist en cours de préparation.</p>
+        )}
+
+        {done === total && total > 0 && (
+          <div
+            className="mt-6 max-w-2xl rounded-2xl px-6 py-5 text-center"
+            style={{ background: 'rgba(34,197,94,0.06)', border: '0.5px solid rgba(34,197,94,0.25)' }}
+          >
+            <p className="text-[14px] font-bold mb-1" style={{ color: '#22c55e' }}>Phase validée</p>
+            <p className="text-[12px] text-muted-foreground">
+              Passe à la phase suivante ou revois la formation pour consolider.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Phase navigation */}
+      <div className="px-6 py-6 mt-4 flex items-center justify-between flex-shrink-0">
+        <button
+          onClick={onPrev}
+          disabled={phaseIdx === 0}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[12px] font-semibold transition-all disabled:opacity-30"
+          style={{ background: 'hsl(var(--secondary))', color: 'hsl(var(--foreground))', border: '0.5px solid hsl(var(--border))' }}
+        >
+          <ChevronLeft size={13} strokeWidth={1.5} />
+          Phase précédente
+        </button>
+        <span className="text-[11px] font-bold text-muted-foreground tabular-nums">
+          {phaseIdx + 1} / {totalPhases}
+        </span>
+        <button
+          onClick={onNext}
+          disabled={phaseIdx === totalPhases - 1}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[12px] font-semibold transition-all disabled:opacity-30"
+          style={{ background: 'hsl(var(--secondary))', color: 'hsl(var(--foreground))', border: '0.5px solid hsl(var(--border))' }}
+        >
+          Phase suivante
+          <ChevronRight size={13} strokeWidth={1.5} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Global Progress ───────────────────────────────────────────────────────────
+function GlobalProgress({ checkedMap }: { checkedMap: Record<string, Set<number>> }) {
+  const total = PIPELINE_MODULE_ORDER.reduce((acc, id) => acc + (MODULE_CHECKLISTS[id]?.length ?? 0), 0)
+  const done  = PIPELINE_MODULE_ORDER.reduce((acc, id) => acc + (checkedMap[id]?.size ?? 0), 0)
+  const pct   = total > 0 ? Math.round((done / total) * 100) : 0
+
+  return (
+    <div className="px-6 pb-3 flex-shrink-0">
+      <div className="flex items-center justify-between mb-1.5">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+          Progression globale
+        </span>
+        <span
+          className="text-[11px] font-bold tabular-nums"
+          style={{ color: pct === 100 ? '#22c55e' : 'hsl(var(--muted-foreground))' }}
+        >
+          {done}/{total} étapes · {pct}%
+        </span>
+      </div>
+      <div className="h-1 rounded-full overflow-hidden" style={{ background: 'hsl(var(--border))' }}>
+        <div
+          className="h-full rounded-full transition-all duration-700"
+          style={{
+            width: `${pct}%`,
+            background: pct === 100 ? '#22c55e' : 'linear-gradient(90deg, #4d96ff, #22c55e)',
+          }}
+        />
+      </div>
+    </div>
   )
 }
 
 // ── Main Component ────────────────────────────────────────────────────────────
-
 interface Props {
   userId: string
   navigate: (hash: string) => void
@@ -300,243 +365,89 @@ interface Props {
   onMilestoneDone?: () => void
 }
 
-export function KanbanPage({ userId, navigate, hasPack, onMilestoneDone }: Props) {
-  const { milestones, loading, add, update, reorder, seedDefaults, doneCount } = useMilestones(userId)
-  const [view, setView]         = useState<'list' | 'kanban'>('list')
-  const [adding, setAdding]     = useState(false)
-  const [newTitle, setNewTitle] = useState('')
-  const [drawerMilestone, setDrawerMilestone] = useState<Milestone | null>(null)
-  const [project, setProject]   = useState<ProjectInfo | null>(null)
+export function KanbanPage({ navigate, onMilestoneDone }: Props) {
+  // Read all checklists from localStorage on mount
+  const [checkedMap, setCheckedMap] = useState<Record<string, Set<number>>>(() => {
+    const map: Record<string, Set<number>> = {}
+    for (const moduleId of PIPELINE_MODULE_ORDER) {
+      map[moduleId] = readChecked(moduleId)
+    }
+    return map
+  })
 
-  useEffect(() => {
-    if (!userId) return
-    supabase
-      .from('projects')
-      .select('name,status,created_at')
-      .eq('user_id', userId)
-      .maybeSingle()
-      .then(({ data }) => { if (data) setProject(data as ProjectInfo) })
-  }, [userId])
+  // Auto-select first in-progress phase, else first uncompleted
+  const [selectedIdx, setSelectedIdx] = useState<number>(() => {
+    for (let i = 0; i < PIPELINE_MODULE_ORDER.length; i++) {
+      const id    = PIPELINE_MODULE_ORDER[i]
+      const steps = MODULE_CHECKLISTS[id] ?? []
+      const done  = readChecked(id).size
+      if (done > 0 && done < steps.length) return i
+    }
+    for (let i = 0; i < PIPELINE_MODULE_ORDER.length; i++) {
+      const id    = PIPELINE_MODULE_ORDER[i]
+      const steps = MODULE_CHECKLISTS[id] ?? []
+      const done  = readChecked(id).size
+      if (done < steps.length) return i
+    }
+    return 0
+  })
 
-  const daysSince = project?.created_at
-    ? Math.max(1, Math.ceil((Date.now() - new Date(project.created_at).getTime()) / 86400000))
-    : null
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
-  )
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-    if (!over || active.id === over.id) return
-    const oldIndex = milestones.findIndex(m => m.id === active.id)
-    const newIndex = milestones.findIndex(m => m.id === over.id)
-    if (oldIndex === -1 || newIndex === -1) return
-    const reordered = arrayMove(milestones, oldIndex, newIndex)
-    reorder(reordered)
+  const handleToggle = (moduleId: string, n: number) => {
+    setCheckedMap(prev => {
+      const existing     = new Set(prev[moduleId] ?? [])
+      const wasCompleted = existing.size === (MODULE_CHECKLISTS[moduleId]?.length ?? 0)
+      existing.has(n) ? existing.delete(n) : existing.add(n)
+      writeChecked(moduleId, existing)
+      if (!wasCompleted && existing.size === (MODULE_CHECKLISTS[moduleId]?.length ?? 0) && onMilestoneDone) {
+        onMilestoneDone()
+      }
+      return { ...prev, [moduleId]: existing }
+    })
   }
 
-  const handleAdd = async () => {
-    if (!newTitle.trim()) return
-    await add(newTitle.trim())
-    setNewTitle('')
-    setAdding(false)
-  }
-
-  const percent = milestones.length > 0 ? Math.round((doneCount / milestones.length) * 100) : 0
-
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-5 h-5 rounded-full border-2 border-foreground/20 border-t-foreground animate-spin" />
-    </div>
-  )
+  const selectedModuleId = PIPELINE_MODULE_ORDER[selectedIdx]
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="flex flex-col h-full overflow-y-auto">
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-6 gap-4">
-        <div>
-          {/* Projet info */}
-          {project?.name ? (
-            <div className="flex items-center gap-2 mb-1">
-              <FolderOpen size={13} strokeWidth={1.5} className="text-muted-foreground" />
-              <span className="text-xs font-semibold text-muted-foreground">{project.name}</span>
-              {daysSince && (
-                <span className="text-[10px] text-muted-foreground/50">· Jour {daysSince}</span>
-              )}
-            </div>
-          ) : null}
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight" style={{ letterSpacing: '-0.03em' }}>
-            Mon Kanban
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {milestones.length > 0
-              ? `${doneCount}/${milestones.length} etapes terminees — ${percent}% complete`
-              : 'Configure les etapes de construction de ton projet'}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center border border-border rounded-lg overflow-hidden">
-            <button
-              onClick={() => setView('list')}
-              className={`px-3 py-1.5 transition-colors ${view === 'list' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'}`}
-            >
-              <List size={14} strokeWidth={1.5} />
-            </button>
-            <button
-              onClick={() => setView('kanban')}
-              className={`px-3 py-1.5 transition-colors ${view === 'kanban' ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'}`}
-            >
-              <LayoutGrid size={14} strokeWidth={1.5} />
-            </button>
-          </div>
-          <button
-            onClick={() => setAdding(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            <Plus size={14} strokeWidth={1.5} />
-            Ajouter
-          </button>
-        </div>
+      <div className="px-6 pt-6 pb-3 flex-shrink-0">
+        <h1 className="text-2xl font-extrabold text-foreground mb-1" style={{ letterSpacing: '-0.03em' }}>
+          Mon Pipeline
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Suis l'avancement de ton SaaS étape par étape — 11 phases, de l'idée au lancement.
+        </p>
       </div>
 
-      {/* Progress bar */}
-      {milestones.length > 0 && (
-        <div className="mb-6">
-          <div className="h-2 rounded-full bg-border overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${Math.max(percent, 2)}%`, background: 'linear-gradient(90deg, #4d96ff, #22c55e)' }}
-            />
-          </div>
-        </div>
-      )}
+      {/* Global progress */}
+      <div className="pt-2">
+        <GlobalProgress checkedMap={checkedMap} />
+      </div>
 
-      {/* Empty state */}
-      {milestones.length === 0 && (
-        <div className="border border-border rounded-xl p-8 text-center">
-          <LayoutGrid size={32} strokeWidth={1} className="text-muted-foreground/40 mx-auto mb-4" />
-          <p className="font-semibold text-foreground mb-1">Aucune etape configuree</p>
-          <p className="text-sm text-muted-foreground mb-4">
-            Cree les etapes de ton projet ou utilise les 8 milestones par defaut.
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={() => seedDefaults()}
-              className="px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-secondary/60 transition-colors"
-            >
-              Utiliser les 8 milestones Buildrs
-            </button>
-            <button
-              onClick={() => setAdding(true)}
-              className="px-4 py-2 rounded-lg bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              Creer manuellement
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Add form */}
-      {adding && (
-        <div className="border border-border rounded-xl p-4 mb-4 flex items-center gap-3">
-          <input
-            autoFocus
-            value={newTitle}
-            onChange={e => setNewTitle(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') handleAdd(); if (e.key === 'Escape') setAdding(false) }}
-            placeholder="Titre de l'etape..."
-            className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
-          />
-          <button onClick={handleAdd} className="px-3 py-1 rounded-lg bg-foreground text-background text-xs font-medium hover:opacity-90">
-            Ajouter
-          </button>
-          <button onClick={() => { setAdding(false); setNewTitle('') }} className="text-muted-foreground hover:text-foreground text-xs">
-            Annuler
-          </button>
-        </div>
-      )}
-
-      {/* List view with drag-and-drop */}
-      {view === 'list' && milestones.length > 0 && (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={milestones.map(m => m.id)} strategy={verticalListSortingStrategy}>
-            <div className="flex flex-col gap-2">
-              {milestones.map(m => (
-                <SortableListItem
-                  key={m.id}
-                  m={m}
-                  onStatusChange={async (id, status) => {
-                    const was = milestones.find(x => x.id === id)?.kanban_status
-                    await update(id, { kanban_status: status })
-                    if (was !== 'done' && status === 'done') onMilestoneDone?.()
-                  }}
-                  onOpen={setDrawerMilestone}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-      )}
-
-      {/* Kanban board view */}
-      {view === 'kanban' && milestones.length > 0 && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {COLUMNS.map(col => {
-            const colMilestones = milestones.filter(m => m.kanban_status === col.key)
-            return (
-              <div key={col.key} className="border border-border rounded-xl p-3">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: col.color }} />
-                  <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">{col.label}</span>
-                  <span className="text-xs text-muted-foreground/50 ml-auto">{colMilestones.length}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {colMilestones.map(m => (
-                    <button
-                      key={m.id}
-                      onClick={() => setDrawerMilestone(m)}
-                      className="bg-secondary/40 rounded-lg p-2.5 text-left hover:bg-secondary/70 transition-colors w-full"
-                    >
-                      <p className={`text-xs font-medium ${m.kanban_status === 'done' ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
-                        {m.title}
-                      </p>
-                      {m.description && (
-                        <p className="text-[10px] text-muted-foreground mt-1 line-clamp-2">{m.description}</p>
-                      )}
-                      {m.linked_agent && (
-                        <span className="mt-1.5 inline-block text-[9px] font-bold px-1.5 py-0.5 rounded"
-                          style={{ background: 'rgba(77,150,255,0.15)', color: '#4d96ff' }}>
-                          {m.linked_agent}
-                        </span>
-                      )}
-                    </button>
-                  ))}
-                  {colMilestones.length === 0 && (
-                    <div className="border border-dashed border-border rounded-lg p-3 text-center">
-                      <p className="text-[10px] text-muted-foreground/40">Vide</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
-
-      {/* Milestone Drawer */}
-      {drawerMilestone && (
-        <MilestoneDrawer
-          milestone={drawerMilestone}
-          onClose={() => setDrawerMilestone(null)}
-          onUpdate={update}
-          navigate={navigate}
-          hasPack={hasPack}
-          onMilestoneDone={onMilestoneDone}
+      {/* Pipeline strip */}
+      <div
+        className="mx-6 mb-5 rounded-2xl overflow-hidden flex-shrink-0"
+        style={{ background: 'hsl(var(--card))', border: '0.5px solid hsl(var(--border))', paddingTop: 16, paddingBottom: 4 }}
+      >
+        <PipelineStrip
+          selectedIdx={selectedIdx}
+          onSelect={setSelectedIdx}
+          checkedMap={checkedMap}
         />
-      )}
+      </div>
 
+      {/* Phase detail */}
+      <PhaseDetail
+        moduleId={selectedModuleId}
+        phaseIdx={selectedIdx}
+        totalPhases={PIPELINE_MODULE_ORDER.length}
+        checked={checkedMap[selectedModuleId] ?? new Set()}
+        navigate={navigate}
+        onToggle={handleToggle}
+        onPrev={() => setSelectedIdx(i => Math.max(0, i - 1))}
+        onNext={() => setSelectedIdx(i => Math.min(PIPELINE_MODULE_ORDER.length - 1, i + 1))}
+      />
     </div>
   )
 }

@@ -24,16 +24,16 @@ interface CheckoutPageProps {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const MAIN_FEATURES = [
-  "Le système en 7 étapes — de l'idée au Micro-SaaS IA monétisé",
-  "3 stratégies de départ",
-  "Le Générateur d'Idées avec fiches produit prêtes",
-  "Le Validateur — score ton idée avant de builder",
-  "50+ prompts testés à copier-coller",
-  "3 modèles de monétisation avec guide",
-  "Checklist de progression",
-  "Le Dashboard Buildrs",
-  "Accès à la communauté Buildrs",
-  "Accès à vie + mises à jour futures",
+  "Le système en 7 étapes — de l'idée au Produit IA monétisé",
+  "3 stratégies de départ : copier une fonctionnalité d'un SaaS/App existant, résoudre un problème que tu as identifié, ou explorer les opportunités",
+  "Le Générateur d'Idées — trouve des idées de SaaS IA rentables prêts à lancer avec fiches produit prêtes (niche, cible, fonctionnalité, MRR potentiel)",
+  "Le Validateur — score ton idée de produit IA avant de la builder. Rentabilité, concurrence, faisabilité — tu sais si ça vaut le coup avant de démarrer",
+  "50+ prompts testés à copier-coller — les instructions exactes à donner à Claude",
+  "3 modèles de monétisation avec guide : revenus récurrents, revente, ou prestation client",
+  "Checklist de progression — tu ne seras jamais perdu, tu sais exactement quoi faire ensuite",
+  "Le Dashboard Buildrs — ton espace projet, tes outils et ta progression au même endroit",
+  "Accès à la communauté Buildrs — pose tes questions, avance avec les autres builders, partage tes victoires",
+  "Accès à vie + toutes les mises à jour futures",
 ]
 
 const MAIN_BONUSES = [
@@ -190,8 +190,10 @@ export function CheckoutPage({
         if (mountRef.current) {
           checkout.mount(mountRef.current)
           checkoutRef.current = checkout
-          // Laisse Stripe rendre son iframe (~600ms) avant de cacher le spinner
-          setTimeout(() => setStripeReady(true), 700)
+          setTimeout(() => {
+            setStripeReady(true)
+            mountRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }, 700)
         }
       }, 50)
     } catch (err) {
@@ -250,12 +252,15 @@ export function CheckoutPage({
         <div className="mb-8 text-center">
           <div className="mb-3 flex justify-center">
             <span className="rounded-full border border-border bg-secondary px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
-              Offre de lancement · 200 places
+              Finalise ta commande
             </span>
           </div>
           <h1 className="text-foreground" style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
             Rejoins Buildrs Aujourd'hui
           </h1>
+          <p className="mt-3 mx-auto max-w-[480px] text-[16px] leading-[1.6] text-muted-foreground">
+            Le système guidé pour créer et monétiser ton premier SaaS IA en autopilote.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
@@ -413,46 +418,75 @@ export function CheckoutPage({
                 </div>
               )}
 
-              <a
-                href="#"
-                onClick={(e) => { e.preventDefault(); handlePay() }}
-                className="cta-rainbow relative flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline"
-                style={{ opacity: loading ? 0.7 : 1, pointerEvents: loading ? 'none' : 'auto' }}
-              >
-                {loading ? 'Connexion...' : `Accéder au Blueprint — ${total}€ →`}
-              </a>
-              <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
-                Satisfait ou remboursé 30 jours · zéro condition
-              </p>
-              <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
-                Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
-              </p>
+              {!showStripe && (
+                <>
+                  <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); handlePay() }}
+                    className="cta-rainbow relative flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline"
+                    style={{ opacity: loading ? 0.7 : 1, pointerEvents: loading ? 'none' : 'auto' }}
+                  >
+                    {loading ? 'Connexion...' : `Accéder au Blueprint — ${total}€ →`}
+                  </a>
+                  <ul className="mt-4 flex flex-col gap-2.5">
+                    {[
+                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, label: "Paiement sécurisé Stripe" },
+                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>, label: "SSL 256-bit" },
+                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>, label: "Satisfait ou remboursé 30j" },
+                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><text x="2" y="17" fontSize="14" fontWeight="bold" fill="currentColor" stroke="none">S</text></svg>, label: "Visa / Mastercard / AMEX" },
+                    ].map(({ icon, label }) => (
+                      <li key={label} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
+                        <span className="shrink-0 text-muted-foreground/70">{icon}</span>
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Stripe inline */}
+              {showStripe && (
+                <div className="mt-2 rounded-xl border border-border overflow-hidden">
+                  {!stripeReady && (
+                    <div className="flex flex-col items-center justify-center gap-3 py-12">
+                      <div className="h-7 w-7 animate-spin rounded-full border-2 border-border border-t-foreground" />
+                      <span className="text-[13px] text-muted-foreground">Chargement sécurisé…</span>
+                    </div>
+                  )}
+                  <div ref={mountRef} className={stripeReady ? '' : 'hidden'} />
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── STRIPE OVERLAY ── */}
-      {showStripe && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-background/90 backdrop-blur-sm">
-          <div className="mx-auto max-w-[560px] px-4 py-12">
-            <div className="rounded-2xl border border-border bg-background overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3 border-b border-border">
-                <span className="text-[14px] font-semibold text-foreground">Paiement sécurisé</span>
-                <button onClick={handleCloseStripe} className="text-muted-foreground hover:text-foreground transition-colors text-xl leading-none cursor-pointer" style={{ background: 'none', border: 'none', padding: 4 }}>×</button>
-              </div>
-              {/* Spinner pendant le chargement de Stripe */}
-              {!stripeReady && (
-                <div className="flex flex-col items-center justify-center gap-3 py-16">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-foreground" />
-                  <span className="text-[13px] text-muted-foreground">Connexion sécurisée en cours…</span>
-                </div>
-              )}
-              <div ref={mountRef} className={stripeReady ? '' : 'hidden'} />
-            </div>
+      {/* FOOTER */}
+      <footer className="border-t border-border bg-background mt-16">
+        <div className="mx-auto max-w-[1000px] px-6 py-10 flex flex-col items-center gap-4">
+          <div className="rounded-full bg-foreground p-3">
+            <BuildrsIcon color="hsl(var(--background))" className="h-6 w-6" />
           </div>
+          <p className="text-center text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Buildrs Group. Tous droits réservés.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
+            {[
+              { label: "CGV",               hash: "#/legal/cgv" },
+              { label: "Mentions légales",  hash: "#/legal/mentions" },
+              { label: "Confidentialité",   hash: "#/legal/confidentialite" },
+              { label: "Cookies",           hash: "#/legal/cookies" },
+            ].map(({ label, hash }) => (
+              <a key={label} href={hash} className="text-[11px] text-muted-foreground/50 transition-colors hover:text-muted-foreground">
+                {label}
+              </a>
+            ))}
+          </div>
+          <p className="max-w-[560px] text-center text-[11px] leading-relaxed text-muted-foreground/40">
+            Ce site n'est pas affilié à Facebook™, Instagram™ ou Meta Platforms, Inc. Facebook™ et Instagram™ sont des marques déposées de Meta Platforms, Inc. Les résultats peuvent varier selon les individus et dépendent de nombreux facteurs. Ce site ne garantit aucun résultat spécifique.
+          </p>
         </div>
-      )}
+      </footer>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,6 +44,8 @@
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1457975302620059&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel -->
+    <!-- Dark mode par défaut — appliqué avant le premier paint -->
+    <script>document.documentElement.classList.add('dark');</script>
     <!-- Activate CSS animations on first user interaction (TBT fix) -->
     <script>
       (function(){var h=function(){document.body.classList.add('ua');};['click','scroll','keydown','touchstart'].forEach(function(e){document.addEventListener(e,h,{once:true,passive:true});});})();

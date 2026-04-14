@@ -23,6 +23,7 @@ const AdFullscreenE   = lazy(() => import('./components/ads/AdsPreviewPage').the
 
 // ── Instagram posts ──────────────────────────────────────────────────────────
 const PlombIAProposalPage = lazy(() => import('./components/PlombIAProposalPage').then(m => ({ default: m.PlombIAProposalPage })))
+const BuildrsGroupPage    = lazy(() => import('./components/BuildrsGroupPage').then(m => ({ default: m.BuildrsGroupPage })))
 const InstaPreviewPage = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaPreviewPage })))
 const InstaFullP1S1 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S1 })))
 const InstaFullP1S2 = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaFullP1S2 })))
@@ -64,7 +65,14 @@ const Cookies          = lazy(() => import('./components/legal/Cookies').then(m 
 
 function ConfirmationPage({ onNavigate }: { onNavigate: () => void }) {
   useEffect(() => {
-    // Purchase already tracked in UpsellCohortPage (arrival point from Stripe return_url)
+    // Purchase déjà tracké dans UpsellCohortPage pour le funnel Blueprint (source=blueprint)
+    // Pour les achats Cohorte, on reçoit source=cohort dans les hash params
+    const hash = window.location.hash
+    const params = new URLSearchParams(hash.split('?')[1] || '')
+    if (params.get('source') === 'cohort' && params.get('session_id')) {
+      const price = Number(params.get('price')) || 1497
+      trackEvent('Purchase', { value: price, currency: 'EUR', num_items: 1 })
+    }
   }, [])
 
   return (
@@ -93,6 +101,43 @@ function ConfirmationPage({ onNavigate }: { onNavigate: () => void }) {
           className="bg-foreground text-background rounded-xl px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           Créer mon compte →
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Merci Integrator page — fires Meta Pixel Purchase on mount
+// ---------------------------------------------------------------------------
+
+function MerciIntegratorPage({ onNavigate }: { onNavigate: () => void }) {
+  useEffect(() => {
+    const hash = window.location.hash
+    const params = new URLSearchParams(hash.split('?')[1] || '')
+    if (params.get('session_id')) {
+      trackEvent('Purchase', { value: 197, currency: 'EUR', num_items: 1 })
+    }
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-8 text-center">
+      <div className="max-w-lg">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+          style={{ background: 'rgba(34,197,94,0.15)', border: '2px solid #22c55e' }}>
+          <Check style={{ color: '#22c55e', width: 28, height: 28 }} />
+        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Claude Integrator</p>
+        <h1 className="text-3xl font-extrabold text-foreground tracking-tight mb-3" style={{ letterSpacing: '-0.04em' }}>
+          Session réservée.
+        </h1>
+        <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
+          Alfred te contacte dans les 24h pour fixer le créneau.<br />
+          Vérifie tes emails (et tes spams).
+        </p>
+        <button onClick={onNavigate}
+          className="bg-foreground text-background rounded-xl px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity">
+          Retourner sur Claude OS →
         </button>
       </div>
     </div>
@@ -136,6 +181,7 @@ interface ParsedRoute {
     | 'validator'
     | 'revenue-calculator'
     | 'generator'
+    | 'acquisition-bonus'
 
     | 'community'
     | 'members'
@@ -160,6 +206,7 @@ interface ParsedRoute {
     | 'insta-p2s1' | 'insta-p2s2' | 'insta-p2s3' | 'insta-p2s4' | 'insta-p2s5' | 'insta-p2s6' | 'insta-p2s7'
     | 'insta-p3s1' | 'insta-p3s2' | 'insta-p3s3' | 'insta-p3s4'
     | 'plombia-proposal'
+    | 'group'
   moduleId?: string   // also used as productSlug for 'produit'/'brick'
   lessonId?: string   // also used as brickId for 'brick'
 }
@@ -168,6 +215,7 @@ function parseHash(hash: string): ParsedRoute {
   const h = hash.replace(/^#\/?/, '')
   if (!h || h === 'landing' || h === '/') return { type: 'landing' }
   if (h === 'plombia') return { type: 'plombia-proposal' }
+  if (h === 'group')   return { type: 'group' }
   if (h === 'claude') return { type: 'claude-landing' }
   if (h === 'legal/mentions') return { type: 'legal-mentions' }
   if (h === 'legal/cgv') return { type: 'legal-cgv' }
@@ -218,9 +266,15 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/agents')        return { type: 'agents' }
   if (h === 'dashboard/kanban')        return { type: 'kanban' }
   if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
-  if (h === 'dashboard/validator')          return { type: 'validator' }
-  if (h === 'dashboard/revenue-calculator') return { type: 'revenue-calculator' }
-  if (h === 'dashboard/generator')          return { type: 'generator' }
+  if (h === 'dashboard/validator')             return { type: 'validator' }
+  if (h === 'dashboard/generator/validate')    return { type: 'validator' }
+  if (h === 'dashboard/revenue-calculator')    return { type: 'revenue-calculator' }
+  if (h === 'dashboard/generator/mrr')         return { type: 'revenue-calculator' }
+  if (h === 'dashboard/generator')             return { type: 'generator' }
+  if (h === 'dashboard/generator/ideas')       return { type: 'generator' }
+
+  const acquisitionBonusMatch = h.match(/^dashboard\/acquisition-bonus(\/.*)?$/)
+  if (acquisitionBonusMatch) return { type: 'acquisition-bonus', moduleId: acquisitionBonusMatch[1]?.replace(/^\//, '') || '' }
 
   if (h === 'dashboard/community')     return { type: 'community' }
   if (h === 'dashboard/members')       return { type: 'members' }
@@ -422,28 +476,10 @@ function App() {
   }
   if (route.type === 'merci-integrator') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-8 text-center">
-        <div className="max-w-lg">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-            style={{ background: 'rgba(34,197,94,0.15)', border: '2px solid #22c55e' }}>
-            <Check style={{ color: '#22c55e', width: 28, height: 28 }} />
-          </div>
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Claude Integrator</p>
-          <h1 className="text-3xl font-extrabold text-foreground tracking-tight mb-3" style={{ letterSpacing: '-0.04em' }}>
-            Session réservée.
-          </h1>
-          <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
-            Alfred te contacte dans les 24h pour fixer le créneau.<br />
-            Vérifie tes emails (et tes spams).
-          </p>
-          <button onClick={() => navigate('#/dashboard/claude-os')}
-            className="bg-foreground text-background rounded-xl px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity">
-            Retourner sur Claude OS →
-          </button>
-        </div>
-      </div>
+      <MerciIntegratorPage onNavigate={() => navigate('#/dashboard/claude-os')} />
     )
   }
+
   // ---------------------------------------------------------------------------
   // Auth routes (lazy)
   // ---------------------------------------------------------------------------
@@ -451,6 +487,19 @@ function App() {
     if (user) {
       navigate(onboarding.onboarding_completed ? '#/dashboard' : '#/onboarding')
       return null
+    }
+    // Tracker les achats dont le return_url pointe vers /signup
+    // (downsell Blueprint 27€, OTO Agents 147€) — une seule fois par session
+    const signupHashParams = new URLSearchParams(window.location.hash.split('?')[1] || '')
+    if (signupHashParams.get('purchased') === 'downsell'
+      && !sessionStorage.getItem('tracked_downsell')) {
+      sessionStorage.setItem('tracked_downsell', '1')
+      trackEvent('Purchase', { value: 27, currency: 'EUR', num_items: 1 })
+    }
+    if (signupHashParams.get('oto') === 'success'
+      && !sessionStorage.getItem('tracked_oto')) {
+      sessionStorage.setItem('tracked_oto', '1')
+      trackEvent('Purchase', { value: 147, currency: 'EUR', num_items: 1 })
     }
     return (
       <Suspense fallback={SpinnerFallback}>
@@ -504,7 +553,7 @@ function App() {
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
     'agent-chat', 'claude-os',
-    'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator',
+    'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator', 'acquisition-bonus',
     'community', 'members', 'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 
@@ -528,6 +577,7 @@ function App() {
 
   // ── Proposal pages ─────────────────────────────────────────────────────────
   if (route.type === 'plombia-proposal') return <Suspense fallback={SpinnerFallback}><PlombIAProposalPage /></Suspense>
+  if (route.type === 'group')            return <Suspense fallback={SpinnerFallback}><BuildrsGroupPage /></Suspense>
 
   // ── Ads preview routes (dev only) ───────────────────────────────────────────
   if (route.type === 'ads-preview') return <Suspense fallback={SpinnerFallback}><AdsPreviewPage /></Suspense>

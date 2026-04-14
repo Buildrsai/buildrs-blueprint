@@ -15,7 +15,7 @@ function CopyBtn({ text, label }: { text: string; label?: string }) {
   return (
     <button onClick={doCopy}
       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all flex-shrink-0"
-      style={{ background: copied ? 'rgba(34,197,94,0.1)' : 'rgba(255,255,255,0.06)', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.1)'}`, color: copied ? '#22c55e' : '#5b6078' }}>
+      style={{ background: copied ? 'rgba(34,197,94,0.1)' : 'hsl(var(--secondary))', border: `0.5px solid ${copied ? 'rgba(34,197,94,0.3)' : 'hsl(var(--border))'}`, color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
       {copied ? <Check size={9} strokeWidth={2.5} /> : <Copy size={9} strokeWidth={1.5} />}
       {copied ? 'OK' : (label ?? 'Copier')}
     </button>
@@ -30,17 +30,17 @@ function CodeBlock({ code, label }: { code: string; label?: string }) {
     setTimeout(() => setCopied(false), 2000)
   }, [code])
   return (
-    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)' }}>
+    <div className="relative rounded-xl overflow-hidden my-3" style={{ background: '#0d1117', border: '1px solid #30363d' }}>
       {label && (
-        <div className="px-4 py-1.5" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
-          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: '#5b6078' }}>{label}</span>
+        <div className="px-4 py-1.5" style={{ borderBottom: '1px solid #30363d', background: '#161b22' }}>
+          <span className="text-[10px] font-medium" style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>{label}</span>
         </div>
       )}
       <pre className="px-4 py-3.5 overflow-x-auto text-[12px] leading-relaxed" style={{ fontFamily: 'Geist Mono, ui-monospace, monospace', color: '#c9d1d9' }}>
         <code>{code}</code>
       </pre>
       <button onClick={doCopy} className="absolute top-2.5 right-2.5 flex items-center gap-1.5 px-2 py-1 rounded-lg transition-all"
-        style={{ background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={11} strokeWidth={2} /> : <Copy size={11} strokeWidth={1.5} />}
         <span className="text-[10px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -196,9 +196,9 @@ function CategorySection({ cat }: { cat: SkillCat }) {
         className="w-full flex items-center justify-between px-4 py-3.5 text-left transition-all hover:opacity-80">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cat.accent }} />
-          <p className="text-[13px] font-bold" style={{ color: '#f0f0f5', letterSpacing: '-0.01em' }}>{cat.title}</p>
+          <p className="text-[13px] font-bold" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.01em' }}>{cat.title}</p>
         </div>
-        <ChevronDown size={14} strokeWidth={1.5} style={{ color: '#5b6078', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }} />
+        <ChevronDown size={14} strokeWidth={1.5} style={{ color: 'hsl(var(--muted-foreground))', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }} />
       </button>
       {open && (
         <div style={{ borderTop: `0.5px solid ${cat.accent}22` }}>
@@ -220,7 +220,7 @@ function CategorySection({ cat }: { cat: SkillCat }) {
                   <code className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: cat.accent }}>{item.cmd}</code>
                   <CopyBtn text={item.cmd} />
                 </div>
-                <p className="text-[12px] leading-relaxed" style={{ color: '#5b6078' }}>{item.why}</p>
+                <p className="text-[12px] leading-relaxed" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.why}</p>
               </div>
             ))}
           </div>
@@ -236,7 +236,7 @@ export function SkillsRessourcesPage({ navigate }: Props) {
       <div className="max-w-3xl mx-auto px-6 py-8">
 
         <button onClick={() => window.history.back()}
-          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: '#9399b2' }}>
+          className="flex items-center gap-2 text-sm mb-8 transition-opacity hover:opacity-70" style={{ color: 'hsl(var(--muted-foreground))' }}>
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span>Retour à Skills</span>
         </button>
@@ -246,11 +246,11 @@ export function SkillsRessourcesPage({ navigate }: Props) {
             <span className="text-[9px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded-md"
               style={{ background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.25)' }}>Ressources</span>
           </div>
-          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: '#f0f0f5', letterSpacing: '-0.035em' }}>Bibliothèque Skills Buildrs</h1>
-          <p className="text-[13px] leading-relaxed mb-1" style={{ color: '#9399b2' }}>
+          <h1 className="text-[26px] font-extrabold mb-3" style={{ color: 'hsl(var(--foreground))', letterSpacing: '-0.035em' }}>Bibliothèque Skills Buildrs</h1>
+          <p className="text-[13px] leading-relaxed mb-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
             Tous les skills qu'on utilise en interne chez Buildrs. Pour chaque skill : ce que ça fait et pourquoi on l'utilise.
           </p>
-          <p className="text-[12px]" style={{ color: '#5b6078' }}>Clique sur une catégorie pour voir les commandes. Clique sur une commande pour la copier.</p>
+          <p className="text-[12px]" style={{ color: 'hsl(var(--muted-foreground))' }}>Clique sur une catégorie pour voir les commandes. Clique sur une commande pour la copier.</p>
         </div>
 
         {/* Ordre d'installation recommandé */}
@@ -264,9 +264,9 @@ export function SkillsRessourcesPage({ navigate }: Props) {
               { prio: 'Priorité 4 — Avancé', items: ['PostHog analytics', 'Playwright tests E2E', 'Figma design-to-code', 'Skill Creator'] },
             ].map(g => (
               <div key={g.prio}>
-                <p className="text-[10px] font-bold mb-1.5" style={{ color: '#f0f0f5' }}>{g.prio}</p>
+                <p className="text-[10px] font-bold mb-1.5" style={{ color: 'hsl(var(--foreground))' }}>{g.prio}</p>
                 {g.items.map(i => (
-                  <p key={i} className="text-[11px] flex items-center gap-1.5" style={{ color: '#5b6078' }}>
+                  <p key={i} className="text-[11px] flex items-center gap-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     <span style={{ color: '#22c55e' }}>+</span> {i}
                   </p>
                 ))}
@@ -282,8 +282,8 @@ export function SkillsRessourcesPage({ navigate }: Props) {
 
         {/* GStack */}
         <div className="mt-8 rounded-xl p-5" style={{ background: 'rgba(77,150,255,0.05)', border: '0.5px solid rgba(77,150,255,0.2)' }}>
-          <p className="text-[13px] font-bold mb-1.5" style={{ color: '#f0f0f5' }}>GStack (Garry Tan / YC) — 34 skills</p>
-          <p className="text-[12px] mb-3" style={{ color: '#5b6078' }}>La méthodologie Y Combinator traduite en skills. Product, Engineering, Growth, Pitch, Décisions, Leadership.</p>
+          <p className="text-[13px] font-bold mb-1.5" style={{ color: 'hsl(var(--foreground))' }}>GStack (Garry Tan / YC) — 34 skills</p>
+          <p className="text-[12px] mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>La méthodologie Y Combinator traduite en skills. Product, Engineering, Growth, Pitch, Décisions, Leadership.</p>
           <CodeBlock label="Installation" code={`git clone https://github.com/garrytan/gstack.git /tmp/gstack
 cd /tmp/gstack && npm install && node scripts/build-skills.mjs
 mkdir -p ~/.claude/skills/gstack
@@ -296,8 +296,8 @@ cp -r dist/skills/* ~/.claude/skills/gstack/`} />
 
         {/* Superpowers pipeline */}
         <div className="mt-4 rounded-xl p-5" style={{ background: 'rgba(139,92,246,0.05)', border: '0.5px solid rgba(139,92,246,0.2)' }}>
-          <p className="text-[13px] font-bold mb-1.5" style={{ color: '#f0f0f5' }}>Superpowers — Le pipeline complet</p>
-          <p className="text-[12px] mb-3" style={{ color: '#5b6078' }}>Ce n'est pas juste un plugin — c'est un système qui fonctionne en pipeline séquentiel.</p>
+          <p className="text-[13px] font-bold mb-1.5" style={{ color: 'hsl(var(--foreground))' }}>Superpowers — Le pipeline complet</p>
+          <p className="text-[12px] mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>Ce n'est pas juste un plugin — c'est un système qui fonctionne en pipeline séquentiel.</p>
           <CodeBlock label="Pipeline de développement Buildrs" code={`ÉTAPE 1 : /superpowers:brainstorm
   → Explore l'idée → 2-3 approches → Spec dans docs/superpowers/specs/
 
@@ -317,7 +317,7 @@ cp -r dist/skills/* ~/.claude/skills/gstack/`} />
 
         {/* Autres repos */}
         <div className="mt-8">
-          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: '#5b6078' }}>Autres repos utiles</p>
+          <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-4" style={{ color: 'hsl(var(--muted-foreground))' }}>Autres repos utiles</p>
           <div className="space-y-2">
             {[
               { label: 'Claude Skills Official (Anthropic)', url: 'https://github.com/anthropics/skills' },

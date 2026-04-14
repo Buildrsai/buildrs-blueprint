@@ -1,0 +1,246 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Linear" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img [ref=e6]
+          - generic [ref=e8]: Linear
+        - navigation [ref=e9]:
+          - link "Product" [ref=e10] [cursor=pointer]:
+            - /url: /product
+          - link "Resources" [ref=e11] [cursor=pointer]:
+            - /url: /resources
+          - link "Customers" [ref=e12] [cursor=pointer]:
+            - /url: /customers
+          - link "Pricing" [ref=e13] [cursor=pointer]:
+            - /url: /pricing
+          - link "Now" [ref=e14] [cursor=pointer]:
+            - /url: /now
+          - link "Contact" [ref=e15] [cursor=pointer]:
+            - /url: /contact
+          - link "Docs" [ref=e16] [cursor=pointer]:
+            - /url: /docs
+        - generic [ref=e17]:
+          - link "Open app" [ref=e18] [cursor=pointer]:
+            - /url: /app
+          - link "Log in" [ref=e19] [cursor=pointer]:
+            - /url: /login
+          - link "Sign up" [ref=e20] [cursor=pointer]:
+            - /url: /signup
+    - main [ref=e21]:
+      - generic [ref=e23]:
+        - link "Issue tracking is dead →" [ref=e24] [cursor=pointer]:
+          - /url: https://linear.app/next
+        - heading "The product development system for teams and agents" [level=1] [ref=e25]:
+          - text: The product development
+          - text: system for teams and agents
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Purpose-built for planning and building products. Designed for the AI era.
+          - link "Issue tracking is dead linear.app/next →" [ref=e28] [cursor=pointer]:
+            - /url: https://linear.app/next
+        - img "Linear app screenshot" [ref=e30]
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: ▲
+          - text: Vercel
+        - generic [ref=e35]: Cursor
+        - generic [ref=e36]: oscar
+        - generic [ref=e37]: OpenAI
+        - generic [ref=e38]: coinbase
+        - generic [ref=e39]: Cash App
+        - generic [ref=e40]: boom
+        - generic [ref=e41]: ramp
+      - generic [ref=e42]:
+        - paragraph [ref=e44]: A new species of product tool. Purpose-built for modern teams with AI workflows at its core, Linear sets a new standard for planning and building products.
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - img [ref=e48]
+            - heading "Built for purpose" [level=3] [ref=e52]
+            - paragraph [ref=e53]: Linear is shaped by the practices and principles of world-class product teams.
+          - generic [ref=e54]:
+            - img [ref=e56]
+            - heading "Powered by AI agents" [level=3] [ref=e60]
+            - paragraph [ref=e61]: Designed for workflows shared by humans and agents. From drafting PRDs to pushing PRs.
+          - generic [ref=e62]:
+            - img [ref=e64]
+            - heading "Designed for speed" [level=3] [ref=e69]
+            - paragraph [ref=e70]: Reduces noise and restores momentum to help teams ship with high velocity and focus.
+      - generic [ref=e71]:
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - link "1.0 Intake→" [ref=e75] [cursor=pointer]:
+              - /url: "#"
+            - heading "Make product operations self-driving" [level=2] [ref=e76]
+            - paragraph [ref=e77]: Turn conversations and customer feedback into actionable issues that are routed, labeled, and prioritized for the right team.
+          - img "Linear Intake — issue triage and routing UI" [ref=e80]
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - link "2.0 Plan→" [ref=e84] [cursor=pointer]:
+              - /url: "#"
+            - heading "Define the product direction" [level=2] [ref=e85]
+            - paragraph [ref=e86]: Plan and navigate from idea to launch. Align your team with product initiatives, strategic roadmaps, and clear, up-to-date PRDs.
+          - img "Linear Plan — roadmap view" [ref=e89]
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - link "3.0 Build→" [ref=e93] [cursor=pointer]:
+              - /url: "#"
+            - heading "Move work forward across teams and agents" [level=2] [ref=e94]
+            - paragraph [ref=e95]: Build and deploy AI agents that work alongside your team. Work on complex tasks together or delegate entire issues end-to-end.
+          - img "Linear Build — agent tasks" [ref=e98]
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - link "4.0 Diffs (Coming soon)→" [ref=e102] [cursor=pointer]:
+              - /url: "#"
+            - heading "Review PRs and agent output" [level=2] [ref=e103]
+            - paragraph [ref=e104]: Understand code changes at a glance with structural diffs for human and agent output. Review, discuss, and merge — all within Linear.
+          - img "Linear Diffs — code diff viewer" [ref=e107]
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - link "5.0 Monitor→" [ref=e111] [cursor=pointer]:
+              - /url: "#"
+            - heading "Understand progress at scale" [level=2] [ref=e112]
+            - paragraph [ref=e113]: Take the guesswork out of product development with project updates, analytics, and dashboards that surface what needs your attention.
+          - img "Linear Monitor — analytics dashboard" [ref=e116]
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - heading "Changelog" [level=2] [ref=e120]
+          - link "See all releases →" [ref=e121] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e122]:
+          - generic [ref=e123] [cursor=pointer]:
+            - generic [ref=e125]: Multi-level sub-teams
+            - generic [ref=e126]: Structure your teams in Linear to match how your organization works.
+            - generic [ref=e127]: Apr 8, 2026
+          - generic [ref=e128] [cursor=pointer]:
+            - generic [ref=e130]: Web forms for Linear Asks
+            - generic [ref=e131]: Linear Asks allows you to capture internal requests and bring them into Linear seamlessly.
+            - generic [ref=e132]: Apr 1, 2026
+          - generic [ref=e133] [cursor=pointer]:
+            - generic [ref=e135]: Introducing Linear Agent
+            - generic [ref=e136]: An AI agent that autonomously works on issues, writes code, and opens pull requests.
+            - generic [ref=e137]: Mar 23, 2026
+          - generic [ref=e138] [cursor=pointer]:
+            - generic [ref=e140]: UI refresh
+            - generic [ref=e141]: Introducing a calmer, more consistent interface.
+            - generic [ref=e142]: Mar 11, 2026
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - paragraph [ref=e146]: You just have to use it and you will see, you will just feel it.
+            - generic [ref=e147]:
+              - img "Gabriel Peal" [ref=e148]
+              - generic [ref=e149]:
+                - generic [ref=e150]: Gabriel Peal
+                - generic [ref=e151]: OpenAI
+          - generic [ref=e152]:
+            - paragraph [ref=e153]: Our speed is intense and Linear helps us be action biased.
+            - generic [ref=e154]:
+              - img "Nik Koblov" [ref=e155]
+              - generic [ref=e156]:
+                - generic [ref=e157]: Nik Koblov
+                - generic [ref=e158]: Head of Engineering, Ramp
+        - generic [ref=e159]:
+          - paragraph [ref=e160]: Linear powers over 25,000 product teams. From ambitious startups to major enterprises.
+          - link "Customer stories →" [ref=e161] [cursor=pointer]:
+            - /url: /customers
+      - generic [ref=e163]:
+        - heading "Built for the future. Available today." [level=2] [ref=e164]
+        - generic [ref=e165]:
+          - link "Get started" [ref=e166] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact sales" [ref=e167] [cursor=pointer]:
+            - /url: "#"
+    - contentinfo [ref=e168]:
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - generic [ref=e171]: Linear
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - heading "Product" [level=3] [ref=e174]
+              - link "Intake" [ref=e175] [cursor=pointer]:
+                - /url: "#"
+              - link "Plan" [ref=e176] [cursor=pointer]:
+                - /url: "#"
+              - link "Build" [ref=e177] [cursor=pointer]:
+                - /url: "#"
+              - link "Diffs" [ref=e178] [cursor=pointer]:
+                - /url: "#"
+              - link "Monitor" [ref=e179] [cursor=pointer]:
+                - /url: "#"
+              - link "Pricing" [ref=e180] [cursor=pointer]:
+                - /url: "#"
+              - link "Security" [ref=e181] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e182]:
+              - heading "Features" [level=3] [ref=e183]
+              - link "Asks" [ref=e184] [cursor=pointer]:
+                - /url: "#"
+              - link "Agents" [ref=e185] [cursor=pointer]:
+                - /url: "#"
+              - link "Customer Requests" [ref=e186] [cursor=pointer]:
+                - /url: "#"
+              - link "Insights" [ref=e187] [cursor=pointer]:
+                - /url: "#"
+              - link "Mobile" [ref=e188] [cursor=pointer]:
+                - /url: "#"
+              - link "Integrations" [ref=e189] [cursor=pointer]:
+                - /url: "#"
+              - link "Changelog" [ref=e190] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e191]:
+              - heading "Company" [level=3] [ref=e192]
+              - link "About" [ref=e193] [cursor=pointer]:
+                - /url: "#"
+              - link "Customers" [ref=e194] [cursor=pointer]:
+                - /url: "#"
+              - link "Careers" [ref=e195] [cursor=pointer]:
+                - /url: "#"
+              - link "Blog" [ref=e196] [cursor=pointer]:
+                - /url: "#"
+              - link "Method" [ref=e197] [cursor=pointer]:
+                - /url: "#"
+              - link "Quality" [ref=e198] [cursor=pointer]:
+                - /url: "#"
+              - link "Brand" [ref=e199] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e200]:
+              - heading "Resources" [level=3] [ref=e201]
+              - link "Switch" [ref=e202] [cursor=pointer]:
+                - /url: "#"
+              - link "Download" [ref=e203] [cursor=pointer]:
+                - /url: "#"
+              - link "Docs" [ref=e204] [cursor=pointer]:
+                - /url: "#"
+              - link "Developers" [ref=e205] [cursor=pointer]:
+                - /url: "#"
+              - link "Status" [ref=e206] [cursor=pointer]:
+                - /url: "#"
+              - link "Enterprise" [ref=e207] [cursor=pointer]:
+                - /url: "#"
+              - link "Startups" [ref=e208] [cursor=pointer]:
+                - /url: "#"
+            - generic [ref=e209]:
+              - heading "Connect" [level=3] [ref=e210]
+              - link "Contact us" [ref=e211] [cursor=pointer]:
+                - /url: "#"
+              - link "Community" [ref=e212] [cursor=pointer]:
+                - /url: "#"
+              - link "X (Twitter)" [ref=e213] [cursor=pointer]:
+                - /url: "#"
+              - link "GitHub" [ref=e214] [cursor=pointer]:
+                - /url: "#"
+              - link "YouTube" [ref=e215] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e216]:
+          - generic [ref=e217]: 2025 Linear Orbit, Inc.
+          - generic [ref=e218]:
+            - link "Privacy" [ref=e219] [cursor=pointer]:
+              - /url: "#"
+            - link "Terms" [ref=e220] [cursor=pointer]:
+              - /url: "#"
+            - link "DPA" [ref=e221] [cursor=pointer]:
+              - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=e227] [cursor=pointer]:
+    - img [ref=e228]
+  - alert [ref=e231]

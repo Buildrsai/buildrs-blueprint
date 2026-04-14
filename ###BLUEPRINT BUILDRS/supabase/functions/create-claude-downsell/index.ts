@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
           source:       'claude-funnel',
         },
       },
-      return_url: `${returnBase}/#/signup?welcome=lp2`,
+      return_url: `${returnBase}/#/signup?welcome=lp2&purchased=downsell`,
     }
 
     if (customerId) {

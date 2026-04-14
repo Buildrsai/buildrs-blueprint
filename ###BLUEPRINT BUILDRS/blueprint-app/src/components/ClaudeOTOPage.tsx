@@ -162,7 +162,6 @@ export function ClaudeOTOPage({ onDecline }: Props) {
   const handleDecline = () => { onDecline() }
 
   return (
-    <div className="dark">
     <div className="min-h-screen bg-background">
 
       {/* ── BANDEAU CONFIRMATION ─────────────────────────────────────────────── */}
@@ -350,7 +349,6 @@ export function ClaudeOTOPage({ onDecline }: Props) {
 
       </main>
 
-    </div>
     </div>
   )
 }

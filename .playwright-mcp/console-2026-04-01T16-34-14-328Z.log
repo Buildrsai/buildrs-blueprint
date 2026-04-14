@@ -1,0 +1,20 @@
+[   13879ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "new-password"): (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/signup:0
+[   13879ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "new-password"): (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/signup:0
+[   26834ms] [ERROR] Failed to load resource: the server responded with a status of 422 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/auth/v1/signup:0
+[   34459ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1/send-welcome-email:0
+[   83071ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/rest/v1/projects?select=*&user_id=eq.e888ccaa-d5b1-48b2-8bd5-4249804fcfac&order=created_at.desc:0
+[   83150ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/rest/v1/projects?select=*&user_id=eq.e888ccaa-d5b1-48b2-8bd5-4249804fcfac&order=created_at.desc:0
+[   94782ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[   94783ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[  115413ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[  115413ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[  119717ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[  119717ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://buildrs.fr/#/dashboard/settings:0
+[  149621ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/rest/v1/projects?select=*&user_id=eq.e888ccaa-d5b1-48b2-8bd5-4249804fcfac&order=created_at.desc:0
+[  154202ms] [ERROR] Failed to load resource: the server responded with a status of 400 () @ https://ihgbbgwhgmosfjaknvlf.supabase.co/rest/v1/projects?select=*&user_id=eq.e888ccaa-d5b1-48b2-8bd5-4249804fcfac&order=created_at.desc:0
+[  188207ms] [WARNING] Existing embed CSS Vars are being reset @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8
+[  188284ms] [WARNING] `markdownToSafeHTML` should not be imported on the client side. @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8
+[  188291ms] [WARNING] [DEPRECATED] Use `createWithEqualityFn` instead of `create` or use `useStoreWithEqualityFn` instead of `useStore`. They can be imported from 'zustand/traditional'. https://github.com/pmndrs/zustand/discussions/1937 @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8
+[  188292ms] [WARNING] react-i18next:: You will need to pass in an i18next instance by using initReactI18next @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8
+[  188308ms] [LOG] QuickAvailabilityCheck feature enabled: false @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8
+[  188320ms] [LOG] QuickAvailabilityCheck feature enabled: false @ https://app.cal.com/_next/static/chunks/10cq5jbshc47w.js:8

@@ -237,19 +237,19 @@ function CmdRow({ cmd, desc }: Cmd) {
 
   return (
     <div className="flex items-center gap-3 px-4 py-2.5 group"
-      style={{ borderBottom: '0.5px solid rgba(255,255,255,0.04)' }}>
+      style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
       <code className="text-[11px] shrink-0 min-w-0 max-w-[240px] truncate"
         style={{ fontFamily: 'Geist Mono, monospace', color: ACCENT }}>
         {cmd}
       </code>
       {desc && (
-        <span className="flex-1 text-[11px] truncate" style={{ color: '#5b6078' }}>
+        <span className="flex-1 text-[11px] truncate" style={{ color: 'hsl(var(--muted-foreground))' }}>
           {desc}
         </span>
       )}
       <button onClick={copy}
         className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 px-2 py-0.5 rounded-lg shrink-0"
-        style={{ background: 'rgba(255,255,255,0.06)', border: '0.5px solid rgba(255,255,255,0.1)', color: copied ? '#22c55e' : '#5b6078' }}>
+        style={{ background: 'hsl(var(--secondary))', border: '0.5px solid hsl(var(--border))', color: copied ? '#22c55e' : 'hsl(var(--muted-foreground))' }}>
         {copied ? <Check size={10} strokeWidth={2} /> : <Copy size={10} strokeWidth={1.5} />}
         <span className="text-[9px] font-medium">{copied ? 'Copié' : 'Copier'}</span>
       </button>
@@ -271,14 +271,15 @@ export function CheatsheetPage({ navigate }: Props) {
   const total = SECTIONS.reduce((acc, s) => acc + s.commands.length, 0)
 
   return (
-    <div className="min-h-screen pb-20" style={{ background: '#080909' }}>
+    <div className="min-h-screen pb-20" style={{ background: 'hsl(var(--background))' }}>
       {/* Header */}
-      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+      <div className="px-6 pt-6 pb-4" style={{ borderBottom: '0.5px solid hsl(var(--border))' }}>
         <button onClick={() => window.history.back()}
           className="flex items-center gap-2 mb-5 transition-colors"
-          style={{ color: '#5b6078' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-          onMouseLeave={e => (e.currentTarget.style.color = '#5b6078')}>
+          style={{ color: 'hsl(var(--muted-foreground))' }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'hsl(var(--foreground))')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'hsl(var(--muted-foreground))')}>
+
           <ArrowLeft size={14} strokeWidth={1.5} />
           <span className="text-[12px]">Équiper</span>
         </button>
@@ -293,10 +294,10 @@ export function CheatsheetPage({ navigate }: Props) {
                 style={{ color: ACCENT, background: 'rgba(77,150,255,0.12)', border: '0.5px solid rgba(77,150,255,0.25)' }}>
                 Référence
               </span>
-              <span className="text-[10px]" style={{ color: '#3d4466' }}>{total} commandes · {SECTIONS.length} sections</span>
+              <span className="text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{total} commandes · {SECTIONS.length} sections</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight" style={{ color: '#e2e8f0' }}>Cheatsheet Commandes</h1>
-            <p className="text-[13px] mt-1" style={{ color: '#5b6078' }}>
+            <h1 className="text-xl font-bold tracking-tight" style={{ color: 'hsl(var(--foreground))' }}>Cheatsheet Commandes</h1>
+            <p className="text-[13px] mt-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
               Toutes les commandes Claude Code Buildrs. Hover → Copier.
             </p>
           </div>
@@ -304,7 +305,7 @@ export function CheatsheetPage({ navigate }: Props) {
 
         {/* Search */}
         <div className="relative max-w-md">
-          <Search size={13} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#5b6078' }} />
+          <Search size={13} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'hsl(var(--muted-foreground))' }} />
           <input
             type="text"
             placeholder="Rechercher une commande…"
@@ -312,9 +313,9 @@ export function CheatsheetPage({ navigate }: Props) {
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2 text-[12px] rounded-xl outline-none"
             style={{
-              background: 'rgba(255,255,255,0.04)',
-              border: '0.5px solid rgba(255,255,255,0.09)',
-              color: '#e2e8f0',
+              background: 'hsl(var(--secondary) / 0.3)',
+              border: '0.5px solid hsl(var(--border))',
+              color: 'hsl(var(--foreground))',
             }}
           />
         </div>
@@ -327,20 +328,20 @@ export function CheatsheetPage({ navigate }: Props) {
 
           return (
             <section key={section.title}>
-              <h2 className="text-[12px] font-bold uppercase tracking-widest mb-3" style={{ color: '#3d4466' }}>
+              <h2 className="text-[12px] font-bold uppercase tracking-widest mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
                 {section.title}
               </h2>
 
               {section.note && (
                 <div className="mb-3 px-4 py-3 rounded-xl text-[11px]"
-                  style={{ background: 'rgba(77,150,255,0.06)', border: '0.5px solid rgba(77,150,255,0.18)', color: '#94a3b8' }}>
+                  style={{ background: 'rgba(77,150,255,0.06)', border: '0.5px solid rgba(77,150,255,0.18)', color: 'hsl(var(--muted-foreground))' }}>
                   {section.note}
                 </div>
               )}
 
               {section.commands.length > 0 && (
                 <div className="rounded-xl overflow-hidden"
-                  style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+                  style={{ background: 'hsl(var(--secondary) / 0.3)', border: '0.5px solid hsl(var(--border))' }}>
                   {section.commands.map((c, i) => (
                     <CmdRow key={i} cmd={c.cmd} desc={c.desc} />
                   ))}
@@ -351,31 +352,31 @@ export function CheatsheetPage({ navigate }: Props) {
               {isModels && (
                 <>
                   <div className="rounded-xl overflow-hidden mb-4"
-                    style={{ border: '0.5px solid rgba(255,255,255,0.08)' }}>
+                    style={{ border: '0.5px solid hsl(var(--border))' }}>
                     <div className="grid grid-cols-4 px-4 py-2.5"
-                      style={{ background: 'rgba(77,150,255,0.06)', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
+                      style={{ background: 'rgba(77,150,255,0.06)', borderBottom: '0.5px solid hsl(var(--border))' }}>
                       {['Modèle', 'Commande', 'Quand l\'utiliser', 'Coût'].map(h => (
-                        <span key={h} className="text-[10px] font-semibold" style={{ color: '#e2e8f0' }}>{h}</span>
+                        <span key={h} className="text-[10px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{h}</span>
                       ))}
                     </div>
                     {MODEL_TABLE.map((row, i) => (
                       <div key={row.model} className="grid grid-cols-4 px-4 py-3 items-center"
-                        style={{ borderBottom: i < MODEL_TABLE.length - 1 ? '0.5px solid rgba(255,255,255,0.05)' : undefined }}>
-                        <span className="text-[11px] font-semibold" style={{ color: '#e2e8f0' }}>{row.model}</span>
+                        style={{ borderBottom: i < MODEL_TABLE.length - 1 ? '0.5px solid hsl(var(--border))' : undefined }}>
+                        <span className="text-[11px] font-semibold" style={{ color: 'hsl(var(--foreground))' }}>{row.model}</span>
                         <code className="text-[11px]" style={{ fontFamily: 'Geist Mono, monospace', color: ACCENT }}>{row.cmd}</code>
-                        <span className="text-[11px]" style={{ color: '#94a3b8' }}>{row.when}</span>
+                        <span className="text-[11px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{row.when}</span>
                         <span className="text-[11px] font-mono font-bold" style={{ color: '#eab308' }}>{row.cost}</span>
                       </div>
                     ))}
                   </div>
 
-                  <h3 className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: '#3d4466' }}>
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest mb-3" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     Stratégie token economy Buildrs
                   </h3>
                   <div className="relative rounded-xl overflow-hidden"
-                    style={{ background: 'rgba(255,255,255,0.03)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
+                    style={{ background: 'hsl(var(--secondary) / 0.3)', border: '0.5px solid hsl(var(--border))' }}>
                     <pre className="px-5 py-4 text-[11px] leading-relaxed whitespace-pre"
-                      style={{ fontFamily: 'Geist Mono, monospace', color: '#94a3b8' }}>
+                      style={{ fontFamily: 'Geist Mono, monospace', color: 'hsl(var(--muted-foreground))' }}>
                       {STRATEGY}
                     </pre>
                   </div>

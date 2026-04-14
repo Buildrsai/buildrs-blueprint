@@ -32,16 +32,16 @@ const DAILY_LIMIT = 20
 const GREETING_GENERIC: ChatMessage = {
   id: 'greeting',
   role: 'jarvis',
-  text: 'Salut ! Je suis **Jarvis**, ton copilote IA.\n\nJe connais tout le curriculum Blueprint, les outils du stack, et je peux te guider pas à pas. Pose-moi ta question ou dis-moi où tu en es.',
+  text: 'Jarvis. COO IA Buildrs.\n\nMon job : t\'éviter les erreurs qui font foirer 90% des projets. Mauvaise idée, pas de validation, stack mal configuré, zéro acquisition.\n\nJe connais le curriculum Blueprint de A à Z. Pose-moi une question — je réponds. Dis-moi où tu bloques — je débloque. Montre-moi ce que tu construis — je te dis ce qui ne va pas.\n\nOù tu en es ?',
   timestamp: new Date(),
 }
 
 function buildGreeting(firstName?: string, strategie?: string, objectif?: string, niveau?: string): ChatMessage {
   if (!strategie && !objectif && !niveau) return GREETING_GENERIC
-  const name = firstName ? `${firstName}, ` : ''
+  const name = firstName ? `${firstName}` : null
   const strategieLabel: Record<string, string> = {
-    problem: 'résoudre un problème',
-    copy: 'copier un SaaS',
+    problem: 'résoudre un problème réel',
+    copy: 'copier un SaaS qui marche',
     discover: 'découvrir les opportunités',
   }
   const objectifLabel: Record<string, string> = {
@@ -50,18 +50,19 @@ function buildGreeting(firstName?: string, strategie?: string, objectif?: string
     client: 'commande client',
   }
   const niveauLabel: Record<string, string> = {
-    beginner: 'débutant',
-    tools: 'outils IA',
-    launched: 'expérimenté',
+    beginner: 'débutant complet',
+    tools: 'à l\'aise avec les outils IA',
+    launched: 'déjà lancé des projets',
   }
   const s = strategie ? strategieLabel[strategie] ?? strategie : null
   const o = objectif ? objectifLabel[objectif] ?? objectif : null
   const n = niveau ? niveauLabel[niveau] ?? niveau : null
   const parts = [s, o, n].filter(Boolean).join(' · ')
+  const intro = name ? `${name}, je t'attendais.` : 'Je t\'attendais.'
   return {
     id: 'greeting',
     role: 'jarvis',
-    text: `${name}c'est Jarvis. Profil configuré — ${parts}.\n\nDis-moi où tu en es ou ce que tu veux avancer. Je connais tout le curriculum.`,
+    text: `${intro}\n\nProfil chargé — ${parts}. J'ai noté.\n\nJe suis Jarvis, COO IA de l'équipe Buildrs. Mon rôle : t'amener de l'idée au produit qui génère des revenus, sans que tu perdes 6 mois sur les mauvaises étapes.\n\nJe réponds à toutes tes questions sur le Blueprint, je débloque les points techniques, j'analyse ton produit et je te recadre si tu pars dans la mauvaise direction.\n\nSur quoi tu veux avancer ?`,
     timestamp: new Date(),
   }
 }

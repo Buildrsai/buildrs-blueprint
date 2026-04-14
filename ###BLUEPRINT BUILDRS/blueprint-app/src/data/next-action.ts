@@ -9,8 +9,8 @@ export interface NextAction {
 
 interface NextActionContext {
   globalPercent: number
-  milestonesTotal: number
-  milestonesDone: number
+  pipelineChecked: number
+  pipelineDone: number
   hasProject: boolean
   hasPack: boolean
   access: AccessContext | undefined
@@ -18,7 +18,7 @@ interface NextActionContext {
 }
 
 export function getNextAction(ctx: NextActionContext): NextAction {
-  const { globalPercent, milestonesTotal, milestonesDone, hasProject, hasPack, claudeUnlocked } = ctx
+  const { globalPercent, pipelineChecked, pipelineDone, hasProject, hasPack, claudeUnlocked } = ctx
 
   // No project yet → go create one
   if (!hasProject) {
@@ -30,23 +30,23 @@ export function getNextAction(ctx: NextActionContext): NextAction {
     }
   }
 
-  // Milestones not started yet
-  if (milestonesTotal === 0) {
+  // Pipeline not started yet
+  if (pipelineChecked === 0) {
     return {
-      label: 'Configure ton Kanban',
-      sublabel: 'Cree tes etapes de construction — 8 milestones en 2 min',
-      hash: '#/dashboard/kanban',
+      label: 'Configure ton Pipeline',
+      sublabel: 'Suis l\'avancement de ton SaaS — 11 phases, 69 etapes',
+      hash: '#/dashboard/pipeline',
       priority: 2,
     }
   }
 
-  // Active milestone in progress
-  if (milestonesDone < milestonesTotal) {
-    const remaining = milestonesTotal - milestonesDone
+  // Pipeline in progress
+  if (pipelineDone < 69) {
+    const remaining = 69 - pipelineDone
     return {
       label: `Avance sur ton projet`,
-      sublabel: `${remaining} etape${remaining > 1 ? 's' : ''} restante${remaining > 1 ? 's' : ''} — ouvre ton Kanban`,
-      hash: '#/dashboard/kanban',
+      sublabel: `${remaining} etape${remaining > 1 ? 's' : ''} restante${remaining > 1 ? 's' : ''} — ouvre ton Pipeline`,
+      hash: '#/dashboard/pipeline',
       priority: 3,
     }
   }
