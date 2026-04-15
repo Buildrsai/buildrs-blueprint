@@ -26,7 +26,7 @@ function Reveal({ children, delay = 0, className }: { children: React.ReactNode;
 }
 
 // ── Countdown to launch end ───────────────────────────────────────────────────
-const LAUNCH_END = new Date('2026-05-01T23:59:59')
+const LAUNCH_END = new Date('2026-04-18T23:59:59')
 
 function useCountdown(target: Date) {
   const get = (t: Date) => {
@@ -1379,7 +1379,6 @@ function ToolsMockup() {
 function WhatYouGet() {
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
-      <StarField />
 
       <div className="relative mx-auto max-w-[1100px] px-6">
 
