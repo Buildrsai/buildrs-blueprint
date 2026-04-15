@@ -10,6 +10,21 @@ import { WordRotate } from "./ui/word-rotate"
 import { SaasMarquee } from "./ui/saas-marquee"
 import { RobotJarvis, RobotValidator } from "./ui/agent-robots"
 
+// ─── REVEAL ANIMATION ────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, className }: { children: React.ReactNode; delay?: number; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
 // ── Countdown to launch end ───────────────────────────────────────────────────
 const LAUNCH_END = new Date('2026-05-01T23:59:59')
 
@@ -579,8 +594,6 @@ function StarField() {
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[154px] sm:pt-[174px]">
-      {/* Stars */}
-      <StarField />
 
       {/* Moon glow — top right */}
       <div
@@ -604,64 +617,76 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       <div className="relative mx-auto max-w-[700px] w-full flex flex-col items-center text-center">
 
           {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-            <svg width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="shrink-0 text-foreground" fill="currentColor">
-              <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/>
-            </svg>
-            <span>Propulsé par Claude Code</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
+          <Reveal>
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
+              <svg width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="shrink-0 text-foreground" fill="currentColor">
+                <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/>
+              </svg>
+              <span>Propulsé par Claude Code</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </Reveal>
 
           {/* H1 */}
-          <h1
-            className="mb-7 text-foreground mx-auto max-w-[860px]"
-            style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
-          >
-            Le système exact pour créer et monétiser ton premier SaaS IA.
-          </h1>
+          <Reveal delay={0.1}>
+            <h1
+              className="mb-7 text-foreground mx-auto max-w-[860px]"
+              style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            >
+              Le système exact pour créer et monétiser ton premier SaaS IA.
+            </h1>
+          </Reveal>
 
           {/* Sub */}
-          <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-            Un système guidé, de l'idée au premier euro. Zéro ligne de code. Claude Code construit. Toi tu pilotes.{" "}
-            <strong className="font-semibold text-foreground">Résultat en moins de 6 jours.</strong>
-          </p>
+          <Reveal delay={0.18}>
+            <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
+              Un système guidé, de l'idée au premier euro. Zéro ligne de code. Claude Code construit. Toi tu pilotes.{" "}
+              <strong className="font-semibold text-foreground">Résultat en moins de 6 jours.</strong>
+            </p>
+          </Reveal>
 
           {/* Typing idea */}
-          <TypingIdea />
+          <Reveal delay={0.24}>
+            <TypingIdea />
+          </Reveal>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-3">
-            <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-              Accéder au Blueprint — 27€ →
-            </a>
-          </div>
+          {/* CTAs + Trust pills */}
+          <Reveal delay={0.3}>
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-3">
+              <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
+                Accéder au Blueprint — 27€ →
+              </a>
+            </div>
 
-          {/* Trust pills */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
-            {["Paiement unique", "Accès à vie"].map((item) => (
-              <span key={item} className="flex items-center gap-1.5 text-[12px] text-muted-foreground/60">
-                <Check size={11} strokeWidth={2.5} className="shrink-0 text-foreground/40" />
-                {item}
-              </span>
-            ))}
-          </div>
-
-          {/* Social proof avatars */}
-          <div className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1.5" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
-            <div className="flex -space-x-1.5">
-              {["/F2.webp", "/F4.webp", "/F5.webp", "/F6.webp"].map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt=""
-                  style={{ width: 30, height: 30, minWidth: 30, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, outline: '2px solid hsl(var(--background))' }}
-                />
+            {/* Trust pills */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+              {["Paiement unique", "Accès à vie"].map((item) => (
+                <span key={item} className="flex items-center gap-1.5 text-[12px] text-muted-foreground/60">
+                  <Check size={11} strokeWidth={2.5} className="shrink-0 text-foreground/40" />
+                  {item}
+                </span>
               ))}
             </div>
-            <p className="pl-2.5 pr-1 text-[12px] text-muted-foreground">
-              <strong className="font-semibold text-foreground">110+</strong> builders ont déjà lancé
-            </p>
-          </div>
+          </Reveal>
+
+          {/* Social proof avatars */}
+          <Reveal delay={0.36}>
+            <div className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1.5" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
+              <div className="flex -space-x-1.5">
+                {["/F2.webp", "/F4.webp", "/F5.webp", "/F6.webp"].map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt=""
+                    style={{ width: 30, height: 30, minWidth: 30, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, outline: '2px solid hsl(var(--background))' }}
+                  />
+                ))}
+              </div>
+              <p className="pl-2.5 pr-1 text-[12px] text-muted-foreground">
+                <strong className="font-semibold text-foreground">110+</strong> builders ont déjà lancé
+              </p>
+            </div>
+          </Reveal>
 
       </div>
     </section>
@@ -760,14 +785,15 @@ function Pain() {
   return (
     <section className="bg-background py-20">
       <div className="mx-auto max-w-[1100px] px-6">
-      <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p>
-      <h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+      <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
+      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
         Tout le monde te parle d'IA. Personne te dit comment en faire un vrai business.
-      </h2>
-      <p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
+      </h2></Reveal>
+      <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
         L'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ?
-      </p>
+      </p></Reveal>
 
+      <Reveal delay={0.24}>
       <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {pains.map(({ Icon, title, desc }) => (
           <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-white/20">
@@ -784,6 +810,7 @@ function Pain() {
       <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
         L'IA est le levier. Le SaaS, le meilleur véhicule. Buildrs, le système pour faire les deux correctement.
       </p>
+      </Reveal>
       </div>
     </section>
   )
@@ -843,18 +870,19 @@ function SaasVehicle() {
 
         {/* Header */}
         <div className="mb-12">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
             Pourquoi un SaaS IA
-          </p>
-          <h2
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.08 }}
             className="text-foreground max-w-[480px]"
           >
             Le meilleur business model en 2026.
-          </h2>
+          </h2></Reveal>
         </div>
 
         {/* Two columns */}
+        <Reveal delay={0.24}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
           {/* Left — Orbital */}
@@ -881,6 +909,7 @@ function SaasVehicle() {
           </div>
 
         </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -957,7 +986,6 @@ const savingsRows = [
 function SavingsChoc() {
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
-      <StarField />
 
       {/* Subtle radial glow center */}
       <div
@@ -973,21 +1001,22 @@ function SavingsChoc() {
 
         {/* Header */}
         <div className="mb-14 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
             Ce que ça coûte vraiment
-          </p>
-          <h2
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
             Seul, tu perds.<br />Avec Buildrs, tu gagnes.
-          </h2>
-          <p className="mx-auto max-w-[420px] text-[15px] leading-[1.6] text-white/45">
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[420px] text-[15px] leading-[1.6] text-white/45">
             On a fait toutes les erreurs — pour que tu n'en fasses aucune.
-          </p>
+          </p></Reveal>
         </div>
 
         {/* Comparison table — desktop (md+) */}
+        <Reveal delay={0.24}>
         <div className="mx-auto max-w-[880px] hidden md:block overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
           {/* Column headers */}
           <div className="grid" style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
@@ -1039,6 +1068,7 @@ function SavingsChoc() {
             </div>
           ))}
         </div>
+        </Reveal>
 
         {/* Bottom stat */}
         <p className="mt-10 text-center text-[15px] text-white/30">
@@ -1080,21 +1110,22 @@ function Symbiose() {
 
         {/* Header — centré */}
         <div className="mb-12 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
             La combinaison gagnante
-          </p>
-          <h2
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-foreground"
           >
             Claude est ton bras armé.<br />Buildrs est ton cerveau augmenté.
-          </h2>
-          <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
             Seul avec Claude, t'as le moteur. Avec Buildrs, t'as le GPS, le carburant et le mécanicien. L'un ne va pas sans l'autre.
-          </p>
+          </p></Reveal>
         </div>
 
         {/* 2 cartes côte à côte */}
+        <Reveal delay={0.24}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
           {/* Claude seul */}
@@ -1154,6 +1185,7 @@ function Symbiose() {
           </div>
 
         </div>
+        </Reveal>
 
         {/* Badge centré en bas */}
         <div className="mt-8 flex justify-center">
@@ -1358,21 +1390,22 @@ function WhatYouGet() {
 
         {/* Header */}
         <div className="mb-16 text-center">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
             Ce que tu vas recevoir
-          </p>
-          <h2
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
             Pas un PDF. Pas une vidéo. Un système complet piloté par l'IA.
-          </h2>
-          <p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
             Trouve ton idée. Valide-la. Construis-la. Monétise-la. Buildrs + Claude — tout dans un seul cockpit.
-          </p>
+          </p></Reveal>
         </div>
 
         {/* 4 cards grid */}
+        <Reveal delay={0.24}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
           {systemCards.map(({ id, Icon, color, bg, border, title, desc, details, sources }) => (
             <div
@@ -1432,6 +1465,7 @@ function WhatYouGet() {
             </div>
           ))}
         </div>
+        </Reveal>
 
 
       </div>
@@ -1507,15 +1541,16 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section id="tarif" className="bg-muted py-24 text-center">
       <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p>
-        <h2 style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
           Tout ce qu'il te faut pour lancer ton produit avec l'IA.
-        </h2>
-        <p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
+        </h2></Reveal>
+        <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
           Un seul paiement. Accès à vie. Zéro risque.
-        </p>
+        </p></Reveal>
 
         {/* Shine border wrapper */}
+        <Reveal delay={0.24}>
         <div className="bump-neon relative mx-auto mt-12 max-w-[560px]" style={{ borderRadius: 22 }}>
           <div className="bump-inner p-10 text-left" style={{ borderRadius: 20 }}>
             {/* Header row */}
@@ -1583,6 +1618,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             </p>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -1637,18 +1673,19 @@ function TeamSection() {
 
         {/* Header */}
         <div className="mb-14 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5" style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}>
+          <Reveal><div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5" style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}>
             <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/40">Qui sommes-nous</span>
-          </div>
-          <h2
+          </div></Reveal>
+          <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
             className="text-white"
           >
             Des entrepreneurs IA qui construisent pour vous.
-          </h2>
+          </h2></Reveal>
         </div>
 
         {/* Cards */}
+        <Reveal delay={0.24}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
           {teamData.map(({ uid, variant, name, role, bio, photo, isAI }) => (
             <div
@@ -1676,6 +1713,7 @@ function TeamSection() {
             </div>
           ))}
         </div>
+        </Reveal>
 
         {/* Credibility block */}
         <div
@@ -1720,11 +1758,12 @@ function FAQ() {
   return (
     <section id="faq" className="relative py-24 overflow-hidden">
       <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">FAQ</p>
-        <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
+        <Reveal><p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">FAQ</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
           Tes questions.<br />Nos réponses.
-        </h2>
+        </h2></Reveal>
 
+        <Reveal delay={0.24}>
         <div className="mx-auto max-w-[680px] overflow-hidden rounded-2xl border border-border">
           {faqs.map(({ q, a }, i) => (
             <div
@@ -1747,6 +1786,7 @@ function FAQ() {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -1850,16 +1890,16 @@ function Sprint() {
       <div className="mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le programme</p>
-        <h2
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le programme</p></Reveal>
+        <Reveal delay={0.08}><h2
           style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
           Un système en 4 phases.<br />Un produit live à la fin.
-        </h2>
-        <p className="mb-16 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
+        </h2></Reveal>
+        <Reveal delay={0.16}><p className="mb-16 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
           <span className="font-semibold text-foreground">Toi tu décides. L'IA construit. Tu encaisses.</span>
-        </p>
+        </p></Reveal>
 
         {/* ── DESKTOP roadmap ── */}
         <div className="hidden md:block relative">
