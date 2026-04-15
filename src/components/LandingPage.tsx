@@ -664,8 +664,10 @@ function Marquee() {
   return (
     <section className="overflow-hidden border-y border-border bg-background py-10">
       <div className="mb-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 px-6 sm:px-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/50">
-          Créé avec les meilleurs outils (donc tu n'as pas à les choisir)
+        <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/50 text-center">
+          <span>Créé avec les meilleurs outils</span>
+          <span className="hidden sm:inline"> (donc tu n'as pas à les choisir)</span>
+          <span className="block sm:hidden text-muted-foreground/35">donc tu n'as pas à les choisir</span>
         </p>
       </div>
       <div className="overflow-hidden">
