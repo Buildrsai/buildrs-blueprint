@@ -60,10 +60,27 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
 ]
 
 const stats = [
-  { num: "40–80h", desc: "économisées en recherche d'idées", sub: "Marketplace Buildrs vs Reddit/PH manuellement" },
-  { num: "300–500€", desc: "d'outils évités dès le départ", sub: "Stack validée incluse, zéro tâtonnement" },
-  { num: "6 jours", desc: "pour être live et générer tes premiers revenus", sub: "De l'idée au produit monétisé" },
+  { target: 80,  prefix: "+", suffix: "h",  desc: "économisées en apprenant à construire ton SaaS — de l'auth au paiement" },
+  { target: 500, prefix: "",  suffix: "€",  desc: "d'outils inutiles évités grâce à la stack validée dès le départ" },
+  { target: 6,   prefix: "",  suffix: "j",  desc: "pour être en ligne, paiements branchés et premiers utilisateurs" },
 ]
+
+function useCountUp(target: number, duration: number, trigger: boolean) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!trigger) return
+    setValue(0)
+    const start = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setValue(Math.round(eased * target))
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [trigger, target, duration])
+  return value
+}
 
 const pains = [
   {
@@ -671,25 +688,44 @@ function Marquee() {
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
 
+function StatCard({ target, prefix, suffix, desc, trigger }: { target: number; prefix: string; suffix: string; desc: string; trigger: boolean }) {
+  const value = useCountUp(target, target >= 100 ? 1600 : 1200, trigger)
+  return (
+    <div className="bg-background px-6 py-10 text-center">
+      <div
+        className="mb-2 leading-none text-foreground whitespace-nowrap tabular-nums"
+        style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+      >
+        {prefix}{value}{suffix}
+      </div>
+      <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
+    </div>
+  )
+}
+
 function Stats() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [triggered, setTriggered] = useState(false)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setTriggered(true) },
+      { threshold: 0.3 }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <section className="bg-background">
       {/* Stats grid */}
-      <div className="mx-auto max-w-[1100px] px-6 pt-20 pb-0">
+      <div ref={ref} className="mx-auto max-w-[1100px] px-6 pt-20 pb-0">
         <div
           className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-2xl border border-border"
           style={{ background: "hsl(var(--border))", gap: "1px" }}
         >
-          {stats.map(({ num, desc }) => (
-            <div key={num} className="bg-background px-6 py-10 text-center">
-              <div
-                className="mb-2 leading-none text-foreground whitespace-nowrap"
-                style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-              >
-                {num}
-              </div>
-              <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
-            </div>
+          {stats.map((s) => (
+            <StatCard key={s.suffix + s.target} {...s} trigger={triggered} />
           ))}
         </div>
       </div>
