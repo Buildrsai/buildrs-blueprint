@@ -1319,175 +1319,34 @@ const systemCards = [
   },
 ]
 
-function MockupChrome({ url, children }: { url: string; children: React.ReactNode }) {
+function DashScreenshot({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="mt-2 rounded-xl overflow-hidden" style={{ background: "#0d0d0f", border: "1px solid rgba(255,255,255,0.07)" }}>
-      <div className="flex items-center gap-1.5 px-3 py-2" style={{ background: "#131315", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <div className="h-1.5 w-1.5 rounded-full" style={{ background: "#ef4444", opacity: 0.5 }} />
-        <div className="h-1.5 w-1.5 rounded-full" style={{ background: "#eab308", opacity: 0.5 }} />
-        <div className="h-1.5 w-1.5 rounded-full" style={{ background: "#22c55e", opacity: 0.5 }} />
-        <div className="ml-2 flex items-center rounded px-2 py-0.5" style={{ background: "rgba(255,255,255,0.04)", minWidth: 90 }}>
-          <span className="text-[8px] text-white/20 font-mono truncate">{url}</span>
-        </div>
-      </div>
-      {children}
+    <div className="mt-2 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className="w-full h-auto block"
+        style={{ maxHeight: 220, objectFit: "cover", objectPosition: "top" }}
+      />
     </div>
   )
 }
 
 function MarketplaceMockup() {
-  const ideas = [
-    { label: "OPTION 1", name: "MenuShift — Gestion menus saisonniers IA", score: 76, mrr: "290€/mois", cat: "Restauration" },
-    { label: "OPTION 2", name: "NoShowTracker — Prédiction absences", score: 79, mrr: "190€/mois", cat: "RH / Planning" },
-    { label: "OPTION 3", name: "StaffCost — Optimisation masse salariale", score: 75, mrr: "390€/mois", cat: "Finance" },
-  ]
-  return (
-    <MockupChrome url="app.buildrs.fr/generateur">
-      <div className="px-4 pt-3 pb-1">
-        <p className="text-[10px] font-bold text-white/70 mb-0.5">Tes 3 opportunités sur mesure</p>
-        <p className="text-[8px] text-white/25 mb-3">Scorées par Buildrs selon ton profil</p>
-        <div className="flex flex-col gap-2">
-          {ideas.map(({ label, name, score, mrr, cat }) => (
-            <div key={label} className="rounded-lg p-2.5 flex items-start gap-2.5" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <div className="shrink-0 flex flex-col items-center justify-center rounded-lg" style={{ width: 36, height: 36, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <span className="text-[13px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.03em" }}>{score}</span>
-                <span className="text-[7px] text-white/25 font-medium">/100</span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[9px] font-bold uppercase tracking-[0.1em] mb-0.5" style={{ color: "rgba(77,150,255,0.7)" }}>{label}</p>
-                <p className="text-[10px] font-semibold text-white/75 leading-snug truncate">{name}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-[8px] text-white/30">{cat}</span>
-                  <span className="text-[8px] font-semibold" style={{ color: "#22c55e" }}>{mrr}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="px-4 py-2.5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <div className="rounded-md py-1.5 text-center text-[9px] font-semibold text-white/50" style={{ background: "rgba(255,255,255,0.05)" }}>
-          + Ajouter à mes projets
-        </div>
-      </div>
-    </MockupChrome>
-  )
+  return <DashScreenshot src="/dash-marketplace.png" alt="Marketplace Buildrs" />
 }
 
 function ValidatorMockup() {
-  const scores = [
-    { label: "Demande", value: 62, color: "#4d96ff" },
-    { label: "Probabilité", value: 72, color: "#22c55e" },
-    { label: "Monétisation", value: 41, color: "#f97316" },
-  ]
-  return (
-    <MockupChrome url="app.buildrs.fr/validateur">
-      <div className="p-3 flex gap-2">
-        {/* Left — input */}
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
-          <div className="rounded-md p-2" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="text-[7px] uppercase tracking-wider text-white/25 mb-1">Ton idée</p>
-            <p className="text-[9px] text-white/60 leading-snug">Un SaaS pour trouver des vidéos TikTok virales</p>
-          </div>
-          <div className="rounded-md px-2 py-1.5" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="text-[7px] uppercase tracking-wider text-white/25 mb-0.5">Catégorie</p>
-            <p className="text-[9px] text-white/50">Marketing</p>
-          </div>
-          <div className="rounded-md px-2 py-1.5" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="text-[7px] uppercase tracking-wider text-white/25 mb-0.5">Cible</p>
-            <p className="text-[9px] text-white/50">Infopreneurs · B2C</p>
-          </div>
-        </div>
-        {/* Right — scores */}
-        <div className="shrink-0 flex flex-col gap-2" style={{ width: 80 }}>
-          <div className="rounded-md p-2 text-center" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="text-[7px] uppercase tracking-wider text-white/25 mb-0.5">Verdict</p>
-            <p className="text-[18px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>58</p>
-            <p className="text-[7px] text-white/30 mt-0.5">Affine d'abord</p>
-          </div>
-          {scores.map(({ label, value, color }) => (
-            <div key={label} className="rounded-md p-2" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.07)" }}>
-              <p className="text-[7px] text-white/25 mb-0.5">{label}</p>
-              <p className="text-[14px] font-extrabold leading-none" style={{ color, letterSpacing: "-0.03em" }}>{value}</p>
-              <div className="mt-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
-                <div className="h-full rounded-full" style={{ width: `${value}%`, background: color, opacity: 0.6 }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </MockupChrome>
-  )
+  return <DashScreenshot src="/dash-validator.png" alt="Validateur d'idée Buildrs" />
 }
 
 function CockpitMockup() {
-  const phases = [
-    { num: "01", label: "Trouver & Valider", done: true, color: "#4d96ff" },
-    { num: "02", label: "Designer & Construire", done: true, color: "#cc5de8" },
-    { num: "03", label: "Déployer & Connecter", done: false, color: "#22c55e", active: true },
-    { num: "04", label: "Monétiser & Lancer", done: false, color: "#f97316" },
-  ]
-  return (
-    <MockupChrome url="app.buildrs.fr/cockpit">
-      <div className="p-3">
-        <div className="flex items-center justify-between mb-2.5">
-          <p className="text-[9px] font-bold text-white/60">Mon projet — SaaS IA</p>
-          <span className="text-[8px] font-semibold px-1.5 py-0.5 rounded" style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e" }}>Phase 3/4</span>
-        </div>
-        {/* Progress bar */}
-        <div className="mb-3 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
-          <div className="h-full rounded-full" style={{ width: "52%", background: "linear-gradient(to right, #4d96ff, #cc5de8)" }} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          {phases.map(({ num, label, done, color, active }) => (
-            <div key={num} className="flex items-center gap-2 rounded-md px-2 py-1.5" style={{ background: active ? "rgba(34,197,94,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${active ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.04)"}` }}>
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded" style={{ background: done ? "rgba(34,197,94,0.15)" : `${color}15`, border: `1px solid ${done ? "rgba(34,197,94,0.3)" : `${color}30`}` }}>
-                {done ? (
-                  <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                ) : (
-                  <span className="text-[7px] font-bold" style={{ color }}>{num}</span>
-                )}
-              </div>
-              <p className="text-[9px] font-medium" style={{ color: done ? "rgba(255,255,255,0.35)" : active ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.4)" }}>{label}</p>
-              {active && <span className="ml-auto text-[7px] font-bold uppercase tracking-wider" style={{ color: "#22c55e" }}>En cours</span>}
-            </div>
-          ))}
-        </div>
-      </div>
-    </MockupChrome>
-  )
+  return <DashScreenshot src="/dash-cockpit.png" alt="Cockpit Buildrs" />
 }
 
 function ToolsMockup() {
-  const stack = [
-    { name: "Claude Code", status: "Configuré", color: "#22c55e", Icon: BrandIcons.claude },
-    { name: "Supabase", status: "Configuré", color: "#22c55e", Icon: BrandIcons.supabase },
-    { name: "Stripe", status: "À brancher", color: "#f97316", Icon: BrandIcons.stripe },
-    { name: "Vercel", status: "Configuré", color: "#22c55e", Icon: BrandIcons.vercel },
-  ]
-  return (
-    <MockupChrome url="app.buildrs.fr/outils">
-      <div className="p-3">
-        <p className="text-[9px] font-bold text-white/60 mb-2.5">Stack configurée</p>
-        <div className="flex flex-col gap-1.5 mb-3">
-          {stack.map(({ name, status, color, Icon }) => (
-            <div key={name} className="flex items-center gap-2 rounded-md px-2 py-1.5" style={{ background: "#161618", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <Icon style={{ width: 14, height: 14, color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />
-              <p className="flex-1 text-[9px] font-medium text-white/65">{name}</p>
-              <span className="text-[8px] font-semibold" style={{ color }}>{status}</span>
-            </div>
-          ))}
-        </div>
-        <div className="rounded-md p-2.5 flex items-center gap-2.5" style={{ background: "rgba(37,211,102,0.07)", border: "1px solid rgba(37,211,102,0.18)" }}>
-          <WhatsAppIcon style={{ width: 16, height: 16 }} />
-          <div>
-            <p className="text-[9px] font-bold text-white/70">Canal WhatsApp Buildrs</p>
-            <p className="text-[7px] text-white/30">110+ builders actifs</p>
-          </div>
-        </div>
-      </div>
-    </MockupChrome>
-  )
+  return <DashScreenshot src="/dash-tools.png" alt="Boîte à outils Buildrs" />
 }
 
 function WhatYouGet() {
