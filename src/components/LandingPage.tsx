@@ -696,13 +696,9 @@ function Stats() {
 
       {/* Bridge → Pain */}
       <div
-        className="mt-10 w-full px-6 py-10 text-center"
+        className="mt-10 w-full h-10"
         style={{ background: "#09090b", borderRadius: "0 0 32px 32px" }}
-      >
-        <p className="mx-auto max-w-[560px] text-[15px] font-medium leading-relaxed text-white/50">
-          Pourtant, 9 builders sur 10 qui utilisent l'IA n'arrivent jamais à leur premier euro.
-        </p>
-      </div>
+      />
     </section>
   )
 }
