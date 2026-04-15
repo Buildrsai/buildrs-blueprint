@@ -1182,17 +1182,6 @@ function Symbiose() {
         </div>
         </Reveal>
 
-        {/* Badge centré en bas */}
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex items-center gap-3 rounded-2xl border border-border bg-secondary px-6 py-4">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-              <ArrowRight size={14} strokeWidth={2} className="text-background" />
-            </div>
-            <p className="text-[14px] font-semibold text-foreground">
-              Toi = le directeur. Tu décides, tu valides, tu encaisses.
-            </p>
-          </div>
-        </div>
 
       </div>
     </section>
@@ -1391,7 +1380,7 @@ function WhatYouGet() {
             style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
-            Pas un PDF. Pas une vidéo. Un système complet piloté par l'IA.
+            Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
           </h2></Reveal>
           <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
             Trouve ton idée. Valide-la. Construis-la. Monétise-la. Buildrs + Claude — tout dans un seul cockpit.
