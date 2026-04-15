@@ -69,27 +69,17 @@ const pains = [
   {
     Icon: Layers,
     title: "10 000 outils IA. Zéro direction.",
-    desc: "GPT, Claude, Bolt, Lovable, Cursor, Replit, n8n, Make... Un nouvel outil tous les deux jours qui promet de tout révolutionner. Tu testes, tu regardes des tutos, tu notes des idées. Mais tu n'as toujours rien lancé.",
+    desc: "GPT, Claude, Bolt, Cursor... Un nouvel outil tous les deux jours. Tu testes, tu notes des idées. Mais tu n'as toujours rien lancé.",
   },
   {
     Icon: Bot,
-    title: "L'IA peut tout construire. Mais quoi, exactement ?",
-    desc: "Claude est un levier exceptionnel. Mais sans savoir quel problème résoudre, pour quelle niche, avec quel modèle de revenus — tu génères du code parfait pour le mauvais projet. Vitesse sans direction, c'est juste aller vite dans le mur.",
+    title: "L'IA peut tout construire. Mais quoi ?",
+    desc: "Claude est exceptionnel. Mais sans savoir quel problème résoudre, pour quelle niche — tu génères du code parfait pour le mauvais projet.",
   },
   {
     Icon: TrendingUp,
-    title: "Tu construis. Mais tu sais pas comment en vivre.",
-    desc: "SaaS, app, logiciel — OK. Mais abonnement ou paiement unique ? Quel prix ? Comment atteindre 1 000€/mois de MRR ? Comment revendre 5 chiffres ? La stratégie de monétisation, c'est ce qui sépare un side-project d'un vrai business.",
-  },
-  {
-    Icon: Globe,
-    title: "Un produit live que personne ne connaît.",
-    desc: "Landing page, Meta Ads, acquisition, positionnement — la mise sur le marché est toujours ignorée dans les tutos IA. Résultat : un produit techniquement parfait, que personne n'achète. Le SaaS sans marketing, c'est un magasin sans enseigne.",
-  },
-  {
-    Icon: Shield,
-    title: "Bugs, sécurité, paiements cassés — les silences qui coûtent.",
-    desc: "Auth qui plante, Stripe mal configuré, failles RLS sur la base de données... Ces problèmes techniques font abandonner les projets les plus prometteurs. On les a tous rencontrés sur 35+ SaaS lancés — avant toi.",
+    title: "Tu construis. Tu sais pas comment en vivre.",
+    desc: "Abonnement ou paiement unique ? Quel prix ? Comment atteindre 1 000€/mois ? La monétisation, c'est ce qui sépare un side-project d'un vrai business.",
   },
 ]
 
@@ -602,10 +592,10 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* H1 */}
           <h1
-            className="mb-7 text-foreground mx-auto max-w-[900px]"
-            style={{ fontSize: "clamp(28px, 3.2vw, 46px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            className="mb-7 text-foreground mx-auto max-w-[860px]"
+            style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
           >
-            Le système exact pour créer et monétiser ton premier SaaS IA en 6 jours.
+            Le Système Exact Pour Créer Et Monétiser Ton Premier SaaS IA En 6 Jours.
           </h1>
 
           {/* Sub */}
@@ -714,14 +704,14 @@ function Pain() {
     <section className="bg-muted py-20">
       <div className="mx-auto max-w-[1100px] px-6">
       <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p>
-      <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-4 text-foreground">
-        Tout le monde te parle d'IA.<br />Personne te dit comment<br />en faire un vrai business.
+      <h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+        Tout le monde te parle d'IA. Personne te dit comment en faire un vrai business.
       </h2>
       <p className="max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
         Chaque semaine, un nouvel outil, un nouveau business model, une nouvelle façon de "monétiser l'IA". Oui, l'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ? Et surtout : comment en vivre vraiment ?
       </p>
 
-      <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+      <div className="mt-11 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
         {pains.map(({ Icon, title, desc }) => (
           <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-muted-foreground/40">
             <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-background">
@@ -810,24 +800,24 @@ function SaasVehicle() {
         {/* Two columns */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-          {/* Left — Orbital */}
-          <div>
+          {/* Left — Orbital (caché sur mobile) */}
+          <div className="hidden lg:block">
             <OrbitalStack />
           </div>
 
-          {/* Right — 4 condensed cards 2×2 */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Right — 4 cards 2×2 (full width on mobile) */}
+          <div className="grid grid-cols-2 gap-3 items-stretch">
             {saasCardItems.map(({ id, title, stat, description, icon }) => (
               <div
                 key={id}
-                className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-3"
+                className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-3 h-full"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-foreground">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-foreground shrink-0">
                   <span className="[&>svg]:h-[18px] [&>svg]:w-[18px] [&>svg]:stroke-[1.5]">{icon}</span>
                 </div>
-                <div>
-                  <h3 className="mb-0.5 text-[14px] font-bold leading-snug text-foreground">{title}</h3>
-                  <p className="mb-2 text-[11px] font-bold tabular-nums text-muted-foreground">{stat}</p>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[14px] font-bold leading-snug text-foreground">{title}</h3>
+                  <p className="text-[11px] font-bold tabular-nums text-muted-foreground">{stat}</p>
                   <p className="text-[12px] leading-relaxed text-muted-foreground">{description}</p>
                 </div>
               </div>
@@ -898,85 +888,69 @@ function SavingsChoc() {
       <div className="relative mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
-        <div className="mb-16 text-center">
+        <div className="mb-14 text-center">
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
             Ce que ça coûte vraiment
           </p>
           <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
-            className="mb-5 text-white"
+            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            className="mb-4 text-white"
           >
-            Seul, tu perds du temps<br />et de l'argent. Avec Buildrs, tu gagnes les deux.
+            Seul, tu perds.<br />Avec Buildrs, tu gagnes.
           </h2>
-          <p className="mx-auto max-w-[500px] text-[17px] leading-[1.65] text-white/45">
-            35+ SaaS lancés. 3 revendus 5 chiffres. On a fait toutes les erreurs — pour que tu n'en fasses aucune.
+          <p className="mx-auto max-w-[420px] text-[15px] leading-[1.6] text-white/45">
+            On a fait toutes les erreurs — pour que tu n'en fasses aucune.
           </p>
         </div>
 
-        {/* Comparison table */}
-        <div className="mx-auto max-w-[880px] overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-
+        {/* Comparison table — desktop (md+) */}
+        <div className="mx-auto max-w-[880px] hidden md:block overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
           {/* Column headers */}
-          <div
-            className="grid"
-            style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-          >
+          <div className="grid" style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
             <div className="px-6 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20" />
-            <div
-              className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white/35"
-              style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(239,68,68,0.04)" }}
-            >
-              Seul
-            </div>
-            <div
-              className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em]"
-              style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(34,197,94,0.05)", color: "#22c55e" }}
-            >
-              Avec Buildrs
-            </div>
+            <div className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white/35" style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(239,68,68,0.04)" }}>Seul</div>
+            <div className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(34,197,94,0.05)", color: "#22c55e" }}>Avec Buildrs</div>
           </div>
-
-          {/* Rows */}
           {savingsRows.map(({ label, Icon, alone, withUs, badge }, i) => (
-            <div
-              key={label}
-              className="grid"
-              style={{
-                gridTemplateColumns: "1fr 130px 180px",
-                borderBottom: i < savingsRows.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
-              }}
-            >
-              {/* Label */}
+            <div key={label} className="grid" style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: i < savingsRows.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
               <div className="flex items-center gap-3.5 px-6 py-4">
-                <div
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                  style={{ background: "rgba(255,255,255,0.05)" }}
-                >
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(255,255,255,0.05)" }}>
                   <Icon size={14} strokeWidth={1.5} className="text-white/35" />
                 </div>
                 <span className="text-[13px] font-medium leading-snug text-white/60">{label}</span>
               </div>
-
-              {/* Seul — rouge */}
-              <div
-                className="flex items-center justify-center px-4 py-4"
-                style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(239,68,68,0.025)" }}
-              >
-                <span
-                  className="text-[14px] font-bold tabular-nums text-center"
-                  style={{ color: "rgba(239,68,68,0.70)" }}
-                >
-                  {alone}
-                </span>
+              <div className="flex items-center justify-center px-4 py-4" style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(239,68,68,0.025)" }}>
+                <span className="text-[14px] font-bold tabular-nums text-center" style={{ color: "rgba(239,68,68,0.70)" }}>{alone}</span>
               </div>
-
-              {/* Avec Buildrs — vert */}
-              <div
-                className="flex flex-col items-center justify-center gap-1 px-4 py-4"
-                style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(34,197,94,0.03)" }}
-              >
+              <div className="flex flex-col items-center justify-center gap-1 px-4 py-4" style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(34,197,94,0.03)" }}>
                 <span className="text-[14px] font-bold tabular-nums text-green-400">{withUs}</span>
                 <span className="text-[9px] font-semibold uppercase tracking-wider text-white/20">{badge}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Comparison — mobile cards (< md) */}
+        <div className="md:hidden flex flex-col gap-2.5">
+          {/* Header row */}
+          <div className="grid grid-cols-2 gap-2 px-1 mb-1">
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-white/25 text-center">Seul</p>
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-center" style={{ color: "#22c55e" }}>Avec Buildrs</p>
+          </div>
+          {savingsRows.map(({ label, alone, withUs }) => (
+            <div key={label} className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+              {/* Label */}
+              <div className="px-4 py-2.5" style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                <p className="text-[12px] font-medium text-white/55 leading-snug">{label}</p>
+              </div>
+              {/* Values */}
+              <div className="grid grid-cols-2">
+                <div className="flex items-center justify-center py-3.5 px-3" style={{ background: "rgba(239,68,68,0.05)", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                  <span className="text-[17px] font-extrabold tabular-nums text-center leading-tight" style={{ color: "rgba(239,68,68,0.85)", letterSpacing: "-0.02em" }}>{alone}</span>
+                </div>
+                <div className="flex items-center justify-center py-3.5 px-3" style={{ background: "rgba(34,197,94,0.06)" }}>
+                  <span className="text-[17px] font-extrabold tabular-nums text-center leading-tight text-green-400" style={{ letterSpacing: "-0.02em" }}>{withUs}</span>
+                </div>
               </div>
             </div>
           ))}
@@ -1013,7 +987,7 @@ const claudeMissing = [
 const buildrsAdds = [
   "Marketplace d'idées analysées sur données réelles (PH, Reddit, Flippa)",
   "Validateur — ce qui se vend et ce qui se revend à 5 chiffres",
-  "50+ prompts testés sur 35+ SaaS lancés par notre équipe",
+  "50+ prompts prêts à copier-coller à chaque étape",
   "Stack configurée, sécurisée, documentée pas à pas",
   "Agents spécialisés qui remplacent des semaines de recherche",
 ]
@@ -1029,10 +1003,10 @@ function Symbiose() {
             La combinaison gagnante
           </p>
           <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-foreground"
           >
-            Claude est ton bras armé.<br />Buildrs est ton cerveau augmenté.
+            Claude est ton bras armé. Buildrs est ton cerveau augmenté.
           </h2>
           <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
             Seul avec Claude, t'as le moteur. Avec Buildrs, t'as le GPS, le carburant et le mécanicien. L'un ne va pas sans l'autre.
@@ -1088,7 +1062,7 @@ function Symbiose() {
             <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: "rgba(255,255,255,0.35)" }}>
               Ce qu'on apporte en plus
             </p>
-            <ul className="mb-7 flex flex-col gap-3">
+            <ul className="flex flex-col gap-3">
               {buildrsAdds.map((c) => (
                 <li key={c} className="flex items-start gap-2.5">
                   <Check size={13} strokeWidth={2.5} className="mt-[2px] shrink-0 text-background" />
@@ -1096,16 +1070,6 @@ function Symbiose() {
                 </li>
               ))}
             </ul>
-
-            <div
-              className="rounded-xl px-4 py-3.5"
-              style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.10)" }}
-            >
-              <p className="text-[12px] leading-[1.7] text-background/60">
-                "35+ SaaS lancés. 3 revendus 5 chiffres. Tout l'investissement, toutes les erreurs, toutes les heures — condensés dans un système que tu actives en 6 jours."
-              </p>
-              <p className="mt-1.5 text-[11px] font-semibold text-background/40">— Alfred, fondateur Buildrs</p>
-            </div>
           </div>
 
         </div>
@@ -1353,8 +1317,8 @@ function WhatYouGet() {
           ))}
         </div>
 
-        {/* Dashboard mockup — visual proof */}
-        <div className="flex flex-col items-center gap-3 mb-5">
+        {/* Dashboard mockup — visual proof (desktop only) */}
+        <div className="hidden sm:flex flex-col items-center gap-3 mb-5">
           <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/30" style={{ border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.03)" }}>
             Aperçu du cockpit
           </span>
@@ -1363,7 +1327,9 @@ function WhatYouGet() {
           </svg>
         </div>
 
-        <HeroDashboardMockup />
+        <div className="hidden sm:block">
+          <HeroDashboardMockup />
+        </div>
 
       </div>
     </section>
@@ -1995,14 +1961,10 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
       <main>
         <Hero onCTA={go} />
         <Marquee />
-        <Stats />
         <Pain />
-        <SavingsChoc />
-        <Symbiose />
-        <SaasVehicle />
         <WhatYouGet />
         <Sprint />
-        <BeforeAfter />
+        <SavingsChoc />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
