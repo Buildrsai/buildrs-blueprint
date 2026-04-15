@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rapport — App de matching pour entrepreneurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --fg: #09090b;
+    --border: #e4e4e7;
+    --secondary: #f4f4f5;
+    --muted: #71717a;
+    --card: #ffffff;
+  }
+  body {
+    font-family: 'Geist', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .page { width: 100%; max-width: 720px; }
+
+  /* Header */
+  .label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .title { font-size: 30px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 4px; }
+  .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .btn-outline { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 6px 12px; cursor: pointer; background: none; font-family: inherit; }
+  .btn-outline:hover { color: var(--fg); }
+
+  /* Score + verdict card */
+  .score-card { border: 1px solid var(--border); border-radius: 18px; padding: 24px; margin-bottom: 20px; display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+  .gauge-wrap { position: relative; width: 112px; height: 112px; flex-shrink: 0; }
+  .gauge { width: 112px; height: 112px; border-radius: 50%; background: conic-gradient(#22c55e 72%, #e4e4e7 0%); display: flex; align-items: center; justify-content: center; }
+  .gauge-inner { width: 88px; height: 88px; border-radius: 50%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .gauge-score { font-size: 28px; font-weight: 800; letter-spacing: -.04em; color: #22c55e; line-height: 1; }
+  .gauge-denom { font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+  .verdict-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.3); margin-bottom: 12px; }
+  .verdict-label { font-size: 12px; font-weight: 700; color: #22c55e; }
+  .summary { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Criteria */
+  .section-card { border: 1px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 20px; }
+  .section-title { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .criterion { margin-bottom: 14px; }
+  .criterion:last-child { margin-bottom: 0; }
+  .crit-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .crit-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .crit-score { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .bar-bg { height: 6px; border-radius: 999px; background: var(--secondary); overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; transition: width .8s ease; }
+
+  /* Lists */
+  .cards-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+  .list-card { border: 1px solid var(--border); border-radius: 18px; padding: 20px; }
+  .list-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .list-head-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .list-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .list-item:last-child { margin-bottom: 0; }
+  .dot { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .list-text { font-size: 13px; color: var(--fg); line-height: 1.5; }
+
+  /* Actions */
+  .actions { display: flex; gap: 12px; }
+  .btn-save { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; background: none; font-family: inherit; color: var(--fg); }
+  .btn-save:hover { background: var(--secondary); }
+
+  /* Icon SVG inlines */
+  svg { flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header-row">
+    <div>
+      <div class="label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Générateur
+      </div>
+      <div class="title">Ton rapport</div>
+    </div>
+    <button class="btn-outline">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+      Nouvelle validation
+    </button>
+  </div>
+
+  <!-- Score + verdict -->
+  <div class="score-card">
+    <div class="gauge">
+      <div class="gauge-inner">
+        <span class="gauge-score" id="scoreDisplay">72</span>
+        <span class="gauge-denom">/100</span>
+      </div>
+    </div>
+    <div>
+      <div class="verdict-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span class="verdict-label">Go — Lance-toi</span>
+      </div>
+      <p class="summary">Le concept est solide : le marché des entrepreneurs solopreneurs cherchant des co-fondateurs ou partenaires est réel et sous-servi en France. La faisabilité en 72h est raisonnable avec un MVP minimaliste. Le principal défi sera la masse critique d'utilisateurs — un réseau vide ne sert à rien.</p>
+    </div>
+  </div>
+
+  <!-- Criteria bars -->
+  <div class="section-card">
+    <div class="section-title">Analyse par critère</div>
+
+    <div class="criterion">
+      <div class="crit-row">
+        <span class="crit-name">Marché</span>
+        <span class="crit-score" style="color:#4d96ff">16/20</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:80%;background:#4d96ff"></div></div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-row">
+        <span class="crit-name">Concurrence</span>
+        <span class="crit-score" style="color:#cc5de8">14/20</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:70%;background:#cc5de8"></div></div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-row">
+        <span class="crit-name">Faisabilité</span>
+        <span class="crit-score" style="color:#22c55e">15/20</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:75%;background:#22c55e"></div></div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-row">
+        <span class="crit-name">Monétisation</span>
+        <span class="crit-score" style="color:#eab308">13/20</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:65%;background:#eab308"></div></div>
+    </div>
+
+    <div class="criterion">
+      <div class="crit-row">
+        <span class="crit-name">Timing</span>
+        <span class="crit-score" style="color:#ff6b6b">14/20</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:70%;background:#ff6b6b"></div></div>
+    </div>
+  </div>
+
+  <!-- Points forts / faibles / recommandations -->
+  <div class="cards-grid">
+
+    <div class="list-card">
+      <div class="list-head">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span class="list-head-label">Points forts</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(34,197,94,.12);color:#22c55e">✓</div>
+        <span class="list-text">Marché clairement identifié — les solopreneurs cherchent activement des associés ou collaborateurs sans réseau pro établi.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(34,197,94,.12);color:#22c55e">✓</div>
+        <span class="list-text">Modèle freemium + premium bien adapté : l'accès gratuit génère la masse critique, le premium monétise les super-utilisateurs.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(34,197,94,.12);color:#22c55e">✓</div>
+        <span class="list-text">MVP réalisable en 72h avec Supabase (auth + profils) + système de matching basique sur critères.</span>
+      </div>
+    </div>
+
+    <div class="list-card">
+      <div class="list-head">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="list-head-label">Points à travailler</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(239,68,68,.1);color:#ff6b6b">!</div>
+        <span class="list-text">Problème du réseau vide (cold start) : sans utilisateurs, le matching ne fonctionne pas — bootstrapper la base est le défi #1.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(239,68,68,.1);color:#ff6b6b">!</div>
+        <span class="list-text">La willingness to pay est incertaine : les entrepreneurs veulent networker mais payer pour ça reste à prouver en France.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(239,68,68,.1);color:#ff6b6b">!</div>
+        <span class="list-text">Concurrents indirects forts (LinkedIn, Meetup, communautés Slack/Discord) qui offrent déjà ce service gratuitement.</span>
+      </div>
+    </div>
+
+    <div class="list-card">
+      <div class="list-head">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+        <span class="list-head-label">Recommandations</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(234,179,8,.1);color:#eab308">→</div>
+        <span class="list-text">Commence par une niche ultra-précise : ex. "matching pour solopreneurs SaaS" ou "founders B2B tech". Évite le généraliste en phase 1.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(234,179,8,.1);color:#eab308">→</div>
+        <span class="list-text">Valide la willingness to pay AVANT de coder : crée une landing page + liste d'attente payante (5€/mois) et mesure le taux de conversion.</span>
+      </div>
+      <div class="list-item">
+        <div class="dot" style="background:rgba(234,179,8,.1);color:#eab308">→</div>
+        <span class="list-text">Bootstrappe la base utilisateur avec du recrutement manuel : poste dans 5 communautés Slack/Discord d'entrepreneurs pendant 48h avant le lancement.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn-save">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Sauvegarder dans Mes Idées
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Animate gauge
+  const scoreTarget = 72;
+  const gauge = document.querySelector('.gauge');
+  let current = 0;
+  const timer = setInterval(() => {
+    current = Math.min(current + 2, scoreTarget);
+    document.getElementById('scoreDisplay').textContent = current;
+    const pct = (current / 100) * 100;
+    const color = current >= 75 ? '#22c55e' : current >= 50 ? '#eab308' : '#ff6b6b';
+    gauge.style.background = `conic-gradient(${color} ${pct}%, #e4e4e7 0%)`;
+    document.querySelector('.gauge-score').style.color = color;
+    document.querySelector('.verdict-badge').style.background = current >= 75 ? 'rgba(34,197,94,.12)' : current >= 50 ? 'rgba(234,179,8,.12)' : 'rgba(239,68,68,.1)';
+    if (current >= scoreTarget) clearInterval(timer);
+  }, 20);
+</script>
+</body>
+</html>
