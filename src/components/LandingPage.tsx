@@ -673,23 +673,35 @@ function Marquee() {
 
 function Stats() {
   return (
-    <section className="mx-auto max-w-[1100px] px-6 py-20">
-      <div
-        className="mt-0 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-2xl border border-border"
-        style={{ background: "hsl(var(--border))", gap: "1px" }}
-      >
-        {stats.map(({ num, desc, sub }) => (
-          <div key={num} className="bg-background px-6 py-10 text-center">
-            <div
-              className="mb-2 leading-none text-foreground whitespace-nowrap"
-              style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-            >
-              {num}
+    <section className="bg-background">
+      {/* Stats grid */}
+      <div className="mx-auto max-w-[1100px] px-6 pt-20 pb-0">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-2xl border border-border"
+          style={{ background: "hsl(var(--border))", gap: "1px" }}
+        >
+          {stats.map(({ num, desc }) => (
+            <div key={num} className="bg-background px-6 py-10 text-center">
+              <div
+                className="mb-2 leading-none text-foreground whitespace-nowrap"
+                style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.04em" }}
+              >
+                {num}
+              </div>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
             </div>
-            <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
-            {sub && <p className="text-[12px] text-muted-foreground/50 mt-0.5 uppercase tracking-wide font-medium">{sub}</p>}
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+
+      {/* Bridge → Pain */}
+      <div
+        className="mt-10 w-full px-6 py-10 text-center"
+        style={{ background: "#09090b", borderRadius: "0 0 32px 32px" }}
+      >
+        <p className="mx-auto max-w-[560px] text-[15px] font-medium leading-relaxed text-white/50">
+          Pourtant, 9 builders sur 10 qui utilisent l'IA n'arrivent jamais à leur premier euro.
+        </p>
       </div>
     </section>
   )
@@ -702,24 +714,24 @@ function Stats() {
 
 function Pain() {
   return (
-    <section className="bg-muted py-20">
+    <section className="bg-background py-20">
       <div className="mx-auto max-w-[1100px] px-6">
       <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p>
       <h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
         Tout le monde te parle d'IA. Personne te dit comment en faire un vrai business.
       </h2>
-      <p className="max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-        Chaque semaine, un nouvel outil, un nouveau business model, une nouvelle façon de "monétiser l'IA". Oui, l'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ? Et surtout : comment en vivre vraiment ?
+      <p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
+        L'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ?
       </p>
 
       <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {pains.map(({ Icon, title, desc }) => (
-          <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-muted-foreground/40">
-            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-background">
-              <Icon className="h-[18px] w-[18px] text-foreground" strokeWidth={1.5} />
+          <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-white/20">
+            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-white/8" style={{ background: 'rgba(255,255,255,0.08)' }}>
+              <Icon className="h-[18px] w-[18px] text-white/70" strokeWidth={1.5} />
             </div>
-            <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-foreground">{title}</h3>
-            <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
+            <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{title}</h3>
+            <p className="text-[14px] leading-relaxed text-white/55">{desc}</p>
           </div>
         ))}
       </div>
