@@ -1319,6 +1319,59 @@ const systemCards = [
   },
 ]
 
+function MarketplaceMockup() {
+  const ideas = [
+    { name: "AI Invoice Generator", niche: "Comptabilité", score: 94, mrr: "197€/mois", flip: "4 200€" },
+    { name: "Reddit Lead Scraper",  niche: "Marketing",   score: 88, mrr: "97€/mois",  flip: "2 100€" },
+    { name: "Contract AI Writer",   niche: "Juridique",   score: 82, mrr: "147€/mois", flip: "3 500€" },
+    { name: "Pricing Optimizer",    niche: "SaaS",        score: 76, mrr: "67€/mois",  flip: "1 800€" },
+  ]
+  return (
+    <div className="mt-1 rounded-xl overflow-hidden" style={{ background: "#0d0d0f", border: "1px solid rgba(255,255,255,0.07)" }}>
+      {/* Browser chrome */}
+      <div className="flex items-center gap-1.5 px-3 py-2.5" style={{ background: "#131315", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div className="h-2 w-2 rounded-full" style={{ background: "#ef4444", opacity: 0.55 }} />
+        <div className="h-2 w-2 rounded-full" style={{ background: "#eab308", opacity: 0.55 }} />
+        <div className="h-2 w-2 rounded-full" style={{ background: "#22c55e", opacity: 0.55 }} />
+        <div className="ml-2 h-4 rounded-md flex items-center px-2" style={{ background: "rgba(255,255,255,0.04)", minWidth: 110 }}>
+          <span className="text-[9px] text-white/20 font-mono">app.buildrs.fr/marketplace</span>
+        </div>
+      </div>
+      {/* Column headers */}
+      <div className="grid px-4 py-2" style={{ gridTemplateColumns: "1fr 44px 68px", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/20">Idée SaaS</span>
+        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/20 text-center">Score</span>
+        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/20 text-right">MRR est.</span>
+      </div>
+      {/* Rows */}
+      {ideas.map(({ name, niche, score, mrr }, i) => (
+        <div
+          key={i}
+          className="grid items-center px-4 py-2.5"
+          style={{ gridTemplateColumns: "1fr 44px 68px", borderBottom: i < ideas.length - 1 ? "1px solid rgba(255,255,255,0.03)" : "none" }}
+        >
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold text-white/80 leading-none mb-[3px] truncate">{name}</p>
+            <p className="text-[9px] text-white/25">{niche}</p>
+          </div>
+          <div className="flex justify-center">
+            <span
+              className="text-[10px] font-bold px-1.5 py-0.5 rounded-md tabular-nums"
+              style={{
+                background: score >= 90 ? "rgba(34,197,94,0.14)" : score >= 80 ? "rgba(77,150,255,0.12)" : "rgba(255,255,255,0.06)",
+                color: score >= 90 ? "#22c55e" : score >= 80 ? "#4d96ff" : "rgba(255,255,255,0.4)",
+              }}
+            >
+              {score}
+            </span>
+          </div>
+          <p className="text-[10px] font-semibold text-white/45 text-right tabular-nums">{mrr}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function WhatYouGet() {
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
@@ -1375,6 +1428,9 @@ function WhatYouGet() {
                   </li>
                 ))}
               </ul>
+
+              {/* Marketplace mockup */}
+              {id === "marketplace" && <MarketplaceMockup />}
 
               {/* Data sources (Marketplace card only) */}
               {sources && (
