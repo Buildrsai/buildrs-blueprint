@@ -602,17 +602,11 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* H1 */}
           <h1
-            className="mb-5 text-foreground mx-auto max-w-[900px]"
+            className="mb-7 text-foreground mx-auto max-w-[900px]"
             style={{ fontSize: "clamp(28px, 3.2vw, 46px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
           >
-            Le Système Exact Pour Créer &amp; Monétiser Ton SaaS IA Et Générer Tes Premiers Revenus En Ligne.
+            Le système exact pour créer et monétiser ton premier SaaS IA en 6 jours.
           </h1>
-
-          {/* "En 6 jours" badge */}
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5">
-            <Zap size={12} strokeWidth={1.5} className="text-foreground" />
-            <span className="text-[13px] font-semibold text-foreground">En 6 jours.</span>
-          </div>
 
           {/* Sub */}
           <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
