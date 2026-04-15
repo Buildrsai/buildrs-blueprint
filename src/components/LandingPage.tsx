@@ -1004,7 +1004,7 @@ function Symbiose() {
             style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-foreground"
           >
-            Claude est ton bras armé. Buildrs est ton cerveau augmenté.
+            Claude est ton bras armé.<br />Buildrs est ton cerveau augmenté.
           </h2>
           <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
             Seul avec Claude, t'as le moteur. Avec Buildrs, t'as le GPS, le carburant et le mécanicien. L'un ne va pas sans l'autre.
