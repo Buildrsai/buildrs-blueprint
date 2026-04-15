@@ -845,8 +845,8 @@ function SaasVehicle() {
         {/* Two columns */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-          {/* Left — Orbital (caché sur mobile) */}
-          <div className="hidden lg:block">
+          {/* Left — Orbital */}
+          <div className="flex justify-center">
             <OrbitalStack />
           </div>
 
