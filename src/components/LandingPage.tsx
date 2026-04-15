@@ -1361,19 +1361,19 @@ function DashScreenshot({ src, alt }: { src: string; alt: string }) {
 }
 
 function MarketplaceMockup() {
-  return <DashScreenshot src="/dash-marketplace.png" alt="Marketplace Buildrs" />
+  return <DashScreenshot src="/dash-marketplace.webp" alt="Marketplace Buildrs" />
 }
 
 function ValidatorMockup() {
-  return <DashScreenshot src="/Dash-Valider.png" alt="Valider mon idée Buildrs" />
+  return <DashScreenshot src="/Dash-Valider.webp" alt="Valider mon idée Buildrs" />
 }
 
 function CockpitMockup() {
-  return <DashScreenshot src="/Dash-Accueil.png" alt="Cockpit Buildrs" />
+  return <DashScreenshot src="/Dash-Accueil.webp" alt="Cockpit Buildrs" />
 }
 
 function ToolsMockup() {
-  return <DashScreenshot src="/dash-community.png" alt="Communauté Buildrs" />
+  return <DashScreenshot src="/dash-community.webp" alt="Communauté Buildrs" />
 }
 
 function WhatYouGet() {
