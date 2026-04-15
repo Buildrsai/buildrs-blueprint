@@ -862,7 +862,6 @@ function SaasVehicle() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="text-[14px] font-bold leading-snug text-foreground">{title}</h3>
-                  <p className="text-[11px] font-bold tabular-nums text-muted-foreground">{stat}</p>
                   <p className="text-[12px] leading-relaxed text-muted-foreground">{description}</p>
                 </div>
               </div>
