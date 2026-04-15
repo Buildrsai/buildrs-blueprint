@@ -1278,7 +1278,7 @@ const systemCards = [
     color: "#cc5de8",
     bg: "rgba(204,93,232,0.08)",
     border: "rgba(204,93,232,0.20)",
-    title: "Générateur + Validateur",
+    title: "Générateur d'idées de SaaS",
     desc: "Tu as une idée ? Le validateur te dit si elle est rentable avant que tu codes une ligne. Basé sur des problèmes réels récupérés de Reddit, des SaaS qui marchent sur PH, des exits récents sur Flippa.",
     details: [
       "Score de viabilité sur 100",
@@ -1338,7 +1338,7 @@ function MarketplaceMockup() {
 }
 
 function ValidatorMockup() {
-  return <DashScreenshot src="/dash-validator.png" alt="Validateur d'idée Buildrs" />
+  return <DashScreenshot src="/dash-generator.png" alt="Générateur d'idées Buildrs" />
 }
 
 function CockpitMockup() {
@@ -1346,7 +1346,7 @@ function CockpitMockup() {
 }
 
 function ToolsMockup() {
-  return <DashScreenshot src="/dash-tools.png" alt="Boîte à outils Buildrs" />
+  return <DashScreenshot src="/dash-community.png" alt="Communauté Buildrs" />
 }
 
 function WhatYouGet() {
@@ -1433,17 +1433,6 @@ function WhatYouGet() {
           ))}
         </div>
 
-        {/* Dashboard mockup — visual proof */}
-        <div className="flex flex-col items-center gap-3 mb-5">
-          <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/30" style={{ border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.03)" }}>
-            Aperçu du cockpit
-          </span>
-          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" className="text-white/20">
-            <path d="M7 0v15M1 9l6 8 6-8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-
-        <HeroDashboardMockup />
 
       </div>
     </section>
