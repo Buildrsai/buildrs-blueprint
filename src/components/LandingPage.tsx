@@ -1369,7 +1369,7 @@ function ValidatorMockup() {
 }
 
 function CockpitMockup() {
-  return <DashScreenshot src="/dash-cockpit.png" alt="Cockpit Buildrs" />
+  return <DashScreenshot src="/Dash-Accueil.png" alt="Cockpit Buildrs" />
 }
 
 function ToolsMockup() {
