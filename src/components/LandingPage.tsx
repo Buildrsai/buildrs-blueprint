@@ -69,17 +69,22 @@ const pains = [
   {
     Icon: Layers,
     title: "10 000 outils IA. Zéro direction.",
-    desc: "GPT, Claude, Bolt, Cursor... Un nouvel outil tous les deux jours. Tu testes, tu notes des idées. Mais tu n'as toujours rien lancé.",
+    desc: "Un nouvel outil tous les deux jours. Tu testes, tu notes. Tu n'as toujours rien lancé.",
   },
   {
     Icon: Bot,
     title: "L'IA peut tout construire. Mais quoi ?",
-    desc: "Claude est exceptionnel. Mais sans savoir quel problème résoudre, pour quelle niche — tu génères du code parfait pour le mauvais projet.",
+    desc: "Claude est exceptionnel. Sans direction, tu génères du code parfait pour le mauvais projet.",
   },
   {
     Icon: TrendingUp,
     title: "Tu construis. Tu sais pas comment en vivre.",
-    desc: "Abonnement ou paiement unique ? Quel prix ? Comment atteindre 1 000€/mois ? La monétisation, c'est ce qui sépare un side-project d'un vrai business.",
+    desc: "Quel prix ? Quel modèle ? Comment atteindre 1 000€/mois ? La monétisation est le vrai problème.",
+  },
+  {
+    Icon: Globe,
+    title: "Un produit live que personne ne connaît.",
+    desc: "Un produit parfait que personne n'achète. Le SaaS sans marketing, c'est un magasin sans enseigne.",
   },
 ]
 
@@ -642,12 +647,8 @@ function Marquee() {
   return (
     <section className="overflow-hidden border-y border-border bg-background py-10">
       <div className="mb-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 px-6 sm:px-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/60">
-          Stack technique
-        </p>
-        <span className="hidden sm:block text-border">·</span>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/35">
-          Sources d'intelligence (PH · Reddit · Flippa · IH)
+        <p className="text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/50">
+          Créé avec les meilleurs outils (donc tu n'as pas à les choisir)
         </p>
       </div>
       <div className="overflow-hidden">
@@ -711,7 +712,7 @@ function Pain() {
         Chaque semaine, un nouvel outil, un nouveau business model, une nouvelle façon de "monétiser l'IA". Oui, l'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ? Et surtout : comment en vivre vraiment ?
       </p>
 
-      <div className="mt-11 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+      <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {pains.map(({ Icon, title, desc }) => (
           <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-muted-foreground/40">
             <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-background">
@@ -973,23 +974,20 @@ function SavingsChoc() {
 const claudeCapabilities = [
   "Génère du code propre en quelques secondes",
   "Lit, modifie et organise tes fichiers directement",
-  "Déploie ton app, exécute les tests",
   "Construit n'importe quelle feature que tu décris",
 ]
 
 const claudeMissing = [
   "Ne sait pas quelle idée est rentable sur le marché",
   "N'a pas les prompts optimisés pour créer un SaaS",
-  "Ne connaît pas ta stack validée ni les erreurs à éviter",
   "Ne te dit pas si ton projet se vendra ou se revendera",
 ]
 
 const buildrsAdds = [
-  "Marketplace d'idées analysées sur données réelles (PH, Reddit, Flippa)",
-  "Validateur — ce qui se vend et ce qui se revend à 5 chiffres",
-  "50+ prompts prêts à copier-coller à chaque étape",
-  "Stack configurée, sécurisée, documentée pas à pas",
-  "Agents spécialisés qui remplacent des semaines de recherche",
+  "Marketplace d'idées — données réelles (PH, Reddit, Flippa)",
+  "Validateur — score de viabilité, MRR potentiel, scénario de revente",
+  "50+ prompts testés, copiables en un clic à chaque étape",
+  "Agents IA spécialisés — génération, validation, architecture, déploiement",
 ]
 
 function Symbiose() {
@@ -1962,9 +1960,11 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Hero onCTA={go} />
         <Marquee />
         <Pain />
+        <SavingsChoc />
+        <Symbiose />
+        <SaasVehicle />
         <WhatYouGet />
         <Sprint />
-        <SavingsChoc />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
