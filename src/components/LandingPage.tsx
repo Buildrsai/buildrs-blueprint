@@ -1050,10 +1050,10 @@ const claudeMissing = [
 ]
 
 const buildrsAdds = [
-  "Marketplace d'idées — données réelles (PH, Reddit, Flippa)",
-  "Validateur — score de viabilité, MRR potentiel, scénario de revente",
-  "50+ prompts testés, copiables en un clic à chaque étape",
-  "Agents IA spécialisés — génération, validation, architecture, déploiement",
+  "Marketplace d'idées + validateur — score de viabilité sur 100",
+  "Générateur de SaaS IA selon les tendances marché actuelles",
+  "Match SaaS — le projet qui te correspond selon ton profil",
+  "Système complet + bibliothèque de prompts pour Claude",
 ]
 
 function Symbiose() {
@@ -1123,7 +1123,7 @@ function Symbiose() {
               <span className="text-[14px] font-bold text-background">Buildrs + Claude</span>
             </div>
 
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-background/50">
               Ce qu'on apporte en plus
             </p>
             <ul className="flex flex-col gap-3">
