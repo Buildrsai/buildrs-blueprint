@@ -609,11 +609,6 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         }}
       />
 
-      <div
-        className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
-        style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.08) 0%, transparent 65%)" }}
-      />
-
       <div className="relative mx-auto max-w-[700px] w-full flex flex-col items-center text-center">
 
           {/* Badge */}
