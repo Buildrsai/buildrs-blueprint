@@ -1313,14 +1313,13 @@ function WhatYouGet() {
             Ce que tu vas recevoir
           </p>
           <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
-            Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
+            Pas un PDF. Pas une vidéo. Un système complet piloté par l'IA.
           </h2>
-          <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-white/45">
-            Trouve ton idée. Valide-la. Construis-la. Monétise-la.<br />
-            Buildrs + Claude — tout dans un seul cockpit.
+          <p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
+            Trouve ton idée. Valide-la. Construis-la. Monétise-la. Buildrs + Claude — tout dans un seul cockpit.
           </p>
         </div>
 
@@ -1467,8 +1466,8 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
     <section id="tarif" className="bg-muted py-24 text-center">
       <div className="mx-auto max-w-[1100px] px-6">
         <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p>
-        <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-4 text-foreground">
-          Tout ce qu'il te faut pour lancer<br />ton produit avec l'IA.
+        <h2 style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+          Tout ce qu'il te faut pour lancer ton produit avec l'IA.
         </h2>
         <p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
           Un seul paiement. Accès à vie. Zéro risque.
