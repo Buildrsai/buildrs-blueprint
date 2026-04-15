@@ -1959,6 +1959,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
       <main>
         <Hero onCTA={go} />
         <Marquee />
+        <Stats />
         <Pain />
         <SavingsChoc />
         <Symbiose />
