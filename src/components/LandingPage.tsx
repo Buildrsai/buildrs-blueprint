@@ -2047,8 +2047,8 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Pain />
         <SavingsChoc />
         <Symbiose />
-        <WhatYouGet />
         <Sprint />
+        <WhatYouGet />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
