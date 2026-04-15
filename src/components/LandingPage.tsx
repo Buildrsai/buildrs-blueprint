@@ -99,9 +99,9 @@ const pains = [
     desc: "Quel prix ? Quel modèle ? Comment atteindre 1 000€/mois ? La monétisation est le vrai problème.",
   },
   {
-    Icon: Globe,
-    title: "Un produit live que personne ne connaît.",
-    desc: "Un produit parfait que personne n'achète. Le SaaS sans marketing, c'est un magasin sans enseigne.",
+    Icon: Shield,
+    title: "Auth, paiements, BDD — et t'as même pas commencé.",
+    desc: "Configurer Supabase, brancher Stripe, sécuriser la base. La complexité technique tue les projets avant le premier commit.",
   },
 ]
 
@@ -617,7 +617,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             className="mb-7 text-foreground mx-auto max-w-[860px]"
             style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
           >
-            Le Système Exact Pour Créer Et Monétiser Ton Premier SaaS IA En 6 Jours.
+            Le système exact pour créer et monétiser ton premier SaaS IA en 6 jours.
           </h1>
 
           {/* Sub */}
@@ -630,10 +630,20 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           <TypingIdea />
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-3">
             <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
               Accéder au Blueprint — 27€ →
             </a>
+          </div>
+
+          {/* Trust pills */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-5">
+            {["Paiement unique", "Accès à vie", "Créer autant que tu veux"].map((item) => (
+              <span key={item} className="flex items-center gap-1.5 text-[12px] text-muted-foreground/60">
+                <Check size={11} strokeWidth={2.5} className="shrink-0 text-foreground/40" />
+                {item}
+              </span>
+            ))}
           </div>
 
           {/* Social proof avatars */}
@@ -1387,8 +1397,8 @@ function WhatYouGet() {
           ))}
         </div>
 
-        {/* Dashboard mockup — visual proof (desktop only) */}
-        <div className="hidden sm:flex flex-col items-center gap-3 mb-5">
+        {/* Dashboard mockup — visual proof */}
+        <div className="flex flex-col items-center gap-3 mb-5">
           <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/30" style={{ border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.03)" }}>
             Aperçu du cockpit
           </span>
@@ -1397,9 +1407,7 @@ function WhatYouGet() {
           </svg>
         </div>
 
-        <div className="hidden sm:block">
-          <HeroDashboardMockup />
-        </div>
+        <HeroDashboardMockup />
 
       </div>
     </section>
@@ -1539,9 +1547,12 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             >
               Accéder au Blueprint — 27€ →
             </a>
-            <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
-              Satisfait ou remboursé 30 jours · zéro condition.
-            </p>
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-4 py-3">
+              <Shield size={14} strokeWidth={1.5} className="shrink-0 text-foreground/60" />
+              <p className="text-[13px] font-medium text-muted-foreground">
+                <span className="font-semibold text-foreground">Satisfait ou remboursé — 30 jours.</span> Sans condition. Sans question.
+              </p>
+            </div>
             <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
               Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
             </p>
@@ -2032,10 +2043,10 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Hero onCTA={go} />
         <Marquee />
         <Stats />
+        <SaasVehicle />
         <Pain />
         <SavingsChoc />
         <Symbiose />
-        <SaasVehicle />
         <WhatYouGet />
         <Sprint />
         <UniqueTestimonialSection />
