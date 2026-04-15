@@ -1365,7 +1365,7 @@ function MarketplaceMockup() {
 }
 
 function ValidatorMockup() {
-  return <DashScreenshot src="/dash-generator.png" alt="Générateur d'idées Buildrs" />
+  return <DashScreenshot src="/dash-validator.png" alt="Valider mon idée Buildrs" />
 }
 
 function CockpitMockup() {
