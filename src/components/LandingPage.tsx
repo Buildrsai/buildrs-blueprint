@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2 } from "lucide-react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard } from "lucide-react"
 import { motion } from "framer-motion"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
@@ -60,9 +60,9 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
 ]
 
 const stats = [
-  { target: 80,  prefix: "+", suffix: "h",  desc: "économisées en apprenant à construire ton SaaS — de l'auth au paiement" },
+  { target: 400, prefix: "+", suffix: "h",  desc: "économisées — de zéro à ton premier SaaS en ligne et monétisé" },
   { target: 500, prefix: "",  suffix: "€",  desc: "d'outils inutiles évités grâce à la stack validée dès le départ" },
-  { target: 6,   prefix: "",  suffix: "j",  desc: "pour être en ligne, paiements branchés et premiers utilisateurs" },
+  { target: 6,   prefix: "",  suffix: "j",  desc: "pour être en ligne, paiements branchés et premiers revenus" },
 ]
 
 function useCountUp(target: number, duration: number, trigger: boolean) {
@@ -880,18 +880,46 @@ function SaasVehicle() {
 
 const savingsRows = [
   {
-    label: "Trouver une idée de SaaS rentable",
+    label: "Trouver une idée SaaS rentable",
     Icon: Search,
-    alone: "40–80h",
+    alone: "80h",
     withUs: "30 min",
-    badge: "Marketplace Buildrs",
+    badge: "Marketplace incluse",
   },
   {
-    label: "Budget outils testés et abandonnés",
+    label: "Design & interface front-end",
+    Icon: Layers,
+    alone: "120h",
+    withUs: "inclus",
+    badge: "Templates prêts",
+  },
+  {
+    label: "Dashboard utilisateur complet",
+    Icon: LayoutDashboard,
+    alone: "60h",
+    withUs: "inclus",
+    badge: "Modules Blueprint",
+  },
+  {
+    label: "Authentification & onboarding",
+    Icon: Users,
+    alone: "40h",
+    withUs: "1 prompt",
+    badge: "Supabase Auth",
+  },
+  {
+    label: "Base de données & sécurité",
+    Icon: Database,
+    alone: "50h + failles",
+    withUs: "configurée",
+    badge: "RLS + schéma prêts",
+  },
+  {
+    label: "Paiements Stripe",
     Icon: Banknote,
-    alone: "300–500€",
-    withUs: "0€",
-    badge: "Stack validée d'emblée",
+    alone: "15h",
+    withUs: "15 min",
+    badge: "Checkout + webhooks",
   },
   {
     label: "Délai avant d'être en ligne",
@@ -901,39 +929,18 @@ const savingsRows = [
     badge: "Sprint Blueprint",
   },
   {
-    label: "Prompts à rédiger et tester",
-    Icon: Copy,
-    alone: "500+ à trouver",
-    withUs: "50+ prêts",
-    badge: "Bibliothèque incluse",
+    label: "Budget outils testés puis abandonnés",
+    Icon: Receipt,
+    alone: "300–500€",
+    withUs: "0€",
+    badge: "Stack validée",
   },
   {
-    label: "Bugs de sécurité et erreurs critiques",
+    label: "Bugs critiques & erreurs bloquantes",
     Icon: Shield,
-    alone: "Inévitables",
-    withUs: "Zéro surprise",
-    badge: "Stack testée 35× SaaS",
-  },
-  {
-    label: "Authentification utilisateurs",
-    Icon: Users,
-    alone: "2–3 jours",
-    withUs: "1 prompt",
-    badge: "Supabase Auth inclus",
-  },
-  {
-    label: "Base de données + sécurité RLS",
-    Icon: Database,
-    alone: "Failles critiques",
-    withUs: "Configurée",
-    badge: "Schéma + RLS prêts",
-  },
-  {
-    label: "Paiements Stripe complets",
-    Icon: Banknote,
-    alone: "10–15h",
-    withUs: "15 min",
-    badge: "Checkout + webhooks",
+    alone: "inévitables",
+    withUs: "zéro surprise",
+    badge: "35+ SaaS testés",
   },
 ]
 
