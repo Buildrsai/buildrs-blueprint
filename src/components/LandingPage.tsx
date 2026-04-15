@@ -913,6 +913,27 @@ const savingsRows = [
     withUs: "Zéro surprise",
     badge: "Stack testée 35× SaaS",
   },
+  {
+    label: "Authentification utilisateurs",
+    Icon: Users,
+    alone: "2–3 jours",
+    withUs: "1 prompt",
+    badge: "Supabase Auth inclus",
+  },
+  {
+    label: "Base de données + sécurité RLS",
+    Icon: Database,
+    alone: "Failles critiques",
+    withUs: "Configurée",
+    badge: "Schéma + RLS prêts",
+  },
+  {
+    label: "Paiements Stripe complets",
+    Icon: Banknote,
+    alone: "10–15h",
+    withUs: "15 min",
+    badge: "Checkout + webhooks",
+  },
 ]
 
 function SavingsChoc() {
