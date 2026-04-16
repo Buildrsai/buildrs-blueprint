@@ -316,22 +316,23 @@ function TypingIdea() {
 
   return (
     <div
-      className="mb-8 flex items-center justify-between gap-3 rounded-2xl px-5 py-4"
+      className="mb-8 flex items-center justify-between gap-3 rounded-2xl px-5"
       style={{
-        width: '100%',
-        maxWidth: 480,
+        width: 'min(480px, calc(100vw - 48px))',
+        height: 72,
+        flexShrink: 0,
         overflow: 'hidden',
         background: '#111113',
         border: '1px solid rgba(255,255,255,0.10)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
       }}
     >
-      <div className="flex flex-col min-w-0 flex-1">
+      <div className="flex flex-col justify-center" style={{ flex: '1 1 0', minWidth: 0, overflow: 'hidden' }}>
         <span className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
           Ton idée :
         </span>
-        <div className="flex items-center gap-1 overflow-hidden" style={{ minHeight: '21px' }}>
-          <span className="text-[14px] font-medium text-white/80 truncate" style={{ maxWidth: '100%' }}>{text}</span>
+        <div className="flex items-center gap-1" style={{ height: 21, overflow: 'hidden' }}>
+          <span className="text-[14px] font-medium text-white/80" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', maxWidth: '100%' }}>{text}</span>
           <span
             className="text-white/70 font-light text-[15px] leading-none shrink-0"
             style={{ animation: 'cursor-blink 0.9s step-end infinite' }}
