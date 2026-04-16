@@ -1334,7 +1334,7 @@ const dashTabs = [
       "Exercices pratiques à chaque étape",
       "Progression débloquée automatiquement",
     ],
-    img: "/Dash-parcours.png",
+    img: "/dash-parcours.jpg",
     color: "#4d96ff",
   },
   {
@@ -1390,7 +1390,7 @@ const dashTabs = [
       "Templates prêts à copier-coller",
       "Mises à jour permanentes sur Claude",
     ],
-    img: "/dash-outils.png",
+    img: "/dash-outils.jpg",
     color: "#f97316",
   },
 ]
@@ -1487,15 +1487,15 @@ function WhatYouGet() {
 
               {/* Right — screenshot */}
               <div
-                className="relative overflow-hidden"
-                style={{ borderLeft: "1px solid rgba(255,255,255,0.06)" }}
+                className="relative overflow-hidden flex items-center justify-center"
+                style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", minHeight: 220 }}
               >
                 <img
                   src={tab.img}
                   alt={tab.title}
                   loading="lazy"
-                  className="w-full h-full object-cover object-top"
-                  style={{ minHeight: 260, maxHeight: 420 }}
+                  className="w-full object-contain object-top lg:h-full lg:object-cover"
+                  style={{ maxHeight: 380 }}
                 />
               </div>
             </motion.div>
