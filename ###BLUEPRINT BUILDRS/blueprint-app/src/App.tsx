@@ -22,6 +22,9 @@ const AdFullscreenD   = lazy(() => import('./components/ads/AdsPreviewPage').the
 const AdFullscreenE   = lazy(() => import('./components/ads/AdsPreviewPage').then(m => ({ default: m.AdFullscreenE })))
 
 // ── Instagram posts ──────────────────────────────────────────────────────────
+const SaasMatchPage        = lazy(() => import('./components/saas-match/SaasMatchPage').then(m => ({ default: m.SaasMatchPage })))
+const SaasMatchResultsPage = lazy(() => import('./components/saas-match/SaasMatchResultsPage').then(m => ({ default: m.SaasMatchResultsPage })))
+
 const PlombIAProposalPage = lazy(() => import('./components/PlombIAProposalPage').then(m => ({ default: m.PlombIAProposalPage })))
 const BuildrsGroupPage    = lazy(() => import('./components/BuildrsGroupPage').then(m => ({ default: m.BuildrsGroupPage })))
 const InstaPreviewPage = lazy(() => import('./components/instagram/InstaPreviewPage').then(m => ({ default: m.InstaPreviewPage })))
@@ -207,6 +210,8 @@ interface ParsedRoute {
     | 'insta-p3s1' | 'insta-p3s2' | 'insta-p3s3' | 'insta-p3s4'
     | 'plombia-proposal'
     | 'group'
+    | 'saas-match'
+    | 'saas-match-results'
   moduleId?: string   // also used as productSlug for 'produit'/'brick'
   lessonId?: string   // also used as brickId for 'brick'
 }
@@ -216,6 +221,8 @@ function parseHash(hash: string): ParsedRoute {
   if (!h || h === 'landing' || h === '/') return { type: 'landing' }
   if (h === 'plombia') return { type: 'plombia-proposal' }
   if (h === 'group')   return { type: 'group' }
+  if (h === 'saas-match') return { type: 'saas-match' }
+  if (h === 'saas-match-results') return { type: 'saas-match-results' }
   if (h === 'claude') return { type: 'claude-landing' }
   if (h === 'legal/mentions') return { type: 'legal-mentions' }
   if (h === 'legal/cgv') return { type: 'legal-cgv' }
@@ -571,6 +578,24 @@ function App() {
           onToggleDark={handleToggleDark}
           onSignOut={signOut}
         />
+      </Suspense>
+    )
+  }
+
+  // ── SaaS Match funnel (public) ───────────────────────────────────────────────
+  if (route.type === 'saas-match') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <SaasMatchPage
+          onResults={(_results, _answers) => navigate('#/saas-match-results')}
+        />
+      </Suspense>
+    )
+  }
+  if (route.type === 'saas-match-results') {
+    return (
+      <Suspense fallback={SpinnerFallback}>
+        <SaasMatchResultsPage navigate={navigate} />
       </Suspense>
     )
   }
