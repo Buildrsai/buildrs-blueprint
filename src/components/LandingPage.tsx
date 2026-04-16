@@ -790,6 +790,78 @@ function Pain() {
   )
 }
 
+// ─── WHY NOW ──────────────────────────────────────────────────────────────────
+
+function WhyNow() {
+  return (
+    <section className="bg-background py-16 sm:py-24">
+      <div className="mx-auto max-w-[1100px] px-6 text-center">
+
+        <Reveal>
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+            Pourquoi maintenant
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}
+            className="mb-5 text-foreground"
+          >
+            Il y a 1 an, créer un SaaS demandait 6 mois et 10 000€.<br />
+            Aujourd'hui : 6 jours et 27€.
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.14}>
+          <p className="mx-auto max-w-[600px] text-[16px] leading-[1.65] text-muted-foreground">
+            Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction.<br />
+            Tu décris ce que tu veux — l'IA construit. Bienvenue en 2026.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.22}>
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+
+            <div className="rounded-2xl border border-border bg-[#09090b] px-6 py-10">
+              <div
+                className="mb-2 text-foreground"
+                style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+              >
+                0 ligne de code
+              </div>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">Tu décris, l'IA construit</p>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-[#09090b] px-6 py-10">
+              <div
+                className="mb-2 text-foreground"
+                style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+              >
+                100% solo
+              </div>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">Aucune équipe nécessaire</p>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-[#09090b] px-6 py-10">
+              <div
+                className="mb-2 text-foreground"
+                style={{ fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+              >
+                27€
+              </div>
+              <p className="text-[14px] leading-relaxed text-muted-foreground">pour tout démarrer</p>
+              <p className="mt-1 text-[12px] text-muted-foreground/50">Paiement unique, accès à vie</p>
+            </div>
+
+          </div>
+        </Reveal>
+
+      </div>
+    </section>
+  )
+}
+
 // ─── SAAS VEHICLE ─────────────────────────────────────────────────────────────
 
 const saasCardItems = [
@@ -2150,6 +2222,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Marquee />
         <Stats />
         <Pain />
+        <WhyNow />
         <SaasVehicle />
         <Symbiose />
         <Sprint />
