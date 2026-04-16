@@ -624,7 +624,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           {/* Badge */}
           <Reveal>
             <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-              <span>⚡ Rejoins les 80+ builders qui ont déjà lancé</span>
+              <span>⚡ Rejoins les 140+ builders qui ont déjà lancé</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </Reveal>
@@ -679,13 +679,32 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Bullets */}
           <Reveal delay={0.42}>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
               {["Sans expertise en IA", "Débutant ou confirmé"].map((item) => (
                 <span key={item} className="flex items-center gap-1.5 text-[13px] text-muted-foreground/70">
                   <Check size={13} strokeWidth={2.5} className="shrink-0 text-foreground/50" />
                   {item}
                 </span>
               ))}
+            </div>
+          </Reveal>
+
+          {/* Social proof avatars */}
+          <Reveal delay={0.48}>
+            <div className="inline-flex items-center rounded-full border border-border bg-background px-3 py-1.5" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.35)' }}>
+              <div className="flex -space-x-1.5">
+                {["/F2.webp", "/F4.webp", "/F5.webp", "/F6.webp"].map((src, i) => (
+                  <img
+                    key={i}
+                    src={src}
+                    alt=""
+                    style={{ width: 30, height: 30, minWidth: 30, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, outline: '2px solid hsl(var(--background))' }}
+                  />
+                ))}
+              </div>
+              <p className="pl-2.5 pr-1 text-[12px] text-muted-foreground">
+                <strong className="font-semibold text-foreground">140+</strong> builders ont déjà lancé
+              </p>
             </div>
           </Reveal>
 
