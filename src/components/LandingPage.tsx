@@ -100,23 +100,33 @@ function useCountUp(target: number, duration: number, trigger: boolean) {
 const pains = [
   {
     Icon: Layers,
-    title: "10 000 outils IA. Zéro direction.",
-    desc: "Un nouvel outil tous les deux jours. Tu testes, tu notes. Tu n'as toujours rien lancé.",
+    title: "Un nouvel outil par jour. Zéro action.",
+    desc: "Des prompts magiques, des outils révolutionnaires, des influenceurs qui font 10k€/mois. Résultat : tu consommes, tu ne construis pas.",
   },
   {
     Icon: Bot,
-    title: "L'IA peut tout construire. Mais quoi ?",
-    desc: "Claude est exceptionnel. Sans direction, tu génères du code parfait pour le mauvais projet.",
+    title: "L'IA peut tout coder. Mais quoi ?",
+    desc: "Claude est exceptionnel. Sans idée claire, sans projet qui résout un vrai problème, tu génères du code parfait pour rien.",
   },
   {
-    Icon: TrendingUp,
-    title: "Tu construis. Tu sais pas comment en vivre.",
-    desc: "Quel prix ? Quel modèle ? Comment atteindre 1 000€/mois ? La monétisation est le vrai problème.",
+    Icon: Lightbulb,
+    title: "Tu ne sais pas par où commencer. Ni par quoi.",
+    desc: "Quel produit ? Quel marché ? Quelle stack ? Chaque décision bloque la suivante. Et pendant ce temps, tu attends.",
+  },
+  {
+    Icon: Flame,
+    title: "Tu regardes les autres lancer. Et toi, t'attends.",
+    desc: "Sur LinkedIn, X, partout — des gens sortent leur produit chaque semaine avec Claude. Toi tu doutes encore du bon moment.",
+  },
+  {
+    Icon: Banknote,
+    title: "Tu crois qu'il faut du budget. Il n'en faut pas.",
+    desc: "20€/mois d'abonnement Claude. Les meilleurs outils démarrent gratuitement. Tes premiers revenus couvrent tout le reste.",
   },
   {
     Icon: Shield,
-    title: "Auth, paiements, BDD — et t'as même pas commencé.",
-    desc: "Configurer Supabase, brancher Stripe, sécuriser la base. La complexité technique tue les projets avant le premier commit.",
+    title: "Et si ça ne marche pas pour moi ?",
+    desc: "La peur de l'échec paralyse plus que l'échec lui-même. Ici, tu suis un système éprouvé — pas une intuition à l'aveugle.",
   },
 ]
 
@@ -813,7 +823,7 @@ function Pain() {
 
       {/* Transition phrase */}
       <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-        L'IA est le levier. Claude est le bras armé. Le SaaS IA est le véhicule. Buildrs, c'est le système pour fusionner tout ça.
+        L'IA est le levier. Claude est le bras armé. Le SaaS IA est le véhicule. Buildrs, c'est le système opérationnel qui répond à ces douleurs — et te fait passer de l'intention à l'action.
       </p>
       </Reveal>
       </div>
