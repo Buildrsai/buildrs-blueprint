@@ -25,38 +25,6 @@ function Reveal({ children, delay = 0, className }: { children: React.ReactNode;
   )
 }
 
-// ── Countdown to launch end ───────────────────────────────────────────────────
-const LAUNCH_END = new Date('2026-04-18T23:59:59')
-
-function useCountdown(target: Date) {
-  const get = (t: Date) => {
-    const diff = Math.max(0, t.getTime() - Date.now())
-    return {
-      d: Math.floor(diff / 86400000),
-      h: Math.floor((diff % 86400000) / 3600000),
-      m: Math.floor((diff % 3600000) / 60000),
-      s: Math.floor((diff % 60000) / 1000),
-    }
-  }
-  const [t, setT] = useState(() => get(target))
-  useEffect(() => {
-    const id = setInterval(() => setT(get(target)), 1000)
-    return () => clearInterval(id)
-  }, [target])
-  return t
-}
-
-function ScarcityCountdown({ className }: { className?: string }) {
-  const { d, h, m, s } = useCountdown(LAUNCH_END)
-  return (
-    <span className={className}>
-      <span className="hidden sm:inline">Offre de lancement — se termine dans </span>
-      <span className="sm:hidden">Fin dans </span>
-      <span className="font-bold tabular-nums">{d}j {h}h {m}m {String(s).padStart(2, '0')}s</span>
-    </span>
-  )
-}
-
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
 const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
@@ -195,31 +163,6 @@ const features: { title: string; desc: string }[] = [
   { title: 'Accès à vie + mises à jour', desc: "Les nouvelles fonctionnalités Claude, les nouveaux prompts, les nouvelles ressources — automatiquement." },
   { title: 'Canal WhatsApp Buildrs', desc: "Accès au canal privé pour ne jamais être seul. Les builders qui réussissent s'entraident." },
 ]
-
-// ─── ANNOUNCEMENT BAR ────────────────────────────────────────────────────────
-
-function AnnouncementBar({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
-  return (
-    <div
-      className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center gap-2 px-4"
-      style={{
-        height: 34,
-        background: "hsl(var(--foreground))",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
-      }}
-    >
-      <Flame size={12} strokeWidth={1.5} className="shrink-0 text-background/60" />
-      <a
-        href="#tarif"
-        onClick={onCTA}
-        className="text-[12px] font-medium text-background/80 no-underline hover:text-background transition-colors"
-      >
-        <ScarcityCountdown />
-      </a>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-background/40"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </div>
-  )
-}
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
 
@@ -607,7 +550,7 @@ function StarField() {
 
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
-    <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[154px] sm:pt-[174px]">
+    <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
 
       {/* Moon glow — top right */}
       <div
@@ -2178,7 +2121,6 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
   const go = (e: React.MouseEvent) => { e.preventDefault(); onCTAClick?.() }
   return (
     <>
-      <AnnouncementBar onCTA={go} />
       <Nav onCTA={go} />
       <main>
         <Hero onCTA={go} />
