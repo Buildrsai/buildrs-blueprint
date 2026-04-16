@@ -151,7 +151,7 @@ const faqs = [
 ]
 
 const features: { title: string; desc: string }[] = [
-  { title: 'Le système en 4 phases', desc: "De l'idée au SaaS IA monétisé — checklist interactive, progression en temps réel." },
+  { title: 'Le système en 7 modules', desc: "De l'idée au SaaS IA monétisé — checklist interactive, progression en temps réel." },
   { title: 'Marketplace d\'idées', desc: "Des centaines d'idées analysées par nos agents sur PH, Reddit, Flippa, IH. De la vraie data, pas du ChatGPT." },
   { title: 'Générateur d\'idées', desc: "Si tu n'as pas d'idée, nos agents en trouvent basées sur les tendances marché actuelles." },
   { title: 'Validateur d\'idées', desc: "Score de viabilité sur 100, estimation MRR potentiel, scénario de revente — avant de coder une ligne." },
@@ -159,9 +159,8 @@ const features: { title: string; desc: string }[] = [
   { title: '50+ prompts testés', desc: "Copiables en un clic à chaque étape. Testés sur 35+ SaaS réels lancés par notre équipe." },
   { title: 'Stack configurée', desc: "Claude Code, Supabase, Vercel, Stripe, Resend — guides pas à pas, zéro temps perdu sur la conf." },
   { title: 'Sécurité & bonnes pratiques', desc: "Auth, RLS, variables d'environnement, HTTPS — tout ce qu'on a appris à nos dépens, condensé." },
-  { title: 'Boîte à outils complète', desc: "Tous les outils avec leur guide de configuration, liens directs et alternatives testées." },
   { title: 'Accès à vie + mises à jour', desc: "Les nouvelles fonctionnalités Claude, les nouveaux prompts, les nouvelles ressources — automatiquement." },
-  { title: 'Canal WhatsApp Buildrs', desc: "Accès au canal privé pour ne jamais être seul. Les builders qui réussissent s'entraident." },
+  { title: 'Communauté Buildrs', desc: "Partage ton idée, ton projet, tes réussites — directement depuis le dashboard. Les builders qui gagnent s'entraident." },
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
