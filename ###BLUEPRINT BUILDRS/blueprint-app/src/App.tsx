@@ -218,13 +218,7 @@ interface ParsedRoute {
 
 function parseHash(hash: string): ParsedRoute {
   const h = hash.replace(/^#\/?/, '')
-  // Subdomain redirect — saas-match.buildrs.fr sans hash → SaaS Match directement
-  if (!h || h === 'landing' || h === '/') {
-    if (typeof window !== 'undefined' && window.location.hostname === 'saas-match.buildrs.fr') {
-      return { type: 'saas-match' }
-    }
-    return { type: 'landing' }
-  }
+  if (!h || h === 'landing' || h === '/') return { type: 'landing' }
   if (h === 'plombia') return { type: 'plombia-proposal' }
   if (h === 'group')   return { type: 'group' }
   if (h === 'saas-match') return { type: 'saas-match' }
@@ -327,12 +321,17 @@ const SpinnerFallback = (
 // ---------------------------------------------------------------------------
 // App
 // ---------------------------------------------------------------------------
-const isClaudeDomain = window.location.hostname === 'claude.buildrs.fr'
+const isClaudeDomain    = window.location.hostname === 'claude.buildrs.fr'
+const isSaasMatchDomain = window.location.hostname === 'saas-match.buildrs.fr'
 
 function App() {
   // On claude.buildrs.fr with no hash → redirect to #/claude automatically
   if (isClaudeDomain && !window.location.hash) {
     window.location.hash = '/claude'
+  }
+  // On saas-match.buildrs.fr with no hash → redirect to #/saas-match automatically
+  if (isSaasMatchDomain && !window.location.hash) {
+    window.location.hash = '/saas-match'
   }
 
   const [route, setRoute] = useState<ParsedRoute>(parseHash(window.location.hash))
