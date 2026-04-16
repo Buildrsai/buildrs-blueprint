@@ -177,7 +177,7 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   }
 
   return (
-    <nav className="fixed left-0 right-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl" style={{ top: 34 }}>
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex h-[60px] max-w-[1100px] items-center justify-between gap-6 px-6">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2 no-underline">
@@ -584,7 +584,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           <Reveal delay={0.1}>
             <h1
               className="mb-7 text-foreground mx-auto max-w-[860px]"
-              style={{ fontSize: "clamp(28px, 3.8vw, 50px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+              style={{ fontSize: "clamp(42px, 6.5vw, 84px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
             >
               Ton premier SaaS IA rentable.<br />En 6 jours.
             </h1>
@@ -593,8 +593,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           {/* Sub */}
           <Reveal delay={0.18}>
             <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-              De l'idée au premier client payant — guidé par l'IA, étape par étape.<br />
-              Génère tes premiers revenus en autopilote. <strong className="font-semibold text-foreground">Même sans savoir coder.</strong>
+              De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote. <strong className="font-semibold text-foreground">Même sans savoir coder.</strong>
             </p>
           </Reveal>
 
@@ -806,8 +805,7 @@ function RealProblemSection() {
 
         <Reveal delay={0.08}>
           <h2 className="mt-4 font-bold text-foreground" style={{ fontSize: "clamp(36px, 6vw, 72px)", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
-            <span className="block">Le problème, c'est pas toi.</span>
-            <span className="block">C'est ta méthode.</span>
+            Le problème, c'est pas toi. C'est ta méthode.
           </h2>
         </Reveal>
 
