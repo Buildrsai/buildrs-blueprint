@@ -783,7 +783,7 @@ function Pain() {
           </div>
 
           <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-            Le problème, c'est pas toi. C'est ta méthode.
+            Et pourtant, d'autres y arrivent. Voilà ce qui change.
           </p>
         </Reveal>
       </div>
@@ -793,65 +793,30 @@ function Pain() {
 
 // ─── WHY NOW ──────────────────────────────────────────────────────────────────
 
-function WhyNow() {
+function RealProblemSection() {
   return (
-    <section className="bg-background py-14 sm:py-20">
-      <div className="mx-auto max-w-[1100px] px-6 text-center">
+    <section className="bg-background py-16 sm:py-24">
+      <div className="mx-auto max-w-[900px] px-6 text-center">
 
         <Reveal>
-          <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Pourquoi maintenant
+          <p className="text-xs font-medium uppercase tracking-widest text-white/50">
+            Le vrai problème
           </p>
         </Reveal>
 
         <Reveal delay={0.08}>
-          <h2
-            className="mt-4 text-foreground font-bold"
-            style={{ fontSize: "clamp(20px, 2.8vw, 36px)", letterSpacing: "-0.03em", lineHeight: 1.15 }}
-          >
-            Il y a 1 an, un SaaS = 6 mois et 10 000€. Aujourd'hui : 6 jours et 27€.
+          <h2 className="mt-4 font-bold text-foreground" style={{ fontSize: "clamp(36px, 6vw, 72px)", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
+            <span className="block">Le problème, c'est pas toi.</span>
+            <span className="block">C'est ta méthode.</span>
           </h2>
         </Reveal>
 
-        <Reveal delay={0.14}>
-          <p className="mt-4 text-[15px] sm:text-[16px] leading-[1.6] text-muted-foreground">
-            Le code n'est plus un problème. Ton job : avoir la vision, l'IA construit.
+        <Reveal delay={0.16}>
+          <p className="mx-auto mt-8 max-w-[680px] text-base sm:text-lg leading-relaxed text-white/70">
+            Il y a 1 an, créer un SaaS demandait 6 mois et 10 000€.
+            Aujourd'hui : 6 jours et 27€. Le code n'est plus un problème.
+            Ton job : avoir la vision, l'IA construit.
           </p>
-        </Reveal>
-
-        <Reveal delay={0.22}>
-          <div
-            className="mx-auto mt-10 flex flex-col sm:flex-row"
-            style={{
-              maxWidth: 900,
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 16,
-            }}
-          >
-            {[
-              { big: "0 ligne de code", sub: "Tu décris, l'IA construit" },
-              { big: "100% solo",       sub: "Aucune équipe" },
-              { big: "27€",             sub: "pour tout démarrer" },
-            ].map((s, i, arr) => (
-              <div
-                key={s.big}
-                className="flex flex-1 flex-col items-center justify-center py-8 px-4 sm:px-12"
-                style={{
-                  borderRight: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.08)" : undefined,
-                  borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.08)" : undefined,
-                }}
-              >
-                <span
-                  className="text-foreground font-bold"
-                  style={{ fontSize: "clamp(22px, 2.5vw, 32px)", letterSpacing: "-0.03em", lineHeight: 1.1 }}
-                >
-                  {s.big}
-                </span>
-                <span className="mt-1.5 text-[13px] text-white/55">{s.sub}</span>
-              </div>
-            ))}
-          </div>
         </Reveal>
 
       </div>
@@ -2179,7 +2144,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Marquee />
         <Stats />
         <Pain />
-        <WhyNow />
+        <RealProblemSection />
         <SaasVehicle />
         <Symbiose />
         <Programme />
