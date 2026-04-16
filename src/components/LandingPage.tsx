@@ -676,7 +676,45 @@ function Marquee() {
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
 
-function StatCard({ target, prefix, suffix, desc, trigger }: { target: number; prefix: string; suffix: string; desc: string; trigger: boolean }) {
+function useCountUp(target: number, duration: number, trigger: boolean) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!trigger) return
+    let start: number | null = null
+    const step = (ts: number) => {
+      if (!start) start = ts
+      const progress = Math.min((ts - start) / duration, 1)
+      setValue(Math.floor(progress * target))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [trigger, target, duration])
+  return value
+}
+
+const stats: { target: number; prefix: string; suffix: string; desc: string; sub?: string }[] = [
+  {
+    target: 6,
+    prefix: "",
+    suffix: " jours",
+    desc: "Plan d'action complet, de l'idée au premier produit live",
+  },
+  {
+    target: 5000,
+    prefix: "",
+    suffix: "€/mois",
+    desc: "L'objectif visé par nos builders",
+    sub: "SOUS 60 JOURS",
+  },
+  {
+    target: 140,
+    prefix: "+",
+    suffix: "",
+    desc: "Builders ont déjà lancé leur produit avec Blueprint",
+  },
+]
+
+function StatCard({ target, prefix, suffix, desc, sub, trigger }: { target: number; prefix: string; suffix: string; desc: string; sub?: string; trigger: boolean }) {
   const value = useCountUp(target, target >= 100 ? 1600 : 1200, trigger)
   return (
     <div className="bg-background px-6 py-10 text-center">
@@ -687,6 +725,9 @@ function StatCard({ target, prefix, suffix, desc, trigger }: { target: number; p
         {prefix}{value}{suffix}
       </div>
       <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
+      {sub && (
+        <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.09em] text-foreground/40">{sub}</p>
+      )}
     </div>
   )
 }
@@ -713,7 +754,7 @@ function Stats() {
           style={{ background: "hsl(var(--border))", gap: "1px" }}
         >
           {stats.map((s) => (
-            <StatCard key={s.suffix + s.target} {...s} trigger={triggered} />
+            <StatCard key={s.suffix + s.target} {...s} sub={s.sub} trigger={triggered} />
           ))}
         </div>
       </div>
