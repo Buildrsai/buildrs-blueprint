@@ -735,36 +735,56 @@ function Stats() {
 
 // ─── PAIN ─────────────────────────────────────────────────────────────────────
 
+const constatCards = [
+  {
+    emoji: "⏱",
+    title: "Tu scrolles depuis des mois sans rien lancer",
+    desc: "Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.",
+  },
+  {
+    emoji: "🎓",
+    title: "997€ de formations. Zéro produit en ligne.",
+    desc: "Tu as suivi des cours, regardé des heures de tutos, pris des notes. Mais à la fin, rien n'est live. Parce qu'on t'a appris la théorie, pas l'exécution.",
+  },
+  {
+    emoji: "🧩",
+    title: "Trop d'outils, zéro direction",
+    desc: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make… Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
+  },
+  {
+    emoji: "🚀",
+    title: "Pendant ce temps, d'autres lancent",
+    desc: "Sans background technique, sans équipe, sans budget. Ils n'ont rien de plus que toi. Ils ont juste un système et de la direction.",
+  },
+]
+
 function Pain() {
   return (
     <section className="bg-background py-20">
       <div className="mx-auto max-w-[1100px] px-6">
-      <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
-      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
-        Tout le monde te parle d'IA, de SaaS, de Claude. Personne ne te dit comment en faire un vrai business.
-      </h2></Reveal>
-      <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
-        L'IA peut tout construire. Claude peut builder ton produit. Mais personne ne te dit comment en tirer vraiment parti, ni quelle stratégie adopter pour gagner réellement de l'argent en ligne.
-      </p></Reveal>
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+          Tout le monde te parle d'IA.<br />Personne ne te montre comment en vivre.
+        </h2></Reveal>
+        <Reveal delay={0.16}><p className="max-w-[560px] text-[16px] leading-[1.65] text-muted-foreground">
+          Pendant ce temps, des gens sans background technique lancent des micro-SaaS, des apps et des logiciels à +5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système et de direction.
+        </p></Reveal>
 
-      <Reveal delay={0.24}>
-      <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        {pains.map(({ Icon, title, desc }) => (
-          <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-white/20">
-            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-white/8" style={{ background: 'rgba(255,255,255,0.08)' }}>
-              <Icon className="h-[18px] w-[18px] text-white/70" strokeWidth={1.5} />
-            </div>
-            <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{title}</h3>
-            <p className="text-[14px] leading-relaxed text-white/55">{desc}</p>
+        <Reveal delay={0.24}>
+          <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {constatCards.map(({ emoji, title, desc }) => (
+              <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-white/20">
+                <div className="mb-3.5 text-[22px] leading-none">{emoji}</div>
+                <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{title}</h3>
+                <p className="text-[14px] leading-relaxed text-white/55">{desc}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Transition phrase */}
-      <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-        L'IA est le levier. Claude est le bras armé. Le SaaS IA est le véhicule. Buildrs, c'est le système opérationnel qui répond à ces douleurs — et te fait passer de l'intention à l'action.
-      </p>
-      </Reveal>
+          <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
+            Et si le problème, c'était pas toi — mais ta méthode ?
+          </p>
+        </Reveal>
       </div>
     </section>
   )
