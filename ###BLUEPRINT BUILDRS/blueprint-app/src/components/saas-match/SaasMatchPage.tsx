@@ -1,6 +1,6 @@
 // blueprint-app/src/components/saas-match/SaasMatchPage.tsx
 import { useState, useRef } from 'react'
-import { ArrowRight, ChevronRight } from 'lucide-react'
+import { ArrowRight, ChevronRight, Check } from 'lucide-react'
 import { BuildrsIcon } from '../ui/icons'
 import { supabase } from '../../lib/supabase'
 import type { IdeaResult } from '../../types/generator'
@@ -326,7 +326,7 @@ export function SaasMatchPage({ onResults }: Props) {
                 }}
               >
                 {done ? (
-                  <span className="text-[10px] font-black shrink-0">✓</span>
+                  <Check size={12} strokeWidth={2.5} className="shrink-0" style={{ color: '#10B981' }} />
                 ) : active ? (
                   <span
                     className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
