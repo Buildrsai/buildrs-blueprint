@@ -96,8 +96,8 @@ export function SaasMatchPage({ onResults }: Props) {
     }, 700)
 
     try {
-      const { data, error } = await supabase.functions.invoke('generator-recommend', {
-        body: { source: null, answers: finalAnswers },
+      const { data, error } = await supabase.functions.invoke('saas-match-generate', {
+        body: { answers: finalAnswers },
       })
       await new Promise(r => setTimeout(r, Math.max(0, 3500 - (s * 700))))
       clearInterval(interval)
