@@ -553,7 +553,7 @@ export function ToolsPage({ navigate }: Props) {
             style={{ minHeight: 200, background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(99,102,241,0.1) 100%)' }}
           >
             <img
-              src="/draftly-preview.jpg"
+              src="/draftly-preview.png"
               alt="Draftly — composants 3D"
               className="w-full h-full object-cover"
               onError={(e) => {
