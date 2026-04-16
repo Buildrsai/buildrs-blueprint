@@ -1390,6 +1390,136 @@ const dashTabs = [
   },
 ]
 
+// ─── SAAS EXAMPLES ───────────────────────────────────────────────────────────
+
+const saasExamples = [
+  {
+    badge: "PriceFlow",
+    image: "/dash-marketplace.png",
+    desc: "Ajuste les prix des e-commerçants Shopify en temps réel selon la concurrence et les stocks.",
+    cible: "E-commerçants Shopify",
+    mrr: "50 clients × 29€ = 1 450€/mois",
+    temps: "5 jours",
+    author: "Thomas",
+    initials: "T",
+    stars: 4,
+  },
+  {
+    badge: "BrewApp",
+    image: "/dash-generator.png",
+    desc: "Carnet de dégustation pour amateurs de café — origines, profils, méthodes d'extraction.",
+    cible: "Coffee lovers & baristas",
+    mrr: "100 users × 9€ = 900€/mois",
+    temps: "4 jours",
+    author: "Chris",
+    photo: "/Chris_opt.jpg",
+    stars: 5,
+  },
+  {
+    badge: "StayTrack",
+    image: "/dash-cockpit.png",
+    desc: "Gestion de locations : loyers, charges, taux d'occupation, alertes automatiques.",
+    cible: "Propriétaires multi-biens",
+    mrr: "30 clients × 49€ = 1 470€/mois",
+    temps: "6 jours",
+    author: "Julie",
+    initials: "J",
+    stars: 4,
+  },
+]
+
+function SaasExamples() {
+  return (
+    <section className="bg-background py-20 sm:py-28">
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Exemples</p></Reveal>
+        <Reveal delay={0.08}>
+          <h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+            className="mb-4 text-foreground"
+          >
+            De l'idée au produit live.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <p className="mb-14 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
+            Des exemples concrets de SaaS réalisables avec Blueprint — en moins d'une semaine.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {saasExamples.map((ex, i) => (
+            <Reveal key={ex.badge} delay={0.1 + i * 0.08}>
+              <div
+                className="flex flex-col rounded-2xl overflow-hidden"
+                style={{ border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))' }}
+              >
+                {/* Screenshot */}
+                <div className="relative overflow-hidden" style={{ height: 200, background: 'hsl(var(--muted))' }}>
+                  <img
+                    src={ex.image}
+                    alt={ex.badge}
+                    className="w-full h-full object-cover object-top"
+                    style={{ opacity: 0.9 }}
+                  />
+                  {/* Badge overlay */}
+                  <span
+                    className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full"
+                    style={{ background: 'hsl(var(--background))', border: '1px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
+                  >
+                    {ex.badge}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5 gap-4">
+                  <p className="text-[14px] leading-[1.6] text-muted-foreground">{ex.desc}</p>
+
+                  {/* Metadata */}
+                  <div className="flex flex-col gap-2 text-[12px]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>Cible</span>
+                      <span className="text-foreground font-medium">{ex.cible}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>MRR potentiel</span>
+                      <span className="text-foreground font-medium">{ex.mrr}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>Temps</span>
+                      <span className="text-foreground font-medium">{ex.temps}</span>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <hr className="border-border" />
+
+                  {/* Avatar + stars */}
+                  <div className="flex items-center gap-3">
+                    {ex.photo ? (
+                      <img src={ex.photo} alt={ex.author} className="h-8 w-8 rounded-full object-cover" />
+                    ) : (
+                      <div className="h-8 w-8 rounded-full flex items-center justify-center text-[12px] font-bold text-foreground" style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}>
+                        {ex.initials}
+                      </div>
+                    )}
+                    <span className="text-[13px] font-medium text-foreground">{ex.author}</span>
+                    <span className="ml-auto text-[13px]" style={{ letterSpacing: '0.05em' }}>
+                      {'★'.repeat(ex.stars)}{'☆'.repeat(5 - ex.stars)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
 function WhatYouGet() {
   const [activeTab, setActiveTab] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -2150,6 +2280,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Programme />
         <SavingsChoc />
         <WhatYouGet />
+        <SaasExamples />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
