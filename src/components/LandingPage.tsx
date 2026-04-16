@@ -936,49 +936,49 @@ function SaasVehicle() {
 
 const savingsRows = [
   {
-    label: "Trouver une idée SaaS rentable",
+    label: "Trouver une idée rentable",
     Icon: Search,
     alone: "80h",
     withUs: "30 min",
     badge: "Marketplace incluse",
   },
   {
-    label: "Design & interface front-end",
+    label: "Créer l'interface de ton app",
     Icon: Layers,
     alone: "120h",
     withUs: "inclus",
     badge: "Templates prêts",
   },
   {
-    label: "Dashboard utilisateur complet",
+    label: "Construire l'espace utilisateurs",
     Icon: LayoutDashboard,
     alone: "60h",
     withUs: "inclus",
     badge: "Modules Blueprint",
   },
   {
-    label: "Authentification & onboarding",
+    label: "Connecter tes utilisateurs",
     Icon: Users,
     alone: "40h",
     withUs: "1 prompt",
     badge: "Supabase Auth",
   },
   {
-    label: "Base de données & sécurité",
+    label: "Gérer et protéger les données",
     Icon: Database,
     alone: "50h + failles",
     withUs: "configurée",
     badge: "RLS + schéma prêts",
   },
   {
-    label: "Paiements Stripe",
+    label: "Brancher les paiements",
     Icon: Banknote,
     alone: "15h",
     withUs: "15 min",
     badge: "Checkout + webhooks",
   },
   {
-    label: "Délai avant d'être en ligne",
+    label: "Être en ligne",
     Icon: Clock,
     alone: "3–6 mois",
     withUs: "6 jours",
@@ -2115,9 +2115,9 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Stats />
         <Pain />
         <SaasVehicle />
-        <SavingsChoc />
         <Symbiose />
         <Sprint />
+        <SavingsChoc />
         <WhatYouGet />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
