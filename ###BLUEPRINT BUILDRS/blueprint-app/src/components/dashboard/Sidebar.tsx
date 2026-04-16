@@ -3,7 +3,7 @@ import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   FolderOpen, Wrench, Zap, ChevronDown, Settings, Bot, Lock,
   RefreshCw, Home, LayoutGrid, TrendingUp, Users, MessageSquare,
-  ShoppingBag, Star, CheckCircle, Tag, Target, Terminal, Sparkles,
+  ShoppingBag, Star, CheckCircle, Tag, Target, Sparkles,
   LogOut, Calendar, ArrowUpRight,
 } from 'lucide-react'
 import { BuildrsIcon, WhatsAppIcon, ClaudeIcon } from '../ui/icons'
@@ -272,11 +272,9 @@ export function Sidebar({
   userEmail, userFirstName, userAvatarUrl, onSignOut,
 }: Props) {
   // Sections
-  const [parcoursOpen, toggleParcours] = useSectionOpen('parcours',   true)
-  const [projetOpen,  toggleProjet]  = useSectionOpen('projet',    false)
-  const [outilsOpen,  toggleOutils]  = useSectionOpen('outils',    false)
-  const [commuOpen,   toggleCommu]   = useSectionOpen('communaute', false)
-  const [accesOpen,   toggleAcces]   = useSectionOpen('acces',     false)
+  const [parcoursOpen, toggleParcours] = useSectionOpen('parcours', true)
+  const [projetOpen,  toggleProjet]  = useSectionOpen('projet',   false)
+  const [outilsOpen,  toggleOutils]  = useSectionOpen('outils',   false)
 
   const v3Label = useV3Countdown()
   const [activeIdeaName, setActiveIdeaName] = useState<string | null>(() => getActiveIdeaName())
@@ -607,49 +605,26 @@ export function Sidebar({
         )}
       </div>
 
-      {/* ── 5. COMMUNAUTÉ ─ fermé par défaut ───────────────────────────────── */}
-      <div className="px-3 pt-3 pb-1">
-        {sectionHeader('Communauté', commuOpen, toggleCommu)}
-        {commuOpen && (
-          <div className="flex flex-col gap-0.5">
-            <button
-              onClick={() => navigate('#/dashboard/community')}
-              className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
-                isPrefix('#/dashboard/community') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
-              }`}
-            >
-              <MessageSquare size={13} strokeWidth={1.5} className="flex-shrink-0" />
-              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Feed</span>
-            </button>
-            <button
-              onClick={() => navigate('#/dashboard/members')}
-              className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
-                isPrefix('#/dashboard/members') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
-              }`}
-            >
-              <Users size={13} strokeWidth={1.5} className="flex-shrink-0" />
-              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Membres</span>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* ── 6. ACCÈS BUILDRS ─ fermé par défaut ────────────────────────────── */}
-      <div className="px-3 pt-3 pb-2">
-        {sectionHeader('Accès Buildrs', accesOpen, toggleAcces)}
-        {accesOpen && (
-          <div className="flex flex-col gap-0.5">
-            <a
-              href="https://wa.me/33744755735"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 text-muted-foreground hover:text-foreground hover:bg-secondary/60"
-            >
-              <WhatsAppIcon size={13} className="flex-shrink-0" />
-              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">WhatsApp Buildrs</span>
-            </a>
-          </div>
-        )}
+      {/* ── Pages libres bas ────────────────────────────────────────────────── */}
+      <div className="px-3 pt-3 pb-2 flex flex-col gap-0.5">
+        <button
+          onClick={() => navigate('#/dashboard/community')}
+          className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+            isPrefix('#/dashboard/community') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+          }`}
+        >
+          <Users size={13} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Communauté</span>
+        </button>
+        <a
+          href="https://wa.me/33744755735"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+        >
+          <WhatsAppIcon size={13} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">WhatsApp Privé</span>
+        </a>
       </div>
       </div>{/* end scrollable nav */}
 
