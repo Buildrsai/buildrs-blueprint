@@ -2272,13 +2272,11 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Marquee />
         <Stats />
         <Pain />
-        <RealProblemSection />
         <SaasVehicle />
         <Symbiose />
         <Programme />
         <SavingsChoc />
         <WhatYouGet />
-        <SaasExamples />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
