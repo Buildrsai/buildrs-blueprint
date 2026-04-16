@@ -456,11 +456,7 @@ function SectionBlock({ section, navigate }: { section: Section; navigate: (h: s
       {/* Header */}
       <div className="flex items-start gap-3 mb-5">
         <div
-          className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5 tabular-nums"
-          style={{
-            background: section.accent,
-            color: '#ffffff',
-          }}
+          className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5 tabular-nums bg-secondary border border-border text-foreground"
         >
           {section.n}
         </div>
@@ -495,7 +491,7 @@ interface Props {
 
 export function ToolsPage({ navigate }: Props) {
   return (
-    <div className="px-8 py-10 max-w-[720px]">
+    <div className="px-8 py-10 max-w-4xl mx-auto w-full">
       {/* Header */}
       <div className="mb-8">
         <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground mb-2">
