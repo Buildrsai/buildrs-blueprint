@@ -1668,6 +1668,73 @@ export const CURRICULUM: Module[] = [
           },
         ],
       },
+      // ── 4.4 — Intégrer des agents IA dans ton produit ────────────────────
+      {
+        id: '4.4',
+        title: 'Intégrer des agents IA — le SaaS 2.0',
+        duration: '12 min',
+        body: [],
+        blocks: [
+          { type: 'text', content: "Un SaaS classique vend de l'accès à un outil. Un SaaS IA vend du travail accompli. La différence : à l'intérieur du produit, des agents agissent pour chaque utilisateur, 24h/24. Ce n'est pas une feature en plus — c'est un changement de paradigme complet sur ce que ton produit délivre." },
+          { type: 'text', content: "Concrètement : ton user arrive sur ton app, décrit ce qu'il veut obtenir, et un agent Claude prend en charge l'exécution. Analyse, rédaction, recherche, transformation de données — le travail est fait, pas juste facilité. C'est ça la valeur perçue incomparable." },
+          {
+            type: 'diagram-cards',
+            title: 'SaaS classique vs SaaS IA',
+            items: [
+              { icon: 'mouse-pointer', label: 'SaaS classique',    desc: "L'user utilise l'outil. Il fait le travail lui-même, l'app est le support.",       color: '#71717a' },
+              { icon: 'brain',         label: 'SaaS IA',           desc: "L'agent fait le travail. L'user dirige, l'IA exécute. Le produit délivre un résultat.", color: '#cc5de8' },
+              { icon: 'trending-up',   label: 'Valeur perçue',     desc: "Multiplier par 3 à 5 la valeur perçue sans changer le prix. La rétention explose.", color: '#22c55e' },
+              { icon: 'repeat',        label: 'Rétention',         desc: "Un agent qui devient indispensable au quotidien = churn proche de zéro.",           color: '#4d96ff' },
+            ],
+          },
+          {
+            type: 'diagram-flow',
+            title: "Architecture d'un agent dans ton SaaS",
+            steps: [
+              { label: "User donne l'input",    sub: "Formulaire, prompt, upload fichier — l'user définit ce qu'il veut obtenir.",                   color: '#4d96ff' },
+              { label: 'Edge Function Supabase', sub: "La requête passe par ton backend sécurisé. Ta clé Anthropic n'est jamais exposée côté client.", color: '#f59e0b' },
+              { label: 'Claude API traite',      sub: "L'agent analyse, génère, transforme — avec le contexte de l'user stocké en BDD.",              color: '#cc5de8' },
+              { label: 'Résultat en BDD',        sub: "Le résultat est sauvegardé dans Supabase, consultable à tout moment.",                         color: '#22c55e' },
+              { label: "User reçoit le travail", sub: "Rapport, contenu, données — livré directement dans l'interface. Travail fait.",                color: '#22c55e' },
+            ],
+          },
+          { type: 'callout', variant: 'info', title: 'Règle absolue — sécurité', content: "Ta clé Anthropic (ANTHROPIC_API_KEY) ne doit JAMAIS être dans le code frontend. Toujours dans une Edge Function Supabase côté serveur. Si elle est exposée côté client, elle peut être volée et utilisée à tes frais." },
+          {
+            type: 'prompt',
+            label: 'Prompt Claude Code — Edge Function avec Claude API',
+            content: "Crée une Edge Function Supabase qui appelle l'API Claude pour ma feature IA.\n\nMa feature : [DESCRIPTION — ex: \"L'user soumet une description de son business et reçoit 5 idées de SaaS adaptées\"]\n\nCe que la fonction doit faire :\n1. Recevoir la requête de l'user (POST avec JSON body)\n2. Vérifier l'auth Supabase (JWT token dans le header)\n3. Construire le prompt avec le contexte de l'user\n4. Appeler claude-sonnet-4-6 via l'API Anthropic\n5. Sauvegarder le résultat dans la table [NOM TABLE]\n6. Retourner le résultat au frontend\n\nContraintes :\n- ANTHROPIC_API_KEY uniquement en Deno.env.get() — jamais exposée\n- Gestion d'erreurs complète avec codes HTTP appropriés\n- Streaming si la réponse est longue (>2 secondes d'attente)\n- Rate limiting simple : max 10 appels/jour par user\n\nStack : Deno + Supabase Edge Functions.",
+          },
+          {
+            type: 'prompt',
+            label: 'Prompt Claude Code — Brancher le frontend à la Edge Function',
+            content: "Crée le composant React qui appelle ma Edge Function IA et affiche le résultat.\n\nMa Edge Function : [NOM]\nEndpoint : [SUPABASE_URL]/functions/v1/[NOM]\n\nCe que le composant doit faire :\n1. Formulaire d'input (champs : [liste les champs])\n2. Appel à la Edge Function avec le JWT de l'user (useAuth hook)\n3. État loading avec skeleton ou spinner\n4. Affichage du résultat en temps réel si streaming\n5. Sauvegarde locale du résultat (pour affichage ultérieur)\n6. Gestion des erreurs avec message clair pour l'user\n\nUtilise le système de design Buildrs : Tailwind, rounded-2xl, bg-card, text-foreground.",
+          },
+          {
+            type: 'list',
+            title: "Types d'agents à intégrer selon ton SaaS",
+            style: 'cards',
+            items: [
+              { icon: 'file-text',   label: 'Agent générateur',    desc: "Génère du contenu à partir d'un input user : textes, rapports, scripts, emails, briefs.",       accent: '#4d96ff' },
+              { icon: 'search',      label: 'Agent analyseur',     desc: "Analyse des données, un document, un marché — et retourne des insights structurés.",             accent: '#cc5de8' },
+              { icon: 'zap',         label: 'Agent automatiseur',  desc: "Prend des décisions et déclenche des actions : trier, classer, envoyer, alerter.",                accent: '#eab308' },
+              { icon: 'message-square', label: 'Agent assistant', desc: "Répond aux questions de l'user avec le contexte de SON compte. RAG sur ses données.",             accent: '#22c55e' },
+            ],
+          },
+          { type: 'callout', variant: 'tip', title: 'Par où commencer', content: "Commence par un agent générateur — c'est le plus simple à brancher et le plus visible pour l'user. 1 input → 1 output généré par Claude. Une fois ce pattern maîtrisé, tu peux complexifier vers des agents qui enchaînent plusieurs actions." },
+          {
+            type: 'checklist',
+            title: 'Intégration agent IA terminée quand :',
+            items: [
+              'Edge Function créée avec ANTHROPIC_API_KEY en variable secrète (jamais dans le code)',
+              'Auth vérifiée dans la fonction (JWT Supabase)',
+              "L'agent appelle claude-sonnet-4-6 avec un prompt contextuel",
+              'Résultat sauvegardé en BDD et affiché dans l\'interface',
+              'États loading/error/success présents côté frontend',
+              'Testé avec un vrai compte — l\'agent délivre un vrai résultat',
+            ],
+          },
+        ],
+      },
     ],
     quizQuestions: [
       {

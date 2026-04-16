@@ -173,7 +173,7 @@ const faqs = [
 ]
 
 const features: { title: string; desc: string }[] = [
-  { title: 'Le système en 4 phases', desc: "De l'idée au produit IA monétisé — checklist interactive, progression en temps réel." },
+  { title: 'Le système en 4 phases', desc: "De l'idée au SaaS IA monétisé — checklist interactive, progression en temps réel." },
   { title: 'Marketplace d\'idées', desc: "Des centaines d'idées analysées par nos agents sur PH, Reddit, Flippa, IH. De la vraie data, pas du ChatGPT." },
   { title: 'Générateur d\'idées', desc: "Si tu n'as pas d'idée, nos agents en trouvent basées sur les tendances marché actuelles." },
   { title: 'Validateur d\'idées', desc: "Score de viabilité sur 100, estimation MRR potentiel, scénario de revente — avant de coder une ligne." },
@@ -874,6 +874,9 @@ function SaasVehicle() {
           >
             Le meilleur business model en 2026.
           </h2></Reveal>
+          <Reveal delay={0.16}><p className="mt-5 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
+            Le SaaS IA, c'est la version 2.0 du SaaS classique. Tu embarques des agents IA directement dans le produit — ils agissent pour chaque utilisateur, 24h/24. Ton SaaS ne vend plus de l'accès à un outil. Il vend du travail accompli. Valeur perçue incomparable, rétention qui explose, marges identiques.
+          </p></Reveal>
         </div>
 
         {/* Two columns */}
@@ -1526,7 +1529,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       <div className="mx-auto max-w-[1100px] px-6">
         <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p></Reveal>
         <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(24px, 4vw, 46px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
-          Tout ce qu'il te faut pour lancer ton produit avec l'IA.
+          Tout ce qu'il te faut pour lancer ton SaaS IA.
         </h2></Reveal>
         <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
           Un seul paiement. Accès à vie. Zéro risque.
