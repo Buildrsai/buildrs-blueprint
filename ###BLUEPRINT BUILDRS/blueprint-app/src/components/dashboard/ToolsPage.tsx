@@ -1,4 +1,4 @@
-import { ExternalLink, ArrowRight, Mic, TrendingUp, Layout, Wand2, Box, DollarSign } from 'lucide-react'
+import { ExternalLink, ArrowRight, TrendingUp, Layout, Wand2, DollarSign } from 'lucide-react'
 import { BrandIcons } from '../ui/icons'
 
 // ── Jarvis mini robot (couleurs intactes) ─────────────────────────────────────
@@ -55,13 +55,19 @@ function iconLucide(
   )
 }
 
-function iconImg(src: string) {
+function iconImg(src: string, bg?: string) {
   return (
-    <div className="w-10 h-10 rounded-xl flex-shrink-0 overflow-hidden bg-secondary">
+    <div className="w-10 h-10 rounded-xl flex-shrink-0 overflow-hidden flex items-center justify-center" style={{ background: bg ?? 'transparent' }}>
       <img src={src} alt="" className="w-10 h-10 object-cover" />
     </div>
   )
 }
+
+// ── Badge presets ─────────────────────────────────────────────────────────────
+
+const BADGE_FREE   = { label: 'Gratuit',               color: '#22c55e', bg: 'rgba(34,197,94,0.1)'   }
+const BADGE_SEARCH = { label: 'Recherche',              color: '#3b82f6', bg: 'rgba(59,130,246,0.1)'  }
+const BADGE_SELL   = { label: 'Valorisation & Revente', color: '#f59e0b', bg: 'rgba(245,158,11,0.1)' }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -119,9 +125,10 @@ const SECTIONS: Section[] = [
       },
       {
         name: 'Perplexity',
-        desc: "Recherche IA avec sources citées — valide les niches, analyse la concurrence.",
+        desc: "Recherche IA avec sources citées — valide tes niches, analyse la concurrence en temps réel.",
         url: 'https://perplexity.ai',
         icon: iconBrand(BrandIcons.perplexity, '#20808D', 'rgba(32,128,141,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Gemma 4',
@@ -142,49 +149,56 @@ const SECTIONS: Section[] = [
     tools: [
       {
         name: 'Supabase',
-        desc: 'Base de données PostgreSQL + auth + stockage + edge functions. Le backend de toutes tes apps.',
+        desc: "Le back-end pour ton app — base de données PostgreSQL, auth, stockage et edge functions. Tout en un.",
         url: 'https://supabase.com',
         icon: iconBrand(BrandIcons.supabase, '#3FCF8E', 'rgba(63,207,142,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Vercel',
-        desc: 'Déploiement instantané. Connecte GitHub → ton app est live en 2 minutes.',
+        desc: "Déploiement instantané. Connecte GitHub → ton app est live en 2 minutes.",
         url: 'https://vercel.com',
         icon: iconMono(BrandIcons.vercel),
+        badge: BADGE_FREE,
       },
       {
         name: 'GitHub',
-        desc: 'Versioning du code. Sauvegarde de tous tes projets. Connecté à Vercel pour le deploy auto.',
+        desc: "Versioning du code. Sauvegarde tous tes projets. Connecté à Vercel pour le deploy automatique.",
         url: 'https://github.com',
         icon: iconMono(BrandIcons.github),
+        badge: BADGE_FREE,
       },
       {
         name: 'Resend',
-        desc: 'Emails transactionnels — bienvenue, confirmation de paiement, relance. 3 000/mois gratuits.',
+        desc: "Emails transactionnels — bienvenue, confirmation de paiement, relance. 3 000 emails/mois gratuits.",
         url: 'https://resend.com',
         icon: iconMono(BrandIcons.resend),
+        badge: BADGE_FREE,
       },
       {
         name: 'Notion',
-        desc: 'Notes, briefs produits et documentation. Garde une trace de tes idées et décisions clés.',
+        desc: "Notes, briefs produits et documentation. Garde une trace de toutes tes idées et décisions clés.",
         url: 'https://notion.so',
         icon: iconMono(BrandIcons.notion),
+        badge: BADGE_FREE,
       },
       {
         name: 'Obsidian',
-        desc: "Knowledge base locale. Structure tes prompts, patterns et briefs selon ta logique.",
+        desc: "Tout le cerveau de ton projet et de ton SaaS. Stocke tes prompts, patterns, décisions et briefs dans une base de connaissance locale — 100% à toi.",
         url: 'https://obsidian.md',
-        icon: iconBrand(BrandIcons.obsidian, '#7C3AED', 'rgba(124,58,237,0.1)'),
+        icon: iconImg('/obsidian.svg', 'rgba(124,58,237,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Stripe',
-        desc: "Paiements en ligne. Crée tes produits, configure tes prix et encaisse dès le premier jour.",
+        desc: "Paiements en ligne. Crée tes produits, configure tes prix et commence à encaisser dès le premier jour.",
         url: 'https://stripe.com',
         icon: iconBrand(BrandIcons.stripe, '#635BFF', 'rgba(99,91,255,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Hostinger',
-        desc: 'Hébergement web alternatif. Idéal pour les sites vitrine ou si tu cherches une option simple.',
+        desc: "Achète ton nom de domaine et configure tes zones DNS. La porte d'entrée de ton projet sur le web.",
         url: 'https://hostinger.fr',
         icon: iconBrand(BrandIcons.hostinger, '#673DE6', 'rgba(103,61,230,0.1)'),
       },
@@ -201,26 +215,25 @@ const SECTIONS: Section[] = [
     tools: [
       {
         name: 'VS Code',
-        desc: "L'éditeur de référence. Installe l'extension Claude pour l'assistance en live.",
+        desc: "L'éditeur pour ton code. Installe les extensions Claude Code et Wispr Flow — et pilote tout depuis ton terminal.",
         url: 'https://code.visualstudio.com',
         icon: iconBrand(BrandIcons.vscode, '#007ACC', 'rgba(0,122,204,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Wispr Flow',
-        desc: "Parle au lieu de taper. Dicte tes prompts à la voix dans n'importe quelle app.",
+        desc: "Dicte tes prompts à la voix dans n'importe quelle app. Tu parles en langage naturel — Wispr traduit en texte instantanément.",
         url: 'https://wispr.dev',
-        icon: (
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(245,158,11,0.1)' }}>
-            <Mic size={20} strokeWidth={1.5} style={{ color: '#f59e0b' }} />
-          </div>
-        ),
+        icon: iconImg('/Wispr-flow.png', 'rgba(245,158,11,0.08)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Claude Code',
-        desc: 'Claude dans ton terminal. Modifie, déploie et debug ton code en langage naturel.',
+        desc: "Claude dans ton terminal. Modifie, déploie et debug ton code en langage naturel.",
         url: '#/dashboard/claude-os/apprendre/claude-code',
         internal: true,
         icon: iconImg('/Claude Code Logo.png'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Claude Cowork',
@@ -228,6 +241,7 @@ const SECTIONS: Section[] = [
         url: '#/dashboard/claude-os/apprendre/claude-cowork',
         internal: true,
         icon: iconImg('/Claude Cowork Logo.jpg'),
+        badge: BADGE_FREE,
       },
     ],
   },
@@ -245,49 +259,54 @@ const SECTIONS: Section[] = [
         desc: "Vois ce qui cartonne aujourd'hui. Analyse les votes, commentaires et niches sous-exploitées.",
         url: 'https://producthunt.com',
         icon: iconBrand(BrandIcons.producthunt, '#DA552F', 'rgba(218,85,47,0.1)'),
+        badge: BADGE_SEARCH,
       },
       {
         name: 'Indie Hackers',
         desc: "Les fondateurs partagent leurs MRR réels, leurs stratégies et leurs erreurs. Une mine d'or.",
         url: 'https://indiehackers.com',
         icon: iconBrand(BrandIcons.indiehackers, '#4169E1', 'rgba(65,105,225,0.1)'),
+        badge: BADGE_SEARCH,
       },
       {
         name: 'Reddit',
         desc: "Valide là où les vrais problèmes sont exprimés. Cherche ta niche + \"pain\" ou \"looking for\".",
         url: 'https://reddit.com',
         icon: iconBrand(BrandIcons.reddit, '#FF4500', 'rgba(255,69,0,0.1)'),
+        badge: BADGE_SEARCH,
       },
       {
         name: 'App Store',
         desc: "Analyse les reviews négatives des apps concurrentes. C'est là que se cachent les meilleures opportunités.",
         url: 'https://apps.apple.com',
         icon: iconBrand(BrandIcons.appstore, '#0D96F6', 'rgba(13,150,246,0.1)'),
+        badge: BADGE_SEARCH,
       },
       {
         name: 'TrustMRR',
         desc: "Annuaire de SaaS avec leurs MRR vérifiés. Repère les niches rentables avant de te lancer.",
         url: 'https://trustmrr.com',
         icon: iconLucide(TrendingUp, '#22c55e', 'rgba(34,197,94,0.1)'),
+        badge: BADGE_SEARCH,
       },
       {
         name: 'Flippa',
         desc: "Marketplace de SaaS à vendre. Achète un projet existant ou vends le tien une fois rentable.",
         url: 'https://flippa.com',
         icon: iconBrand(BrandIcons.flippa, '#FF6B35', 'rgba(255,107,53,0.1)'),
-        badge: { label: 'Valorisation & Revente', color: '#f59e0b', bg: 'rgba(245,158,11,0.1)' },
+        badge: BADGE_SELL,
       },
       {
         name: 'Acquire.com',
         desc: "Revente de SaaS premium. Acheteurs plus sérieux et mieux capitalisés que Flippa.",
         url: 'https://acquire.com',
         icon: iconLucide(DollarSign, '#0EA5E9', 'rgba(14,165,233,0.1)'),
-        badge: { label: 'Valorisation & Revente', color: '#f59e0b', bg: 'rgba(245,158,11,0.1)' },
+        badge: BADGE_SELL,
       },
     ],
   },
 
-  // ── 6. Designer ton app ───────────────────────────────────────────────────
+  // ── 5. Designer ton app ───────────────────────────────────────────────────
   {
     id: 'design',
     n: 5,
@@ -299,7 +318,7 @@ const SECTIONS: Section[] = [
         name: 'Mobbin',
         desc: "Bibliothèque de captures d'écrans d'apps réelles. Tous les éléments UI — onboarding, paywall, pricing, CTA — vus sur les meilleures apps du monde.",
         url: 'https://mobbin.com',
-        icon: iconBrand(BrandIcons.mobbin, '#6B21A8', 'rgba(107,33,168,0.1)'),
+        icon: iconImg('/mobbin-logo.png', 'rgba(107,33,168,0.1)'),
       },
       {
         name: 'PagesFlow',
@@ -309,7 +328,7 @@ const SECTIONS: Section[] = [
       },
       {
         name: 'Magic UI',
-        desc: 'Composants animés React + Tailwind. Pour des interfaces premium sans effort — copy, paste, done.',
+        desc: "Composants animés React + Tailwind. Pour des interfaces premium sans effort — copy, paste, done.",
         url: 'https://magicui.design',
         icon: iconLucide(Wand2, '#7C3AED', 'rgba(124,58,237,0.1)'),
       },
@@ -321,7 +340,7 @@ const SECTIONS: Section[] = [
       },
       {
         name: 'Shadcn/ui',
-        desc: 'Bibliothèque UI accessible et personnalisable. La base de tous les design systems modernes.',
+        desc: "Bibliothèque UI accessible et personnalisable. La base de tous les design systems modernes.",
         url: 'https://ui.shadcn.com',
         icon: iconMono(BrandIcons.shadcn),
       },
@@ -333,20 +352,20 @@ const SECTIONS: Section[] = [
       },
       {
         name: 'Superwall',
-        desc: 'Paywalls optimisés pour maximiser les conversions. A/B teste tes offres et tarifs en temps réel.',
+        desc: "Paywalls optimisés pour maximiser les conversions. A/B teste tes offres et tarifs en temps réel.",
         url: 'https://superwall.com',
         icon: iconLucide(TrendingUp, '#10B981', 'rgba(16,185,129,0.1)'),
       },
       {
         name: 'Draftly',
         desc: "Composants 3D prêts pour React. Ajoute des éléments visuels 3D dans ton app sans Three.js.",
-        url: 'https://draftly.so',
-        icon: iconLucide(Box, '#8B5CF6', 'rgba(139,92,246,0.1)'),
+        url: 'https://www.draftly.space/',
+        icon: iconImg('/draftly.png', 'rgba(139,92,246,0.1)'),
       },
     ],
   },
 
-  // ── 7. Outils d'analyse ───────────────────────────────────────────────────
+  // ── 6. Outils d'analyse ───────────────────────────────────────────────────
   {
     id: 'analyse',
     n: 6,
@@ -359,12 +378,14 @@ const SECTIONS: Section[] = [
         desc: "Analytics produit open-source. Suis les parcours utilisateurs, les funnels et les conversions.",
         url: 'https://posthog.com',
         icon: iconBrand(BrandIcons.posthog, '#F54E00', 'rgba(245,78,0,0.1)'),
+        badge: BADGE_FREE,
       },
       {
         name: 'Google Analytics 4',
         desc: "GA4 — analyse le trafic de ton site. Comprends d'où viennent tes visiteurs et ce qui convertit.",
         url: 'https://analytics.google.com',
         icon: iconBrand(BrandIcons.googleanalytics, '#E37400', 'rgba(227,116,0,0.1)'),
+        badge: BADGE_FREE,
       },
     ],
   },
@@ -424,11 +445,8 @@ function ToolCard({ tool, navigate }: { tool: Tool; navigate: (h: string) => voi
 function SectionBlock({ section, navigate }: { section: Section; navigate: (h: string) => void }) {
   return (
     <div className="mb-12">
-      {/* Header */}
       <div className="flex items-start gap-3 mb-5">
-        <div
-          className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5 tabular-nums bg-secondary border border-border text-foreground"
-        >
+        <div className="w-[26px] h-[26px] rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5 tabular-nums bg-secondary border border-border text-foreground">
           {section.n}
         </div>
         <div>
@@ -443,8 +461,6 @@ function SectionBlock({ section, navigate }: { section: Section; navigate: (h: s
           </p>
         </div>
       </div>
-
-      {/* Cards grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {section.tools.map(tool => (
           <ToolCard key={`${section.id}-${tool.name}`} tool={tool} navigate={navigate} />
@@ -472,24 +488,20 @@ export function ToolsPage({ navigate }: Props) {
           className="text-foreground mb-2"
           style={{ fontSize: 'clamp(26px, 3vw, 38px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}
         >
-          De 0 au live
+          Les outils qu'on utilise tous les jours
         </h1>
         <p className="text-[13px] text-muted-foreground leading-relaxed">
-          34 outils · 6 catégories — dans l'ordre où tu en auras besoin.
+          33 outils · 6 catégories — dans l'ordre où tu en auras besoin.
         </p>
       </div>
 
       {/* Outil de la semaine */}
       <div className="mb-10 border border-border rounded-2xl overflow-hidden">
         <div className="flex flex-col sm:flex-row">
-          {/* Content */}
           <div className="flex-1 p-6 flex flex-col justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span
-                  className="text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full"
-                  style={{ background: '#8B5CF6', color: '#ffffff' }}
-                >
+                <span className="text-[9px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full bg-foreground text-background">
                   Outil de la semaine
                 </span>
               </div>
@@ -507,26 +519,21 @@ export function ToolsPage({ navigate }: Props) {
               href="https://www.draftly.space/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[12px] font-semibold px-4 py-2 rounded-lg self-start transition-opacity hover:opacity-80"
-              style={{ background: '#8B5CF6', color: '#ffffff' }}
+              className="inline-flex items-center gap-2 text-[12px] font-semibold px-4 py-2 rounded-lg self-start border border-border hover:bg-secondary transition-colors text-foreground"
             >
               Découvrir Draftly
               <ExternalLink size={12} strokeWidth={1.5} />
             </a>
           </div>
-          {/* Preview image */}
           <div
-            className="sm:w-[260px] lg:w-[300px] flex-shrink-0 overflow-hidden flex items-center justify-center"
-            style={{ minHeight: 200, background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(99,102,241,0.1) 100%)' }}
+            className="sm:w-[260px] lg:w-[300px] flex-shrink-0 overflow-hidden flex items-center justify-center bg-secondary/40"
+            style={{ minHeight: 200 }}
           >
             <img
               src="/draftly-preview.png"
               alt="Draftly — composants 3D"
               className="w-full h-full object-cover"
-              onError={(e) => {
-                const el = e.currentTarget as HTMLImageElement
-                el.style.display = 'none'
-              }}
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
             />
           </div>
         </div>
