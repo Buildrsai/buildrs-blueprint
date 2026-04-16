@@ -1930,66 +1930,89 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   )
 }
 
-// ─── SPRINT ──────────────────────────────────────────────────────────────────
+// ─── PROGRAMME ───────────────────────────────────────────────────────────────
 
-const sprintPhases = [
+const programmeModules = [
   {
-    num: "01", type: "PHASE 1", title: "Trouver & Valider",
-    description: "Génère, filtre et valide ton idée avec Claude. Zéro temps perdu sur le mauvais projet.",
-    Icon: Lightbulb,
-    color: "#4d96ff",
-    border: "rgba(77,150,255,0.30)",
-    bg: "rgba(77,150,255,0.08)",
-    items: ["Générateur d'idées intégré", "Validation marché en 30 min", "Brief produit en 1 prompt"],
-    buildrsAsset: "Générateur d'idées Buildrs",
+    num: "01", title: "Fondations",
+    highlight: "Ta stratégie de lancement définie",
+    color: "#4d96ff", bg: "rgba(77,150,255,0.07)", border: "rgba(77,150,255,0.20)",
+    bullets: [
+      "Tu comprends pourquoi l'IA fait 90% du travail à ta place",
+      "Tu choisis le format adapté à ton profil : app, SaaS IA ou logiciel",
+      "Tu choisis ta stratégie : copier, résoudre ou découvrir",
+      "Tu poses ton objectif financier — le système s'adapte",
+    ],
   },
   {
-    num: "02", type: "PHASE 2", title: "Designer & Construire",
-    description: "Claude Code architecture, code et assemble ton produit complet. Toi tu valides.",
-    Icon: Wrench,
-    color: "#cc5de8",
-    border: "rgba(204,93,232,0.30)",
-    bg: "rgba(204,93,232,0.08)",
-    items: ["Architecture générée en 10 min", "UI premium sans coder", "Feature core prête au test"],
-    buildrsAsset: "Agent Architecture Buildrs",
+    num: "02", title: "Ton espace de travail",
+    highlight: "Un environnement complet, configuré, prêt à builder",
+    color: "#cc5de8", bg: "rgba(204,93,232,0.07)", border: "rgba(204,93,232,0.20)",
+    bullets: [
+      "Tu installes tout — un outil à la fois, guidé",
+      "Ton environnement complet est prêt en une session",
+      "Zéro configuration à refaire — c'est en place pour de bon",
+    ],
   },
   {
-    num: "03", type: "PHASE 3", title: "Déployer & Connecter",
-    description: "En ligne en minutes. Domaine, auth, paiements Stripe — tout branché, tout testé.",
-    Icon: Globe,
-    color: "#22c55e",
-    border: "rgba(34,197,94,0.30)",
-    bg: "rgba(34,197,94,0.08)",
-    items: ["Live sur Vercel en 1 clic", "Stripe opérationnel en 15 min", "Emails automatiques Resend"],
-    buildrsAsset: "Checklist Déploiement Buildrs",
+    num: "03", title: "Trouver & Valider",
+    highlight: "Ton idée validée et ta fiche produit prête à exécuter",
+    color: "#f06595", bg: "rgba(240,101,149,0.07)", border: "rgba(240,101,149,0.20)",
+    bullets: [
+      "Tu trouves les SaaS IA rentables et tu t'en inspires",
+      "Tu génères 5 idées rentables en un clic — tu choisis",
+      "Tu valides ton marché en 30 minutes — tu décides",
+      "Tu repars avec ta fiche produit : nom, cible, fonctionnalité star, prix",
+    ],
   },
   {
-    num: "04", type: "PHASE 4", title: "Monétiser & Lancer",
-    description: "Landing générée, campagne prête. Tes premiers utilisateurs et tes premiers euros.",
-    Icon: TrendingUp,
-    color: "#f97316",
-    border: "rgba(249,115,22,0.30)",
-    bg: "rgba(249,115,22,0.08)",
-    items: ["Landing page complète générée", "Campagne Meta Ads prête", "Premiers euros sous 48h"],
-    buildrsAsset: "Agent Marketing Buildrs",
+    num: "04", title: "Design & Architecture",
+    highlight: "Le design et l'architecture de ton produit validés — prêt à construire",
+    color: "#f97316", bg: "rgba(249,115,22,0.07)", border: "rgba(249,115,22,0.20)",
+    bullets: [
+      "Tu crées ton identité visuelle en t'inspirant des meilleurs SaaS IA du marché",
+      "Tu génères ton parcours utilisateur page par page",
+      "Tu obtiens la structure technique de ton produit — prête à construire",
+    ],
+  },
+  {
+    num: "05", title: "Construire",
+    highlight: "Un produit fonctionnel qui tourne",
+    color: "#ef4444", bg: "rgba(239,68,68,0.07)", border: "rgba(239,68,68,0.20)",
+    bullets: [
+      "Tu décris ce que tu veux — l'IA génère ton produit",
+      "Ta fonctionnalité principale est construite et fonctionnelle",
+      "L'inscription utilisateur et l'onboarding sont en place",
+    ],
+  },
+  {
+    num: "06", title: "Déployer",
+    highlight: "Ton produit en ligne, accessible au monde entier",
+    color: "#22c55e", bg: "rgba(34,197,94,0.07)", border: "rgba(34,197,94,0.20)",
+    bullets: [
+      "Ton produit est mis en ligne en un clic — Vercel s'occupe de tout",
+      "Ton domaine personnalisé est connecté",
+      "Paiements et emails automatiques sont branchés et testés",
+    ],
+  },
+  {
+    num: "07", title: "Monétiser & Lancer",
+    highlight: "Ta page de vente live, ta communication lancée, tes premiers euros en vue",
+    color: "#f59f00", bg: "rgba(245,159,0,0.07)", border: "rgba(245,159,0,0.20)",
+    bullets: [
+      "Tu valides ta stratégie de prix : abonnement, unique, freemium",
+      "Ta page de vente est créée par l'IA — tu ajustes, tu publies",
+      "Ta stratégie de communication est posée — contenus, réseaux, pubs",
+      "5 contenus de lancement générés — prêts à poster",
+      "Ta première campagne configurée — le trafic arrive",
+      "Premiers clients, premiers revenus",
+    ],
   },
 ]
 
-function Sprint() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.15 }
-    )
-    if (sectionRef.current) obs.observe(sectionRef.current)
-    return () => obs.disconnect()
-  }, [])
-
+function Programme() {
   return (
-    <section ref={sectionRef} id="modules" className="relative overflow-hidden py-24 bg-background">
+    <section id="modules" className="relative overflow-hidden py-24 bg-background">
       <div className="mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
@@ -1998,203 +2021,149 @@ function Sprint() {
           style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
-          Un système en 4 phases.<br />Un produit live à la fin.
+          1 Système rentable.<br />1 produit monétisé.
         </h2></Reveal>
-        <Reveal delay={0.16}><p className="mb-16 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          <span className="font-semibold text-foreground">Toi tu décides. L'IA construit. Tu encaisses.</span>
+        <Reveal delay={0.16}><p className="mb-16 max-w-[600px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
+          7 modules pour passer de l'idée au produit monétisé. Les IA qu'on utilise sont les meilleures du marché — et presque tous gratuits.
         </p></Reveal>
 
-        {/* ── DESKTOP roadmap ── */}
-        <div className="hidden md:block relative">
+        {/* ── Timeline alternée ── */}
+        <div className="relative">
 
-          {/* Timeline line */}
-          <div className="absolute left-0 right-0 overflow-hidden pointer-events-none" style={{ top: 27, height: 2, zIndex: 0 }}>
-            {/* Base gradient */}
-            <div
-              style={{
-                position: 'absolute', inset: 0,
-                background: 'linear-gradient(90deg, #4d96ff 0%, #cc5de8 33%, #22c55e 66%, #f97316 100%)',
-                opacity: 0.35,
-                transformOrigin: 'left center',
-                transform: visible ? 'scaleX(1)' : 'scaleX(0)',
-                transition: 'transform 1.1s cubic-bezier(0.22, 1, 0.36, 1)',
-              }}
-            />
-            {/* Shimmer sweep */}
-            <div
-              style={{
-                position: 'absolute', top: 0, height: '100%', width: '25%',
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)',
-                animation: visible ? 'sprint-shimmer 1.8s cubic-bezier(0.4,0,0.2,1) 1.1s forwards' : 'none',
-                transform: 'translateX(-100%)',
-              }}
-            />
+          {/* Ligne verticale centrale — desktop uniquement */}
+          <div
+            className="absolute hidden md:block pointer-events-none"
+            style={{
+              left: '50%', top: 0, bottom: 0, width: 1,
+              transform: 'translateX(-50%)',
+              background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.08) 8%, rgba(255,255,255,0.08) 92%, transparent)',
+            }}
+          />
+
+          {/* Mobile : colonne unique */}
+          <div className="flex flex-col gap-5 md:hidden">
+            {programmeModules.map((mod) => (
+              <Reveal key={mod.num}>
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ background: mod.bg, border: `1px solid ${mod.border}` }}
+                >
+                  <span
+                    className="inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] mb-3 px-2.5 py-1 rounded-full"
+                    style={{ color: mod.color, border: `1px solid ${mod.border}` }}
+                  >
+                    Module {mod.num}
+                  </span>
+                  <h3 className="text-[17px] font-bold text-foreground mb-1.5 leading-snug">{mod.title}</h3>
+                  <p className="text-[12px] font-semibold mb-3" style={{ color: mod.color }}>{mod.highlight}</p>
+                  <ul className="flex flex-col gap-2">
+                    {mod.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2 text-[12px] leading-[1.55] text-muted-foreground">
+                        <span className="mt-[5px] shrink-0 h-[4px] w-[4px] rounded-full" style={{ background: mod.color }} />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
           </div>
 
-          {/* Cards grid */}
-          <div className="grid grid-cols-4 gap-5" style={{ position: 'relative', zIndex: 1 }}>
-            {sprintPhases.map((phase, i) => {
-              const Icon = phase.Icon
-              const delay = 0.25 + i * 0.13
+          {/* Desktop : alternance gauche / droite */}
+          <div className="hidden md:flex flex-col gap-10">
+            {programmeModules.map((mod, i) => {
+              const isLeft = i % 2 === 0
               return (
-                <motion.div
-                  key={phase.num}
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={visible ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col"
-                >
-                  {/* Node */}
-                  <div className="flex justify-center mb-5">
-                    <div
-                      className="relative flex h-[54px] w-[54px] items-center justify-center rounded-full"
-                      style={{
-                        background: phase.bg,
-                        border: `1.5px solid ${phase.border}`,
-                        boxShadow: visible ? `0 0 18px ${phase.color}28, 0 0 6px ${phase.color}18` : 'none',
-                        transition: `box-shadow 0.5s ease ${delay + 0.1}s`,
-                      }}
-                    >
-                      {/* Pulse ring */}
-                      <div
-                        className="absolute inset-0 rounded-full"
-                        style={{
-                          border: `1px solid ${phase.color}`,
-                          animation: visible ? `sprint-pulse 2.4s ease-out ${delay + 0.4}s infinite` : 'none',
-                        }}
-                      />
-                      <Icon size={20} strokeWidth={1.5} style={{ color: phase.color }} />
-                    </div>
-                  </div>
-
-                  {/* Card */}
+                <Reveal key={mod.num} delay={0.08 + i * 0.06}>
                   <div
-                    className="flex-1 rounded-xl p-5 group cursor-default"
-                    style={{
-                      background: 'hsl(var(--card))',
-                      border: `1px solid ${phase.border}`,
-                      transition: 'box-shadow 0.25s ease, border-color 0.25s ease',
-                    }}
-                    onMouseEnter={e => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.boxShadow = `0 4px 28px ${phase.color}1a`
-                      el.style.borderColor = `${phase.color}55`
-                    }}
-                    onMouseLeave={e => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.boxShadow = 'none'
-                      el.style.borderColor = phase.border
-                    }}
+                    className="grid items-center"
+                    style={{ gridTemplateColumns: '1fr 80px 1fr', gap: 0 }}
                   >
-                    {/* Badge */}
-                    <span
-                      className="inline-flex items-center text-[9px] font-bold uppercase tracking-[0.18em] mb-3 px-2 py-[3px] rounded-full"
-                      style={{ color: phase.color, background: phase.bg, border: `1px solid ${phase.border}` }}
-                    >
-                      {phase.type}
-                    </span>
-                    {/* Title */}
-                    <p className="text-[14px] font-bold text-foreground mb-2 leading-snug">{phase.title}</p>
-                    {/* Description */}
-                    <p className="text-[11px] leading-[1.65] text-muted-foreground mb-4">{phase.description}</p>
-                    {/* Items */}
-                    <ul className="space-y-2 mb-4">
-                      {phase.items.map((item, j) => (
-                        <li key={j} className="flex items-start gap-2">
-                          <div className="mt-[3px] shrink-0 h-[6px] w-[6px] rounded-full" style={{ background: phase.color, opacity: 0.7 }} />
-                          <span className="text-[11px] text-muted-foreground leading-tight">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    {/* Buildrs asset badge */}
-                    <div className="pt-3 border-t" style={{ borderColor: 'hsl(var(--border))' }}>
-                      <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.14em]" style={{ color: 'hsl(var(--muted-foreground))' }}>
-                        <BuildrsIcon size={10} color="currentColor" />
-                        {phase.buildrsAsset}
-                      </span>
+                    {/* Côté gauche */}
+                    <div className={isLeft ? 'pr-8' : ''}>
+                      {isLeft && (
+                        <div
+                          className="rounded-2xl p-6 transition-shadow duration-200 hover:shadow-lg"
+                          style={{
+                            background: mod.bg,
+                            border: `1px solid ${mod.border}`,
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${mod.color}18` }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '' }}
+                        >
+                          <span
+                            className="inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] mb-3 px-2.5 py-1 rounded-full"
+                            style={{ color: mod.color, border: `1px solid ${mod.border}` }}
+                          >
+                            Module {mod.num}
+                          </span>
+                          <h3 className="text-[18px] font-bold text-foreground mb-2 leading-snug">{mod.title}</h3>
+                          <p className="text-[13px] font-semibold mb-4" style={{ color: mod.color }}>{mod.highlight}</p>
+                          <ul className="flex flex-col gap-2">
+                            {mod.bullets.map((b, j) => (
+                              <li key={j} className="flex items-start gap-2.5 text-[13px] leading-[1.55] text-muted-foreground">
+                                <span className="mt-[5px] shrink-0 h-[5px] w-[5px] rounded-full" style={{ background: mod.color }} />
+                                {b}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Nœud central */}
+                    <div className="flex justify-center relative z-10">
+                      <div
+                        className="h-10 w-10 rounded-full flex items-center justify-center text-[11px] font-bold"
+                        style={{
+                          background: 'hsl(var(--background))',
+                          border: `2px solid ${mod.color}`,
+                          color: mod.color,
+                          boxShadow: `0 0 0 4px hsl(var(--background)), 0 0 16px ${mod.color}30`,
+                        }}
+                      >
+                        {mod.num}
+                      </div>
+                    </div>
+
+                    {/* Côté droit */}
+                    <div className={!isLeft ? 'pl-8' : ''}>
+                      {!isLeft && (
+                        <div
+                          className="rounded-2xl p-6 transition-shadow duration-200"
+                          style={{
+                            background: mod.bg,
+                            border: `1px solid ${mod.border}`,
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${mod.color}18` }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '' }}
+                        >
+                          <span
+                            className="inline-flex items-center text-[10px] font-bold uppercase tracking-[0.16em] mb-3 px-2.5 py-1 rounded-full"
+                            style={{ color: mod.color, border: `1px solid ${mod.border}` }}
+                          >
+                            Module {mod.num}
+                          </span>
+                          <h3 className="text-[18px] font-bold text-foreground mb-2 leading-snug">{mod.title}</h3>
+                          <p className="text-[13px] font-semibold mb-4" style={{ color: mod.color }}>{mod.highlight}</p>
+                          <ul className="flex flex-col gap-2">
+                            {mod.bullets.map((b, j) => (
+                              <li key={j} className="flex items-start gap-2.5 text-[13px] leading-[1.55] text-muted-foreground">
+                                <span className="mt-[5px] shrink-0 h-[5px] w-[5px] rounded-full" style={{ background: mod.color }} />
+                                {b}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </motion.div>
+                </Reveal>
               )
             })}
           </div>
         </div>
-
-        {/* ── MOBILE vertical roadmap ── */}
-        <div className="flex flex-col gap-0 md:hidden">
-          {sprintPhases.map((phase, i) => {
-            const Icon = phase.Icon
-            return (
-              <motion.div
-                key={phase.num}
-                className="flex gap-4"
-                initial={{ opacity: 0, x: -16 }}
-                animate={visible ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {/* Left: node + connector */}
-                <div className="flex flex-col items-center shrink-0" style={{ width: 44 }}>
-                  <div
-                    className="flex h-11 w-11 items-center justify-center rounded-full shrink-0"
-                    style={{
-                      background: phase.bg,
-                      border: `1.5px solid ${phase.border}`,
-                      boxShadow: visible ? `0 0 12px ${phase.color}25` : 'none',
-                    }}
-                  >
-                    <Icon size={18} strokeWidth={1.5} style={{ color: phase.color }} />
-                  </div>
-                  {i < sprintPhases.length - 1 && (
-                    <div
-                      className="my-1"
-                      style={{
-                        width: 1, flex: 1, minHeight: 24,
-                        background: `linear-gradient(to bottom, ${phase.color}35, ${sprintPhases[i + 1].color}35)`,
-                      }}
-                    />
-                  )}
-                </div>
-                {/* Content */}
-                <div className="pb-6 pt-1.5 min-w-0 flex-1">
-                  <span
-                    className="inline-flex items-center text-[9px] font-bold uppercase tracking-[0.18em] mb-2 px-2 py-[2px] rounded-full"
-                    style={{ color: phase.color, background: phase.bg, border: `1px solid ${phase.border}` }}
-                  >
-                    {phase.type}
-                  </span>
-                  <p className="text-[14px] font-bold text-foreground mb-1.5">{phase.title}</p>
-                  <p className="text-[12px] leading-[1.6] text-muted-foreground mb-3">{phase.description}</p>
-                  <ul className="space-y-1.5 mb-3">
-                    {phase.items.map((item, j) => (
-                      <li key={j} className="flex items-start gap-2">
-                        <div className="mt-[4px] shrink-0 h-[5px] w-[5px] rounded-full" style={{ background: phase.color, opacity: 0.7 }} />
-                        <span className="text-[11px] text-muted-foreground">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="pt-2.5 border-t" style={{ borderColor: 'hsl(var(--border))' }}>
-                    <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.14em]" style={{ color: 'hsl(var(--muted-foreground))' }}>
-                      <BuildrsIcon size={10} color="currentColor" />
-                      {phase.buildrsAsset}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
       </div>
-
-      <style>{`
-        @keyframes sprint-shimmer {
-          from { transform: translateX(-100%); }
-          to   { transform: translateX(500%); }
-        }
-        @keyframes sprint-pulse {
-          0%   { transform: scale(1);   opacity: 0.5; }
-          100% { transform: scale(1.9); opacity: 0; }
-        }
-      `}</style>
     </section>
   )
 }
@@ -2214,7 +2183,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <WhyNow />
         <SaasVehicle />
         <Symbiose />
-        <Sprint />
+        <Programme />
         <SavingsChoc />
         <WhatYouGet />
         <UniqueTestimonialSection />
