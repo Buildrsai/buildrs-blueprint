@@ -782,7 +782,7 @@ function Pain() {
           </div>
 
           <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-            Et si le problème, c'était pas toi — mais ta méthode ?
+            Le problème, c'est pas toi. C'est ta méthode.
           </p>
         </Reveal>
       </div>
