@@ -176,6 +176,18 @@ const SECTIONS: Section[] = [
         url: 'https://obsidian.md',
         icon: iconBrand(BrandIcons.obsidian, '#7C3AED', 'rgba(124,58,237,0.1)'),
       },
+      {
+        name: 'Stripe',
+        desc: "Paiements en ligne. Crée tes produits, configure tes prix et encaisse dès le premier jour.",
+        url: 'https://stripe.com',
+        icon: iconBrand(BrandIcons.stripe, '#635BFF', 'rgba(99,91,255,0.1)'),
+      },
+      {
+        name: 'Hostinger',
+        desc: 'Hébergement web alternatif. Idéal pour les sites vitrine ou si tu cherches une option simple.',
+        url: 'https://hostinger.fr',
+        icon: iconBrand(BrandIcons.hostinger, '#673DE6', 'rgba(103,61,230,0.1)'),
+      },
     ],
   },
 
@@ -220,51 +232,10 @@ const SECTIONS: Section[] = [
     ],
   },
 
-  // ── 4. Installer les bases ────────────────────────────────────────────────
-  {
-    id: 'infra',
-    n: 4,
-    title: 'Installer les bases',
-    subtitle: "Maintenant configure chaque outil dans ton projet — keys, env vars, deploy, paiements.",
-    accent: '#22d3ee',
-    tools: [
-      {
-        name: 'Supabase',
-        desc: 'Crée un projet, récupère ta Project URL et ton anon key. Active RLS sur toutes les tables.',
-        url: 'https://supabase.com',
-        icon: iconBrand(BrandIcons.supabase, '#3FCF8E', 'rgba(63,207,142,0.1)'),
-      },
-      {
-        name: 'Vercel',
-        desc: "Importe ton repo GitHub. Configure les variables d'environnement. 1 push = 1 deploy.",
-        url: 'https://vercel.com',
-        icon: iconMono(BrandIcons.vercel),
-      },
-      {
-        name: 'GitHub',
-        desc: 'Crée ton repository. Connecte VS Code. Claude Code gère tous les commits à ta place.',
-        url: 'https://github.com',
-        icon: iconMono(BrandIcons.github),
-      },
-      {
-        name: 'Stripe',
-        desc: "Crée tes produits, récupère le Price ID. La clé secrète va uniquement dans les env vars serveur.",
-        url: 'https://stripe.com',
-        icon: iconBrand(BrandIcons.stripe, '#635BFF', 'rgba(99,91,255,0.1)'),
-      },
-      {
-        name: 'Hostinger',
-        desc: 'Hébergement web alternatif. Idéal pour les sites vitrine ou si tu cherches une option simple.',
-        url: 'https://hostinger.fr',
-        icon: iconBrand(BrandIcons.hostinger, '#673DE6', 'rgba(103,61,230,0.1)'),
-      },
-    ],
-  },
-
-  // ── 5. Trouver & Valider une idée ─────────────────────────────────────────
+  // ── 4. Trouver & Valider une idée ─────────────────────────────────────────
   {
     id: 'valider',
-    n: 5,
+    n: 4,
     title: 'Trouver & Valider une idée',
     subtitle: "90% des MVPs échouent parce qu'ils résolvent un problème imaginaire. Ces outils te donnent de la vraie donnée marché.",
     accent: '#f87171',
@@ -319,7 +290,7 @@ const SECTIONS: Section[] = [
   // ── 6. Designer ton app ───────────────────────────────────────────────────
   {
     id: 'design',
-    n: 6,
+    n: 5,
     title: 'Designer ton app',
     subtitle: "Composants, UI, inspiration flows et icônes — tu donnes forme à ton produit avant de coder.",
     accent: '#ec4899',
@@ -378,7 +349,7 @@ const SECTIONS: Section[] = [
   // ── 7. Outils d'analyse ───────────────────────────────────────────────────
   {
     id: 'analyse',
-    n: 7,
+    n: 6,
     title: "Outils d'analyse",
     subtitle: "Suis les comportements, comprends ce qui marche et optimise en continu.",
     accent: '#fb923c',
@@ -504,7 +475,7 @@ export function ToolsPage({ navigate }: Props) {
           De 0 au live
         </h1>
         <p className="text-[13px] text-muted-foreground leading-relaxed">
-          36 outils · 7 catégories — dans l'ordre où tu en auras besoin.
+          34 outils · 6 catégories — dans l'ordre où tu en auras besoin.
         </p>
       </div>
 
