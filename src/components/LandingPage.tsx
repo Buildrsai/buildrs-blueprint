@@ -790,7 +790,7 @@ function Pain() {
     <section className="bg-background py-20">
       <div className="mx-auto max-w-[1100px] px-6">
       <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
-      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
         Tout le monde te parle d'IA, de SaaS, de Claude. Personne ne te dit comment en faire un vrai business.
       </h2></Reveal>
       <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
@@ -878,7 +878,7 @@ function SaasVehicle() {
             Pourquoi un SaaS IA
           </p></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}
             className="text-foreground max-w-[480px]"
           >
             Le meilleur business model en 2026.
@@ -1043,7 +1043,7 @@ function SavingsChoc() {
             Ce que ça coûte vraiment
           </p></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
             Seul, tu perds.<br />Avec Buildrs, tu gagnes.
@@ -1152,7 +1152,7 @@ function Symbiose() {
             La combinaison gagnante
           </p></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-foreground"
           >
             Claude est ton bras armé.<br />Buildrs est ton cerveau augmenté.
@@ -1255,7 +1255,7 @@ function BeforeAfter() {
       <div className="mx-auto max-w-[1100px] px-6">
         <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">La transformation</p>
         <h2
-          style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
           Sans Buildrs, tu tâtonnes.<br />Avec Buildrs, tu avances.
@@ -1416,7 +1416,7 @@ function WhatYouGet() {
             Ce que tu vas recevoir
           </p></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-white"
           >
             Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
@@ -1562,7 +1562,7 @@ function UniqueTestimonialSection() {
           Ils l'ont fait
         </p>
         <h2
-          style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="text-white"
         >
           Les messages de notre WhatsApp.
@@ -1614,7 +1614,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
     <section id="tarif" className="bg-muted py-24 text-center">
       <div className="mx-auto max-w-[1100px] px-6">
         <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p></Reveal>
-        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
           Tout ce qu'il te faut pour lancer ton SaaS IA.
         </h2></Reveal>
         <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
@@ -1749,7 +1749,7 @@ function TeamSection() {
             <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/40">Qui sommes-nous</span>
           </div></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
             className="text-white"
           >
             Des entrepreneurs IA qui construisent pour vous.
@@ -1831,7 +1831,7 @@ function FAQ() {
     <section id="faq" className="relative py-24 overflow-hidden">
       <div className="mx-auto max-w-[1100px] px-6">
         <Reveal><p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">FAQ</p></Reveal>
-        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
           Tes questions.<br />Nos réponses.
         </h2></Reveal>
 
@@ -1964,7 +1964,7 @@ function Sprint() {
         {/* Header */}
         <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le programme</p></Reveal>
         <Reveal delay={0.08}><h2
-          style={{ fontSize: "clamp(24px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="mb-4 text-foreground"
         >
           Un système en 4 phases.<br />Un produit live à la fin.
