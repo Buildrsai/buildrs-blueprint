@@ -1428,14 +1428,14 @@ function WhatYouGet() {
 
         {/* Tab nav */}
         <Reveal delay={0.2}>
-          <div className="mb-6 flex flex-wrap gap-2 justify-center">
+          <div className="mb-6 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
             {dashTabs.map((t, i) => {
               const active = i === activeTab
               return (
                 <button
                   key={t.id}
                   onClick={() => handleTab(i)}
-                  className="flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200"
+                  className="flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200"
                   style={{
                     background: active ? "#ffffff" : "rgba(255,255,255,0.06)",
                     color: active ? "#09090b" : "rgba(255,255,255,0.45)",
