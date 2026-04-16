@@ -675,13 +675,13 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Progress bar scarcity */}
           <Reveal delay={0.36}>
-            <div className="mb-5 w-full max-w-[400px]">
+            <div className="mb-5" style={{ width: 'min(520px, calc(100vw - 48px))' }}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[12px] text-muted-foreground/60">76/200 places réclamées</span>
-                <span className="text-[12px] font-semibold text-foreground/70">62% restant</span>
+                <span className="text-[12px] text-muted-foreground/60">140/200 places réclamées</span>
+                <span className="text-[12px] font-semibold text-foreground/70">30% restant</span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-border overflow-hidden">
-                <div className="h-full rounded-full bg-foreground" style={{ width: "38%" }} />
+              <div className="h-2 w-full rounded-full bg-border overflow-hidden">
+                <div className="h-full rounded-full bg-foreground" style={{ width: "70%" }} />
               </div>
             </div>
           </Reveal>
