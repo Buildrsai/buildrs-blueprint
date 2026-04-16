@@ -652,7 +652,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           <Reveal delay={0.18}>
             <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
               De l'idée au premier client payant — guidé par l'IA, étape par étape.<br />
-              Génère tes premiers revenus en autopilote. Même sans savoir coder.
+              Génère tes premiers revenus en autopilote. <strong className="font-semibold text-foreground">Même sans savoir coder.</strong>
             </p>
           </Reveal>
 
