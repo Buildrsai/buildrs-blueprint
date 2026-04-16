@@ -668,7 +668,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
                 Accéder au Blueprint — 27€ →
               </a>
               <p className="text-[12px] text-muted-foreground/50">
-                Valeur réelle : 1 235€ · Paiement unique · Accès à vie
+                Paiement unique · Accès à vie
               </p>
             </div>
           </Reveal>
