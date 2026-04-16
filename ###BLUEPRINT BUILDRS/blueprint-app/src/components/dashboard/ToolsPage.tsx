@@ -124,9 +124,9 @@ const SECTIONS: Section[] = [
         icon: iconBrand(BrandIcons.perplexity, '#20808D', 'rgba(32,128,141,0.1)'),
       },
       {
-        name: 'Gemini 4',
-        desc: "Le modèle de Google. Idéal pour la recherche approfondie et les analyses longues.",
-        url: 'https://gemini.google.com',
+        name: 'Gemma 4',
+        desc: "Le modèle open-weight de Google. Léger, rapide, idéal pour les tâches analytiques et les intégrations locales.",
+        url: 'https://ai.google.dev/gemma',
         icon: iconBrand(BrandIcons.gemini, '#4285F4', 'rgba(66,133,244,0.1)'),
       },
     ],
