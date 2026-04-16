@@ -791,19 +791,9 @@ function Pain() {
     <section className="bg-background py-20">
       <div className="mx-auto max-w-[1100px] px-6">
       <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
-      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-5 text-foreground">
+      <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
         Tout le monde te parle d'IA, de SaaS, de Claude. Personne ne te dit comment en faire un vrai business.
       </h2></Reveal>
-      <Reveal delay={0.12}>
-        <div className="flex flex-wrap gap-2 mb-6">
-          {["Sans savoir coder", "En ligne en moins de 6 jours", "0€ Budget de départ"].map((label) => (
-            <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[12px] font-semibold text-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 shrink-0" />
-              {label}
-            </span>
-          ))}
-        </div>
-      </Reveal>
       <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
         L'IA peut tout construire. Claude peut builder ton produit. Mais personne ne te dit comment en tirer vraiment parti, ni quelle stratégie adopter pour gagner réellement de l'argent en ligne.
       </p></Reveal>
@@ -897,6 +887,16 @@ function SaasVehicle() {
           <Reveal delay={0.16}><p className="mt-5 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
             Le SaaS IA, c'est la version 2.0 du SaaS classique. Tu embarques des agents IA directement dans le produit — ils agissent pour chaque utilisateur, 24h/24. Ton SaaS ne vend plus de l'accès à un outil. Il vend du travail accompli. Valeur perçue incomparable, rétention qui explose, marges identiques.
           </p></Reveal>
+          <Reveal delay={0.22}>
+            <div className="flex flex-wrap gap-2 mt-5">
+              {["Sans savoir coder", "En ligne en moins de 6 jours", "0€ Budget de départ"].map((label) => (
+                <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[12px] font-semibold text-foreground">
+                  <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 shrink-0" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </Reveal>
         </div>
 
         {/* Two columns */}
@@ -2114,8 +2114,8 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Hero onCTA={go} />
         <Marquee />
         <Stats />
-        <SaasVehicle />
         <Pain />
+        <SaasVehicle />
         <SavingsChoc />
         <Symbiose />
         <Sprint />
