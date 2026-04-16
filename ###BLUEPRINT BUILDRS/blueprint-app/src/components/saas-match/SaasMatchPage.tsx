@@ -141,7 +141,13 @@ export function SaasMatchPage({ onResults }: Props) {
 
   // ── RENDER: LP ───────────────────────────────────────────────────────────────
   if (step === 'lp') return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="min-h-screen bg-background"
+      style={{
+        backgroundImage: 'radial-gradient(circle, hsl(var(--foreground)/0.06) 1px, transparent 1px)',
+        backgroundSize: '22px 22px',
+      }}
+    >
       <div className="max-w-lg mx-auto px-5 py-10">
 
         {/* Nav */}
@@ -165,11 +171,11 @@ export function SaasMatchPage({ onResults }: Props) {
           </span>
 
           <h1
-            className="text-foreground font-black leading-none"
-            style={{ fontSize: 'clamp(36px, 8vw, 64px)', letterSpacing: '-0.04em' }}
+            className="text-foreground font-black"
+            style={{ fontSize: 'clamp(28px, 5.5vw, 46px)', letterSpacing: '-0.04em', lineHeight: 1.05 }}
           >
-            Trouve le SaaS IA<br />
-            <span style={{ color: '#7C3AED' }}>fait pour toi.</span>
+            <span className="block">Trouve le SaaS IA</span>
+            <span className="block" style={{ color: '#7C3AED' }}>fait pour toi.</span>
           </h1>
 
           <p className="text-muted-foreground text-base leading-relaxed">
@@ -186,7 +192,7 @@ export function SaasMatchPage({ onResults }: Props) {
             onChange={e => setNiche(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleStart()}
             placeholder="Ex: coachs sportifs, restaurants, RH PME..."
-            className="w-full border-2 border-foreground rounded-xl px-4 py-3.5 bg-background text-foreground text-sm focus:outline-none"
+            className="w-full border-2 border-foreground rounded-xl px-4 py-3.5 bg-background text-foreground text-sm focus:outline-none focus:border-[#7C3AED] transition-colors duration-150"
             autoFocus
           />
           <div className="cta-rainbow relative">
@@ -215,10 +221,20 @@ export function SaasMatchPage({ onResults }: Props) {
         </div>
 
         {/* Example result teaser */}
-        <div className="border border-border rounded-xl p-4 bg-secondary/50">
-          <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">Exemple de résultat</p>
-          <p className="text-sm font-bold text-foreground">Gestionnaire de programmes pour coachs sportifs</p>
-          <p className="text-[11px] text-muted-foreground mt-1">Score 91/100 · MRR potentiel : 1 450€/mois</p>
+        <div className="border border-border rounded-xl p-4 bg-secondary/50 overflow-hidden relative">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.04) 0%, transparent 60%)' }}
+          />
+          <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/40 mb-2.5">Exemple de résultat</p>
+          <p className="text-sm font-bold text-foreground mb-1">Gestionnaire de programmes pour coachs sportifs</p>
+          <div className="flex items-center gap-3 mt-2">
+            <div className="h-1 flex-1 rounded-full bg-border overflow-hidden">
+              <div className="h-full rounded-full bg-[#10B981]" style={{ width: '91%' }} />
+            </div>
+            <span className="text-[11px] font-black font-mono text-[#10B981] shrink-0">91/100</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground/60 mt-1.5">MRR potentiel : 1 450€/mois · 5-7 jours de build</p>
         </div>
 
       </div>
@@ -261,11 +277,18 @@ export function SaasMatchPage({ onResults }: Props) {
 
           {/* Choices */}
           <div className="space-y-2.5">
-            {q.choices.map(choice => (
+            {q.choices.map((choice, ci) => (
               <button
                 key={choice.value}
                 onClick={() => handleAnswer(choice.value)}
-                className="w-full text-left flex items-center justify-between p-4 rounded-xl border border-border hover:border-foreground/30 hover:bg-secondary/50 transition-all bg-card"
+                className="w-full text-left flex items-center justify-between p-4 rounded-xl border border-border hover:border-[#7C3AED]/40 hover:bg-secondary/50 transition-all bg-card"
+                style={{
+                  animationName: 'fadeSlideUp',
+                  animationDuration: '0.35s',
+                  animationTimingFunction: 'ease',
+                  animationFillMode: 'both',
+                  animationDelay: `${ci * 60}ms`,
+                }}
               >
                 <div>
                   <p className="text-sm font-semibold text-foreground">{choice.label}</p>
