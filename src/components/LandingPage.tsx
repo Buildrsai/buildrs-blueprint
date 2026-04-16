@@ -636,7 +636,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           <Reveal delay={0.1}>
             <h1
               className="mb-7 text-foreground mx-auto max-w-[860px]"
-              style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+              style={{ fontSize: "clamp(28px, 3.8vw, 50px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             >
               Le système exact pour lancer ton SaaS IA en 6 jours — sans coder, sans budget.
             </h1>
