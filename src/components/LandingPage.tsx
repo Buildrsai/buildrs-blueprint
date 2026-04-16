@@ -638,15 +638,14 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
               className="mb-7 text-foreground mx-auto max-w-[860px]"
               style={{ fontSize: "clamp(34px, 5vw, 62px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
             >
-              Le système exact pour créer et monétiser ton premier SaaS IA.
+              Le système exact pour lancer ton SaaS IA en 6 jours — sans coder, sans budget.
             </h1>
           </Reveal>
 
           {/* Sub */}
           <Reveal delay={0.18}>
             <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-              Un système guidé, de l'idée au premier euro. Zéro ligne de code. Claude Code construit. Toi tu pilotes.{" "}
-              <strong className="font-semibold text-foreground">Résultat en moins de 6 jours.</strong>
+              De l'idée au premier revenu. <strong className="font-semibold text-foreground">Claude construit, toi tu pilotes.</strong>
             </p>
           </Reveal>
 
