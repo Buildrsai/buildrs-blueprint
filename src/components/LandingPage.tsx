@@ -782,10 +782,10 @@ function Pain() {
       <div className="mx-auto max-w-[1100px] px-6">
       <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
       <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(26px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
-        Tout le monde te parle d'IA. Personne te dit comment en faire un vrai business.
+        Tout le monde te parle d'IA, de SaaS, de Claude. Personne ne te dit comment en faire un vrai business.
       </h2></Reveal>
       <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
-        L'IA peut tout construire — Claude, c'est réel. Mais construire quoi ? Pour qui ? Avec quel modèle de revenus ?
+        L'IA peut tout construire. Claude peut builder ton produit. Mais personne ne te dit comment en tirer vraiment parti, ni quelle stratégie adopter pour gagner réellement de l'argent en ligne. C'est bien le paradoxe.
       </p></Reveal>
 
       <Reveal delay={0.24}>
