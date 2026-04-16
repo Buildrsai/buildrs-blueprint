@@ -869,28 +869,28 @@ const saasCardItems = [
     id: "global",
     title: "Vendre sans limites",
     stat: "24h/24 · Dans le monde entier",
-    description: "Tu crées une fois. Ça se vend à l'infini, partout, sans stock ni logistique.",
+    description: "Tu crées une fois. Ça se vend à l'infini. Sans stock, sans logistique.",
     icon: <Globe strokeWidth={1.5} size={20} />,
   },
   {
     id: "mrr",
     title: "Revenus récurrents",
     stat: "50 clients × 29€ = 1 450€/mois",
-    description: "Un abonnement mensuel prévisible. Pas de chasse au client, pas de mission à facturer.",
+    description: "Chaque mois, le MRR s'accumule. Tu ne repars pas de zéro à chaque vente.",
     icon: <TrendingUp strokeWidth={1.5} size={20} />,
   },
   {
     id: "stack",
     title: "Dupliquer et automatiser",
     stat: "SaaS 1 → SaaS 2 → SaaS 3",
-    description: "La méthode se copie. Tu lances un deuxième produit en deux fois moins de temps.",
+    description: "Tes agents IA gèrent tout. Toi, tu lances le suivant pendant qu'ils tournent.",
     icon: <Copy strokeWidth={1.5} size={20} />,
   },
   {
     id: "exit",
     title: "Revendre ou conserver",
     stat: "1 000€/mois → 20 000 à 40 000€",
-    description: "Tu gardes le MRR ou tu revends 20x à 40x le mensuel. C'est toi qui choisis.",
+    description: "Tu gardes le MRR, ou tu revends 20x à 40x. C'est toi qui décides.",
     icon: <ArrowLeftRight strokeWidth={1.5} size={20} />,
   },
 ]
@@ -919,14 +919,15 @@ function SaasVehicle() {
           <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
             Pourquoi un SaaS IA
           </p></Reveal>
+
           <Reveal delay={0.08}><h2
             style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}
-            className="text-foreground max-w-[480px]"
+            className="text-foreground max-w-[580px]"
           >
-            Le meilleur business model en 2026.
+            Pourquoi le SaaS IA change tout en 2026.
           </h2></Reveal>
           <Reveal delay={0.16}><p className="mt-5 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
-            Le SaaS IA, c'est la version 2.0 du SaaS classique. Tu embarques des agents IA directement dans le produit — ils agissent pour chaque utilisateur, 24h/24. Ton SaaS ne vend plus de l'accès à un outil. Il vend du travail accompli. Valeur perçue incomparable, rétention qui explose, marges identiques.
+            Contrairement au e-commerce, aux agences IA, au freelance ou au coaching, un SaaS IA ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
           </p></Reveal>
           <Reveal delay={0.22}>
             <div className="flex flex-wrap gap-2 mt-5">
