@@ -1308,114 +1308,96 @@ function BeforeAfter() {
 
 // ─── WHAT YOU GET ─────────────────────────────────────────────────────────────
 
-const dataSources: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
-  { label: "Product Hunt",  Icon: BrandIcons.producthunt },
-  { label: "Reddit",        Icon: BrandIcons.reddit },
-  { label: "Flippa",        Icon: BrandIcons.flippa },
-  { label: "Indie Hackers", Icon: BrandIcons.indiehackers },
-]
-
-const systemCards = [
+const dashTabs = [
+  {
+    id: "cockpit",
+    label: "Cockpit",
+    Icon: Zap,
+    title: "Ton cockpit de pilotage",
+    desc: "La checklist interactive étape par étape. Tu sais toujours exactement où tu en es — de l'idée au SaaS déployé.",
+    bullets: [
+      "Progression en temps réel sur les 4 phases",
+      "50+ prompts testés, copiables en 1 clic",
+      "Stack complète configurée et documentée",
+    ],
+    img: "/Dash-Accueil.webp",
+    color: "#22c55e",
+  },
+  {
+    id: "parcours",
+    label: "Parcours",
+    Icon: BookOpen,
+    title: "Le parcours étape par étape",
+    desc: "6 modules complets. Chaque leçon = une action concrète. Vidéos, exercices, prompts — de l'idée au produit monétisé.",
+    bullets: [
+      "6 modules avec contenu vidéo + texte",
+      "Exercices pratiques à chaque étape",
+      "Progression débloquée automatiquement",
+    ],
+    img: "/dash-cockpit.webp",
+    color: "#4d96ff",
+  },
   {
     id: "marketplace",
-    Icon: Database,
-    color: "#4d96ff",
-    bg: "rgba(77,150,255,0.08)",
-    border: "rgba(77,150,255,0.20)",
-    title: "Marketplace d'idées",
-    desc: "Des centaines d'idées de SaaS IA analysées par nos agents depuis les vraies sources de données. Pas du ChatGPT. De la data réelle sur ce qui se vend — et ce qui se revend.",
-    details: [
+    label: "Marketplace",
+    Icon: Search,
+    title: "Marketplace d'idées SaaS IA",
+    desc: "Des centaines d'idées analysées par nos agents depuis les vraies sources. Pas du ChatGPT — de la vraie data sur ce qui se vend.",
+    bullets: [
       "Idées triées par rentabilité et viabilité",
       "Analyse concurrentielle incluse",
       "Modèle de prix suggéré pour chaque idée",
     ],
-    sources: true,
+    img: "/dash-marketplace.webp",
+    color: "#4d96ff",
   },
   {
     id: "validator",
+    label: "Générateur & Validateur",
     Icon: BarChart2,
-    color: "#cc5de8",
-    bg: "rgba(204,93,232,0.08)",
-    border: "rgba(204,93,232,0.20)",
-    title: "Générateur d'idées de SaaS",
-    desc: "Tu as une idée ? Le validateur te dit si elle est rentable avant que tu codes une ligne. Basé sur des problèmes réels récupérés de Reddit, des SaaS qui marchent sur PH, des exits récents sur Flippa.",
-    details: [
+    title: "Génère et valide ton idée",
+    desc: "Score de viabilité sur 100. MRR estimé. Scénario de revente. Tout basé sur des données réelles — avant de coder une ligne.",
+    bullets: [
       "Score de viabilité sur 100",
-      "Analyse des tendances marché en temps réel",
-      "Estimation MRR potentiel + scénario de revente",
+      "Estimation MRR potentiel",
+      "Scénario de revente inclus",
     ],
-    sources: false,
-  },
-  {
-    id: "cockpit",
-    Icon: Zap,
-    color: "#22c55e",
-    bg: "rgba(34,197,94,0.08)",
-    border: "rgba(34,197,94,0.20)",
-    title: "Le cockpit — 4 phases",
-    desc: "Le dashboard qui pilote ton projet de A à Z. Chaque phase avec ses prompts copiables, sa checklist, ses outils configurés. Tu sais toujours exactement où tu en es.",
-    details: [
-      "50+ prompts testés, copiables en un clic",
-      "Checklist interactive de progression",
-      "Stack complète configurée et documentée",
-    ],
-    sources: false,
+    img: "/Dash-Valider.webp",
+    color: "#cc5de8",
   },
   {
     id: "tools",
-    Icon: Users,
-    color: "#f97316",
-    bg: "rgba(249,115,22,0.08)",
-    border: "rgba(249,115,22,0.20)",
-    title: "Boîte à outils + Communauté",
-    desc: "Tous les outils de la stack avec guides pas à pas. Le canal WhatsApp Buildrs pour ne jamais être seul. Les mises à jour sur les nouvelles fonctionnalités Claude, en temps réel.",
-    details: [
+    label: "Boîte à outils",
+    Icon: Wrench,
+    title: "Boîte à outils & Communauté",
+    desc: "Tous les outils de la stack avec guides pas à pas. Le canal WhatsApp Buildrs pour ne jamais être seul.",
+    bullets: [
       "Guides de configuration pour chaque outil",
       "Canal WhatsApp privé Buildrs",
       "Mises à jour permanentes sur Claude",
     ],
-    sources: false,
+    img: "/dash-community.webp",
+    color: "#f97316",
   },
 ]
 
-function DashScreenshot({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="mt-2 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className="w-full h-auto block"
-        style={{ maxHeight: 220, objectFit: "cover", objectPosition: "top" }}
-      />
-    </div>
-  )
-}
-
-function MarketplaceMockup() {
-  return <DashScreenshot src="/dash-marketplace.webp" alt="Marketplace Buildrs" />
-}
-
-function ValidatorMockup() {
-  return <DashScreenshot src="/Dash-Valider.webp" alt="Valider mon idée Buildrs" />
-}
-
-function CockpitMockup() {
-  return <DashScreenshot src="/Dash-Accueil.webp" alt="Cockpit Buildrs" />
-}
-
-function ToolsMockup() {
-  return <DashScreenshot src="/dash-community.webp" alt="Communauté Buildrs" />
-}
-
 function WhatYouGet() {
+  const [activeTab, setActiveTab] = useState(0)
+  const [direction, setDirection] = useState(1)
+
+  const handleTab = (i: number) => {
+    setDirection(i >= activeTab ? 1 : -1)
+    setActiveTab(i)
+  }
+
+  const tab = dashTabs[activeTab]
+
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
-
       <div className="relative mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
-        <div className="mb-16 text-center">
+        <div className="mb-12 text-center">
           <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
             Ce que tu vas recevoir
           </p></Reveal>
@@ -1426,73 +1408,101 @@ function WhatYouGet() {
             Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
           </h2></Reveal>
           <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
-            Trouve ton idée. Valide-la. Construis-la. Monétise-la. Buildrs + Claude — tout dans un seul cockpit.
+            Trouve ton idée. Valide-la. Construis-la. Monétise-la. Tout dans un seul cockpit.
           </p></Reveal>
         </div>
 
-        {/* 4 cards grid */}
-        <Reveal delay={0.24}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-          {systemCards.map(({ id, Icon, color, bg, border, title, desc, details, sources }) => (
-            <div
-              key={id}
-              className="rounded-2xl p-7 flex flex-col gap-5"
-              style={{ background: "#111113", border: `1px solid ${border}` }}
-            >
-              {/* Card header */}
-              <div className="flex items-start gap-4">
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                  style={{ background: bg, border: `1px solid ${border}` }}
+        {/* Tab nav */}
+        <Reveal delay={0.2}>
+          <div className="mb-6 flex flex-wrap gap-2 justify-center sm:justify-start">
+            {dashTabs.map((t, i) => {
+              const active = i === activeTab
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => handleTab(i)}
+                  className="flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200"
+                  style={{
+                    background: active ? "#ffffff" : "rgba(255,255,255,0.06)",
+                    color: active ? "#09090b" : "rgba(255,255,255,0.45)",
+                    border: active ? "1px solid rgba(255,255,255,0.9)" : "1px solid rgba(255,255,255,0.08)",
+                  }}
                 >
-                  <Icon size={20} strokeWidth={1.5} style={{ color }} />
-                </div>
-                <div>
-                  <h3 className="text-[16px] font-bold text-white leading-snug">{title}</h3>
-                </div>
-              </div>
-
-              {/* Description */}
-              <p className="text-[13px] leading-[1.7] text-white/50">{desc}</p>
-
-              {/* Details */}
-              <ul className="flex flex-col gap-2">
-                {details.map((d) => (
-                  <li key={d} className="flex items-start gap-2">
-                    <div className="mt-[5px] h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: color, opacity: 0.7 }} />
-                    <span className="text-[12px] text-white/50">{d}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Card mockups */}
-              {id === "marketplace" && <MarketplaceMockup />}
-              {id === "validator" && <ValidatorMockup />}
-              {id === "cockpit" && <CockpitMockup />}
-              {id === "tools" && <ToolsMockup />}
-
-              {/* Data sources (Marketplace card only) */}
-              {sources && (
-                <div className="pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-                  <p className="mb-2.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white/25">
-                    Analysé depuis
-                  </p>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    {dataSources.map(({ label, Icon: SrcIcon }) => (
-                      <div key={label} className="flex items-center gap-1.5">
-                        <SrcIcon className="h-4 w-4 text-white/30" />
-                        <span className="text-[10px] font-medium text-white/25">{label}</span>
-                      </div>
-                    ))}
-                    <span className="text-[10px] font-medium text-white/20">+ TrustMRR · Acquire</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                  <t.Icon size={14} strokeWidth={1.5} />
+                  {t.label}
+                </button>
+              )
+            })}
+          </div>
         </Reveal>
 
+        {/* Content panel */}
+        <Reveal delay={0.28}>
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: direction * 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-2"
+            >
+              {/* Left — text */}
+              <div className="flex flex-col justify-center gap-6 p-8 lg:p-10">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-xl"
+                  style={{ background: `${tab.color}18`, border: `1px solid ${tab.color}35` }}
+                >
+                  <tab.Icon size={18} strokeWidth={1.5} style={{ color: tab.color }} />
+                </div>
+                <div>
+                  <h3 className="mb-3 text-[20px] font-bold text-white leading-snug">{tab.title}</h3>
+                  <p className="text-[14px] leading-[1.7] text-white/50">{tab.desc}</p>
+                </div>
+                <ul className="flex flex-col gap-2.5">
+                  {tab.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2.5">
+                      <div className="mt-[6px] h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: tab.color }} />
+                      <span className="text-[13px] text-white/60">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Right — screenshot */}
+              <div
+                className="relative overflow-hidden"
+                style={{ borderLeft: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <img
+                  src={tab.img}
+                  alt={tab.title}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top"
+                  style={{ minHeight: 260, maxHeight: 420 }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        </Reveal>
+
+        {/* Tab dots indicator */}
+        <div className="mt-5 flex justify-center gap-1.5">
+          {dashTabs.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleTab(i)}
+              className="rounded-full transition-all duration-200"
+              style={{
+                width: i === activeTab ? 20 : 6,
+                height: 6,
+                background: i === activeTab ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
+              }}
+            />
+          ))}
+        </div>
 
       </div>
     </section>
