@@ -737,22 +737,22 @@ function Stats() {
 
 const constatCards = [
   {
-    emoji: "⏱",
+    Icon: Clock,
     title: "Tu scrolles depuis des mois sans rien lancer",
     desc: "Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.",
   },
   {
-    emoji: "🎓",
+    Icon: BookOpen,
     title: "997€ de formations. Zéro produit en ligne.",
     desc: "Tu as suivi des cours, regardé des heures de tutos, pris des notes. Mais à la fin, rien n'est live. Parce qu'on t'a appris la théorie, pas l'exécution.",
   },
   {
-    emoji: "🧩",
+    Icon: Layers,
     title: "Trop d'outils, zéro direction",
     desc: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make… Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
   },
   {
-    emoji: "🚀",
+    Icon: Zap,
     title: "Pendant ce temps, d'autres lancent",
     desc: "Sans background technique, sans équipe, sans budget. Ils n'ont rien de plus que toi. Ils ont juste un système et de la direction.",
   },
@@ -772,11 +772,13 @@ function Pain() {
 
         <Reveal delay={0.24}>
           <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            {constatCards.map(({ emoji, title, desc }) => (
+            {constatCards.map(({ Icon, title, desc }) => (
               <div key={title} className="rounded-2xl border border-border bg-[#09090b] p-7 transition-colors hover:border-white/20">
-                <div className="mb-3.5 text-[22px] leading-none">{emoji}</div>
-                <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{title}</h3>
-                <p className="text-[14px] leading-relaxed text-white/55">{desc}</p>
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <Icon size={17} strokeWidth={1.5} className="text-white/80" />
+                </div>
+                <h3 className="mb-2 text-[15px] font-bold tracking-tight text-white">{title}</h3>
+                <p className="text-[14px] leading-relaxed text-white/50">{desc}</p>
               </div>
             ))}
           </div>
@@ -929,16 +931,6 @@ function SaasVehicle() {
           <Reveal delay={0.16}><p className="mt-5 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
             Contrairement au e-commerce, aux agences IA, au freelance ou au coaching, un SaaS IA ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
           </p></Reveal>
-          <Reveal delay={0.22}>
-            <div className="flex flex-wrap gap-2 mt-5">
-              {["Sans savoir coder", "En ligne en moins de 6 jours", "0€ Budget de départ"].map((label) => (
-                <span key={label} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[12px] font-semibold text-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 shrink-0" />
-                  {label}
-                </span>
-              ))}
-            </div>
-          </Reveal>
         </div>
 
         {/* Two columns */}
