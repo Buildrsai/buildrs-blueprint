@@ -218,7 +218,13 @@ interface ParsedRoute {
 
 function parseHash(hash: string): ParsedRoute {
   const h = hash.replace(/^#\/?/, '')
-  if (!h || h === 'landing' || h === '/') return { type: 'landing' }
+  // Subdomain redirect — saas-match.buildrs.fr sans hash → SaaS Match directement
+  if (!h || h === 'landing' || h === '/') {
+    if (typeof window !== 'undefined' && window.location.hostname === 'saas-match.buildrs.fr') {
+      return { type: 'saas-match' }
+    }
+    return { type: 'landing' }
+  }
   if (h === 'plombia') return { type: 'plombia-proposal' }
   if (h === 'group')   return { type: 'group' }
   if (h === 'saas-match') return { type: 'saas-match' }
