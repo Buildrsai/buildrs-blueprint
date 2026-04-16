@@ -1518,41 +1518,27 @@ function WhatYouGet() {
           ))}
         </div>
 
-        {/* Axes de mise à jour */}
-        <Reveal delay={0.1}>
-          <div className="mt-14 rounded-2xl border border-white/[0.07] bg-white/[0.03] px-6 py-5">
-            <div className="mb-4 flex items-center gap-2">
-              <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-              <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
-                Mis à jour toutes les 48h
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { label: "Nouveaux skills", color: "#22c55e" },
-                { label: "Mises à jour Claude", color: "#CC9B7A" },
-                { label: "Nouveaux prompts", color: "#4d96ff" },
-                { label: "Nouveaux plugins", color: "#cc5de8" },
-                { label: "Nouvelles vidéos", color: "#f97316" },
-                { label: "Nouvelles stratégies IA", color: "#f59e0b" },
-                { label: "Retours terrain Buildrs Lab", color: "#ec4899" },
-              ].map(({ label, color }) => (
-                <span
-                  key={label}
-                  className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[12px] font-semibold"
-                  style={{
-                    background: `${color}14`,
-                    border: `1px solid ${color}30`,
-                    color: color,
-                  }}
-                >
-                  <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: color }} />
-                  {label}
-                </span>
-              ))}
-            </div>
+        {/* Axes de mise à jour — marquee */}
+        <div className="mt-14 overflow-hidden border-y border-white/[0.07] py-4">
+          <div
+            className="flex gap-10 whitespace-nowrap"
+            style={{ animation: "marquee-scroll 28s linear infinite", width: "max-content" }}
+          >
+            {[
+              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
+              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
+              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
+              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
+              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
+              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
+            ].map((label, i) => (
+              <span key={i} className="inline-flex items-center gap-2.5 text-[13px] font-medium text-white/40">
+                <span className="h-1 w-1 rounded-full bg-white/20 shrink-0" />
+                Mise à jour — {label}
+              </span>
+            ))}
           </div>
-        </Reveal>
+        </div>
 
       </div>
     </section>
