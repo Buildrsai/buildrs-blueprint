@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import { ArrowRight, ChevronRight, Check } from 'lucide-react'
 import { BuildrsIcon } from '../ui/icons'
 import { supabase } from '../../lib/supabase'
+import { trackEvent } from '../../lib/pixel'
 import type { IdeaResult } from '../../types/generator'
 
 // ── Questions ─────────────────────────────────────────────────────────────────
@@ -130,6 +131,8 @@ export function SaasMatchPage({ onResults }: Props) {
         results_json: { ideas: resultsRef.current },
       })
     } catch (_) { /* non-bloquant */ }
+
+    trackEvent('Lead', { content_name: 'SaaS Match', email: trimmed })
 
     sessionStorage.setItem('saas_match_results', JSON.stringify(resultsRef.current))
     sessionStorage.setItem('saas_match_answers', JSON.stringify(answers))
