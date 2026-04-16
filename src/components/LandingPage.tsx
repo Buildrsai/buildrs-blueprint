@@ -813,7 +813,7 @@ function Pain() {
 
       {/* Transition phrase */}
       <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-        L'IA est le levier. Le SaaS, le meilleur véhicule. Buildrs, le système pour faire les deux correctement.
+        L'IA est le levier. Claude est le bras armé. Le SaaS IA est le véhicule. Buildrs, c'est le système pour fusionner tout ça.
       </p>
       </Reveal>
       </div>
