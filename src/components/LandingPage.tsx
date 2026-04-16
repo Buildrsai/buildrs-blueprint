@@ -42,10 +42,10 @@ const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] 
   { label: "Perplexity",     Icon: BrandIcons.perplexity },
 ]
 
-const stats = [
-  { target: 400, prefix: "+", suffix: "h",  desc: "économisées — de zéro à ton premier SaaS en ligne et monétisé" },
-  { target: 500, prefix: "",  suffix: "€",  desc: "d'outils inutiles évités grâce à la stack validée dès le départ" },
-  { target: 6,   prefix: "",  suffix: "j",  desc: "pour être en ligne, paiements branchés et premiers revenus" },
+const stats: { target: number; prefix: string; suffix: string; desc: string; sub?: string }[] = [
+  { target: 6,    prefix: "",  suffix: " jours", desc: "Plan d'action complet, de l'idée au premier produit live" },
+  { target: 5000, prefix: "",  suffix: "€/mois",  desc: "L'objectif visé par nos builders", sub: "SOUS 60 JOURS" },
+  { target: 140,  prefix: "+", suffix: "",        desc: "Builders ont déjà lancé leur produit avec Blueprint" },
 ]
 
 function useCountUp(target: number, duration: number, trigger: boolean) {
@@ -675,44 +675,6 @@ function Marquee() {
 }
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
-
-function useCountUp(target: number, duration: number, trigger: boolean) {
-  const [value, setValue] = useState(0)
-  useEffect(() => {
-    if (!trigger) return
-    let start: number | null = null
-    const step = (ts: number) => {
-      if (!start) start = ts
-      const progress = Math.min((ts - start) / duration, 1)
-      setValue(Math.floor(progress * target))
-      if (progress < 1) requestAnimationFrame(step)
-    }
-    requestAnimationFrame(step)
-  }, [trigger, target, duration])
-  return value
-}
-
-const stats: { target: number; prefix: string; suffix: string; desc: string; sub?: string }[] = [
-  {
-    target: 6,
-    prefix: "",
-    suffix: " jours",
-    desc: "Plan d'action complet, de l'idée au premier produit live",
-  },
-  {
-    target: 5000,
-    prefix: "",
-    suffix: "€/mois",
-    desc: "L'objectif visé par nos builders",
-    sub: "SOUS 60 JOURS",
-  },
-  {
-    target: 140,
-    prefix: "+",
-    suffix: "",
-    desc: "Builders ont déjà lancé leur produit avec Blueprint",
-  },
-]
 
 function StatCard({ target, prefix, suffix, desc, sub, trigger }: { target: number; prefix: string; suffix: string; desc: string; sub?: string; trigger: boolean }) {
   const value = useCountUp(target, target >= 100 ? 1600 : 1200, trigger)
