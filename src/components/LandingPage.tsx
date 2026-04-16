@@ -795,7 +795,7 @@ function Pain() {
         </div>
       </Reveal>
       <Reveal delay={0.16}><p className="max-w-[500px] text-[16px] leading-[1.6] text-muted-foreground">
-        L'IA peut tout construire. Claude peut builder ton produit. Mais personne ne te dit comment en tirer vraiment parti, ni quelle stratégie adopter pour gagner réellement de l'argent en ligne. C'est bien le paradoxe.
+        L'IA peut tout construire. Claude peut builder ton produit. Mais personne ne te dit comment en tirer vraiment parti, ni quelle stratégie adopter pour gagner réellement de l'argent en ligne.
       </p></Reveal>
 
       <Reveal delay={0.24}>
