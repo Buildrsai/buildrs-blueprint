@@ -2232,6 +2232,22 @@ const programmeImages: Record<string, string> = {
 }
 
 function Programme() {
+  const [lineProgress, setLineProgress] = useState(0)
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return
+      const rect = sectionRef.current.getBoundingClientRect()
+      const windowH = window.innerHeight
+      const progress = Math.min(1, Math.max(0, (windowH - rect.top) / (rect.height + windowH * 0.3)))
+      setLineProgress(progress)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <section id="modules" className="relative py-20 sm:py-28" style={{ background: '#ffffff' }}>
       <div className="mx-auto max-w-[860px] px-6">
@@ -2253,9 +2269,9 @@ function Programme() {
         </div>
 
         {/* ── Timeline centrale ── */}
-        <div className="relative">
+        <div className="relative" ref={sectionRef}>
 
-          {/* Ligne verticale — centre exact */}
+          {/* Ligne verticale desktop — centre, statique */}
           <div
             className="absolute pointer-events-none hidden md:block"
             style={{
@@ -2264,14 +2280,23 @@ function Programme() {
               background: 'linear-gradient(to bottom, transparent, #e5e7eb 4%, #e5e7eb 96%, transparent)',
             }}
           />
-          {/* Ligne mobile — gauche */}
+          {/* Ligne mobile — fond statique gris */}
           <div
             className="absolute pointer-events-none md:hidden"
-            style={{
-              left: 19, top: 20, bottom: 20, width: 1,
-              background: 'linear-gradient(to bottom, transparent, #e5e7eb 4%, #e5e7eb 96%, transparent)',
-            }}
+            style={{ left: 19, top: 20, bottom: 20, width: 1, background: '#f0f0f2' }}
           />
+          {/* Ligne mobile — fill animé au scroll */}
+          <div
+            className="absolute pointer-events-none md:hidden overflow-hidden"
+            style={{ left: 19, top: 20, bottom: 20, width: 1 }}
+          >
+            <div style={{
+              width: '100%',
+              height: `${lineProgress * 100}%`,
+              background: 'linear-gradient(to bottom, #09090b 60%, #9ca3af)',
+              transition: 'height 0.15s ease-out',
+            }} />
+          </div>
 
           <div className="flex flex-col" style={{ gap: 0 }}>
             {programmeModules.map((mod, i) => (
@@ -2353,30 +2378,51 @@ function Programme() {
 
                 </div>
 
-                {/* ── Mobile : dot gauche + texte droite ── */}
-                <div className="flex md:hidden gap-6 pb-10 items-start">
-                  <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[11px] font-bold"
-                    style={{ width: 38, height: 38, background: '#09090b', color: '#ffffff', boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e4e4e7, 0 4px 14px rgba(0,0,0,0.12)', marginTop: 2, letterSpacing: '-0.01em' }}
-                  >
-                    {mod.num}
+                {/* ── Mobile : dot gauche + texte droite + image sous le texte ── */}
+                <div className="flex md:hidden flex-col pb-10">
+                  <div className="flex gap-6 items-start">
+                    <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[11px] font-bold"
+                      style={{ width: 38, height: 38, background: '#09090b', color: '#ffffff', boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e4e4e7, 0 4px 14px rgba(0,0,0,0.12)', marginTop: 2, letterSpacing: '-0.01em' }}
+                    >
+                      {mod.num}
+                    </div>
+                    <div className="flex-1">
+                      <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: '#9ca3af' }}>
+                        Module {mod.num}
+                      </p>
+                      <h3 className="mb-1.5 font-bold leading-tight" style={{ fontSize: 18, letterSpacing: '-0.02em', color: '#111827' }}>
+                        {mod.title}
+                      </h3>
+                      <p className="mb-3 text-[12px] font-semibold" style={{ color: mod.color }}>{mod.highlight}</p>
+                      <ul className="flex flex-col gap-1.5">
+                        {mod.bullets.map((b, j) => (
+                          <li key={j} className="flex items-start gap-2 text-[12px] leading-[1.55]" style={{ color: '#6b7280' }}>
+                            <span className="mt-[6px] shrink-0 h-[4px] w-[4px] rounded-full" style={{ background: '#d1d5db' }} />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: '#9ca3af' }}>
-                      Module {mod.num}
-                    </p>
-                    <h3 className="mb-1.5 font-bold leading-tight" style={{ fontSize: 18, letterSpacing: '-0.02em', color: '#111827' }}>
-                      {mod.title}
-                    </h3>
-                    <p className="mb-3 text-[12px] font-semibold" style={{ color: mod.color }}>{mod.highlight}</p>
-                    <ul className="flex flex-col gap-1.5">
-                      {mod.bullets.map((b, j) => (
-                        <li key={j} className="flex items-start gap-2 text-[12px] leading-[1.55]" style={{ color: '#6b7280' }}>
-                          <span className="mt-[6px] shrink-0 h-[4px] w-[4px] rounded-full" style={{ background: '#d1d5db' }} />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+
+                  {/* Image sous le bloc texte, alignée avec le texte (offset = dot 38px + gap 24px) */}
+                  {programmeImages[mod.num] && (
+                    <div className="mt-5" style={{ marginLeft: 62 }}>
+                      <div style={{
+                        borderRadius: 12,
+                        overflow: 'hidden',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.06)',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                        width: '100%',
+                      }}>
+                        <img
+                          src={programmeImages[mod.num]}
+                          alt={`Module ${mod.num} — ${mod.title}`}
+                          style={{ display: 'block', width: '100%', height: 'auto' }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
               </Reveal>
