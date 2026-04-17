@@ -1,6 +1,16 @@
 import type { User } from '@supabase/supabase-js'
 import type { PurchaseRow } from './usePurchases'
 
+// TODO (post Fix A validation) : supprimer le fallback meta.has_agents_pack.
+// Une fois Fix A validé en prod avec au moins 1 vente réelle post-déploiement
+// qui crée bien la row user_purchases directement via le webhook, la chaîne
+// de réconciliation meta → user_purchases (DashboardSection.tsx lignes 95-111)
+// devient obsolète. Refactor à faire :
+//  1) Simplifier DashboardSection pour qu'elle n'écrive plus dans user_meta
+//     mais directement dans user_purchases avec le slug 'agents-ia'
+//  2) Supprimer la ligne fallback `if (slug === 'agents-ia') return meta.has_agents_pack`
+// Ne pas faire avant d'avoir une preuve de Fix A fonctionnel sur vraie vente.
+
 /**
  * Combine user_purchases (nouvelle table) + legacy user_metadata flags.
  * Backward compat : hasPack, hasClaudeCodeOb, hasClaudeCoworkOb toujours disponibles.
