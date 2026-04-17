@@ -2172,8 +2172,34 @@ function Programme() {
                     </div>
                   </div>
 
-                  {/* Vide droite — placeholder images futures */}
-                  <div className="pl-12 pb-14 pt-1" />
+                  {/* Droite — image si disponible */}
+                  <div className="pl-12 pb-14 pt-1 flex items-start justify-center">
+                    {mod.num === "01" && (
+                      <div style={{
+                        borderRadius: 16,
+                        overflow: 'hidden',
+                        boxShadow: '0 24px 64px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)',
+                        border: '1px solid rgba(0,0,0,0.06)',
+                        transform: 'translateY(-4px)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        maxWidth: 340,
+                        width: '100%',
+                      }}
+                      onMouseEnter={e => {
+                        const el = e.currentTarget as HTMLElement
+                        el.style.transform = 'translateY(-8px)'
+                        el.style.boxShadow = '0 32px 80px rgba(0,0,0,0.13), 0 12px 32px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)'
+                      }}
+                      onMouseLeave={e => {
+                        const el = e.currentTarget as HTMLElement
+                        el.style.transform = 'translateY(-4px)'
+                        el.style.boxShadow = '0 24px 64px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)'
+                      }}
+                      >
+                        <img src="/module-1-fondation.jpg" alt="Module 01 — Fondations" style={{ display: 'block', width: '100%', height: 'auto' }} />
+                      </div>
+                    )}
+                  </div>
 
                 </div>
 
