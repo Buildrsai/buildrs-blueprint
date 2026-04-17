@@ -2087,21 +2087,37 @@ const programmeModules = [
 
 function Programme() {
   return (
-    <section id="modules" style={{ background: '#ffffff' }} className="relative py-20 sm:py-28">
-      <div className="mx-auto max-w-[860px] px-6">
+    <section
+      id="modules"
+      className="relative py-20 sm:py-28 overflow-hidden"
+      style={{
+        background: '#ffffff',
+        backgroundImage: 'radial-gradient(circle, #e8e8e8 1px, transparent 1px)',
+        backgroundSize: '28px 28px',
+      }}
+    >
+      {/* Vignette radiale — fondu blanc sur les bords */}
+      <div className="pointer-events-none absolute inset-0" style={{
+        background: 'radial-gradient(ellipse 80% 70% at 50% 40%, transparent 40%, rgba(255,255,255,0.85) 100%)',
+      }} />
+      {/* Fondu haut/bas */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24" style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }} />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(to top, #ffffff, transparent)' }} />
+
+      <div className="relative mx-auto max-w-[860px] px-6">
 
         {/* Header centré */}
         <div className="mb-16 text-center">
-          <Reveal><p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: '#9ca3af' }}>
+          <Reveal><p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: '#a1a1aa' }}>
             Le programme
           </p></Reveal>
           <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1, color: '#09090b' }}
-            className="mb-4"
+            style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08, color: '#09090b' }}
+            className="mb-5"
           >
             1 Système rentable.<br />1 produit monétisé.
           </h2></Reveal>
-          <Reveal delay={0.16}><p className="mx-auto max-w-[520px] text-[16px] leading-[1.65]" style={{ color: '#6b7280' }}>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.7]" style={{ color: '#71717a' }}>
             7 modules pour passer de l'idée au produit monétisé. Les IA qu'on utilise sont les meilleures du marché — et presque tous gratuits.
           </p></Reveal>
         </div>
@@ -2160,11 +2176,12 @@ function Programme() {
                     <div
                       className="flex items-center justify-center rounded-full text-[11px] font-bold"
                       style={{
-                        width: 36, height: 36,
+                        width: 38, height: 38,
                         background: '#09090b',
                         color: '#ffffff',
-                        boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e5e7eb',
+                        boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e4e4e7, 0 4px 14px rgba(0,0,0,0.14)',
                         flexShrink: 0,
+                        letterSpacing: '-0.01em',
                       }}
                     >
                       {mod.num}
@@ -2179,7 +2196,7 @@ function Programme() {
                 {/* ── Mobile : dot gauche + texte droite ── */}
                 <div className="flex md:hidden gap-6 pb-10 items-start">
                   <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[11px] font-bold"
-                    style={{ width: 36, height: 36, background: '#09090b', color: '#ffffff', boxShadow: '0 0 0 4px #ffffff, 0 0 0 5px #e5e7eb', marginTop: 2 }}
+                    style={{ width: 38, height: 38, background: '#09090b', color: '#ffffff', boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e4e4e7, 0 4px 14px rgba(0,0,0,0.12)', marginTop: 2, letterSpacing: '-0.01em' }}
                   >
                     {mod.num}
                   </div>
