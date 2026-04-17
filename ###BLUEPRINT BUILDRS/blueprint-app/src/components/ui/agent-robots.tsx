@@ -1,5 +1,14 @@
-// Pixel-art SVG robots (space invader style, viewBox 0 0 24 24)
-// Shared across AgentsPage, AgentHandoffBlock, etc.
+// LEGACY : ces 6 robots (Validator/Planner/Designer/Architect/Builder/Launcher)
+// datent de l'ancien système de 6 agents. Ils sont conservés comme illustrations
+// décoratives sur la LP et les pages checkout. Pour le nouveau Pack Agents V1
+// (Jarvis/Planner/Designer/DB Architect/Builder/Connector/Launcher), utiliser
+// les 7 SVG situés dans /public/agents-logos/.
+//
+// Pixel-art SVG robots (space invader style, viewBox 0 0 24 24).
+// Historique : partagés avec AgentsPage / AgentHandoffBlock / AgentChatPage —
+// ces trois consommateurs ont été archivés le 2026-04-17 (Phase 0).
+// Consommateurs actifs restants : LandingPage.tsx, CheckoutPage.tsx,
+// ClaudeOTOPage.tsx (illustrations only).
 
 export function RobotValidator({ size = 48 }: { size?: number }) {
   return (

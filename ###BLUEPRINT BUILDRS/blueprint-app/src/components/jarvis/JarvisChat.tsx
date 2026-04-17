@@ -1,3 +1,8 @@
+// TODO V2 : collision de nom entre l'assistant dashboard Jarvis (JarvisChat)
+// et l'agent orchestrateur Jarvis du Pack Agents. Envisager de renommer
+// l'un des deux. Suggestion : "Assistant" pour le dashboard, "Jarvis"
+// pour l'orchestrateur du pack.
+
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { matchIntent } from '../../data/jarvis-intents'
 import { supabase } from '../../lib/supabase'

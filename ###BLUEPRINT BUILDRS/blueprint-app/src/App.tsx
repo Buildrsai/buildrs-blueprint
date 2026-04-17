@@ -176,7 +176,9 @@ interface ParsedRoute {
     | 'autopilot'
     | 'offers'
     | 'agents'
-    | 'agent-chat'
+    // 'agent-chat' removed 2026-04-17 (legacy 6-agents system). The hash is
+    // intercepted in parseHash and redirected to '/dashboard/agents'.
+    // TODO 2026-05-01 : delete the redirect block once logs confirm zero hits.
     | 'claude-os'
     | 'kanban'
     | 'marketplace'
@@ -184,6 +186,7 @@ interface ParsedRoute {
     | 'validator'
     | 'revenue-calculator'
     | 'generator'
+    | 'generateur-ia'
     | 'acquisition-bonus'
 
     | 'community'
@@ -272,6 +275,7 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/offers') return { type: 'offers' }
   if (h === 'dashboard/agents')        return { type: 'agents' }
   if (h === 'dashboard/kanban')        return { type: 'kanban' }
+  if (h === 'dashboard/generateur-ia') return { type: 'generateur-ia' }
   if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
   if (h === 'dashboard/validator')             return { type: 'validator' }
   if (h === 'dashboard/generator/validate')    return { type: 'validator' }
@@ -291,8 +295,17 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/notifications') return { type: 'notifications' }
   const marketplaceIdeaMatch = h.match(/^dashboard\/marketplace\/([^/]+)$/)
   if (marketplaceIdeaMatch) return { type: 'opportunity-detail', moduleId: marketplaceIdeaMatch[1] }
-  const agentChatMatch = h.match(/^dashboard\/agent(?:-chat)?\/([^/]+)$/)
-  if (agentChatMatch) return { type: 'agent-chat', moduleId: agentChatMatch[1] }
+  // Legacy redirect: the old 6-agents chat hashes (#/dashboard/agent-chat/:id
+  // and #/dashboard/agent/:id) are rewritten to the new agents gallery.
+  // Archived 2026-04-17 (Phase 0 cleanup). TODO 2026-05-01 : remove this block
+  // once logs confirm zero hits on these paths.
+  const legacyAgentChatMatch = h.match(/^dashboard\/agent(?:-chat)?\/([^/]+)$/)
+  if (legacyAgentChatMatch) {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', '#/dashboard/agents')
+    }
+    return { type: 'agents' }
+  }
 
   const claudeOsMatch = h.match(/^dashboard\/claude-os(\/.*)?$/)
   if (claudeOsMatch) return { type: 'claude-os', moduleId: claudeOsMatch[1]?.replace(/^\//, '') || '' }
@@ -564,8 +577,8 @@ function App() {
   const isDashboardRoute = [
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
     'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
-    'agent-chat', 'claude-os',
-    'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator', 'acquisition-bonus',
+    'claude-os',
+    'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator', 'generateur-ia', 'acquisition-bonus',
     'community', 'members', 'templates', 'collaborators', 'notifications',
   ].includes(route.type)
 

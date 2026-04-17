@@ -2,7 +2,12 @@ import { useState } from 'react'
 import { ListChecks, BookOpen, HelpCircle, Check, CheckCircle2, ChevronRight, Lock, X, RotateCcw } from 'lucide-react'
 import { getModule } from '../../data/curriculum'
 import { VideoPlayer } from '../ui/video-player'
-import { RobotValidator, RobotPlanner, RobotDesigner, RobotArchitect, RobotBuilder, RobotLauncher } from '../ui/agent-robots'
+
+// Legacy 6-agents sidebar (Validator/Planner/Designer/Architect/Builder/Launcher
+// + local RobotJarvis + ALL_AGENTS/MODULE_AGENT_MAP + agent-chat hashes) was
+// archived 2026-04-17 during Phase 0 cleanup. A new per-module agent CTA will
+// be rebuilt in Phase 4 from `AGENTS_CONFIG`. The original code lives at
+// `src/_archived/pack-agents-v0/AgentsPage.legacy.tsx` for reference.
 
 // ── Video URLs per module (add URL when ready) ──────────────────────────────
 const MODULE_VIDEOS: Record<string, { src?: string; poster?: string }> = {
@@ -17,61 +22,6 @@ const MODULE_VIDEOS: Record<string, { src?: string; poster?: string }> = {
   '05':      {},
   '06':      {},
   'scaler':  {},
-}
-
-// ── Jarvis robot ─────────────────────────────────────────────────────────────
-function RobotJarvis({ size = 48 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <rect x="7" y="0" width="2" height="3" fill="#818cf8"/>
-      <rect x="15" y="0" width="2" height="3" fill="#818cf8"/>
-      <rect x="5" y="2" width="2" height="2" fill="#818cf8"/>
-      <rect x="17" y="2" width="2" height="2" fill="#818cf8"/>
-      <rect x="3" y="4" width="18" height="12" rx="2" fill="#6366f1"/>
-      <rect x="6" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
-      <rect x="14" y="7" width="4" height="4" rx="1" fill="#c7d2fe"/>
-      <rect x="7" y="8" width="2" height="2" fill="#312e81"/>
-      <rect x="15" y="8" width="2" height="2" fill="#312e81"/>
-      <rect x="9" y="13" width="6" height="2" rx="1" fill="#4338ca"/>
-      <rect x="5" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
-      <rect x="15" y="17" width="4" height="4" rx="1" fill="#4338ca"/>
-      <rect x="4" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
-      <rect x="17" y="20" width="3" height="2" rx="1" fill="#4338ca"/>
-    </svg>
-  )
-}
-
-// ── Agents ────────────────────────────────────────────────────────────────────
-interface AgentDef {
-  id: string
-  name: string
-  role: string
-  color: string
-  free: boolean
-  Robot: React.ComponentType<{ size?: number }>
-  hash: string
-}
-const ALL_AGENTS: AgentDef[] = [
-  { id: 'jarvis',    name: 'Jarvis',    role: 'COO IA · Orchestrateur',       color: '#6366f1', free: true,  Robot: RobotJarvis,    hash: '#/dashboard/autopilot' },
-  { id: 'validator', name: 'Validator', role: 'Trouver & Valider',            color: '#22c55e', free: true,  Robot: RobotValidator, hash: '#/dashboard/agent-chat/validator' },
-  { id: 'planner',   name: 'Planner',   role: 'Préparer & Structurer',        color: '#3b82f6', free: false, Robot: RobotPlanner,   hash: '#/dashboard/agent-chat/planner' },
-  { id: 'designer',  name: 'Designer',  role: 'Branding & Identité',          color: '#f43f5e', free: false, Robot: RobotDesigner,  hash: '#/dashboard/agent-chat/designer' },
-  { id: 'architect', name: 'Architect', role: 'Architecture technique',       color: '#f97316', free: false, Robot: RobotArchitect, hash: '#/dashboard/agent-chat/architect' },
-  { id: 'builder',   name: 'Builder',   role: 'Construire ton produit',       color: '#8b5cf6', free: false, Robot: RobotBuilder,   hash: '#/dashboard/agent-chat/builder' },
-  { id: 'launcher',  name: 'Launcher',  role: 'Déployer & Lancer',            color: '#14b8a6', free: false, Robot: RobotLauncher,  hash: '#/dashboard/agent-chat/launcher' },
-]
-const MODULE_AGENT_MAP: Record<string, string[]> = {
-  '00':      ['jarvis'],
-  'setup':   ['jarvis'],
-  '01':      ['validator', 'jarvis'],
-  'valider': ['validator', 'jarvis'],
-  'offre':   ['designer', 'planner'],
-  '02':      ['designer', 'planner'],
-  '03':      ['architect'],
-  '04':      ['builder', 'architect'],
-  '05':      ['launcher', 'builder'],
-  '06':      ['launcher', 'jarvis'],
-  'scaler':  ['jarvis'],
 }
 
 // ── Module display numbers ────────────────────────────────────────────────────
@@ -321,81 +271,26 @@ interface FormationTabProps {
   hasPack: boolean
 }
 
-function FormationTab({ moduleId, navigate, isCompleted, hasPack }: FormationTabProps) {
+function FormationTab({ moduleId, navigate, isCompleted, hasPack: _hasPack }: FormationTabProps) {
   const mod = getModule(moduleId)
   if (!mod) return null
 
-  const video    = MODULE_VIDEOS[moduleId] ?? {}
-  const agentIds = MODULE_AGENT_MAP[moduleId] ?? ['jarvis']
-  const agents   = agentIds.map(id => ALL_AGENTS.find(a => a.id === id)).filter(Boolean) as AgentDef[]
+  const video = MODULE_VIDEOS[moduleId] ?? {}
+
+  // Legacy per-module agents sidebar (6 agents + chat hashes) removed 2026-04-17.
+  // TODO Phase 4 : reintroduce a per-module agent CTA driven by `AGENTS_CONFIG`.
 
   return (
     <div className="flex flex-col">
 
-      {/* Video + Agents sidebar */}
-      <div className="flex gap-5 px-6 pb-5 flex-shrink-0 items-start">
-        {/* Video */}
-        <div className="flex-1 min-w-0">
-          <VideoPlayer
-            src={video.src}
-            poster={video.poster}
-            title={mod.title}
-            className="rounded-xl"
-          />
-        </div>
-
-        {/* Agents */}
-        {agents.length > 0 && (
-          <div className="w-[220px] flex-shrink-0 flex flex-col gap-2">
-            <p className="text-[9.5px] font-bold uppercase tracking-[0.08em] text-muted-foreground/60 mb-1">
-              Agents disponibles
-            </p>
-            {agents.map(agent => {
-              const isJarvis = agent.id === 'jarvis'
-              const isFree   = agent.free
-              const { Robot } = agent
-              if (isJarvis || (isFree && hasPack)) {
-                return (
-                  <button
-                    key={agent.id}
-                    onClick={() => navigate(agent.hash)}
-                    className="flex items-center gap-2.5 w-full text-left rounded-xl border border-border p-3 hover:bg-secondary/40 transition-all duration-150"
-                  >
-                    <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
-                      <Robot size={28} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-semibold text-foreground">{agent.name}</p>
-                      <p className="text-[9px] text-muted-foreground mt-0.5 leading-snug">{agent.role}</p>
-                    </div>
-                    <span
-                      className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-                      style={{ background: `${agent.color}15`, color: agent.color, border: `1px solid ${agent.color}30` }}
-                    >
-                      GO
-                    </span>
-                  </button>
-                )
-              }
-              return (
-                <div
-                  key={agent.id}
-                  className="flex items-center gap-2.5 w-full text-left rounded-xl border border-border p-3 cursor-not-allowed select-none"
-                  style={{ opacity: 0.45 }}
-                >
-                  <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
-                    <Robot size={28} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-semibold text-foreground">{agent.name}</p>
-                    <p className="text-[9px] text-muted-foreground mt-0.5 leading-snug">{agent.role}</p>
-                  </div>
-                  <Lock size={9} strokeWidth={1.5} className="text-muted-foreground flex-shrink-0" />
-                </div>
-              )
-            })}
-          </div>
-        )}
+      {/* Video — legacy agents sidebar removed (see TODO Phase 4 above) */}
+      <div className="px-6 pb-5 flex-shrink-0">
+        <VideoPlayer
+          src={video.src}
+          poster={video.poster}
+          title={mod.title}
+          className="rounded-xl"
+        />
       </div>
 
       {/* Lessons grid */}

@@ -30,7 +30,8 @@ const SettingsPage       = lazy(() => import('./SettingsPage').then(m => ({ defa
 const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ default: m.AutopilotPage })))
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
 const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
-const AgentChatPage      = lazy(() => import('./AgentChatPage').then(m => ({ default: m.AgentChatPage })))
+// AgentChatPage archived 2026-04-17 (Phase 0 cleanup, src/_archived/pack-agents-v0/AgentChatPage.tsx).
+// Legacy hash `#/dashboard/agent-chat/:id` now redirects to `#/dashboard/agents` via parseHash in App.tsx.
 const ClaudeOSPage       = lazy(() => import('./ClaudeOSPage').then(m => ({ default: m.ClaudeOSPage })))
 const HomePage           = lazy(() => import('./HomePage').then(m => ({ default: m.HomePage })))
 const KanbanPage         = lazy(() => import('./KanbanPage').then(m => ({ default: m.KanbanPage })))
@@ -40,6 +41,7 @@ const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(
 const SourceDetailPage     = lazy(() => import('./SourceDetailPage').then(m => ({ default: m.SourceDetailPage })))
 const RevenueCalculatorPage = lazy(() => import('./RevenueCalculatorPage').then(m => ({ default: m.RevenueCalculatorPage })))
 const GeneratorPage         = lazy(() => import('./GeneratorPage').then(m => ({ default: m.GeneratorPage })))
+const GenerateurIAPage      = lazy(() => import('./GenerateurIAPage').then(m => ({ default: m.GenerateurIAPage })))
 const AcquisitionBonusPage  = lazy(() => import('./AcquisitionBonusPage').then(m => ({ default: m.AcquisitionBonusPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
@@ -299,11 +301,13 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} profile={profile ?? null} updateProfile={updateProfile} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
   if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
-  if (route.type === 'agent-chat' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><AgentChatPage agentId={route.moduleId} navigate={navigate} userId={user.id} hasPack={hasPack} /></DashboardLayout></W>)
+  // route.type === 'agent-chat' is intercepted in App.tsx parseHash (redirects to /dashboard/agents).
+  // The case is handled there, so no dispatch is needed here.
   if (route.type === 'claude-os') return (<W><DashboardLayout {...layoutProps}><ClaudeOSPage subPath={route.moduleId ?? ''} navigate={navigate} hasClaudeOS={access.hasClaudeCodeOb} userId={user.id} /></DashboardLayout></W>)
 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
+  if (route.type === 'generateur-ia') return (<W><DashboardLayout {...layoutProps}><GenerateurIAPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplacePage userId={user.id} navigate={navigate} isAdmin={user.user_metadata?.is_admin === true} /></DashboardLayout></W>)
   if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><SourceDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
@@ -312,7 +316,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'generator') return (<W><DashboardLayout {...layoutProps}><GeneratorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'acquisition-bonus') return (<W><DashboardLayout {...layoutProps}><AcquisitionBonusPage subPath={route.moduleId ?? ''} navigate={navigate} hasBonus={access.hasProduct('acquisition-bonus')} userId={user.id} /></DashboardLayout></W>)
 
-  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
+  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} userAvatarUrl={user.user_metadata?.avatar_url} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'templates') return (<W><DashboardLayout {...layoutProps}><TemplatesPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'collaborators') return (<W><DashboardLayout {...layoutProps}><CollaboratorsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
@@ -328,9 +332,9 @@ function getTitle(route: DashboardRoute): string {
     journal: 'Journal de bord', library: 'Bibliothèque', checklist: 'Checklist',
     project: 'Mes Projets', tools: 'Outils',
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
-    'agent-chat': 'Agent IA',
+    // 'agent-chat' breadcrumb removed 2026-04-17 (legacy redirect lives in App.tsx)
     'claude-os': 'Claude OS',
-    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de SaaS', 'acquisition-bonus': '100 premiers utilisateurs',
+    'kanban': 'Mon Pipeline', 'generateur-ia': 'Générateurs IA', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de SaaS', 'acquisition-bonus': '100 premiers utilisateurs',
     'opportunity-detail': 'Opportunite',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',
