@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard } from "lucide-react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard, Coffee, Home, Mic, HeartPulse, FileText, type LucideIcon } from "lucide-react"
 import { motion } from "framer-motion"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
@@ -1501,6 +1501,142 @@ function SaasExamples() {
   )
 }
 
+// ─── ProjectExamplesSection ───────────────────────────────────────────────────
+
+interface ProjectCardData {
+  icon: LucideIcon
+  iconBg: string
+  iconColor: string
+  title: string
+  description: string
+  mrr: string
+  tag: string
+}
+
+const projectCards: ProjectCardData[] = [
+  {
+    icon: TrendingUp,
+    iconBg: "rgba(139,92,246,0.12)",
+    iconColor: "#a78bfa",
+    title: "SaaS de Pricing",
+    description: "Ajuste les prix e-commerce en temps réel selon la concurrence",
+    mrr: "~1 500€/mois",
+    tag: "E-commerce · Shopify",
+  },
+  {
+    icon: Coffee,
+    iconBg: "rgba(251,146,60,0.12)",
+    iconColor: "#fb923c",
+    title: "Carnet de Dégustation",
+    description: "Pour amateurs de café, vin, whisky — origines et profils",
+    mrr: "~900€/mois",
+    tag: "Lifestyle · Communauté",
+  },
+  {
+    icon: Home,
+    iconBg: "rgba(34,197,94,0.12)",
+    iconColor: "#4ade80",
+    title: "Gestion Locative",
+    description: "Loyers, charges, alertes automatiques pour propriétaires multi-biens",
+    mrr: "~1 470€/mois",
+    tag: "Immobilier · B2C",
+  },
+  {
+    icon: Mic,
+    iconBg: "rgba(59,130,246,0.12)",
+    iconColor: "#60a5fa",
+    title: "CRM Vocal IA",
+    description: "Notes vocales transformées en fiches client pour coachs et consultants",
+    mrr: "~2 000€/mois",
+    tag: "Services pros · B2B",
+  },
+  {
+    icon: HeartPulse,
+    iconBg: "rgba(244,114,182,0.12)",
+    iconColor: "#f472b6",
+    title: "Coach Nutrition IA",
+    description: "Suivi personnalisé et plans alimentaires pour particuliers",
+    mrr: "~600€/mois",
+    tag: "Santé · B2C",
+  },
+  {
+    icon: FileText,
+    iconBg: "rgba(250,204,21,0.12)",
+    iconColor: "#facc15",
+    title: "Générateur de Devis",
+    description: "Devis automatiques personnalisés pour artisans et freelances",
+    mrr: "~1 200€/mois",
+    tag: "Artisans · B2B",
+  },
+]
+
+function ProjectCard({ icon: Icon, iconBg, iconColor, title, description, mrr, tag }: ProjectCardData) {
+  return (
+    <div
+      className="flex flex-col rounded-2xl p-6 transition-colors duration-200"
+      style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.08)" }}
+      onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.16)")}
+      onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
+    >
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: iconBg }}>
+        <Icon size={20} strokeWidth={1.5} style={{ color: iconColor }} />
+      </div>
+      <p className="mb-2 text-[17px] font-bold leading-tight text-white">{title}</p>
+      <p className="mb-4 flex-1 text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{description}</p>
+      <p className="mb-3 text-base font-semibold" style={{ color: "#34d399" }}>{mrr}</p>
+      <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{tag}</p>
+    </div>
+  )
+}
+
+function ProjectExamplesSection() {
+  return (
+    <section className="py-24" style={{ background: "#0a0a0a" }}>
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <Reveal>
+            <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em]" style={{ color: "rgba(255,255,255,0.35)" }}>
+              Exemples de projets
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2
+              className="mb-4 text-white"
+              style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            >
+              Voilà ce que tu peux builder en 6 jours.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="mx-auto max-w-[560px] text-[15px] leading-[1.65]" style={{ color: "rgba(255,255,255,0.45)" }}>
+              Des SaaS concrets, lancés par nos builders ou réalisables avec Blueprint. Un projet qui ressemble au tien ?
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+          {projectCards.map((card) => (
+            <ProjectCard key={card.title} {...card} />
+          ))}
+        </div>
+
+        {/* Footer note */}
+        <p
+          className="mt-12 text-center text-sm italic"
+          style={{ color: "rgba(255,255,255,0.25)" }}
+        >
+          Ces projets sont inspirés de SaaS réels lancés par nos builders ou créés en interne.
+          Ton idée n'est pas dans la liste ? Le système fonctionne pour 90% des cas d'usage.
+        </p>
+
+      </div>
+    </section>
+  )
+}
+
 function WhatYouGet() {
   const [activeTab, setActiveTab] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -2269,6 +2405,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <Programme />
         <SavingsChoc />
         <WhatYouGet />
+        <ProjectExamplesSection />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
