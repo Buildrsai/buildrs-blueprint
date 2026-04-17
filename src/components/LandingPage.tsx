@@ -2088,6 +2088,7 @@ const programmeModules = [
 const programmeImages: Record<string, string> = {
   "01": "/module-1-fondation.jpg",
   "02": "/module-2-env.jpg",
+  "04": "/module-4-build.jpg",
 }
 
 function Programme() {
