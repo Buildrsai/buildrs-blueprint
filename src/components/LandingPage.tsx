@@ -2106,50 +2106,48 @@ function Programme() {
           </p></Reveal>
         </div>
 
-        {/* ── Timeline verticale gauche ── */}
+        {/* ── Timeline centrale ── */}
         <div className="relative">
 
-          {/* Ligne verticale */}
+          {/* Ligne verticale — centre exact */}
           <div
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none hidden md:block"
             style={{
-              left: 19, top: 24, bottom: 24, width: 1,
+              left: '50%', top: 20, bottom: 20, width: 1,
+              transform: 'translateX(-50%)',
+              background: 'linear-gradient(to bottom, transparent, #e5e7eb 4%, #e5e7eb 96%, transparent)',
+            }}
+          />
+          {/* Ligne mobile — gauche */}
+          <div
+            className="absolute pointer-events-none md:hidden"
+            style={{
+              left: 19, top: 20, bottom: 20, width: 1,
               background: 'linear-gradient(to bottom, transparent, #e5e7eb 4%, #e5e7eb 96%, transparent)',
             }}
           />
 
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col" style={{ gap: 0 }}>
             {programmeModules.map((mod, i) => (
               <Reveal key={mod.num} delay={0.06 + i * 0.06}>
-                <div className="flex gap-8 items-start">
 
-                  {/* Dot numéroté */}
-                  <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[12px] font-bold"
-                    style={{
-                      width: 40, height: 40,
-                      background: '#09090b',
-                      color: '#ffffff',
-                      boxShadow: '0 0 0 5px #ffffff',
-                      letterSpacing: '-0.01em',
-                    }}
-                  >
-                    {mod.num}
-                  </div>
+                {/* ── Desktop : texte gauche | dot centre | vide droite ── */}
+                <div className="hidden md:grid items-start" style={{ gridTemplateColumns: '1fr 80px 1fr', minHeight: 120 }}>
 
-                  {/* Contenu */}
-                  <div className="flex-1 pt-1.5 pb-6">
-                    <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: '#9ca3af' }}>
+                  {/* Texte — côté gauche */}
+                  <div className="pr-12 pb-14 pt-1">
+                    <p className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: '#9ca3af' }}>
                       Module {mod.num}
                     </p>
-                    <h3 className="mb-2 font-bold leading-snug" style={{ fontSize: 'clamp(18px, 2.2vw, 22px)', letterSpacing: '-0.025em', color: '#09090b' }}>
+                    <h3 className="mb-2 font-bold leading-tight" style={{ fontSize: 'clamp(17px, 2vw, 21px)', letterSpacing: '-0.02em', color: '#111827' }}>
                       {mod.title}
                     </h3>
-                    <p className="mb-3 text-[13px] font-semibold" style={{ color: mod.color }}>
+                    <p className="mb-3 text-[13px] font-semibold leading-snug" style={{ color: mod.color }}>
                       {mod.highlight}
                     </p>
                     <ul className="flex flex-col gap-1.5">
                       {mod.bullets.map((b, j) => (
-                        <li key={j} className="flex items-start gap-2.5 text-[13px] leading-[1.6]" style={{ color: '#6b7280' }}>
+                        <li key={j} className="flex items-start gap-2 text-[13px] leading-[1.6]" style={{ color: '#6b7280' }}>
                           <span className="mt-[7px] shrink-0 h-[4px] w-[4px] rounded-full" style={{ background: '#d1d5db' }} />
                           {b}
                         </li>
@@ -2157,7 +2155,53 @@ function Programme() {
                     </ul>
                   </div>
 
+                  {/* Dot — centre */}
+                  <div className="flex justify-center pt-1 relative z-10">
+                    <div
+                      className="flex items-center justify-center rounded-full text-[11px] font-bold"
+                      style={{
+                        width: 36, height: 36,
+                        background: '#09090b',
+                        color: '#ffffff',
+                        boxShadow: '0 0 0 5px #ffffff, 0 0 0 6px #e5e7eb',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {mod.num}
+                    </div>
+                  </div>
+
+                  {/* Vide droite — placeholder images futures */}
+                  <div className="pl-12 pb-14 pt-1" />
+
                 </div>
+
+                {/* ── Mobile : dot gauche + texte droite ── */}
+                <div className="flex md:hidden gap-6 pb-10 items-start">
+                  <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[11px] font-bold"
+                    style={{ width: 36, height: 36, background: '#09090b', color: '#ffffff', boxShadow: '0 0 0 4px #ffffff, 0 0 0 5px #e5e7eb', marginTop: 2 }}
+                  >
+                    {mod.num}
+                  </div>
+                  <div className="flex-1">
+                    <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: '#9ca3af' }}>
+                      Module {mod.num}
+                    </p>
+                    <h3 className="mb-1.5 font-bold leading-tight" style={{ fontSize: 18, letterSpacing: '-0.02em', color: '#111827' }}>
+                      {mod.title}
+                    </h3>
+                    <p className="mb-3 text-[12px] font-semibold" style={{ color: mod.color }}>{mod.highlight}</p>
+                    <ul className="flex flex-col gap-1.5">
+                      {mod.bullets.map((b, j) => (
+                        <li key={j} className="flex items-start gap-2 text-[12px] leading-[1.55]" style={{ color: '#6b7280' }}>
+                          <span className="mt-[6px] shrink-0 h-[4px] w-[4px] rounded-full" style={{ background: '#d1d5db' }} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
               </Reveal>
             ))}
           </div>
