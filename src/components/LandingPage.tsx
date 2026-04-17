@@ -2090,7 +2090,7 @@ const programmeImages: Record<string, string> = {
   "02": "/module-2-env.jpg",
   "04": "/module-4-build.jpg",
   "05": "/module-5-deploy.jpg",
-  "06": "/module-6-monetise.jpg",
+  "07": "/module-7-scale.jpg",
 }
 
 function Programme() {
