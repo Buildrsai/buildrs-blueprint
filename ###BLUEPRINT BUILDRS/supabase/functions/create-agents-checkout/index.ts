@@ -1,12 +1,15 @@
 import Stripe from 'https://esm.sh/stripe@14?target=deno'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2?target=deno'
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!, {
   apiVersion: '2024-04-10',
   httpClient: Stripe.createFetchHttpClient(),
 })
 
-const RETURN_BASE = 'https://buildrs.fr'
-const PUBLISHABLE_KEY = Deno.env.get('STRIPE_PUBLISHABLE_KEY')!
+const RETURN_BASE      = 'https://buildrs.fr'
+const PUBLISHABLE_KEY  = Deno.env.get('STRIPE_PUBLISHABLE_KEY')!
+const SUPABASE_URL     = Deno.env.get('SUPABASE_URL')!
+const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')!
 
 const corsHeaders = {
   'Access-Control-Allow-Origin':  '*',
@@ -22,6 +25,17 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}))
     const priorSessionId: string | undefined = body.prior_session_id
     const fromDashboard: boolean = body.from_dashboard === true
+
+    // Extraire user_id depuis le JWT — ne peut pas être falsifié côté client
+    let userId: string | undefined
+    const authHeader = req.headers.get('Authorization')
+    if (authHeader) {
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        global: { headers: { Authorization: authHeader } },
+      })
+      const { data: { user } } = await supabase.auth.getUser()
+      userId = user?.id ?? undefined
+    }
 
     // Récupère les infos client de la session précédente pour pré-remplir
     let customerEmail: string | undefined
@@ -50,9 +64,17 @@ Deno.serve(async (req) => {
         },
         quantity: 1,
       }],
-      metadata: { product: 'agents_pack', payment_mode: 'once' },
+      metadata: {
+        product: 'agents_pack',
+        payment_mode: 'once',
+        ...(userId ? { user_id: userId } : {}),
+      },
       payment_intent_data: {
-        metadata: { product: 'agents_pack', payment_mode: 'once' },
+        metadata: {
+          product: 'agents_pack',
+          payment_mode: 'once',
+          ...(userId ? { user_id: userId } : {}),
+        },
       },
       return_url: fromDashboard
         ? `${RETURN_BASE}/#/dashboard/agents?pack_unlocked=1`
