@@ -2087,24 +2087,8 @@ const programmeModules = [
 
 function Programme() {
   return (
-    <section
-      id="modules"
-      className="relative py-20 sm:py-28 overflow-hidden"
-      style={{
-        background: '#ffffff',
-        backgroundImage: 'radial-gradient(circle, #e8e8e8 1px, transparent 1px)',
-        backgroundSize: '28px 28px',
-      }}
-    >
-      {/* Vignette radiale — fondu blanc sur les bords */}
-      <div className="pointer-events-none absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 80% 70% at 50% 40%, transparent 40%, rgba(255,255,255,0.85) 100%)',
-      }} />
-      {/* Fondu haut/bas */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24" style={{ background: 'linear-gradient(to bottom, #ffffff, transparent)' }} />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(to top, #ffffff, transparent)' }} />
-
-      <div className="relative mx-auto max-w-[860px] px-6">
+    <section id="modules" className="relative py-20 sm:py-28" style={{ background: '#ffffff' }}>
+      <div className="mx-auto max-w-[860px] px-6">
 
         {/* Header centré */}
         <div className="mb-16 text-center">
@@ -2152,9 +2136,9 @@ function Programme() {
 
                   {/* Texte — côté gauche */}
                   <div className="pr-12 pb-14 pt-1">
-                    <p className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: '#9ca3af' }}>
+                    <span className="inline-flex items-center mb-3 px-2.5 py-0.5 rounded-full text-[11px] font-medium" style={{ background: '#f4f4f5', color: '#71717a' }}>
                       Module {mod.num}
-                    </p>
+                    </span>
                     <h3 className="mb-2 font-bold leading-tight" style={{ fontSize: 'clamp(17px, 2vw, 21px)', letterSpacing: '-0.02em', color: '#111827' }}>
                       {mod.title}
                     </h3>
