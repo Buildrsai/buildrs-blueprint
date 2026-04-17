@@ -87,6 +87,17 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
 
   // Réconciliation legacy : si l'user a acheté le Pack Agents avant de s'inscrire,
   // la table `purchases` le contient — on met à jour user_metadata une fois
+  // TODO (post Fix A validation) : refactorer cette réconciliation.
+  // Contexte : Fix A (2026-04-17) injecte désormais user_id dans create-agents-checkout.
+  // Quand Fix A est validé sur au moins 1 vente réelle, le webhook dual-write
+  // créera la row user_purchases directement → ce useEffect devient le seul
+  // chemin pour les acheteurs pré-Fix A (dont Raphaël, achat 2026-04-06).
+  // Refactor à faire en même temps que useAccess.ts :
+  //  1) Remplacer l'écriture `has_agents_pack: true` dans user_meta (ligne 105)
+  //     par un INSERT direct dans user_purchases avec product_slug 'agents-ia'
+  //  2) Supprimer le second useEffect (lignes ~164-200) qui lit meta → user_purchases
+  //  3) Supprimer le fallback dans useAccess.ts
+  // Ne pas faire avant validation prod de Fix A.
   useEffect(() => {
     if (hasPack) return
     const email = user.email
