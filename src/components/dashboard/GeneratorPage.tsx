@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { ArrowRight, Clock, ChevronRight, RotateCcw, Zap, TrendingUp, BookmarkPlus, Check } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { BuildrsIcon } from '../ui/icons'
+import type { IdeaResult } from '../../types/generator'
 
 // ── Data source SVG icons (defined outside component — rerender-no-inline-components) ──
 
@@ -128,27 +129,6 @@ interface PastSession {
   input_data: { source?: unknown; answers?: Record<string, string> }
   output_data: { ideas?: IdeaResult[] }
   created_at: string
-}
-
-interface IdeaResult {
-  title: string
-  target_niche: string
-  problem_solved: string
-  current_friction?: string
-  market_proof?: string
-  traction_score: number
-  traction_explanation: string
-  buildability_score: number
-  buildability_explanation: string
-  monetization_score: number
-  monetization_explanation: string
-  build_score: number
-  recommended_stack: string[]
-  mvp_features: string[]
-  pricing_suggestion: string
-  estimated_build_time: string
-  acquisition_channel: string
-  why_now: string
 }
 
 // ── Questions wizard ─────────────────────────────────────────────────────────
