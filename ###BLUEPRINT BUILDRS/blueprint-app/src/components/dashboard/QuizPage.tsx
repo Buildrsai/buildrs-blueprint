@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { Check, X, ChevronRight, RotateCcw, ArrowLeft } from 'lucide-react'
 import { getModule } from '../../data/curriculum'
-import { AgentHandoffBlock } from './AgentHandoffBlock'
 
 interface Props {
   moduleId: string
   navigate: (hash: string) => void
+  /** Kept in Props so DashboardSection keeps passing it; legacy AgentHandoffBlock
+   *  was removed (archived 2026-04-17). Reusable once a new upsell block ships. */
   hasPack?: boolean
   module01Complete?: boolean
 }
 
 type Phase = 'intro' | 'quiz' | 'results'
 
-export function QuizPage({ moduleId, navigate, hasPack = false, module01Complete: _module01Complete = false }: Props) {
+export function QuizPage({ moduleId, navigate, hasPack: _hasPack = false, module01Complete: _module01Complete = false }: Props) {
   const mod = getModule(moduleId)
   const [phase, setPhase] = useState<Phase>('intro')
   const [current, setCurrent] = useState(0)
@@ -214,10 +215,9 @@ export function QuizPage({ moduleId, navigate, hasPack = false, module01Complete
             </button>
           </div>
 
-          {/* Agent handoff — always visible when quiz passed */}
-          {passed && (
-            <AgentHandoffBlock moduleId={moduleId} hasPack={hasPack} navigate={navigate} />
-          )}
+          {/* Legacy AgentHandoffBlock removed 2026-04-17 (Phase 0 cleanup — archived
+              with the 6-agents system). A new upsell block will be plugged here
+              in Phase 4 once the refactored Pack Agents (7 agents) ships. */}
         </div>
       </div>
     )
