@@ -1115,23 +1115,27 @@ function SavingsChoc() {
 
 // ─── SYMBIOSE ─────────────────────────────────────────────────────────────────
 
-const claudeCapabilities = [
-  "Génère du code propre en quelques secondes",
-  "Lit, modifie et organise tes fichiers directement",
-  "Construit n'importe quelle feature que tu décris",
-]
-
-const claudeMissing = [
-  "Ne sait pas quelle idée est rentable sur le marché",
-  "N'a pas les prompts optimisés pour créer un SaaS",
-  "Ne te dit pas si ton projet se vendra ou se revendera",
-]
-
-const buildrsAdds = [
-  "Marketplace d'idées + validateur — score de viabilité sur 100",
-  "Générateur de SaaS IA selon les tendances marché actuelles",
-  "Match SaaS — le projet qui te correspond selon ton profil",
-  "Système complet + bibliothèque de prompts pour Claude",
+const symbioseRows = [
+  {
+    sans: "Tu construis — sans savoir si ça se vend",
+    avec: "Tu construis ce que des gens paient déjà ailleurs",
+  },
+  {
+    sans: "Tu as 10 idées et tu tournes en rond",
+    avec: "Tu repars avec une idée validée, scorée, prête à exécuter",
+  },
+  {
+    sans: "Tu perds des journées sur la config technique",
+    avec: "Tu déploies sur une stack éprouvée, sans t'y brûler",
+  },
+  {
+    sans: "Tu as un produit live — mais personne n'achète",
+    avec: "Tu as une stratégie de prix, un message, un canal — avant de coder",
+  },
+  {
+    sans: "Tu jonglles entre 3 projets sans en finir un",
+    avec: "Tu vas de l'idée au premier euro en 6 jours, focus total",
+  },
 ]
 
 function Symbiose() {
@@ -1139,7 +1143,7 @@ function Symbiose() {
     <section className="relative overflow-hidden py-24 bg-background">
       <div className="mx-auto max-w-[1100px] px-6">
 
-        {/* Header — centré */}
+        {/* Header */}
         <div className="mb-12 text-center">
           <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
             La combinaison gagnante
@@ -1148,76 +1152,55 @@ function Symbiose() {
             style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             className="mb-4 text-foreground"
           >
-            Claude est ton bras armé.<br />Buildrs est ton cerveau augmenté.
+            Claude est l'exécutant.<br />Buildrs est la direction.
           </h2></Reveal>
           <Reveal delay={0.16}><p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-            Seul avec Claude, t'as le moteur. Avec Buildrs, t'as le GPS, le carburant et le mécanicien. L'un ne va pas sans l'autre.
+            Claude peut construire n'importe quoi. Le problème, c'est de savoir quoi — et comment en faire un business.
           </p></Reveal>
         </div>
 
-        {/* 2 cartes côte à côte */}
-        <Reveal delay={0.24}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Tableau comparatif */}
+        <Reveal delay={0.22}>
+          <div className="overflow-hidden rounded-2xl border border-border">
 
-          {/* Claude seul */}
-          <div className="rounded-2xl border border-border bg-card p-7">
-            <div className="mb-5 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-background">
-                <ClaudeIcon size={16} />
+            {/* En-têtes */}
+            <div className="grid grid-cols-2 border-b border-border">
+              <div className="flex items-center gap-2.5 px-6 py-4 border-r border-border">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background">
+                  <ClaudeIcon size={14} />
+                </div>
+                <span className="text-[13px] font-bold text-foreground">Claude seul</span>
               </div>
-              <span className="text-[14px] font-bold text-foreground">Claude seul</span>
+              <div className="flex items-center gap-2.5 px-6 py-4 bg-foreground">
+                <BuildrsIcon color="hsl(var(--background))" size={16} />
+                <span className="text-[13px] font-bold text-background">Claude + Buildrs</span>
+              </div>
             </div>
 
-            <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground/50">
-              Ce qu'il fait parfaitement
-            </p>
-            <ul className="mb-6 flex flex-col gap-2">
-              {claudeCapabilities.map((c) => (
-                <li key={c} className="flex items-start gap-2.5">
-                  <Check size={13} strokeWidth={2.5} className="mt-[2px] shrink-0 text-foreground" />
-                  <span className="text-[13px] leading-snug text-foreground">{c}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: "rgba(239,68,68,0.55)" }}>
-              Ce qui manque sans le système
-            </p>
-            <ul className="flex flex-col gap-2">
-              {claudeMissing.map((c) => (
-                <li key={c} className="flex items-start gap-2.5">
+            {/* Lignes */}
+            {symbioseRows.map((row, i) => (
+              <div
+                key={i}
+                className="grid grid-cols-2"
+                style={{ borderBottom: i < symbioseRows.length - 1 ? '1px solid hsl(var(--border))' : undefined }}
+              >
+                {/* Sans Buildrs */}
+                <div className="flex items-start gap-3 px-6 py-4 border-r border-border bg-card">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="mt-[2px] shrink-0" style={{ color: "rgba(239,68,68,0.5)" }}>
                     <path d="M18 6L6 18M6 6l12 12" />
                   </svg>
-                  <span className="text-[13px] leading-snug text-muted-foreground">{c}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Buildrs + Claude */}
-          <div className="rounded-2xl bg-foreground p-7">
-            <div className="mb-5 flex items-center gap-2.5">
-              <BuildrsIcon color="hsl(var(--background))" size={18} />
-              <span className="text-[14px] font-bold text-background">Buildrs + Claude</span>
-            </div>
-
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.12em] text-background/50">
-              Ce qu'on apporte en plus
-            </p>
-            <ul className="flex flex-col gap-3">
-              {buildrsAdds.map((c) => (
-                <li key={c} className="flex items-start gap-2.5">
+                  <span className="text-[13px] leading-snug text-muted-foreground">{row.sans}</span>
+                </div>
+                {/* Avec Buildrs */}
+                <div className="flex items-start gap-3 px-6 py-4 bg-foreground">
                   <Check size={13} strokeWidth={2.5} className="mt-[2px] shrink-0 text-background" />
-                  <span className="text-[13px] leading-snug text-background/75">{c}</span>
-                </li>
-              ))}
-            </ul>
+                  <span className="text-[13px] leading-snug text-background/80">{row.avec}</span>
+                </div>
+              </div>
+            ))}
+
           </div>
-
-        </div>
         </Reveal>
-
 
       </div>
     </section>
