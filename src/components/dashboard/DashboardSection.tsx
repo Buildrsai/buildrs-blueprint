@@ -40,6 +40,7 @@ const OpportunityDetailPage = lazy(() => import('./OpportunityDetailPage').then(
 const SourceDetailPage     = lazy(() => import('./SourceDetailPage').then(m => ({ default: m.SourceDetailPage })))
 const RevenueCalculatorPage = lazy(() => import('./RevenueCalculatorPage').then(m => ({ default: m.RevenueCalculatorPage })))
 const GeneratorPage         = lazy(() => import('./GeneratorPage').then(m => ({ default: m.GeneratorPage })))
+const GenerateurIAPage      = lazy(() => import('./GenerateurIAPage').then(m => ({ default: m.GenerateurIAPage })))
 const AcquisitionBonusPage  = lazy(() => import('./AcquisitionBonusPage').then(m => ({ default: m.AcquisitionBonusPage })))
 
 const CommunityPage      = lazy(() => import('./CommunityPage').then(m => ({ default: m.CommunityPage })))
@@ -304,6 +305,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
 
   // V2 routes
   if (route.type === 'kanban') return (<W><DashboardLayout {...layoutProps}><KanbanPage userId={user.id} navigate={navigate} hasPack={hasPack} onMilestoneDone={() => void addXP('milestone_done')} /></DashboardLayout></W>)
+  if (route.type === 'generateur-ia') return (<W><DashboardLayout {...layoutProps}><GenerateurIAPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'marketplace') return (<W><DashboardLayout {...layoutProps}><MarketplacePage userId={user.id} navigate={navigate} isAdmin={user.user_metadata?.is_admin === true} /></DashboardLayout></W>)
   if (route.type === 'opportunity-detail' && route.moduleId) return (<W><DashboardLayout {...layoutProps}><SourceDetailPage slug={route.moduleId} userId={user.id} navigate={navigate} /></DashboardLayout></W>)
 
@@ -312,7 +314,7 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'generator') return (<W><DashboardLayout {...layoutProps}><GeneratorPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'acquisition-bonus') return (<W><DashboardLayout {...layoutProps}><AcquisitionBonusPage subPath={route.moduleId ?? ''} navigate={navigate} hasBonus={access.hasProduct('acquisition-bonus')} userId={user.id} /></DashboardLayout></W>)
 
-  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} /></DashboardLayout></W>)
+  if (route.type === 'community') return (<W><DashboardLayout {...layoutProps}><CommunityPage userId={user.id} navigate={navigate} onPost={() => void addXP('community_post')} userDisplayName={profile?.display_name ?? undefined} userLevel={profile?.level ?? undefined} userAvatarUrl={user.user_metadata?.avatar_url} /></DashboardLayout></W>)
   if (route.type === 'members') return (<W><DashboardLayout {...layoutProps}><MembersPage navigate={navigate} userId={user.id} /></DashboardLayout></W>)
   if (route.type === 'templates') return (<W><DashboardLayout {...layoutProps}><TemplatesPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'collaborators') return (<W><DashboardLayout {...layoutProps}><CollaboratorsPage userId={user.id} navigate={navigate} /></DashboardLayout></W>)
@@ -330,7 +332,7 @@ function getTitle(route: DashboardRoute): string {
     settings: 'Paramètres', offers: 'Nos Offres', agents: 'Mes agents IA',
     'agent-chat': 'Agent IA',
     'claude-os': 'Claude OS',
-    'kanban': 'Mon Pipeline', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de SaaS', 'acquisition-bonus': '100 premiers utilisateurs',
+    'kanban': 'Mon Pipeline', 'generateur-ia': 'Générateurs IA', 'marketplace': 'Marketplace', 'validator': 'Valider mon idée', 'revenue-calculator': 'Calculateur MRR/ARR', 'generator': 'Générateur de SaaS', 'acquisition-bonus': '100 premiers utilisateurs',
     'opportunity-detail': 'Opportunite',
     'community': 'Communaute', 'members': 'Membres',
     'templates': 'Templates',

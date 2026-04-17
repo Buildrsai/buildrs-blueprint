@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 880" width="1040" height="880">
+  <defs>
+    <style>
+      text { font-family: -apple-system, "SF Pro Display", Inter, sans-serif; }
+      .heading { font-weight: 600; fill: #0A0A0A; }
+      .body { font-weight: 400; fill: #0A0A0A; }
+      .caption { font-weight: 500; fill: #6B7280; font-size: 12px; }
+      .sketch { font-weight: 400; fill: #0A0A0A; font-style: italic; }
+    </style>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="880" fill="#FAFAFA"/>
+
+  <!-- Section: Floating icon tile top-left — pen -->
+  <g id="tile-pen" transform="rotate(-5, 174, 148)" filter="url(#softShadow)">
+    <rect x="134" y="108" width="80" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <!-- Pen silhouette -->
+    <path d="M158 168 L154 178 L164 174 Z" fill="#0A0A0A"/>
+    <path d="M164 174 L158 168 L180 146 L186 152 Z" fill="#0A0A0A"/>
+    <path d="M180 146 L186 152 L190 144 L182 140 Z" fill="#0A0A0A"/>
+    <line x1="154" y1="178" x2="162" y2="178" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Section: Hand-drawn wireframe sketch of mobile app (left-center) -->
+  <g id="wireframe-sketch">
+    <!-- Outer rounded rectangle — hand-drawn feel with slight imperfections -->
+    <path d="M122 240 C121 232 128 224 137 223 L263 222 C271 221 279 228 280 237 L282 600 C282 609 275 617 266 618 L136 619 C127 620 120 613 120 604 Z"
+          fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Status bar area -->
+    <rect x="130" y="232" width="142" height="18" rx="2" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+
+    <!-- Inner rectangles (6 wireframe sections) -->
+    <!-- LOGO section -->
+    <rect x="134" y="260" width="136" height="48" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="164" y="290" class="sketch" font-size="13" fill="#0A0A0A">LOGO</text>
+
+    <!-- HERO section -->
+    <rect x="134" y="316" width="136" height="64" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="165" y="352" class="sketch" font-size="13" fill="#0A0A0A">HERO</text>
+
+    <!-- CTA section -->
+    <rect x="134" y="388" width="136" height="36" rx="3" fill="#0A0A0A" opacity="0.08"/>
+    <rect x="134" y="388" width="136" height="36" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="172" y="411" class="sketch" font-size="13" fill="#0A0A0A">CTA</text>
+
+    <!-- FEATURES section -->
+    <rect x="134" y="432" width="136" height="56" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="150" y="465" class="sketch" font-size="11" fill="#0A0A0A">FEATURES</text>
+
+    <!-- PRICING section -->
+    <rect x="134" y="496" width="136" height="48" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="152" y="525" class="sketch" font-size="11" fill="#0A0A0A">PRICING</text>
+
+    <!-- FAQ section -->
+    <rect x="134" y="552" width="136" height="40" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="170" y="577" class="sketch" font-size="13" fill="#0A0A0A">FAQ</text>
+
+    <!-- Handwritten annotation lines outside sketch -->
+    <!-- Left arrows pointing to sections -->
+    <path d="M90 284 C102 284, 112 284, 132 284" stroke="#0A0A0A" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-dasharray="3 2"/>
+    <path d="M128 280 L134 284 L128 288" stroke="#0A0A0A" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Section: iPhone mockup (right, tilted 8 degrees) -->
+  <g id="iphone-mockup" transform="rotate(8, 700, 440)" filter="url(#softShadow)">
+    <!-- Outer frame -->
+    <rect x="560" y="150" width="280" height="580" rx="48" fill="#0A0A0A"/>
+    <!-- Inner screen -->
+    <rect x="574" y="170" width="252" height="540" rx="38" fill="#FFFFFF"/>
+    <!-- Notch -->
+    <rect x="646" y="170" width="108" height="28" rx="14" fill="#0A0A0A"/>
+    <!-- Status bar -->
+    <text x="582" y="192" font-size="11" fill="#6B7280">9:41</text>
+    <rect x="788" y="184" width="18" height="6" rx="2" fill="#6B7280"/>
+    <rect x="780" y="186" width="6" height="4" rx="1" fill="#6B7280"/>
+    <rect x="772" y="185" width="6" height="5" rx="1" fill="#6B7280"/>
+
+    <!-- Screen content: placeholder layout -->
+    <!-- Header bar -->
+    <rect x="582" y="208" width="234" height="28" rx="6" fill="#F3F4F6"/>
+
+    <!-- Hero area -->
+    <rect x="582" y="244" width="234" height="80" rx="6" fill="#F3F4F6"/>
+    <!-- Hero lines -->
+    <rect x="594" y="264" width="140" height="8" rx="4" fill="#D1D5DB"/>
+    <rect x="594" y="278" width="100" height="6" rx="3" fill="#D1D5DB"/>
+    <rect x="594" y="292" width="120" height="6" rx="3" fill="#D1D5DB"/>
+
+    <!-- CTA button -->
+    <rect x="594" y="336" width="210" height="32" rx="8" fill="#2A2A2A"/>
+
+    <!-- Feature tiles -->
+    <rect x="582" y="380" width="110" height="60" rx="6" fill="#0A0A0A"/>
+    <rect x="706" y="380" width="110" height="60" rx="6" fill="#0A0A0A"/>
+
+    <!-- Bottom area -->
+    <rect x="582" y="452" width="234" height="80" rx="6" fill="#F3F4F6"/>
+    <rect x="582" y="544" width="234" height="60" rx="6" fill="#F3F4F6"/>
+    <rect x="582" y="616" width="234" height="60" rx="6" fill="#F3F4F6"/>
+
+    <!-- Home indicator -->
+    <rect x="676" y="694" width="46" height="4" rx="2" fill="#6B7280"/>
+  </g>
+
+  <!-- Section: Curved arrow from sketch to iPhone -->
+  <path d="M282 420 C360 420 430 400 555 390" stroke="#0A0A0A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M550 385 L558 391 L550 397" stroke="#0A0A0A" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Section: Caption labels -->
+  <text x="202" y="650" class="caption" text-anchor="middle" font-size="12">Maquette filaire</text>
+  <text x="700" y="780" class="caption" text-anchor="middle" font-size="12">Rendu final</text>
+
+  <!-- Section: Annotation marks on wireframe -->
+  <circle cx="90" cy="284" r="3" fill="#0A0A0A"/>
+  <text x="54" y="288" class="caption" font-size="9">header</text>
+
+</svg>

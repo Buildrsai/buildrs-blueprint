@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 880" width="1040" height="880">
+  <defs>
+    <style>
+      text { font-family: -apple-system, "SF Pro Display", Inter, sans-serif; }
+      .heading { font-weight: 600; fill: #0A0A0A; }
+      .body { font-weight: 400; fill: #0A0A0A; }
+      .caption { font-weight: 500; fill: #6B7280; font-size: 12px; }
+    </style>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="880" fill="#FAFAFA"/>
+
+  <!-- Section: iPhone mockup (left, straight-on) -->
+  <g id="iphone-mockup" filter="url(#softShadow)">
+    <!-- Outer frame -->
+    <rect x="200" y="140" width="280" height="580" rx="48" fill="#0A0A0A"/>
+    <!-- Inner screen -->
+    <rect x="214" y="160" width="252" height="540" rx="38" fill="#FFFFFF"/>
+    <!-- Notch -->
+    <rect x="286" y="160" width="108" height="28" rx="14" fill="#0A0A0A"/>
+    <!-- Status bar -->
+    <text x="222" y="182" font-size="11" fill="#6B7280">9:41</text>
+    <rect x="428" y="174" width="18" height="6" rx="2" fill="#6B7280"/>
+    <rect x="420" y="176" width="6" height="4" rx="1" fill="#6B7280"/>
+    <rect x="412" y="175" width="6" height="5" rx="1" fill="#6B7280"/>
+
+    <!-- App header -->
+    <rect x="222" y="198" width="234" height="32" rx="6" fill="#F3F4F6"/>
+    <rect x="230" y="207" width="80" height="8" rx="4" fill="#D1D5DB"/>
+
+    <!-- Feature 1 block — dark (star feature) -->
+    <rect x="222" y="240" width="234" height="80" rx="8" fill="#0A0A0A"/>
+    <rect x="232" y="254" width="120" height="8" rx="4" fill="#FFFFFF" opacity="0.8"/>
+    <rect x="232" y="268" width="80" height="6" rx="3" fill="#FFFFFF" opacity="0.4"/>
+    <rect x="232" y="282" width="100" height="6" rx="3" fill="#FFFFFF" opacity="0.4"/>
+    <!-- Checkmark on dark card -->
+    <circle cx="432" cy="262" r="10" fill="#FFFFFF" opacity="0.2"/>
+    <path d="M428 262 L431 265 L437 259" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Feature 2 block -->
+    <rect x="222" y="332" width="234" height="60" rx="8" fill="#F3F4F6"/>
+    <rect x="232" y="346" width="100" height="7" rx="3" fill="#D1D5DB"/>
+    <rect x="232" y="358" width="70" height="6" rx="3" fill="#D1D5DB"/>
+
+    <!-- Feature 3 block -->
+    <rect x="222" y="404" width="234" height="60" rx="8" fill="#F3F4F6"/>
+    <rect x="232" y="418" width="110" height="7" rx="3" fill="#D1D5DB"/>
+    <rect x="232" y="430" width="80" height="6" rx="3" fill="#D1D5DB"/>
+
+    <!-- Auth block -->
+    <rect x="222" y="476" width="234" height="60" rx="8" fill="#F3F4F6"/>
+    <rect x="232" y="490" width="90" height="7" rx="3" fill="#D1D5DB"/>
+    <rect x="232" y="502" width="130" height="6" rx="3" fill="#D1D5DB"/>
+
+    <!-- Bottom nav -->
+    <rect x="222" y="548" width="234" height="48" rx="8" fill="#F3F4F6"/>
+    <rect x="240" y="564" width="30" height="6" rx="3" fill="#D1D5DB"/>
+    <rect x="290" y="564" width="30" height="6" rx="3" fill="#D1D5DB"/>
+    <rect x="340" y="564" width="30" height="6" rx="3" fill="#D1D5DB"/>
+    <rect x="390" y="564" width="30" height="6" rx="3" fill="#D1D5DB"/>
+
+    <!-- Scrollable content -->
+    <rect x="222" y="608" width="234" height="60" rx="8" fill="#F3F4F6"/>
+
+    <!-- Home indicator -->
+    <rect x="316" y="688" width="46" height="4" rx="2" fill="#6B7280"/>
+  </g>
+
+  <!-- Section: 3 white rounded cards (right side) -->
+
+  <!-- Card 1: Fonctionnalité star -->
+  <g id="card-feature-star" filter="url(#softShadow)">
+    <rect x="620" y="220" width="280" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="644" y="256" class="heading" font-size="14">Fonctionnalité star</text>
+    <text x="644" y="274" class="caption" font-size="11">La feature core qui justifie le paiement</text>
+    <!-- Validation mark -->
+    <circle cx="868" cy="260" r="10" fill="#0A0A0A"/>
+    <path d="M864 260 L867 263 L873 257" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Card 2: Onboarding utilisateur -->
+  <g id="card-onboarding" filter="url(#softShadow)">
+    <rect x="620" y="328" width="280" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="644" y="364" class="heading" font-size="14">Onboarding utilisateur</text>
+    <text x="644" y="382" class="caption" font-size="11">Flow d'accueil et activation</text>
+    <!-- Validation mark -->
+    <circle cx="868" cy="368" r="10" fill="#0A0A0A"/>
+    <path d="M864 368 L867 371 L873 365" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Card 3: Inscription & auth -->
+  <g id="card-auth" filter="url(#softShadow)">
+    <rect x="620" y="436" width="280" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="644" y="472" class="heading" font-size="14">Inscription et auth</text>
+    <text x="644" y="490" class="caption" font-size="11">Email, Google OAuth, session sécurisée</text>
+    <!-- Validation mark -->
+    <circle cx="868" cy="476" r="10" fill="#0A0A0A"/>
+    <path d="M864 476 L867 479 L873 473" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Section: Connector lines from cards to iPhone -->
+  <!-- Line card 1 to phone screen feature area -->
+  <path d="M618 260 C580 260, 520 280, 482 280" stroke="#0A0A0A" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <circle cx="482" cy="280" r="4" fill="#0A0A0A"/>
+  <circle cx="618" cy="260" r="4" fill="#0A0A0A"/>
+
+  <!-- Line card 2 to phone onboarding area -->
+  <path d="M618 368 C580 368, 520 362, 482 362" stroke="#0A0A0A" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <circle cx="482" cy="362" r="4" fill="#0A0A0A"/>
+  <circle cx="618" cy="368" r="4" fill="#0A0A0A"/>
+
+  <!-- Line card 3 to phone auth area -->
+  <path d="M618 476 C580 476, 520 440, 482 440" stroke="#0A0A0A" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <circle cx="482" cy="440" r="4" fill="#0A0A0A"/>
+  <circle cx="618" cy="476" r="4" fill="#0A0A0A"/>
+
+  <!-- Section: Small L-shaped accent bottom-right -->
+  <g id="l-accent">
+    <path d="M880 660 L880 720 L940 720" stroke="#0A0A0A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="880" cy="660" r="4" fill="#0A0A0A"/>
+    <circle cx="940" cy="720" r="4" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Section: Bottom caption -->
+  <text x="520" y="790" class="caption" text-anchor="middle" font-size="13">3 briques fondamentales — construites avec Claude Code</text>
+
+</svg>

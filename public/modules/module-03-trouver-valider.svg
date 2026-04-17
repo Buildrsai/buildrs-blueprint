@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 880" width="1040" height="880">
+  <defs>
+    <style>
+      text { font-family: -apple-system, "SF Pro Display", Inter, sans-serif; }
+      .heading { font-weight: 600; fill: #0A0A0A; }
+      .body { font-weight: 400; fill: #0A0A0A; }
+      .caption { font-weight: 500; fill: #6B7280; font-size: 12px; }
+    </style>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="880" fill="#FAFAFA"/>
+
+  <!-- Section: Top caption -->
+  <text x="520" y="80" class="caption" text-anchor="middle" font-size="13">Marché scanné : 124 300 / 124 300 produits analysés</text>
+
+  <!-- Section: Row of segmented bars (28 bars, all filled) -->
+  <g id="segmented-bars-top">
+    <!-- 28 bars, each 8x32, gap 3, starting x=160, y=96 -->
+    <!-- All filled #0A0A0A -->
+    <rect x="160" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="171" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="182" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="193" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="204" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="215" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="226" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="237" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="248" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="259" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="270" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="281" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="292" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="303" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="314" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="325" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="336" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="347" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="358" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="369" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="380" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="391" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="402" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="413" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="424" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="435" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="446" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="457" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <!-- continue right side -->
+    <rect x="575" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="586" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="597" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="608" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="619" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="630" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="641" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="652" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="663" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="674" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="685" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="696" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="707" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="718" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="729" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="740" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="751" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="762" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="773" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="784" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="795" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="806" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="817" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="828" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="839" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="850" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="861" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+    <rect x="872" y="96" width="8" height="32" rx="2" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Section: 3 floating icon tiles above dashboard -->
+
+  <!-- Tile: magnifying glass (left) -->
+  <g id="tile-magnify" transform="rotate(-4, 240, 192)" filter="url(#softShadow)">
+    <rect x="200" y="152" width="80" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <circle cx="236" cy="186" r="13" fill="none" stroke="#0A0A0A" stroke-width="2.5"/>
+    <circle cx="236" cy="186" r="5" fill="#0A0A0A"/>
+    <line x1="245" y1="196" x2="256" y2="208" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Tile: speech bubble (center) -->
+  <g id="tile-speech" transform="rotate(2, 490, 188)" filter="url(#softShadow)">
+    <rect x="450" y="148" width="80" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <path d="M465 168 Q465 162 471 162 L509 162 Q515 162 515 168 L515 192 Q515 198 509 198 L479 198 L471 210 L471 198 Q465 198 465 192 Z" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+    <rect x="474" y="174" width="32" height="4" rx="2" fill="#0A0A0A"/>
+    <rect x="474" y="183" width="22" height="4" rx="2" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Tile: mobile window (right) -->
+  <g id="tile-mobile" transform="rotate(5, 742, 188)" filter="url(#softShadow)">
+    <rect x="702" y="148" width="80" height="80" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <rect x="722" y="162" width="40" height="56" rx="6" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+    <rect x="730" y="168" width="24" height="4" rx="2" fill="#0A0A0A"/>
+    <rect x="726" y="176" width="32" height="3" rx="1.5" fill="#F3F4F6"/>
+    <rect x="726" y="182" width="28" height="3" rx="1.5" fill="#F3F4F6"/>
+    <rect x="726" y="188" width="20" height="3" rx="1.5" fill="#F3F4F6"/>
+    <circle cx="742" cy="208" r="3" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+  </g>
+
+  <!-- Arrows from tiles to dashboard -->
+  <path d="M240 234 C250 270, 280 300, 320 330" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M316 326 L322 334 L312 336" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <path d="M490 230 C490 270, 490 300, 490 330" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-dasharray="4 4"/>
+  <path d="M486 326 L490 335 L494 326" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <path d="M742 230 C730 270, 710 300, 680 330" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M684 326 L678 334 L686 336" stroke="#0A0A0A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Section: Central dashboard card -->
+  <g id="dashboard-card" filter="url(#softShadow)">
+    <rect x="160" y="340" width="720" height="380" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+
+    <!-- Dashboard header -->
+    <rect x="160" y="340" width="720" height="44" rx="12" fill="#0A0A0A"/>
+    <rect x="160" y="362" width="720" height="22" fill="#0A0A0A"/>
+    <text x="340" y="367" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="3">OPPORTUNITÉS SAAS</text>
+
+    <!-- Column headers -->
+    <line x1="160" y1="384" x2="880" y2="384" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="178" y="400" class="caption" font-size="11">Source</text>
+    <text x="298" y="400" class="caption" font-size="11">Nom SaaS</text>
+    <text x="440" y="400" class="caption" font-size="11">Build Score</text>
+    <text x="580" y="400" class="caption" font-size="11">Problème résolu</text>
+    <text x="760" y="400" class="caption" font-size="11">Statut</text>
+    <line x1="160" y1="408" x2="880" y2="408" stroke="#D1D5DB" stroke-width="1"/>
+
+    <!-- Row data: 10 rows, row 4 alert, row 8 corrupted -->
+    <!-- Row 1 -->
+    <rect x="178" y="414" width="80" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="414" width="100" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="414" width="60" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="414" width="140" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="417" r="6" fill="#0A0A0A"/>
+    <path d="M776 417 L779 420 L785 414" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="428" x2="880" y2="428" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 2 -->
+    <rect x="178" y="434" width="70" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="434" width="110" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="434" width="50" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="434" width="120" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="437" r="6" fill="#0A0A0A"/>
+    <path d="M776 437 L779 440 L785 434" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="448" x2="880" y2="448" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 3 -->
+    <rect x="178" y="454" width="90" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="454" width="95" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="454" width="70" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="454" width="130" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="457" r="6" fill="#0A0A0A"/>
+    <path d="M776 457 L779 460 L785 454" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="468" x2="880" y2="468" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 4: ALERT row -->
+    <rect x="160" y="468" width="720" height="22" fill="#F3F4F6"/>
+    <!-- Alert triangle -->
+    <polygon points="190,479 186,487 194,487" fill="none" stroke="#0A0A0A" stroke-width="1.5"/>
+    <line x1="190" y1="481" x2="190" y2="485" stroke="#0A0A0A" stroke-width="1.2"/>
+    <!-- dashes -->
+    <rect x="210" y="476" width="40" height="4" rx="2" fill="#D1D5DB"/>
+    <rect x="316" y="476" width="60" height="4" rx="2" fill="#D1D5DB"/>
+    <rect x="462" y="476" width="30" height="4" rx="2" fill="#D1D5DB"/>
+    <rect x="596" y="476" width="80" height="4" rx="2" fill="#D1D5DB"/>
+    <rect x="770" y="476" width="20" height="4" rx="2" fill="#D1D5DB"/>
+    <line x1="160" y1="490" x2="880" y2="490" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 5 -->
+    <rect x="178" y="496" width="75" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="496" width="105" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="496" width="55" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="496" width="145" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="499" r="6" fill="#0A0A0A"/>
+    <path d="M776 499 L779 502 L785 496" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="510" x2="880" y2="510" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 6 -->
+    <rect x="178" y="516" width="85" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="516" width="90" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="516" width="65" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="516" width="110" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="519" r="6" fill="#0A0A0A"/>
+    <path d="M776 519 L779 522 L785 516" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="530" x2="880" y2="530" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 7 -->
+    <rect x="178" y="536" width="80" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="536" width="100" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="536" width="60" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="536" width="130" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="539" r="6" fill="#0A0A0A"/>
+    <path d="M776 539 L779 542 L785 536" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="550" x2="880" y2="550" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 8: CORRUPTED -->
+    <rect x="160" y="550" width="720" height="22" fill="#F3F4F6"/>
+    <text x="178" y="564" font-size="10" fill="#D1D5DB" font-family="monospace">######</text>
+    <text x="298" y="564" font-size="10" fill="#D1D5DB" font-family="monospace">######</text>
+    <text x="440" y="564" font-size="10" fill="#D1D5DB" font-family="monospace">####</text>
+    <text x="580" y="564" font-size="10" fill="#D1D5DB" font-family="monospace">########</text>
+    <text x="760" y="564" font-size="10" fill="#D1D5DB" font-family="monospace">##</text>
+    <line x1="160" y1="572" x2="880" y2="572" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 9 -->
+    <rect x="178" y="578" width="78" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="578" width="108" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="578" width="58" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="578" width="125" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="581" r="6" fill="#0A0A0A"/>
+    <path d="M776 581 L779 584 L785 578" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="160" y1="592" x2="880" y2="592" stroke="#D1D5DB" stroke-width="0.5"/>
+
+    <!-- Row 10 -->
+    <rect x="178" y="598" width="72" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="298" y="598" width="95" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="440" y="598" width="62" height="6" rx="3" fill="#F3F4F6"/>
+    <rect x="580" y="598" width="135" height="6" rx="3" fill="#F3F4F6"/>
+    <circle cx="780" cy="601" r="6" fill="#0A0A0A"/>
+    <path d="M776 601 L779 604 L785 598" stroke="#FFFFFF" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Pagination -->
+    <text x="320" y="705" class="caption" text-anchor="middle" font-size="11">Affichage 1-10 sur 124 300 résultats</text>
+  </g>
+
+  <!-- Section: Floating callout card bottom-left (row 8 corrupted) -->
+  <g id="callout-corrupted" filter="url(#softShadow)">
+    <rect x="40" y="640" width="220" height="100" rx="10" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="60" y="664" class="heading" font-size="12">Ligne 8 — données corrompues</text>
+    <text x="60" y="680" font-size="10" fill="#D1D5DB" font-family="monospace">######  ######</text>
+    <text x="60" y="696" font-size="10" fill="#D1D5DB" font-family="monospace">####    ##</text>
+    <text x="60" y="712" class="caption" font-size="10">Source non vérifiable</text>
+    <!-- Connector line to row 8 -->
+    <line x1="160" y1="680" x2="262" y2="640" stroke="#0A0A0A" stroke-width="1" stroke-dasharray="3 3"/>
+    <circle cx="160" cy="680" r="3" fill="#0A0A0A"/>
+  </g>
+
+</svg>

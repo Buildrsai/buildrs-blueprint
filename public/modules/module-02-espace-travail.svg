@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 880" width="1040" height="880">
+  <defs>
+    <style>
+      text { font-family: -apple-system, "SF Pro Display", Inter, sans-serif; }
+      .heading { font-weight: 600; fill: #0A0A0A; }
+      .body { font-weight: 400; fill: #0A0A0A; }
+      .caption { font-weight: 500; fill: #6B7280; font-size: 12px; }
+    </style>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.12"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="880" fill="#FAFAFA"/>
+
+  <!-- Section: Top row of 4 large black silhouette icons -->
+  <g id="top-icons">
+
+    <!-- Cloud icon (120x120) centered at 160 -->
+    <g id="icon-cloud">
+      <text x="100" y="148" class="caption" text-anchor="middle">cloud</text>
+      <text x="100" y="146" class="caption" text-anchor="middle" font-size="10">stockage</text>
+      <!-- Cloud silhouette -->
+      <path d="M60 180 Q60 160 76 156 Q78 142 92 140 Q104 130 118 138 Q130 130 142 140 Q156 140 158 156 Q170 158 170 172 Q170 188 156 188 L76 188 Q60 192 60 180Z" fill="#0A0A0A"/>
+    </g>
+
+    <!-- Database cylinder at 300 -->
+    <g id="icon-database">
+      <text x="300" y="148" class="caption" text-anchor="middle" font-size="10">base de données</text>
+      <ellipse cx="300" cy="148" rx="30" ry="10" fill="#0A0A0A"/>
+      <rect x="270" y="148" width="60" height="44" fill="#0A0A0A"/>
+      <ellipse cx="300" cy="192" rx="30" ry="10" fill="#2A2A2A"/>
+      <ellipse cx="300" cy="165" rx="30" ry="10" fill="#FAFAFA" opacity="0.15"/>
+      <line x1="270" y1="165" x2="270" y2="148" stroke="#FAFAFA" stroke-width="0"/>
+    </g>
+
+    <!-- Code brackets at 520 -->
+    <g id="icon-code">
+      <text x="520" y="148" class="caption" text-anchor="middle" font-size="10">assistant IA</text>
+      <text x="478" y="198" font-size="60" font-weight="700" fill="#0A0A0A" font-family="monospace">[</text>
+      <text x="530" y="198" font-size="60" font-weight="700" fill="#0A0A0A" font-family="monospace">]</text>
+    </g>
+
+    <!-- Deployment triangle at 740 -->
+    <g id="icon-deploy">
+      <text x="740" y="148" class="caption" text-anchor="middle" font-size="10">déploiement</text>
+      <polygon points="740,148 700,208 780,208" fill="#0A0A0A"/>
+      <!-- Small circle at top of triangle -->
+      <circle cx="740" cy="148" r="6" fill="#FAFAFA"/>
+    </g>
+
+  </g>
+
+  <!-- Section: Thin converging lines from icons to center point -->
+  <g id="converging-lines">
+    <line x1="116" y1="200" x2="490" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+    <line x1="300" y1="200" x2="510" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+    <line x1="520" y1="200" x2="520" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+    <line x1="740" y1="208" x2="550" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+    <!-- Center convergence dot -->
+    <circle cx="520" cy="400" r="4" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Section: Central CTA button -->
+  <g id="cta-button" filter="url(#softShadow)">
+    <rect x="380" y="420" width="280" height="64" rx="32" fill="#0A0A0A"/>
+    <text x="520" y="459" class="heading" font-size="15" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ENVIRONNEMENT PRÊT</text>
+  </g>
+
+  <!-- Section: Confetti burst left of button -->
+  <g id="confetti">
+    <!-- Black triangles -->
+    <polygon points="318,438 326,428 334,440" fill="#0A0A0A"/>
+    <polygon points="290,450 296,440 304,452" fill="#0A0A0A"/>
+    <polygon points="338,458 343,446 350,460" fill="#0A0A0A"/>
+    <polygon points="306,468 312,458 316,472" fill="#0A0A0A"/>
+    <!-- Circles -->
+    <circle cx="325" cy="464" r="4" fill="#0A0A0A"/>
+    <circle cx="296" cy="432" r="3" fill="#0A0A0A"/>
+    <circle cx="352" cy="444" r="5" fill="#0A0A0A"/>
+    <!-- Short lines -->
+    <line x1="280" y1="442" x2="290" y2="436" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="310" y1="476" x2="320" y2="468" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="344" y1="470" x2="356" y2="462" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+    <line x1="272" y1="460" x2="284" y2="456" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="270,432 276,422 282,434" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Section: Cursor pointer icon right of button -->
+  <g id="cursor-icon">
+    <path d="M700 440 L700 480 L710 468 L720 488 L726 485 L716 466 L730 466 Z" fill="#0A0A0A"/>
+  </g>
+
+  <!-- Section: Checklist card lower-right -->
+  <g id="checklist-card" filter="url(#softShadow)">
+    <rect x="720" y="540" width="220" height="180" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="740" y="568" class="heading" font-size="14">Stack configuré</text>
+    <line x1="728" y1="578" x2="932" y2="578" stroke="#D1D5DB" stroke-width="1"/>
+
+    <!-- Row 1: Assistant IA -->
+    <circle cx="748" cy="600" r="8" fill="#0A0A0A"/>
+    <path d="M744 600 L747 603 L753 597" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="762" y="604" class="body" font-size="13">Assistant IA</text>
+
+    <!-- Row 2: Base de données -->
+    <circle cx="748" cy="628" r="8" fill="#0A0A0A"/>
+    <path d="M744 628 L747 631 L753 625" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="762" y="632" class="body" font-size="13">Base de données</text>
+
+    <!-- Row 3: Paiements -->
+    <circle cx="748" cy="656" r="8" fill="#0A0A0A"/>
+    <path d="M744 656 L747 659 L753 653" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="762" y="660" class="body" font-size="13">Paiements</text>
+
+    <!-- Row 4: Déploiement -->
+    <circle cx="748" cy="684" r="8" fill="#0A0A0A"/>
+    <path d="M744 684 L747 687 L753 681" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="762" y="688" class="body" font-size="13">Déploiement</text>
+  </g>
+
+  <!-- Section: Decorative connecting lines from button to checklist -->
+  <path d="M660 452 C690 452 700 540 720 590" stroke="#D1D5DB" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+
+  <!-- Section: Bottom caption -->
+  <text x="520" y="780" class="caption" text-anchor="middle" font-size="13">Ton environnement de travail, configuré en une session</text>
+
+  <!-- Small label above each icon -->
+  <line x1="100" y1="210" x2="100" y2="232" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="300" y1="202" x2="300" y2="232" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="520" y1="208" x2="520" y2="232" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="740" y1="210" x2="740" y2="232" stroke="#D1D5DB" stroke-width="1"/>
+
+</svg>
