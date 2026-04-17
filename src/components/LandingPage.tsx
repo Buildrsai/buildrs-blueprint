@@ -2085,6 +2085,11 @@ const programmeModules = [
   },
 ]
 
+const programmeImages: Record<string, string> = {
+  "01": "/module-1-fondation.jpg",
+  "02": "/module-2-env.jpg",
+}
+
 function Programme() {
   return (
     <section id="modules" className="relative py-20 sm:py-28" style={{ background: '#ffffff' }}>
@@ -2174,7 +2179,7 @@ function Programme() {
 
                   {/* Droite — image si disponible */}
                   <div className="pl-12 pb-14 pt-1 flex items-start justify-center">
-                    {mod.num === "01" && (
+                    {programmeImages[mod.num] && (
                       <div style={{
                         borderRadius: 16,
                         overflow: 'hidden',
@@ -2196,7 +2201,11 @@ function Programme() {
                         el.style.boxShadow = '0 24px 64px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)'
                       }}
                       >
-                        <img src="/module-1-fondation.jpg" alt="Module 01 — Fondations" style={{ display: 'block', width: '100%', height: 'auto' }} />
+                        <img
+                          src={programmeImages[mod.num]}
+                          alt={`Module ${mod.num} — ${mod.title}`}
+                          style={{ display: 'block', width: '100%', height: 'auto' }}
+                        />
                       </div>
                     )}
                   </div>
