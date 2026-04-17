@@ -17,50 +17,41 @@
   <!-- Background -->
   <rect width="1040" height="880" fill="#FAFAFA"/>
 
-  <!-- Section: Top row of 4 large black silhouette icons -->
+  <!-- Section: Top row — 4 real brand logos (80×80, centered) -->
   <g id="top-icons">
 
-    <!-- Cloud icon (120x120) centered at 160 -->
-    <g id="icon-cloud">
-      <text x="100" y="148" class="caption" text-anchor="middle">cloud</text>
-      <text x="100" y="146" class="caption" text-anchor="middle" font-size="10">stockage</text>
-      <!-- Cloud silhouette -->
-      <path d="M60 180 Q60 160 76 156 Q78 142 92 140 Q104 130 118 138 Q130 130 142 140 Q156 140 158 156 Q170 158 170 172 Q170 188 156 188 L76 188 Q60 192 60 180Z" fill="#0A0A0A"/>
+    <!-- Claude — centered at (150, 170) — viewBox 0 0 24 24 → scale 3.333 -->
+    <g id="icon-claude" transform="translate(110, 130) scale(3.333)">
+      <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" fill="#0A0A0A"/>
     </g>
+    <text x="150" y="232" class="caption" text-anchor="middle">Claude</text>
 
-    <!-- Database cylinder at 300 -->
-    <g id="icon-database">
-      <text x="300" y="148" class="caption" text-anchor="middle" font-size="10">base de données</text>
-      <ellipse cx="300" cy="148" rx="30" ry="10" fill="#0A0A0A"/>
-      <rect x="270" y="148" width="60" height="44" fill="#0A0A0A"/>
-      <ellipse cx="300" cy="192" rx="30" ry="10" fill="#2A2A2A"/>
-      <ellipse cx="300" cy="165" rx="30" ry="10" fill="#FAFAFA" opacity="0.15"/>
-      <line x1="270" y1="165" x2="270" y2="148" stroke="#FAFAFA" stroke-width="0"/>
+    <!-- Supabase — centered at (370, 170) — viewBox 0 0 24 24 → scale 3.333 -->
+    <g id="icon-supabase" transform="translate(330, 130) scale(3.333)">
+      <path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.33 12.59.738 13.39 1.424 13.39h9.255l.002.003.62 9.527c.015.986 1.26 1.41 1.874.637l9.262-11.652c.434-.54.026-1.339-.66-1.339h-9.255l-.002-.003-.62-9.527Z" fill="#0A0A0A"/>
     </g>
+    <text x="370" y="232" class="caption" text-anchor="middle">Supabase</text>
 
-    <!-- Code brackets at 520 -->
-    <g id="icon-code">
-      <text x="520" y="148" class="caption" text-anchor="middle" font-size="10">assistant IA</text>
-      <text x="478" y="198" font-size="60" font-weight="700" fill="#0A0A0A" font-family="monospace">[</text>
-      <text x="530" y="198" font-size="60" font-weight="700" fill="#0A0A0A" font-family="monospace">]</text>
+    <!-- Stripe — centered at (610, 170) — viewBox 0 0 24 24 → scale 3.333 -->
+    <g id="icon-stripe" transform="translate(570, 130) scale(3.333)">
+      <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" fill="#0A0A0A"/>
     </g>
+    <text x="610" y="232" class="caption" text-anchor="middle">Stripe</text>
 
-    <!-- Deployment triangle at 740 -->
-    <g id="icon-deploy">
-      <text x="740" y="148" class="caption" text-anchor="middle" font-size="10">déploiement</text>
-      <polygon points="740,148 700,208 780,208" fill="#0A0A0A"/>
-      <!-- Small circle at top of triangle -->
-      <circle cx="740" cy="148" r="6" fill="#FAFAFA"/>
+    <!-- Vercel — centered at (850, 170) — viewBox 0 0 512 512 → scale 0.15625 -->
+    <g id="icon-vercel" transform="translate(810, 130) scale(0.15625)">
+      <path d="M256 48L496 464H16L256 48Z" fill="#0A0A0A"/>
     </g>
+    <text x="850" y="232" class="caption" text-anchor="middle">Vercel</text>
 
   </g>
 
-  <!-- Section: Thin converging lines from icons to center point -->
+  <!-- Section: Thin converging lines to center point (520, 400) -->
   <g id="converging-lines">
-    <line x1="116" y1="200" x2="490" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
-    <line x1="300" y1="200" x2="510" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
-    <line x1="520" y1="200" x2="520" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
-    <line x1="740" y1="208" x2="550" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.4"/>
+    <line x1="150" y1="215" x2="505" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+    <line x1="370" y1="215" x2="510" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+    <line x1="610" y1="215" x2="530" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
+    <line x1="850" y1="215" x2="535" y2="400" stroke="#0A0A0A" stroke-width="1" opacity="0.35"/>
     <!-- Center convergence dot -->
     <circle cx="520" cy="400" r="4" fill="#0A0A0A"/>
   </g>
@@ -68,21 +59,18 @@
   <!-- Section: Central CTA button -->
   <g id="cta-button" filter="url(#softShadow)">
     <rect x="380" y="420" width="280" height="64" rx="32" fill="#0A0A0A"/>
-    <text x="520" y="459" class="heading" font-size="15" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ENVIRONNEMENT PRÊT</text>
+    <text x="520" y="459" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">ENVIRONNEMENT PRÊT</text>
   </g>
 
   <!-- Section: Confetti burst left of button -->
   <g id="confetti">
-    <!-- Black triangles -->
     <polygon points="318,438 326,428 334,440" fill="#0A0A0A"/>
     <polygon points="290,450 296,440 304,452" fill="#0A0A0A"/>
     <polygon points="338,458 343,446 350,460" fill="#0A0A0A"/>
     <polygon points="306,468 312,458 316,472" fill="#0A0A0A"/>
-    <!-- Circles -->
     <circle cx="325" cy="464" r="4" fill="#0A0A0A"/>
     <circle cx="296" cy="432" r="3" fill="#0A0A0A"/>
     <circle cx="352" cy="444" r="5" fill="#0A0A0A"/>
-    <!-- Short lines -->
     <line x1="280" y1="442" x2="290" y2="436" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
     <line x1="310" y1="476" x2="320" y2="468" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
     <line x1="344" y1="470" x2="356" y2="462" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round"/>
@@ -95,43 +83,52 @@
     <path d="M700 440 L700 480 L710 468 L720 488 L726 485 L716 466 L730 466 Z" fill="#0A0A0A"/>
   </g>
 
-  <!-- Section: Checklist card lower-right -->
+  <!-- Section: Checklist card lower-right with brand logo mini-icons -->
   <g id="checklist-card" filter="url(#softShadow)">
-    <rect x="720" y="540" width="220" height="180" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
-    <text x="740" y="568" class="heading" font-size="14">Stack configuré</text>
-    <line x1="728" y1="578" x2="932" y2="578" stroke="#D1D5DB" stroke-width="1"/>
+    <rect x="700" y="520" width="260" height="210" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="720" y="550" class="heading" font-size="14">Stack configuré</text>
+    <line x1="708" y1="560" x2="952" y2="560" stroke="#D1D5DB" stroke-width="1"/>
 
-    <!-- Row 1: Assistant IA -->
-    <circle cx="748" cy="600" r="8" fill="#0A0A0A"/>
-    <path d="M744 600 L747 603 L753 597" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="762" y="604" class="body" font-size="13">Assistant IA</text>
+    <!-- Row 1: Claude — Assistant IA -->
+    <!-- Mini Claude logo 18px at (726, 581) -->
+    <g transform="translate(717, 572) scale(0.75)">
+      <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z" fill="#0A0A0A"/>
+    </g>
+    <text x="742" y="585" class="body" font-size="13">Assistant IA</text>
+    <circle cx="932" cy="581" r="8" fill="#0A0A0A"/>
+    <path d="M928 581 L931 584 L937 578" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Row 2: Base de données -->
-    <circle cx="748" cy="628" r="8" fill="#0A0A0A"/>
-    <path d="M744 628 L747 631 L753 625" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="762" y="632" class="body" font-size="13">Base de données</text>
+    <!-- Row 2: Supabase — Base de données -->
+    <g transform="translate(717, 604) scale(0.75)">
+      <path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.33 12.59.738 13.39 1.424 13.39h9.255l.002.003.62 9.527c.015.986 1.26 1.41 1.874.637l9.262-11.652c.434-.54.026-1.339-.66-1.339h-9.255l-.002-.003-.62-9.527Z" fill="#0A0A0A"/>
+    </g>
+    <text x="742" y="617" class="body" font-size="13">Base de données</text>
+    <circle cx="932" cy="613" r="8" fill="#0A0A0A"/>
+    <path d="M928 613 L931 616 L937 610" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Row 3: Paiements -->
-    <circle cx="748" cy="656" r="8" fill="#0A0A0A"/>
-    <path d="M744 656 L747 659 L753 653" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="762" y="660" class="body" font-size="13">Paiements</text>
+    <!-- Row 3: Stripe — Paiements -->
+    <g transform="translate(717, 636) scale(0.75)">
+      <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" fill="#0A0A0A"/>
+    </g>
+    <text x="742" y="649" class="body" font-size="13">Paiements</text>
+    <circle cx="932" cy="645" r="8" fill="#0A0A0A"/>
+    <path d="M928 645 L931 648 L937 642" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Row 4: Déploiement -->
-    <circle cx="748" cy="684" r="8" fill="#0A0A0A"/>
-    <path d="M744 684 L747 687 L753 681" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="762" y="688" class="body" font-size="13">Déploiement</text>
+    <!-- Row 4: Vercel — Déploiement -->
+    <g transform="translate(717, 668) scale(0.03516) translate(-256, -256)">
+      <!-- Vercel 512x512 centered at its (256,256), placed at row position -->
+    </g>
+    <!-- Vercel triangle mini (18px) -->
+    <polygon points="726,668 735,683 717,683" fill="#0A0A0A"/>
+    <text x="742" y="681" class="body" font-size="13">Déploiement</text>
+    <circle cx="932" cy="677" r="8" fill="#0A0A0A"/>
+    <path d="M928 677 L931 680 L937 674" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 
-  <!-- Section: Decorative connecting lines from button to checklist -->
-  <path d="M660 452 C690 452 700 540 720 590" stroke="#D1D5DB" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+  <!-- Section: Decorative dashed connector -->
+  <path d="M660 452 C690 452 700 520 700 570" stroke="#D1D5DB" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
 
   <!-- Section: Bottom caption -->
   <text x="520" y="780" class="caption" text-anchor="middle" font-size="13">Ton environnement de travail, configuré en une session</text>
-
-  <!-- Small label above each icon -->
-  <line x1="100" y1="210" x2="100" y2="232" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="300" y1="202" x2="300" y2="232" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="520" y1="208" x2="520" y2="232" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="740" y1="210" x2="740" y2="232" stroke="#D1D5DB" stroke-width="1"/>
 
 </svg>

@@ -137,13 +137,27 @@
     <text x="860" y="742" class="caption" text-anchor="middle" font-size="11">HTTPS</text>
   </g>
 
+  <!-- Section: Vercel brand floating tile -->
+  <g id="vercel-badge" filter="url(#softShadow)">
+    <rect x="845" y="560" width="120" height="52" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <!-- Vercel triangle: viewBox 0 0 512 512 → 24px → scale 0.047 centered at (879, 586) -->
+    <g transform="translate(867, 574) scale(0.047)">
+      <path d="M256 48L496 464H16L256 48Z" fill="#0A0A0A"/>
+    </g>
+    <text x="896" y="591" font-size="12" font-weight="600" fill="#0A0A0A">Vercel</text>
+  </g>
+
   <!-- Section: "Déployé" pill top-right -->
   <g id="deployed-pill" filter="url(#softShadow)">
-    <rect x="730" y="140" width="180" height="40" rx="20" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <rect x="700" y="140" width="220" height="40" rx="20" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
     <!-- Validation circle -->
-    <circle cx="755" cy="160" r="10" fill="#0A0A0A"/>
-    <path d="M751 160 L754 163 L760 157" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="773" y="165" class="body" font-size="13">Déployé</text>
+    <circle cx="725" cy="160" r="10" fill="#0A0A0A"/>
+    <path d="M721 160 L724 163 L730 157" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Vercel mini triangle inline -->
+    <g transform="translate(740, 149) scale(0.043)">
+      <path d="M256 48L496 464H16L256 48Z" fill="#0A0A0A"/>
+    </g>
+    <text x="762" y="165" class="body" font-size="13">Déployé sur Vercel</text>
   </g>
 
   <!-- Bottom caption -->
