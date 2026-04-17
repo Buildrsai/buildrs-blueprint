@@ -2086,12 +2086,13 @@ const programmeModules = [
 ]
 
 const programmeImages: Record<string, string> = {
-  "01": "/module-1-fondation.jpg",
-  "02": "/module-2-env.jpg",
-  "03": "/module-3-archi.jpg",
-  "04": "/module-4-build.jpg",
-  "05": "/module-5-deploy.jpg",
-  "07": "/module-7-scale.jpg",
+  "01": "/modules/module-01-fondations.svg",
+  "02": "/modules/module-02-espace-travail.svg",
+  "03": "/modules/module-03-trouver-valider.svg",
+  "04": "/modules/module-04-design-architecture.svg",
+  "05": "/modules/module-05-construire.svg",
+  "06": "/modules/module-06-deployer.svg",
+  "07": "/modules/module-07-monetiser-lancer.svg",
 }
 
 function Programme() {
