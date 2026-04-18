@@ -30,6 +30,7 @@ const SettingsPage       = lazy(() => import('./SettingsPage').then(m => ({ defa
 const AutopilotPage      = lazy(() => import('./AutopilotPage').then(m => ({ default: m.AutopilotPage })))
 const OffresPage         = lazy(() => import('./OffresPage').then(m => ({ default: m.OffresPage })))
 const AgentsPage         = lazy(() => import('./AgentsPage').then(m => ({ default: m.AgentsPage })))
+const AgentRunPage       = lazy(() => import('./AgentRunPage').then(m => ({ default: m.AgentRunPage })))
 // AgentChatPage archived 2026-04-17 (Phase 0 cleanup, src/_archived/pack-agents-v0/AgentChatPage.tsx).
 // Legacy hash `#/dashboard/agent-chat/:id` now redirects to `#/dashboard/agents` via parseHash in App.tsx.
 const ClaudeOSPage       = lazy(() => import('./ClaudeOSPage').then(m => ({ default: m.ClaudeOSPage })))
@@ -311,7 +312,8 @@ export function DashboardSection({ route, user, navigate, isDark, onToggleDark, 
   if (route.type === 'tools') return (<W><DashboardLayout {...layoutProps}><ToolsPage navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'settings') return (<W><DashboardLayout {...layoutProps}><SettingsPage user={user} profile={profile ?? null} updateProfile={updateProfile} navigate={navigate} /></DashboardLayout></W>)
   if (route.type === 'offers') return (<W><DashboardLayout {...layoutProps}><OffresPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
-  if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={hasPack} /></DashboardLayout></W>)
+  if (route.type === 'agents') return (<W><DashboardLayout {...layoutProps}><AgentsPage navigate={navigate} hasPack={true} /></DashboardLayout></W>)
+  if (route.type === 'agent-run') return (<W><DashboardLayout {...layoutProps}><AgentRunPage agentSlug={route.moduleId ?? ''} navigate={navigate} hasPack={true} /></DashboardLayout></W>)
   // route.type === 'agent-chat' is intercepted in App.tsx parseHash (redirects to /dashboard/agents).
   // The case is handled there, so no dispatch is needed here.
   if (route.type === 'claude-os') return (<W><DashboardLayout {...layoutProps}><ClaudeOSPage subPath={route.moduleId ?? ''} navigate={navigate} hasClaudeOS={access.hasClaudeCodeOb} userId={user.id} /></DashboardLayout></W>)

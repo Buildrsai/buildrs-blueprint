@@ -176,6 +176,7 @@ interface ParsedRoute {
     | 'autopilot'
     | 'offers'
     | 'agents'
+    | 'agent-run'
     // 'agent-chat' removed 2026-04-17 (legacy 6-agents system). The hash is
     // intercepted in parseHash and redirected to '/dashboard/agents'.
     // TODO 2026-05-01 : delete the redirect block once logs confirm zero hits.
@@ -274,6 +275,8 @@ function parseHash(hash: string): ParsedRoute {
   if (h === 'dashboard/autopilot') return { type: 'autopilot' }
   if (h === 'dashboard/offers') return { type: 'offers' }
   if (h === 'dashboard/agents')        return { type: 'agents' }
+  const agentRunMatch = h.match(/^dashboard\/agents\/([^/]+)$/)
+  if (agentRunMatch) return { type: 'agent-run', moduleId: agentRunMatch[1] }
   if (h === 'dashboard/kanban')        return { type: 'kanban' }
   if (h === 'dashboard/generateur-ia') return { type: 'generateur-ia' }
   if (h === 'dashboard/marketplace')   return { type: 'marketplace' }
@@ -576,7 +579,7 @@ function App() {
   // ---------------------------------------------------------------------------
   const isDashboardRoute = [
     'home', 'dashboard', 'module', 'lesson', 'quiz', 'journal', 'library', 'ideas',
-    'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents',
+    'checklist', 'project', 'tools', 'settings', 'autopilot', 'offers', 'agents', 'agent-run',
     'claude-os',
     'kanban', 'marketplace', 'opportunity-detail', 'validator', 'revenue-calculator', 'generator', 'generateur-ia', 'acquisition-bonus',
     'community', 'members', 'templates', 'collaborators', 'notifications',
