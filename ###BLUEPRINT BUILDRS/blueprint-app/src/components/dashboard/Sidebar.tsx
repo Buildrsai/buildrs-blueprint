@@ -7,7 +7,7 @@ import {
   LogOut, Calendar, ArrowUpRight,
 } from 'lucide-react'
 import { BuildrsIcon, WhatsAppIcon, ClaudeIcon } from '../ui/icons'
-import { BuilderAvatar } from '../ui/BuilderAvatar'
+import { UserAvatarWithFallback } from '../ui/UserAvatar'
 
 // ── V3 countdown ──────────────────────────────────────────────────────────────
 const V3_UNLOCK = new Date('2026-04-07T00:00:00+02:00').getTime()
@@ -106,10 +106,11 @@ function getInitials(name?: string, email?: string): string {
 }
 
 function UserProfileWidget({
-  userEmail, userFirstName, onSignOut, navigate, profile,
+  userEmail, userFirstName, userAvatarUrl, onSignOut, navigate, profile,
 }: {
   userEmail?: string
   userFirstName?: string
+  userAvatarUrl?: string
   onSignOut?: () => void
   navigate: (hash: string) => void
   profile?: BuildrsProfile | null
@@ -144,7 +145,7 @@ function UserProfileWidget({
           {/* ── Identité ── */}
           <div className="px-4 py-3.5 border-b border-border">
             <div className="flex items-center gap-3">
-              <BuilderAvatar level={profile?.level ?? 'explorer'} size={36} />
+              <UserAvatarWithFallback avatarUrl={userAvatarUrl} firstName={userFirstName} email={userEmail} size={36} />
               <div className="min-w-0">
                 <p className="text-[13px] font-semibold text-foreground leading-tight truncate">{displayName}</p>
                 {userEmail && (
@@ -251,7 +252,7 @@ function UserProfileWidget({
           border: `1px solid ${open ? 'hsl(var(--border))' : 'transparent'}`,
         }}
       >
-        <BuilderAvatar level={profile?.level ?? 'explorer'} size={28} />
+        <UserAvatarWithFallback avatarUrl={userAvatarUrl} firstName={userFirstName} email={userEmail} size={28} />
         <div className="flex-1 min-w-0 text-left">
           <p className="text-[12px] font-semibold text-foreground truncate leading-tight">{displayName}</p>
           <p className="text-[9.5px] text-muted-foreground truncate leading-tight">Buildrs Blueprint</p>
@@ -274,7 +275,6 @@ export function Sidebar({
   // Sections
   const [parcoursOpen, toggleParcours] = useSectionOpen('parcours', true)
   const [projetOpen,  toggleProjet]  = useSectionOpen('projet',   false)
-  const [outilsOpen,  toggleOutils]  = useSectionOpen('outils',   false)
 
   const v3Label = useV3Countdown()
   const [activeIdeaName, setActiveIdeaName] = useState<string | null>(() => getActiveIdeaName())
@@ -406,25 +406,14 @@ export function Sidebar({
   return (
     <div className="hidden lg:flex w-[220px] border-r border-border flex-col flex-shrink-0 bg-background">
 
-      {/* ── Logo + theme toggle ── */}
-      <div className="flex items-center justify-between px-4 h-[52px] border-b border-border flex-shrink-0">
+      {/* ── Logo ── */}
+      <div className="flex items-center px-4 h-[52px] border-b border-border flex-shrink-0">
         <button
           onClick={() => navigate('#/dashboard')}
           className="flex items-center gap-2 hover:opacity-75 transition-opacity"
         >
           <BuildrsIcon color={isDark ? '#fafafa' : '#09090b'} size={18} />
           <span className="font-extrabold text-[14px] text-foreground" style={{ letterSpacing: '-0.04em' }}>Buildrs</span>
-        </button>
-        <button
-          onClick={onToggleDark}
-          aria-label="Toggle dark mode"
-          className="relative rounded-full transition-colors flex-shrink-0"
-          style={{ width: 30, height: 17, background: isDark ? 'hsl(var(--foreground) / 0.3)' : 'hsl(var(--border))' }}
-        >
-          <div
-            className="absolute top-[1.5px] w-[14px] h-[14px] rounded-full bg-foreground transition-all duration-200 shadow-sm"
-            style={{ left: isDark ? 14 : 2 }}
-          />
         </button>
       </div>
 
@@ -564,49 +553,36 @@ export function Sidebar({
         )}
       </div>
 
-      {/* ── 3. OUTILS ─ fermé par défaut ───────────────────────────────────── */}
-      <div className="px-3 pt-3 pb-1">
-        {sectionHeader('Outils', outilsOpen, toggleOutils)}
-        {outilsOpen && (
-          <div className="flex flex-col gap-0.5">
-            {/* Jarvis IA — toujours accessible */}
-            <button
-              onClick={() => navigate('#/dashboard/autopilot')}
-              className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
-                isActive('#/dashboard/autopilot') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
-              }`}
-            >
-              <Zap size={13} strokeWidth={1.5} className="flex-shrink-0" />
-              <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Jarvis IA</span>
-              <span className="text-[8px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-                style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)' }}>
-                ACTIF
-              </span>
-            </button>
-
-            {/* Agents IA — V3 lock */}
-            {v3Item('Agents IA', Bot)}
-
-            {/* Générateur de micro-SaaS */}
-            {navItem('#/dashboard/generator', 'Générateur de SaaS', Sparkles)}
-
-            {/* Valider mon SaaS */}
-            {navItem('#/dashboard/validator', 'Valider mon SaaS', Target)}
-
-            {/* Marketplace */}
-            {navItem('#/dashboard/marketplace', 'Marketplace', ShoppingBag)}
-
-            {/* Calculateur MRR/ARR */}
-            {navItem('#/dashboard/revenue-calculator', 'Calculateur MRR/ARR', TrendingUp)}
-
-            {/* Boîte à outils — toujours accessible */}
-            {navItem('#/dashboard/tools', 'Boite a outils', Wrench)}
-          </div>
-        )}
-      </div>
-
       {/* ── Pages libres bas ────────────────────────────────────────────────── */}
       <div className="px-3 pt-3 pb-2 flex flex-col gap-0.5">
+        {navItem('#/dashboard/agents', 'Agents IA', Bot)}
+        <button
+          onClick={() => navigate('#/dashboard/generateur-ia')}
+          className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+            isActive('#/dashboard/generateur-ia') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+          }`}
+        >
+          <Sparkles size={13} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Générateurs IA</span>
+        </button>
+        <button
+          onClick={() => navigate('#/dashboard/marketplace')}
+          className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+            isActive('#/dashboard/marketplace') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+          }`}
+        >
+          <ShoppingBag size={13} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Marketplace</span>
+        </button>
+        <button
+          onClick={() => navigate('#/dashboard/tools')}
+          className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
+            isActive('#/dashboard/tools') ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+          }`}
+        >
+          <Wrench size={13} strokeWidth={1.5} className="flex-shrink-0" />
+          <span className="text-[12px] font-medium flex-1 tracking-[-0.01em]">Mes outils IA</span>
+        </button>
         <button
           onClick={() => navigate('#/dashboard/community')}
           className={`flex items-center gap-2.5 w-full text-left px-3 py-[7px] rounded-lg transition-all duration-150 ${
@@ -633,6 +609,7 @@ export function Sidebar({
         <UserProfileWidget
           userEmail={userEmail}
           userFirstName={userFirstName}
+          userAvatarUrl={userAvatarUrl}
           onSignOut={onSignOut}
           navigate={navigate}
           profile={profile}
