@@ -9,8 +9,8 @@ function StackedCircularFooter() {
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="flex flex-col items-center">
           {/* Logo */}
-          <div className="mb-8 rounded-full bg-foreground p-4">
-            <BuildrsIcon color="hsl(var(--background))" className="h-8 w-8" />
+          <div className="mb-8">
+            <BuildrsIcon color="hsl(var(--foreground))" size={36} />
           </div>
 
           {/* Nav links */}
@@ -31,15 +31,15 @@ function StackedCircularFooter() {
           {/* Social links */}
           <div className="mb-8 flex space-x-4">
             {[
-              { label: "LinkedIn",  Icon: Icons.linkedin  },
-              { label: "X",         Icon: Icons.twitter   },
-              { label: "Instagram", Icon: Icons.instagram },
-              { label: "TikTok",    Icon: Icons.tiktok    },
-              { label: "YouTube",   Icon: Icons.youtube   },
-            ].map(({ label, Icon }) => (
-              <Button key={label} variant="outline" size="icon" className="rounded-full" aria-label={label}>
-                <Icon className="h-4 w-4" />
-              </Button>
+              { label: "LinkedIn",  Icon: Icons.linkedin,  href: "https://www.linkedin.com/company/buildrs-group" },
+              { label: "TikTok",    Icon: Icons.tiktok,    href: "https://www.tiktok.com/@wearebuildrs" },
+              { label: "Instagram", Icon: Icons.instagram, href: "https://www.instagram.com/wearebuildrs/" },
+            ].map(({ label, Icon, href }) => (
+              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                <Button variant="outline" size="icon" className="rounded-full">
+                  <Icon className="h-4 w-4" />
+                </Button>
+              </a>
             ))}
           </div>
 

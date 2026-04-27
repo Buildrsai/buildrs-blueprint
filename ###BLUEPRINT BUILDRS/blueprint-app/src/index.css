@@ -108,6 +108,11 @@
   100% { filter: blur(12px) hue-rotate(360deg); }
 }
 
+@keyframes hero-rainbow-border {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
+
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }

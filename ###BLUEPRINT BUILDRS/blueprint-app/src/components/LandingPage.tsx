@@ -1,96 +1,109 @@
-import { useState, useEffect } from "react"
-import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin } from "lucide-react"
+import { useState, useEffect, useRef, type ComponentType, type SVGProps } from "react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard, Coffee, Home, Mic, HeartPulse, FileText, type LucideIcon } from "lucide-react"
+import { motion } from "framer-motion"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
+import { FeatureCard } from "./ui/grid-feature-cards"
+import { HoverBrandLogo } from "./ui/hover-brand-logo"
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
+import { CardStack } from "./ui/card-stack"
+import { Folder } from "./ui/folder-components"
 
 import { DashboardPreviewV2 as DashboardPreview } from "./ui/dashboard-preview"
-import { DottedSurface } from "./ui/dotted-surface"
-import { OrbitalClaude } from "./ui/orbital-claude"
+import { OrbitalClaude, OrbitalStack } from "./ui/orbital-claude"
 import { WordRotate } from "./ui/word-rotate"
 import { SaasMarquee } from "./ui/saas-marquee"
-import { BGPattern } from "./ui/bg-pattern"
 import { RobotJarvis, RobotValidator } from "./ui/agent-robots"
 
-// ── Countdown to launch end ───────────────────────────────────────────────────
-const LAUNCH_END = new Date('2026-05-01T23:59:59')
-
-function useCountdown(target: Date) {
-  const get = (t: Date) => {
-    const diff = Math.max(0, t.getTime() - Date.now())
-    return {
-      d: Math.floor(diff / 86400000),
-      h: Math.floor((diff % 86400000) / 3600000),
-      m: Math.floor((diff % 3600000) / 60000),
-      s: Math.floor((diff % 60000) / 1000),
-    }
-  }
-  const [t, setT] = useState(() => get(target))
-  useEffect(() => {
-    const id = setInterval(() => setT(get(target)), 1000)
-    return () => clearInterval(id)
-  }, [target])
-  return t
-}
-
-function ScarcityCountdown({ className }: { className?: string }) {
-  const { d, h, m, s } = useCountdown(LAUNCH_END)
+// ─── REVEAL ANIMATION ────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, className }: { children: React.ReactNode; delay?: number; className?: string }) {
   return (
-    <span className={className}>
-      <span className="hidden sm:inline">Offre de lancement — se termine dans </span>
-      <span className="sm:hidden">Fin dans </span>
-      <span className="font-bold tabular-nums">{d}j {h}h {m}m {String(s).padStart(2, '0')}s</span>
-    </span>
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   )
 }
 
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
-const tools: { label: string; Icon: React.FC<React.SVGProps<SVGSVGElement>> }[] = [
-  { label: "Claude AI",   Icon: BrandIcons.claude },
-  { label: "Stitch",      Icon: BrandIcons.stitch },
-  { label: "21st.dev",    Icon: BrandIcons.twentyOneDev },
-  { label: "VS Code",     Icon: BrandIcons.vscode },
-  { label: "Supabase",    Icon: BrandIcons.supabase },
-  { label: "Vercel",      Icon: BrandIcons.vercel },
-  { label: "Resend",      Icon: BrandIcons.resend },
-  { label: "Stripe",      Icon: BrandIcons.stripe },
-  { label: "Hostinger",   Icon: BrandIcons.hostinger },
-  { label: "GitHub",      Icon: BrandIcons.github },
-  { label: "Perplexity",  Icon: BrandIcons.perplexity },
-  { label: "NotebookLM",  Icon: BrandIcons.notebooklm },
+const brands = [
+  { id: "claude",     name: "Claude",      utility: "Génère, raisonne et dirige — le cerveau de l'opération",                           Icon: BrandIcons.claude },
+  { id: "claudeCode", name: "Claude Code", utility: "Construit ton SaaS dans le terminal, fichier par fichier",                         Icon: BrandIcons.claudeCode },
+  { id: "chatgpt",    name: "ChatGPT",     utility: "On l'utilise pour les images uniquement — via ChatGPT Image 2 (DALL·E 3)",          Icon: BrandIcons.openai },
+  { id: "supabase",   name: "Supabase",    utility: "Base de données, auth et API prêts en quelques clics",                             Icon: BrandIcons.supabase },
+  { id: "vercel",     name: "Vercel",      utility: "Déploiement instantané — ton SaaS live en moins de 60 secondes",                   Icon: BrandIcons.vercel },
+  { id: "github",     name: "GitHub",      utility: "Versioning et sauvegarde de tout ton code à chaque étape",                         Icon: BrandIcons.github },
+  { id: "stripe",     name: "Stripe",      utility: "Paiements intégrés et récurrents dès le premier jour",                             Icon: BrandIcons.stripe },
+  { id: "resend",     name: "Resend",      utility: "Emails transactionnels ultra-fiables et délivrables",                              Icon: BrandIcons.resend },
 ]
 
-const stats = [
-  { num: "6 jours", desc: "De l'idée au produit live", sub: "" },
-  { num: "1 SaaS", desc: "Déployé, en ligne, prêt à vendre", sub: "" },
-  { num: "0 ligne", desc: "de code — Claude construit. Tu pilotes.", sub: "" },
+const stats: { target: number; prefix: string; suffix: string; desc: string; sub?: string }[] = [
+  { target: 6,    prefix: "",  suffix: " jours", desc: "Plan d'action complet, de l'idée au premier produit live" },
+  { target: 5000, prefix: "",  suffix: "€/mois",  desc: "L'objectif visé par nos builders", sub: "SOUS 60 JOURS" },
+  { target: 140,  prefix: "+", suffix: "",        desc: "Builders ont déjà lancé leur produit avec Blueprint" },
 ]
+
+function useCountUp(target: number, duration: number, trigger: boolean) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!trigger) return
+    setValue(0)
+    const start = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setValue(Math.round(eased * target))
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [trigger, target, duration])
+  return value
+}
 
 const pains = [
   {
-    Icon: Clock,
-    title: "Tu scrolles depuis des mois sans rien lancer",
-    desc: "Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.",
-  },
-  {
-    Icon: Banknote,
-    title: "997€ de formations. Zéro produit en ligne.",
-    desc: "Tu as suivi des cours, regardé des heures de tutos, pris des notes. Mais à la fin, rien n'est live. Parce qu'on t'a appris la théorie, pas l'exécution.",
-  },
-  {
     Icon: Layers,
-    title: "Trop d'outils, zéro direction",
-    desc: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make... Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
+    title: "Un nouvel outil par jour. Zéro action.",
+    desc: "Des prompts magiques, des outils révolutionnaires, des influenceurs qui font 10k€/mois. Résultat : tu consommes, tu ne construis pas.",
   },
   {
     Icon: Bot,
-    title: "Pendant ce temps, d'autres lancent",
-    desc: "Sans background technique, sans équipe, sans budget. Ils n'ont rien de plus que toi. Ils ont juste un système et de la direction.",
+    title: "L'IA peut tout coder. Mais quoi ?",
+    desc: "Claude est exceptionnel. Sans idée claire, sans projet qui résout un vrai problème, tu génères du code parfait pour rien.",
+  },
+  {
+    Icon: Lightbulb,
+    title: "Tu ne sais pas par où commencer. Ni par quoi.",
+    desc: "Quel produit ? Quel marché ? Quelle stack ? Chaque décision bloque la suivante. Et pendant ce temps, tu attends.",
+  },
+  {
+    Icon: Flame,
+    title: "Tu regardes les autres lancer. Et toi, t'attends.",
+    desc: "Sur LinkedIn, X, partout — des gens sortent leur produit chaque semaine avec Claude. Toi tu doutes encore du bon moment.",
+  },
+  {
+    Icon: Banknote,
+    title: "Tu crois qu'il faut du budget. Il n'en faut pas.",
+    desc: "20€/mois d'abonnement Claude. Les meilleurs outils démarrent gratuitement. Tes premiers revenus couvrent tout le reste.",
+  },
+  {
+    Icon: Shield,
+    title: "Et si ça ne marche pas pour moi ?",
+    desc: "La peur de l'échec paralyse plus que l'échec lui-même. Ici, tu suis un système éprouvé — pas une intuition à l'aveugle.",
   },
 ]
 
 
 const faqs = [
+  {
+    q: "Pourquoi pas juste utiliser Claude tout seul ?",
+    a: "Claude est exceptionnel pour générer du code. Mais il ne sait pas quelle idée est rentable, quels prompts fonctionnent vraiment pour créer un SaaS, ni quelle stack utiliser. Sans direction, tu vas passer des semaines à chercher, tester des outils, faire des erreurs de sécurité et te retrouver avec un projet qui ne se vend pas. Buildrs, c'est tout ce qu'on a appris sur 35+ SaaS lancés — condensé dans un système qui donne à Claude la direction dont il a besoin. L'un sans l'autre, ça marche à moitié.",
+  },
   {
     q: "Est-ce que j'ai besoin de savoir coder ?",
     a: "Non. Zéro. Le Blueprint est conçu pour les non-techniques. Tu copies les prompts, Claude fait le reste. Ton rôle : donner les instructions en français et valider. C'est tout.",
@@ -138,11 +151,16 @@ const faqs = [
 ]
 
 const features: { title: string; desc: string }[] = [
-  { title: 'Le système complet', desc: "Plan guidé en 7 étapes — de l'idée au produit IA monétisé. Checklist de progression intégrée." },
-  { title: 'Générateurs IA', desc: "Marketplace de projets validés + Générateur d'idées + Validateur avec score de viabilité + Calculateur de revenus." },
-  { title: 'Le cockpit', desc: "Dashboard de pilotage — ton projet, ta progression, tes métriques, tout au même endroit." },
-  { title: 'Les ressources Claude', desc: "50+ prompts testés, configs prêtes à l'emploi, le kit complet pour construire avec Claude." },
-  { title: 'La communauté', desc: "Accès aux autres builders + mises à jour à vie." },
+  { title: 'Le système en 7 modules', desc: "De l'idée au SaaS IA monétisé — checklist interactive, progression en temps réel." },
+  { title: 'Marketplace d\'idées', desc: "Des centaines d'idées analysées par nos agents sur PH, Reddit, Flippa, IH. De la vraie data, pas du ChatGPT." },
+  { title: 'Générateur d\'idées', desc: "Si tu n'as pas d'idée, nos agents en trouvent basées sur les tendances marché actuelles." },
+  { title: 'Validateur d\'idées', desc: "Score de viabilité sur 100, estimation MRR potentiel, scénario de revente — avant de coder une ligne." },
+  { title: 'Le cockpit Jarvis', desc: "Dashboard de pilotage — ton projet, ta progression, tes métriques, tout centralisé avec ton IA copilote." },
+  { title: '50+ prompts testés', desc: "Copiables en un clic à chaque étape. Testés sur 35+ SaaS réels lancés par notre équipe." },
+  { title: 'Stack configurée', desc: "Claude Code, Supabase, Vercel, Stripe, Resend — guides pas à pas, zéro temps perdu sur la conf." },
+  { title: 'Sécurité & bonnes pratiques', desc: "Auth, RLS, variables d'environnement, HTTPS — tout ce qu'on a appris à nos dépens, condensé." },
+  { title: 'Accès à vie + mises à jour', desc: "Les nouvelles fonctionnalités Claude, les nouveaux prompts, les nouvelles ressources — automatiquement." },
+  { title: 'Communauté Buildrs', desc: "Partage ton idée, ton projet, tes réussites — directement depuis le dashboard. Les builders qui gagnent s'entraident." },
 ]
 
 // ─── NAV ─────────────────────────────────────────────────────────────────────
@@ -159,12 +177,11 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex h-[60px] max-w-[1100px] items-center justify-between gap-6 px-6">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 no-underline">
-          <BuildrsIcon color="currentColor" className="h-6 w-6 text-foreground" />
-          <span className="text-[15px] font-bold tracking-tight text-foreground" style={{ letterSpacing: "-0.03em" }}>Buildrs</span>
+        <a href="#" className="flex items-center no-underline">
+          <img src="/LogoBuildrsBlanc.png" alt="Buildrs" className="h-10 w-auto" />
         </a>
 
         {/* Links */}
@@ -204,11 +221,11 @@ function Nav({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 // ─── TYPING IDEA BAR ──────────────────────────────────────────────────────────
 
 const TYPING_IDEAS = [
-  "Une application de matching pour entrepreneurs",
-  "Un gestionnaire de prix pour e-commerce",
-  "Un éditeur visuel d'agents IA",
-  "Un assistant juridique pour auto-entrepreneurs",
-  "Un CRM vocal pour commerciaux terrain",
+  "Un CRM vocal pour coachs",
+  "Une app qui résume tes réunions Zoom",
+  "Un coach nutrition IA à 9,99€/mois",
+  "Un générateur de devis pour artisans",
+  "Un SaaS de scraping e-commerce",
 ]
 
 function TypingIdea() {
@@ -240,19 +257,23 @@ function TypingIdea() {
 
   return (
     <div
-      className="mb-8 flex items-center justify-between gap-3 rounded-2xl px-5 py-4 w-full max-w-[480px]"
+      className="mb-8 flex items-center justify-between gap-3 rounded-2xl px-5"
       style={{
+        width: 'min(480px, calc(100vw - 48px))',
+        height: 72,
+        flexShrink: 0,
+        overflow: 'hidden',
         background: '#111113',
         border: '1px solid rgba(255,255,255,0.10)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
       }}
     >
-      <div className="flex flex-col min-w-0 flex-1">
+      <div className="flex flex-col justify-center" style={{ flex: '1 1 0', minWidth: 0, overflow: 'hidden' }}>
         <span className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          Tu as une idée, l'IA lui donne vie
+          Ton idée :
         </span>
-        <div className="flex items-center gap-1">
-          <span className="text-[14px] font-medium text-white/80 min-w-0 truncate">{text}</span>
+        <div className="flex items-center gap-1" style={{ height: 21, overflow: 'hidden' }}>
+          <span className="text-[14px] font-medium text-white/80" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', maxWidth: '100%' }}>{text}</span>
           <span
             className="text-white/70 font-light text-[15px] leading-none shrink-0"
             style={{ animation: 'cursor-blink 0.9s step-end infinite' }}
@@ -528,89 +549,64 @@ function StarField() {
 function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 sm:px-10 pb-20 pt-[120px] sm:pt-[140px]">
-      {/* Stars */}
-      <StarField />
 
-      {/* Moon glow — top right */}
-      <div
-        className="pointer-events-none absolute"
-        style={{
-          top: -80,
-          right: -80,
-          width: 420,
-          height: 420,
-          background: 'radial-gradient(circle, rgba(200,220,255,0.50) 0%, rgba(140,170,255,0.18) 30%, rgba(80,120,255,0.06) 55%, transparent 72%)',
-          filter: 'blur(32px)',
-          zIndex: 0,
-        }}
-      />
 
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Crect x='0' y='0' width='3' height='3' fill='rgba(0%2C0%2C0%2C0.13)'/%3E%3C/svg%3E")`,
-          backgroundSize: '28px 28px',
-          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%)',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute left-0 right-0 top-0 h-[600px]"
-        style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(170,170,255,0.08) 0%, transparent 65%)" }}
-      />
-
-      <div className="relative mx-auto max-w-[700px] flex flex-col items-center text-center">
-
-        {/* Text */}
-        <div className="flex flex-col items-center text-center">
+      <div className="relative mx-auto max-w-[700px] w-full flex flex-col items-center text-center">
 
           {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-[12px] sm:text-[13px] text-muted-foreground">
-            <svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="shrink-0 text-foreground">
-              <rect x="7" y="0" width="2" height="3" fill="currentColor"/>
-              <rect x="15" y="0" width="2" height="3" fill="currentColor"/>
-              <rect x="5" y="2" width="2" height="2" fill="currentColor"/>
-              <rect x="17" y="2" width="2" height="2" fill="currentColor"/>
-              <rect x="3" y="4" width="18" height="12" rx="2" fill="currentColor"/>
-              <rect x="6" y="7" width="4" height="4" rx="1" fill="#09090b"/>
-              <rect x="14" y="7" width="4" height="4" rx="1" fill="#09090b"/>
-              <rect x="7" y="8" width="2" height="2" fill="currentColor"/>
-              <rect x="15" y="8" width="2" height="2" fill="currentColor"/>
-              <rect x="9" y="13" width="6" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
-              <rect x="5" y="17" width="4" height="4" rx="1" fill="currentColor"/>
-              <rect x="15" y="17" width="4" height="4" rx="1" fill="currentColor"/>
-              <rect x="4" y="20" width="3" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
-              <rect x="17" y="20" width="3" height="2" rx="1" fill="rgba(255,255,255,0.45)"/>
-            </svg>
-            <span>Rejoins les 110+ builders qui ont déjà lancé</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-muted-foreground/50"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
+          <Reveal>
+            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-background px-4 py-2 text-[12px] sm:text-[13px] text-muted-foreground">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+              </span>
+              <span className="font-semibold text-foreground">+250 Buildrs accompagnés</span>
+              <span className="text-muted-foreground/40">·</span>
+              <span>Résultats dès la 1ère semaine</span>
+            </div>
+          </Reveal>
 
           {/* H1 */}
-          <h1
-            className="mb-7 text-foreground mx-auto max-w-[900px]"
-            style={{ fontSize: "clamp(32px, 3.8vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
-          >
-            Ton premier produit IA qui te rapporte pendant que tu dors. En 6 jours. Avec l'IA.
-          </h1>
+          <Reveal delay={0.1}>
+            <h1
+              className="mb-7 text-foreground mx-auto max-w-[860px]"
+              style={{ fontSize: "clamp(42px, 6.5vw, 84px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
+            >
+              Ton premier SaaS IA en live en moins de 7 jours.
+            </h1>
+          </Reveal>
 
           {/* Sub */}
-          <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-            Un système guidé, de l'idée au premier euro.{" "}
-            <strong className="font-semibold text-foreground">Zéro compétence technique. Claude Code fait le travail.</strong>
-          </p>
+          <Reveal delay={0.18}>
+            <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
+              De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote. <strong className="font-semibold text-foreground">Même sans savoir coder</strong> — avec <span className="inline-flex items-center gap-1 align-middle"><BrandIcons.claudeCode className="inline-block w-4 h-4 text-foreground" /></span><strong className="font-semibold text-foreground"> Claude Code</strong> comme moteur.
+            </p>
+          </Reveal>
 
           {/* Typing idea */}
-          <TypingIdea />
+          <Reveal delay={0.24}>
+            <TypingIdea />
+          </Reveal>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-            <a href="#tarif" onClick={onCTA} className="cta-rainbow flex items-center gap-2 rounded-[10px] bg-foreground px-7 py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-              Accéder au Blueprint — 27€ →
-            </a>
-          </div>
+          {/* CTA */}
+          <Reveal delay={0.3}>
+            <div className="flex flex-col items-center gap-3 mb-8">
+              <div style={{ padding: '1.5px', borderRadius: '50px', background: 'conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b)', animation: 'hero-rainbow-border 3s linear infinite' }}>
+                <a
+                  href="#tarif"
+                  onClick={onCTA}
+                  className="flex items-center justify-center no-underline hover:opacity-90 transition-opacity"
+                  style={{ background: '#09090b', borderRadius: '50px', padding: '16px 44px', fontSize: '16px', fontWeight: 700, color: '#ffffff', whiteSpace: 'nowrap' }}
+                >
+                  Accéder au Blueprint — 27€
+                </a>
+              </div>
+              <p className="text-[12px] text-muted-foreground/50">
+                Garantie 14 jours · Paiement unique · Updates à vie
+              </p>
+            </div>
+          </Reveal>
 
-        </div>
 
       </div>
     </section>
@@ -621,46 +617,64 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
 function Marquee() {
   return (
-    <section className="overflow-hidden border-y border-border bg-background py-10">
-      <p className="mb-6 text-center text-[11px] font-semibold uppercase tracking-[0.11em] text-muted-foreground/60 px-6 sm:px-0">
-        Claude Code pilote tous tes outils — tous gratuits ou presque.
-      </p>
-      <div className="overflow-hidden">
-        <div
-          className="flex items-center gap-8"
-          style={{ width: "max-content", animation: "marquee-scroll 40s linear infinite" }}
-        >
-          {[...tools, ...tools, ...tools, ...tools].map(({ label, Icon }, i) => (
-            <Icon key={i} aria-label={label} className="h-7 w-7 shrink-0 text-foreground/30 hover:text-foreground/60 transition-colors" />
-          ))}
-        </div>
-      </div>
+    <section className="border-y border-border bg-background">
+      <HoverBrandLogo brands={brands} label="Nous travaillons avec les outils IA les plus performants du marché" />
     </section>
   )
 }
 
 // ─── STATS ────────────────────────────────────────────────────────────────────
 
-function Stats() {
+function StatCard({ target, prefix, suffix, desc, sub, trigger }: { target: number; prefix: string; suffix: string; desc: string; sub?: string; trigger: boolean }) {
+  const value = useCountUp(target, target >= 100 ? 1600 : 1200, trigger)
   return (
-    <section className="mx-auto max-w-[1100px] px-6 py-20">
+    <div className="bg-background px-6 py-10 text-center">
       <div
-        className="mt-0 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-2xl border border-border"
-        style={{ background: "hsl(var(--border))", gap: "1px" }}
+        className="mb-2 leading-none text-foreground whitespace-nowrap tabular-nums"
+        style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 800, letterSpacing: "-0.04em" }}
       >
-        {stats.map(({ num, desc, sub }) => (
-          <div key={num} className="bg-background px-6 py-10 text-center">
-            <div
-              className="mb-2 leading-none text-foreground whitespace-nowrap"
-              style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.04em" }}
-            >
-              {num}
-            </div>
-            <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
-            {sub && <p className="text-[12px] text-muted-foreground/50 mt-0.5 uppercase tracking-wide font-medium">{sub}</p>}
-          </div>
-        ))}
+        {prefix}{value}{suffix}
       </div>
+      <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
+      {sub && (
+        <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.09em] text-foreground/40">{sub}</p>
+      )}
+    </div>
+  )
+}
+
+function Stats() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [triggered, setTriggered] = useState(false)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setTriggered(true) },
+      { threshold: 0.3 }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <section className="bg-background">
+      {/* Stats grid */}
+      <div ref={ref} className="mx-auto max-w-[1100px] px-6 pt-20 pb-0">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-2xl border border-border"
+          style={{ background: "hsl(var(--border))", gap: "1px" }}
+        >
+          {stats.map((s) => (
+            <StatCard key={s.suffix + s.target} {...s} sub={s.sub} trigger={triggered} />
+          ))}
+        </div>
+      </div>
+
+      {/* Bridge → Pain */}
+      <div
+        className="mt-10 w-full h-10"
+        style={{ background: "#09090b", borderRadius: "0 0 32px 32px" }}
+      />
     </section>
   )
 }
@@ -668,84 +682,141 @@ function Stats() {
 // ─── WHY SAAS ────────────────────────────────────────────────────────────────
 
 
-const whySaasStats = [
-  { num: "0 ligne de code", desc: "Tu décris, l'IA construit" },
-  { num: "100% solo", desc: "Aucune équipe nécessaire" },
-  { num: "27€", desc: "pour tout démarrer", sub: "Paiement unique, accès à vie" },
+// ─── PAIN ─────────────────────────────────────────────────────────────────────
+
+const constatCards = [
+  {
+    Icon: Clock,
+    title: "Tu scrolles depuis des mois sans rien lancer",
+    desc: "Tout le monde s'improvise expert en IA. Tu vois passer 10 000 projets, tu notes, tu enregistres, tu likes. Mais tu ne lances rien. Perdu dans le trop-plein d'informations.",
+  },
+  {
+    Icon: BookOpen,
+    title: "997€ de formations. Zéro produit en ligne.",
+    desc: "Tu as suivi des cours, regardé des heures de tutos, pris des notes. Mais à la fin, rien n'est live. Parce qu'on t'a appris la théorie, pas l'exécution.",
+  },
+  {
+    Icon: Layers,
+    title: "Trop d'outils, zéro direction",
+    desc: "GPT, Gemini, Bolt, Replit, Cursor, Lovable, Make… Tu ne sais plus lequel utiliser ni dans quel ordre. Résultat : paralysie.",
+  },
+  {
+    Icon: Zap,
+    title: "Pendant ce temps, d'autres lancent",
+    desc: "Sans background technique, sans équipe, sans budget. Ils n'ont rien de plus que toi. Ils ont juste un système et de la direction.",
+  },
 ]
 
-function WhySaaS() {
+function Pain() {
   return (
-    <section id="resultats" className="relative py-24 overflow-hidden" style={{ background: "#0a0a0a" }}>
-      <StarField />
-      <div className="mx-auto max-w-[760px] px-6 text-center">
-        <p className="mb-4 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40">
-          Pourquoi maintenant
-        </p>
-        <h2
-          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
-          className="mb-6 text-white"
+    <section className="bg-background py-20">
+      <div className="mx-auto max-w-[1100px] px-6">
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+          Tout le monde te parle d'IA.<br />Personne ne te montre comment en vivre.
+        </h2></Reveal>
+        <Reveal delay={0.16}><p className="max-w-[560px] text-[16px] leading-[1.65] text-muted-foreground">
+          Pendant ce temps, des gens sans background technique lancent des SaaS IA, des apps, des jeux mobile, ou des logiciels entreprise à +5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système et de direction.
+        </p></Reveal>
+
+        <motion.div
+          initial={{ filter: 'blur(4px)', translateY: -8, opacity: 0 }}
+          whileInView={{ filter: 'blur(0px)', translateY: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.24, duration: 0.8 }}
+          className="mt-11 grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed border-border sm:grid-cols-2"
         >
-          Il y a 1 an, créer un SaaS demandait +6 mois et +20 000€. Aujourd'hui : 6 jours et 27€.
-        </h2>
-        <p className="mx-auto max-w-[540px] text-[17px] leading-[1.65] text-white/50">
-          Le code, c'est le problème de l'IA. Ton job : avoir la vision, donner la direction. Tu décris ce que tu veux — l'IA construit. Bienvenue en 2026.
-        </p>
-      </div>
+          {constatCards.map(({ Icon, title, desc }) => (
+            <FeatureCard
+              key={title}
+              feature={{ icon: Icon as ComponentType<SVGProps<SVGSVGElement>>, title, description: desc }}
+            />
+          ))}
+        </motion.div>
 
-      {/* Orbital animation */}
-      <div className="mx-auto mt-10 max-w-[460px] px-6">
-        <OrbitalClaude />
-      </div>
-
-      {/* Stat badges */}
-      <div className="mx-auto mt-8 max-w-[900px] px-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {whySaasStats.map(({ num, desc, sub }) => (
-          <div
-            key={num}
-            className="rounded-2xl px-6 py-5 text-center"
-            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            <p className="text-[20px] font-bold text-white leading-tight">{num}</p>
-            <p className="mt-1 text-[13px] text-white/50">{desc}</p>
-            {sub && <p className="mt-0.5 text-[11px] text-white/30">{sub}</p>}
-          </div>
-        ))}
+        <Reveal delay={0.36}>
+          <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
+            Et pourtant, d'autres y arrivent avec le bon système.
+          </p>
+        </Reveal>
       </div>
     </section>
   )
 }
 
-// ─── PAIN ─────────────────────────────────────────────────────────────────────
+// ─── WHY NOW ──────────────────────────────────────────────────────────────────
 
-function Pain() {
+function RealProblemSection() {
   return (
-    <section className="bg-muted py-20">
-      <div className="mx-auto max-w-[1100px] px-6">
-      <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le constat</p>
-      <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-4 text-foreground">
-        Tout le monde te parle d'IA.<br />Personne ne te montre<br />comment en vivre.
-      </h2>
-      <p className="max-w-[540px] text-[17px] leading-[1.65] text-muted-foreground">
-        Pendant ce temps, des gens sans background technique lancent des micro-SaaS, des apps et des logiciels à +5 000€/mois. Ce n'est pas un manque de talent. C'est un manque de système et de direction.
-      </p>
+    <section className="bg-background py-16 sm:py-24">
+      <div className="mx-auto max-w-[900px] px-6 text-center">
 
-      <div className="mt-11 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        {pains.map(({ Icon, title, desc }) => (
-          <div key={title} className="rounded-2xl border border-border bg-card p-7 transition-colors hover:border-muted-foreground/40">
-            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-lg bg-background">
-              <Icon className="h-[18px] w-[18px] text-foreground" strokeWidth={1.5} />
-            </div>
-            <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-foreground">{title}</h3>
-            <p className="text-[14px] leading-relaxed text-muted-foreground">{desc}</p>
-          </div>
-        ))}
+        <Reveal>
+          <p className="text-xs font-medium uppercase tracking-widest text-white/50">
+            Le vrai problème
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <h2 className="mt-4 font-bold text-foreground" style={{ fontSize: "clamp(36px, 6vw, 72px)", letterSpacing: "-0.04em", lineHeight: 1.05 }}>
+            Le problème, c'est pas toi. C'est ta méthode.
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.16}>
+          <p className="mx-auto mt-8 max-w-[680px] text-base sm:text-lg leading-relaxed text-white/70">
+            Il y a 1 an, créer un SaaS demandait 6 mois et 10 000€.
+            Aujourd'hui : 6 jours et 27€. Le code n'est plus un problème.
+            Ton job : avoir la vision, l'IA construit.
+          </p>
+        </Reveal>
+
       </div>
+    </section>
+  )
+}
 
-      {/* Transition phrase */}
-      <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-        Et si le problème, c'était pas toi — mais ta méthode ?
-      </p>
+// ─── WINDOW IA ───────────────────────────────────────────────────────────────
+
+function WindowIA() {
+  return (
+    <section className="bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-[680px] px-6 text-center flex flex-col items-center">
+        <Reveal>
+          <h2
+            className="mb-6 text-foreground"
+            style={{ fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
+          >
+            On vit une fenêtre unique avec l'IA.
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <p className="mb-4 max-w-[560px] text-[15px] sm:text-[17px] leading-[1.65] text-muted-foreground">
+            Ce qui demandait une équipe technique et des mois de développement il y a 2 ans est aujourd'hui à portée d'une seule personne — en quelques jours.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.18}>
+          <p className="mb-10 max-w-[560px] text-[15px] sm:text-[17px] leading-[1.65] text-muted-foreground">
+            Cette fenêtre ne sera pas ouverte éternellement dans les mêmes conditions. Ceux qui agissent maintenant prendront une avance structurelle.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.26}>
+          <p
+            className="text-foreground"
+            style={{ fontSize: "clamp(20px, 2.8vw, 30px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2 }}
+          >
+            Il te manque le{" "}
+            <span
+              className="rounded-md px-2 py-0.5"
+              style={{ background: "rgba(255,255,255,0.10)", color: "rgba(255,255,255,0.9)" }}
+            >
+              bon système.
+            </span>
+          </p>
+        </Reveal>
       </div>
     </section>
   )
@@ -758,28 +829,28 @@ const saasCardItems = [
     id: "global",
     title: "Vendre sans limites",
     stat: "24h/24 · Dans le monde entier",
-    description: "Tu crées ton produit une fois. Il se vend à l'infini, dans tous les pays, sans stock à gérer, sans livraison, sans logistique. Claude code le produit une fois. Tu le vends à l'infini.",
+    description: "Tu crées une fois. Ça se vend à l'infini. Sans stock, sans logistique.",
     icon: <Globe strokeWidth={1.5} size={20} />,
   },
   {
     id: "mrr",
     title: "Revenus récurrents",
     stat: "50 clients × 29€ = 1 450€/mois",
-    description: "50 clients × 29€ = 1 450€/mois. Sans équipe. Sans stock. Claude gère.",
+    description: "Chaque mois, le MRR s'accumule. Tu ne repars pas de zéro à chaque vente.",
     icon: <TrendingUp strokeWidth={1.5} size={20} />,
   },
   {
     id: "stack",
     title: "Dupliquer et automatiser",
     stat: "SaaS 1 → SaaS 2 → SaaS 3",
-    description: "Tu configures ton écosystème IA une seule fois. Tes agents autonomes gèrent le support, l'acquisition, le contenu. Tu dupliques la méthode, tu lances un deuxième produit, un troisième. Chaque SaaS tourne en autopilote pendant que tu construis le suivant.",
+    description: "Tes agents IA gèrent tout. Toi, tu lances le suivant pendant qu'ils tournent.",
     icon: <Copy strokeWidth={1.5} size={20} />,
   },
   {
     id: "exit",
     title: "Revendre ou conserver",
     stat: "1 000€/mois → 20 000 à 40 000€",
-    description: "Tu gardes et développes ton SaaS, ou tu le revends entre 20x et 40x son MRR mensuel. C'est toi qui choisis.",
+    description: "Tu gardes le MRR, ou tu revends 20x à 40x. C'est toi qui décides.",
     icon: <ArrowLeftRight strokeWidth={1.5} size={20} />,
   },
 ]
@@ -800,436 +871,937 @@ function SaasCardDecorator({ children }: { children: React.ReactNode }) {
 
 function SaasVehicle() {
   return (
-    <section className="relative py-24 bg-background overflow-hidden">
-      <BGPattern variant="dots" mask="fade-edges" size={28} fill="rgba(255,255,255,0.06)" />
+    <section className="relative py-20 bg-background overflow-hidden">
       <div className="mx-auto max-w-[1100px] px-6">
-        <div className="mb-14">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Pourquoi un SaaS IA
-          </p>
-          <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.08 }}
-            className="mb-5 text-foreground max-w-[500px]"
-          >
-            Pourquoi un SaaS IA est le meilleur business model en 2026.
-          </h2>
-          <p className="max-w-[560px] text-[17px] leading-[1.65] text-muted-foreground">
-            Contrairement au e-commerce, au freelance ou au coaching, un SaaS ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {saasCardItems.map(({ id, title, stat, description, icon }, i) => (
-            <motion.div
-              key={id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.45, ease: "easeOut", delay: i * 0.08 }}
-              className="group rounded-2xl border border-border bg-card p-8 text-center hover:border-foreground/20 transition-colors"
-            >
-              <SaasCardDecorator>
-                <span className="text-foreground [&>svg]:size-5 [&>svg]:stroke-[1.5]">{icon}</span>
-              </SaasCardDecorator>
-
-              <h3
-                className="mt-5 mb-1.5 text-foreground"
-                style={{ fontSize: 20, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15 }}
-              >
-                {title}
-              </h3>
-              <p className="mb-3 text-[13px] font-bold text-muted-foreground tabular-nums tracking-tight">{stat}</p>
-              <p className="text-[14px] leading-relaxed text-muted-foreground">{description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── BEFORE / AFTER ──────────────────────────────────────────────────────────
-
-const beforeItems = [
-  "Tu scrolles du contenu sur l'IA sans rien lancer",
-  "Tu ne sais pas quel outil utiliser ni dans quel ordre",
-  "Tu penses qu'il faut être développeur ou avoir une grosse équipe",
-  "Tu as des idées mais elles restent dans ta tête",
-]
-
-const afterItems = [
-  "Tu as un produit live accessible au monde entier",
-  "Tu sais construire n'importe quel produit IA avec Claude en quelques jours",
-  "Tu crées des SaaS IA qui résolvent un vrai problème et génèrent des revenus",
-  "Tu possèdes un actif digital qui travaille pour toi — même quand tu dors",
-]
-
-function BeforeAfter() {
-  return (
-    <section className="bg-muted py-24">
-      <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">La transformation</p>
-        <h2
-          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-          className="mb-14 text-foreground"
-        >
-          6 jours. C'est tout ce qui sépare<br />ton idée de ton premier produit.
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* AVANT */}
-          <div className="rounded-2xl border border-border bg-card p-8">
-            <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground/60">Avant</p>
-            <ul className="flex flex-col gap-4">
-              {beforeItems.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-border bg-background">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-muted-foreground/40"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  </span>
-                  <span className="text-[15px] leading-[1.6] text-muted-foreground">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* APRÈS */}
-          <div className="rounded-2xl border border-foreground/10 bg-foreground p-8">
-            <p className="mb-6 text-[11px] font-bold uppercase tracking-[0.12em] text-background/40">Après</p>
-            <ul className="flex flex-col gap-4">
-              {afterItems.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-background/10">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-background"><path d="M20 6L9 17l-5-5"/></svg>
-                  </span>
-                  <span className="text-[15px] leading-[1.6] text-background/80">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── DASHBOARD PREVIEW ────────────────────────────────────────────────────────
-
-const DASHBOARD_FEATURES = [
-  {
-    Icon: Zap,
-    title: 'Jarvis IA',
-    desc: 'Ton espace projet intelligent. Progression, fiche produit, outils configurés et revenus estimés — tout centralisé.',
-  },
-  {
-    Icon: BookOpen,
-    title: 'Mon Parcours',
-    desc: '7 modules et +30 leçons interactives. Un plan structuré de l\'idée aux premiers revenus, à suivre à ton rythme.',
-  },
-  {
-    Icon: Lightbulb,
-    title: 'Plugins IA',
-    desc: 'NicheFinder™, MarketPulse™, FlipCalc™ — plus tout l\'environnement Claude AI configuré plug & play pour chaque étape.',
-  },
-  {
-    Icon: Copy,
-    title: 'Bibliothèque d\'instructions',
-    desc: '100+ instructions IA copiables classées par étape. Prêtes à utiliser en un clic.',
-  },
-  {
-    Icon: CheckSquare,
-    title: 'Checklist de lancement',
-    desc: 'Chaque étape cochable en temps réel. Tu sais exactement où tu en es et ce qu\'il reste à faire.',
-  },
-  {
-    Icon: Wrench,
-    title: 'Boîte à outils',
-    desc: 'Tous les outils nécessaires avec guides de configuration pas à pas et liens directs.',
-  },
-]
-
-function DashboardSection() {
-  return (
-    <section className="relative py-24 overflow-hidden">
-      <div className="absolute inset-0 w-full h-full opacity-50 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-      <div className="mx-auto max-w-[1100px] px-6">
-        <div className="text-center mb-14">
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-            Ce que tu vas recevoir
-          </p>
-          <h2
-            style={{ fontSize: 'clamp(34px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.06 }}
-            className="mb-4 text-foreground"
-          >
-            Pas un PDF. Pas une vidéo.<br />Un vrai copilote IA.
-          </h2>
-          <p className="mx-auto max-w-[580px] text-[17px] leading-[1.65] text-muted-foreground">
-            Trouve ton idée. Valide-la. Construis-la. Monétise-la.<br />
-            Tout dans un seul système.
-          </p>
-        </div>
-
-        {/* Label → mockup */}
-        <div className="flex flex-col items-center gap-2 mb-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
-            Voici à quoi tu auras accès
-          </span>
-          <svg width="16" height="20" viewBox="0 0 16 20" fill="none" className="text-muted-foreground/40">
-            <path d="M8 0v17M1 11l7 8 7-8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-
-        <DashboardPreview />
-      </div>
-    </section>
-  )
-}
-
-// ─── BUILT WITH US ────────────────────────────────────────────────────────────
-
-interface SaasBuiltItem {
-  productName: string
-  founderName: string
-  founderAvatar: string
-  desc: string
-  cible: string
-  mrr: string
-  temps: string
-  stars: number
-  thumbnail?: string
-  preview?: React.ReactNode
-}
-
-// ─── PRICEFLOW DASHBOARD MOCKUP ───────────────────────────────────────────────
-
-function PriceFlowPreview() {
-  return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', display: 'flex', height: '100%', background: '#fff', overflow: 'hidden', borderRadius: 8 }}>
-      {/* Sidebar */}
-      <div style={{ width: '22%', background: '#0f1117', padding: '10px 6px', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 10, paddingLeft: 4 }}>
-          <div style={{ width: 14, height: 14, borderRadius: 3, background: 'linear-gradient(135deg, #3b82f6, #6366f1)' }} />
-          <span style={{ color: 'white', fontWeight: 700, fontSize: 8 }}>PriceFlow</span>
-        </div>
-        {[
-          { label: 'Dashboard', active: true },
-          { label: 'Règles de prix' },
-          { label: 'Produits' },
-          { label: 'Analyse' },
-          { label: 'Concurrents' },
-          { label: 'Rapports' },
-          { label: 'Automatisations' },
-        ].map(item => (
-          <div key={item.label} style={{
-            padding: '4px 6px', borderRadius: 3,
-            background: item.active ? '#1e293b' : 'transparent',
-            color: item.active ? 'white' : '#475569',
-            fontSize: 7, fontWeight: item.active ? 600 : 400,
-          }}>{item.label}</div>
-        ))}
-        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: 4, paddingLeft: 4, paddingTop: 8, borderTop: '1px solid #1e293b' }}>
-          <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', flexShrink: 0 }} />
-          <div>
-            <div style={{ fontSize: 7, fontWeight: 600, color: 'white' }}>Jean Dupont</div>
-            <div style={{ fontSize: 6, color: '#64748b' }}>Pro Plan</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main content */}
-      <div style={{ flex: 1, background: '#f8fafc', padding: '8px', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 5 }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 10, color: '#0f172a' }}>Bonjour, Jean 👋</div>
-            <div style={{ fontSize: 6, color: '#64748b' }}>Aperçu de vos performances aujourd'hui</div>
-          </div>
-          <div style={{ background: '#e2e8f0', borderRadius: 4, padding: '3px 7px', fontSize: 6, color: '#64748b' }}>Rechercher...</div>
+        <div className="mb-12">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
+            Pourquoi un SaaS IA
+          </p></Reveal>
+
+          <Reveal delay={0.08}><h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}
+            className="text-foreground max-w-[580px]"
+          >
+            Pourquoi le SaaS IA change tout en 2026.
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mt-5 max-w-[520px] text-[15px] leading-[1.65] text-muted-foreground">
+            Contrairement au e-commerce, aux agences IA, au freelance ou au coaching, un SaaS IA ne dépend ni de ton temps, ni de ton stock, ni de ta localisation.
+          </p></Reveal>
         </div>
 
-        {/* KPI row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
-          {[
-            { label: 'Revenu total', value: '€124,580', change: '+12.5%', pos: true },
-            { label: 'Produits actifs', value: '2,847', change: '+8.2%', pos: true },
-            { label: 'Ajustements prix', value: '1,234', change: '+24.1%', pos: true },
-            { label: 'Commandes', value: '856', change: '-3.2%', pos: false },
-          ].map(kpi => (
-            <div key={kpi.label} style={{ background: 'white', borderRadius: 5, padding: '5px', border: '1px solid #e2e8f0' }}>
-              <div style={{ fontSize: 5.5, color: '#64748b', marginBottom: 2 }}>{kpi.label}</div>
-              <div style={{ fontSize: 9, fontWeight: 800, color: '#0f172a', marginBottom: 1 }}>{kpi.value}</div>
-              <div style={{ fontSize: 5.5, color: kpi.pos ? '#22c55e' : '#ef4444', fontWeight: 500 }}>{kpi.change} vs mois dernier</div>
-            </div>
-          ))}
-        </div>
+        {/* Two columns */}
+        <Reveal delay={0.24}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-        {/* Chart + Activity */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 4, flex: 1, minHeight: 0 }}>
-          <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-            <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>Revenu & Profit</div>
-            <div style={{ fontSize: 5.5, color: '#94a3b8', marginBottom: 4 }}>Performance mensuelle</div>
-            <svg width="100%" height="38" viewBox="0 0 200 38" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15"/>
-                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
-                </linearGradient>
-              </defs>
-              <path d="M0,35 C20,33 40,28 60,24 C80,20 100,16 120,13 C140,10 160,8 180,7 L200,6 L200,38 L0,38Z" fill="url(#blueGrad)"/>
-              <polyline points="0,35 30,30 60,24 90,19 120,13 150,9 180,7 200,6" fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round"/>
-              <polyline points="0,37 30,36 60,35 90,33 120,31 150,29 180,28 200,27" fill="none" stroke="#22c55e" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-            <div style={{ display: 'flex', gap: 8, marginTop: 3 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 5.5, color: '#64748b' }}>
-                <div style={{ width: 8, height: 2, background: '#3b82f6', borderRadius: 1 }} /> Revenu
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 5.5, color: '#64748b' }}>
-                <div style={{ width: 8, height: 2, background: '#22c55e', borderRadius: 1 }} /> Profit
-              </div>
-            </div>
+          {/* Left — Orbital */}
+          <div className="flex justify-center">
+            <OrbitalStack />
           </div>
-          <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-            <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>Activité récente</div>
-            {[
-              { label: 'Prix augmenté', sub: 'AirPods Pro 2 → €279', color: '#22c55e' },
-              { label: 'Prix réduit', sub: 'Samsung 4K 55" → €489', color: '#ef4444' },
-              { label: 'Règle déclenchée', sub: 'Alignement concurrent', color: '#f59e0b' },
-              { label: 'Alerte stock bas', sub: 'Dyson V15 — 12 unités', color: '#64748b' },
-              { label: 'Prix augmenté', sub: 'Nike Air Max 90 → €149', color: '#22c55e' },
-            ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '2.5px 0', borderBottom: '1px solid #f1f5f9' }}>
-                <div style={{ width: 5, height: 5, borderRadius: '50%', background: item.color, flexShrink: 0 }} />
-                <div>
-                  <div style={{ fontSize: 6, fontWeight: 500, color: '#0f172a' }}>{item.label}</div>
-                  <div style={{ fontSize: 5, color: '#94a3b8' }}>{item.sub}</div>
+
+          {/* Right — 4 cards 2×2 (full width on mobile) */}
+          <div className="grid grid-cols-2 gap-3 items-stretch">
+            {saasCardItems.map(({ id, title, stat, description, icon }) => (
+              <div
+                key={id}
+                className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-3 h-full"
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-foreground shrink-0">
+                  <span className="[&>svg]:h-[18px] [&>svg]:w-[18px] [&>svg]:stroke-[1.5]">{icon}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[14px] font-bold leading-snug text-foreground">{title}</h3>
+                  <p className="text-[12px] leading-relaxed text-muted-foreground">{description}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Rules table */}
-        <div style={{ background: 'white', borderRadius: 5, padding: 6, border: '1px solid #e2e8f0' }}>
-          <div style={{ fontSize: 7.5, fontWeight: 600, color: '#0f172a', marginBottom: 3 }}>Règles de tarification <span style={{ fontSize: 5.5, color: '#94a3b8', fontWeight: 400 }}>5 règles actives</span></div>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 0.8fr 0.8fr', gap: 2, marginBottom: 3, paddingBottom: 2, borderBottom: '1px solid #e2e8f0' }}>
-            {['Règle','Catégorie','Statut','Produits','Impact'].map(h => (
-              <div key={h} style={{ fontSize: 5.5, color: '#94a3b8', fontWeight: 600 }}>{h}</div>
-            ))}
-          </div>
-          {[
-            { name: 'Marge minimum 15%', cat: 'Électronique', status: 'Actif', prod: '342', impact: '+€3,240', statusColor: '#dcfce7', statusText: '#16a34a' },
-            { name: 'Alignement concurrent', cat: 'Mode', status: 'Actif', prod: '128', impact: '+€1,898', statusColor: '#dcfce7', statusText: '#16a34a' },
-            { name: 'Promo Black Friday', cat: 'Tous', status: 'Planifié', prod: '2847', impact: '—', statusColor: '#fef9c3', statusText: '#ca8a04' },
-          ].map(rule => (
-            <div key={rule.name} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 0.8fr 0.8fr', gap: 2, padding: '2.5px 0', borderBottom: '1px solid #f8fafc', alignItems: 'center' }}>
-              <div style={{ fontSize: 6, fontWeight: 500, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{rule.name}</div>
-              <div style={{ fontSize: 5.5, color: '#64748b' }}>{rule.cat}</div>
-              <div style={{ fontSize: 5, padding: '1px 4px', borderRadius: 20, background: rule.statusColor, color: rule.statusText, fontWeight: 600, textAlign: 'center', width: 'fit-content' }}>{rule.status}</div>
-              <div style={{ fontSize: 5.5, color: '#64748b' }}>{rule.prod}</div>
-              <div style={{ fontSize: 6, color: '#22c55e', fontWeight: 600 }}>{rule.impact}</div>
-            </div>
-          ))}
         </div>
+        </Reveal>
       </div>
-    </div>
+    </section>
   )
 }
 
-const SAAS_BUILT: SaasBuiltItem[] = [
+// ─── SAVINGS CHOC ─────────────────────────────────────────────────────────────
+
+const savingsRows = [
   {
-    productName: "PriceFlow",
-    founderName: "Thomas",
-    founderAvatar: "/Mec1.webp",
-    desc: "Ajuste les prix des e-commerçants en temps réel selon la concurrence et les stocks.",
+    label: "Trouver une idée rentable",
+    Icon: Search,
+    alone: "80h",
+    withUs: "30 min",
+    badge: "Marketplace incluse",
+  },
+  {
+    label: "Créer et designer l'interface de ton SaaS",
+    Icon: Layers,
+    alone: "120h",
+    withUs: "inclus",
+    badge: "Templates prêts",
+  },
+  {
+    label: "Construire le dashboard utilisateur",
+    Icon: LayoutDashboard,
+    alone: "60h",
+    withUs: "inclus",
+    badge: "Modules Blueprint",
+  },
+  {
+    label: "Créer des workflows IA",
+    Icon: Zap,
+    alone: "40h+",
+    withUs: "1 prompt",
+    badge: "Agents intégrés",
+  },
+  {
+    label: "Connecter tes utilisateurs",
+    Icon: Users,
+    alone: "40h",
+    withUs: "1 prompt",
+    badge: "Supabase Auth",
+  },
+  {
+    label: "Gérer et protéger les données",
+    Icon: Database,
+    alone: "50h + failles",
+    withUs: "configurée",
+    badge: "RLS + schéma prêts",
+  },
+  {
+    label: "Brancher les paiements",
+    Icon: Banknote,
+    alone: "15h",
+    withUs: "15 min",
+    badge: "Checkout + webhooks",
+  },
+  {
+    label: "Paramétrer l'authentification",
+    Icon: Shield,
+    alone: "20h",
+    withUs: "1 prompt",
+    badge: "OAuth + Email",
+  },
+  {
+    label: "Déployer en ligne",
+    Icon: Globe,
+    alone: "8h",
+    withUs: "5 min",
+    badge: "Vercel auto-deploy",
+  },
+  {
+    label: "Stratégie de monétisation",
+    Icon: TrendingUp,
+    alone: "30h",
+    withUs: "inclus",
+    badge: "3 modèles inclus",
+  },
+  {
+    label: "Budget outils",
+    Icon: Receipt,
+    alone: "300–500€",
+    withUs: "0€",
+    badge: "Stack validée au départ",
+  },
+  {
+    label: "Bugs critiques & erreurs bloquantes",
+    Icon: Wrench,
+    alone: "inévitables",
+    withUs: "zéro surprise",
+    badge: "35+ SaaS testés",
+  },
+]
+
+function SavingsChoc() {
+  return (
+    <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
+
+      {/* Subtle radial glow center */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2"
+        style={{
+          width: 700,
+          height: 400,
+          background: "radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1100px] px-6">
+
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
+            Ce que ça coûte vraiment
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            className="mb-4 text-white"
+          >
+            Seul, tu perds.<br />Avec Buildrs, tu gagnes.
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[420px] text-[15px] leading-[1.6] text-white/45">
+            On a fait toutes les erreurs — pour que tu n'en fasses aucune.
+          </p></Reveal>
+        </div>
+
+        {/* Comparison table — desktop (md+) */}
+        <Reveal delay={0.24}>
+        <div className="mx-auto max-w-[880px] hidden md:block overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          {/* Column headers */}
+          <div className="grid" style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="px-6 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/20" />
+            <div className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-white/35" style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(239,68,68,0.04)" }}>Seul</div>
+            <div className="flex items-center justify-center px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(34,197,94,0.05)", color: "#22c55e" }}>Avec Buildrs</div>
+          </div>
+          {savingsRows.map(({ label, Icon, alone, withUs, badge }, i) => (
+            <div key={label} className="grid" style={{ gridTemplateColumns: "1fr 130px 180px", borderBottom: i < savingsRows.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+              <div className="flex items-center gap-3.5 px-6 py-4">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(255,255,255,0.05)" }}>
+                  <Icon size={14} strokeWidth={1.5} className="text-white/35" />
+                </div>
+                <span className="text-[13px] font-medium leading-snug text-white/60">{label}</span>
+              </div>
+              <div className="flex items-center justify-center px-4 py-4" style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(239,68,68,0.025)" }}>
+                <span className="text-[14px] font-bold tabular-nums text-center" style={{ color: "rgba(239,68,68,0.70)" }}>{alone}</span>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-1 px-4 py-4" style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", background: "rgba(34,197,94,0.03)" }}>
+                <span className="text-[14px] font-bold tabular-nums text-green-400">{withUs}</span>
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-white/20">{badge}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Comparison — mobile cards (< md) */}
+        <div className="md:hidden flex flex-col gap-2.5">
+          {/* Header row */}
+          <div className="grid grid-cols-2 gap-2 px-1 mb-1">
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-white/25 text-center">Seul</p>
+            <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-center" style={{ color: "#22c55e" }}>Avec Buildrs</p>
+          </div>
+          {savingsRows.map(({ label, alone, withUs }) => (
+            <div key={label} className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+              {/* Label */}
+              <div className="px-4 py-2.5" style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                <p className="text-[12px] font-medium text-white/55 leading-snug">{label}</p>
+              </div>
+              {/* Values */}
+              <div className="grid grid-cols-2">
+                <div className="flex items-center justify-center py-3.5 px-3" style={{ background: "rgba(239,68,68,0.05)", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                  <span className="text-[17px] font-extrabold tabular-nums text-center leading-tight" style={{ color: "rgba(239,68,68,0.85)", letterSpacing: "-0.02em" }}>{alone}</span>
+                </div>
+                <div className="flex items-center justify-center py-3.5 px-3" style={{ background: "rgba(34,197,94,0.06)" }}>
+                  <span className="text-[17px] font-extrabold tabular-nums text-center leading-tight text-green-400" style={{ letterSpacing: "-0.02em" }}>{withUs}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        </Reveal>
+
+        {/* Bottom stat */}
+        <p className="mt-10 text-center text-[15px] text-white/30">
+          Tout ça pour{" "}
+          <span className="font-bold text-white">27€</span>
+          {" "}— paiement unique, accès à vie.
+        </p>
+
+      </div>
+    </section>
+  )
+}
+
+// ─── SYMBIOSE ─────────────────────────────────────────────────────────────────
+
+const symbioseRows = [
+  {
+    sans: "Tu construis — sans savoir si ça se vend",
+    avec: "Tu construis ce que des gens paient déjà ailleurs",
+  },
+  {
+    sans: "Tu as 10 idées et tu tournes en rond",
+    avec: "Tu repars avec une idée validée, scorée, prête à exécuter",
+  },
+  {
+    sans: "Tu perds des journées sur la config technique",
+    avec: "Tu déploies sur une stack éprouvée, sans t'y brûler",
+  },
+  {
+    sans: "Tu as un produit live — mais personne n'achète",
+    avec: "Tu as une stratégie de prix, un message, un canal — avant de coder",
+  },
+  {
+    sans: "Tu jonglles entre 3 projets sans en finir un",
+    avec: "Tu vas de l'idée au premier euro en 6 jours, focus total",
+  },
+]
+
+// ─── BEFORE / AFTER ──────────────────────────────────────────────────────────
+
+const comparisonRows = [
+  {
+    before: "Tu as 10 idées dans Notion, tu en lances aucune vraiment",
+    after:  "Tu pars avec une idée validée, scorée, alignée sur toi",
+  },
+  {
+    before: "Tu testes chaque nouvelle IA qui sort, tu te perds dans le bruit",
+    after:  "Tu suis une stack claire, mise à jour pour toi, zéro distraction",
+  },
+  {
+    before: "Tu vois passer des lancements tous les jours sans être dedans",
+    after:  "Tu rejoins une tribu de Buildrs qui shippent, encaissent, partagent",
+  },
+  {
+    before: "Tu lances seul, tu bloques seul, tu repousses seul",
+    after:  "Tu avances avec des Buildrs qui débloquent tes points morts en live",
+  },
+  {
+    before: "Tu accumules les projets abandonnés à mi-chemin",
+    after:  "Tu vas de l'idée aux premiers euros encaissés, focus total",
+  },
+]
+
+function BeforeAfter() {
+  return (
+    <section className="bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        <div className="mb-14 text-center">
+          <Reveal>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/50">Avant / Après</p>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <h2
+              style={{ fontSize: "clamp(30px, 4.5vw, 54px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
+              className="mb-5 text-foreground"
+            >
+              Avant, tu regardais les autres lancer.<br />Après, c'est toi qui shippes.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <p className="mx-auto max-w-[580px] text-[16px] leading-[1.65] text-muted-foreground">
+              Pendant que tu hésites entre 10 idées, des Buildrs comme toi atteignent leurs premiers revenus en quelques jours. Ils n'avaient pas plus de skills que toi au départ. Ils ont juste arrêté d'avancer seuls — et ont rejoint une tribu qui pousse à finir.
+            </p>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.18}>
+          <div className="w-full rounded-2xl overflow-hidden border border-border">
+            {/* Header */}
+            <div className="grid grid-cols-2 border-b border-border">
+              <div className="flex items-center gap-2 px-6 py-4 border-r border-border bg-card">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-red-500"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Avant Buildrs</span>
+              </div>
+              <div className="flex items-center gap-2 px-6 py-4 bg-foreground/[0.03]">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-500/15">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-green-400"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-green-400/70">Après Buildrs</span>
+              </div>
+            </div>
+
+            {/* Rows */}
+            {comparisonRows.map(({ before, after }, i) => (
+              <div key={i} className={`grid grid-cols-2 ${i < comparisonRows.length - 1 ? 'border-b border-border' : ''}`}>
+                <div className="flex items-start gap-3 px-6 py-5 border-r border-border bg-card">
+                  <span className="mt-[3px] shrink-0 text-red-500/50">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </span>
+                  <span className="text-[13px] leading-[1.6] text-muted-foreground/70">{before}</span>
+                </div>
+                <div className="flex items-start gap-3 px-6 py-5 bg-foreground/[0.03]">
+                  <span className="mt-[3px] shrink-0 text-green-400">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </span>
+                  <span className="text-[13px] leading-[1.6] text-foreground/80">{after}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+// ─── WHAT YOU GET ─────────────────────────────────────────────────────────────
+
+const dashTabs = [
+  {
+    id: "cockpit",
+    label: "Cockpit",
+    Icon: Zap,
+    title: "Ton cockpit de pilotage",
+    desc: "La checklist interactive étape par étape. Tu sais toujours exactement où tu en es — de l'idée au SaaS déployé.",
+    bullets: [
+      "Progression en temps réel sur les 4 phases",
+      "50+ prompts testés, copiables en 1 clic",
+      "Stack complète configurée et documentée",
+    ],
+    img: "/Dash-Accueil.webp",
+    color: "#22c55e",
+  },
+  {
+    id: "parcours",
+    label: "Parcours",
+    Icon: BookOpen,
+    title: "Le parcours étape par étape",
+    desc: "6 modules complets. Chaque leçon = une action concrète. Vidéos, exercices, prompts — de l'idée au produit monétisé.",
+    bullets: [
+      "6 modules avec contenu vidéo + texte",
+      "Exercices pratiques à chaque étape",
+      "Progression débloquée automatiquement",
+    ],
+    img: "/dash-parcours.jpg",
+    color: "#4d96ff",
+  },
+  {
+    id: "marketplace",
+    label: "Marketplace",
+    Icon: Search,
+    title: "Marketplace d'idées SaaS IA",
+    desc: "Des centaines d'idées analysées par nos agents depuis les vraies sources. Pas du ChatGPT — de la vraie data sur ce qui se vend.",
+    bullets: [
+      "Idées triées par rentabilité et viabilité",
+      "Analyse concurrentielle incluse",
+      "Modèle de prix suggéré pour chaque idée",
+    ],
+    img: "/dash-marketplace.webp",
+    color: "#4d96ff",
+  },
+  {
+    id: "validator",
+    label: "Générateur & Validateur",
+    Icon: BarChart2,
+    title: "Génère et valide ton idée",
+    desc: "Score de viabilité sur 100. MRR estimé. Scénario de revente. Tout basé sur des données réelles — avant de coder une ligne.",
+    bullets: [
+      "Score de viabilité sur 100",
+      "Estimation MRR potentiel",
+      "Scénario de revente inclus",
+    ],
+    img: "/Dash-Valider.webp",
+    color: "#cc5de8",
+  },
+  {
+    id: "community",
+    label: "Communauté",
+    Icon: Users,
+    title: "Le canal privé Buildrs",
+    desc: "Tu rejoins une communauté de builders actifs. Questions, retours, partages — Alfred et Chris répondent directement.",
+    bullets: [
+      "Canal WhatsApp privé Buildrs",
+      "Accès direct à Alfred et Chris",
+      "Retours sur ton projet en temps réel",
+    ],
+    img: "/dash-community.png",
+    color: "#f59e0b",
+  },
+  {
+    id: "tools",
+    label: "Boîte à outils",
+    Icon: Wrench,
+    title: "Boîte à outils complète",
+    desc: "Tous les outils de la stack avec guides de configuration pas à pas. Supabase, Stripe, Vercel, Resend — tout est documenté.",
+    bullets: [
+      "Guides de configuration pour chaque outil",
+      "Templates prêts à copier-coller",
+      "Mises à jour permanentes sur Claude",
+    ],
+    img: "/dash-outils.jpg",
+    color: "#f97316",
+  },
+]
+
+// ─── SAAS EXAMPLES ───────────────────────────────────────────────────────────
+
+const saasExamples = [
+  {
+    badge: "PriceFlow",
+    image: "/dash-marketplace.png",
+    desc: "Ajuste les prix des e-commerçants Shopify en temps réel selon la concurrence et les stocks.",
     cible: "E-commerçants Shopify",
     mrr: "50 clients × 29€ = 1 450€/mois",
     temps: "5 jours",
+    author: "Thomas",
+    initials: "T",
     stars: 4,
-    thumbnail: "/DASH1.webp",
   },
   {
-    productName: "Brew App",
-    founderName: "Chris",
-    founderAvatar: "/Chris_opt.jpg",
+    badge: "BrewApp",
+    image: "/dash-generator.png",
     desc: "Carnet de dégustation pour amateurs de café — origines, profils, méthodes d'extraction.",
     cible: "Coffee lovers & baristas",
     mrr: "100 users × 9€ = 900€/mois",
     temps: "4 jours",
+    author: "Chris",
+    photo: "/Chris_opt.jpg",
     stars: 5,
-    thumbnail: "/D3.webp",
   },
   {
-    productName: "StayTrack",
-    founderName: "Julie",
-    founderAvatar: "/F2.webp",
+    badge: "StayTrack",
+    image: "/dash-cockpit.png",
     desc: "Gestion de locations : loyers, charges, taux d'occupation, alertes automatiques.",
     cible: "Propriétaires multi-biens",
     mrr: "30 clients × 49€ = 1 470€/mois",
     temps: "6 jours",
+    author: "Julie",
+    initials: "J",
     stars: 4,
-    thumbnail: "/Dash2.webp",
   },
 ]
 
-function SaasBuiltCard({ item }: { item: SaasBuiltItem }) {
+function SaasExamples() {
   return (
-    <div className="break-inside-avoid mb-4 rounded-3xl border border-border bg-card p-5 transition-shadow hover:shadow-md">
-      {(item.preview || item.thumbnail) && (
-        <div className="mb-4 overflow-hidden rounded-xl border border-border" style={{ aspectRatio: "16/9" }}>
-          {item.preview
-            ? item.preview
-            : <img src={item.thumbnail} alt={item.productName} className="h-full w-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none" }} />
-          }
+    <section className="bg-background py-20 sm:py-28">
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Exemples</p></Reveal>
+        <Reveal delay={0.08}>
+          <h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+            className="mb-4 text-foreground"
+          >
+            De l'idée au produit live.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <p className="mb-14 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
+            Des exemples concrets de SaaS réalisables avec Blueprint — en moins d'une semaine.
+          </p>
+        </Reveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {saasExamples.map((ex, i) => (
+            <Reveal key={ex.badge} delay={0.1 + i * 0.08}>
+              <div
+                className="flex flex-col rounded-2xl overflow-hidden"
+                style={{ border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))' }}
+              >
+                {/* Screenshot */}
+                <div className="relative overflow-hidden" style={{ height: 200, background: 'hsl(var(--muted))' }}>
+                  <img
+                    src={ex.image}
+                    alt={ex.badge}
+                    className="w-full h-full object-cover object-top"
+                    style={{ opacity: 0.9 }}
+                  />
+                  {/* Badge overlay */}
+                  <span
+                    className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-full"
+                    style={{ background: 'hsl(var(--background))', border: '1px solid hsl(var(--border))', color: 'hsl(var(--foreground))' }}
+                  >
+                    {ex.badge}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5 gap-4">
+                  <p className="text-[14px] leading-[1.6] text-muted-foreground">{ex.desc}</p>
+
+                  {/* Metadata */}
+                  <div className="flex flex-col gap-2 text-[12px]">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>Cible</span>
+                      <span className="text-foreground font-medium">{ex.cible}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>MRR potentiel</span>
+                      <span className="text-foreground font-medium">{ex.mrr}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold uppercase tracking-[0.08em] text-muted-foreground/60" style={{ minWidth: 90 }}>Temps</span>
+                      <span className="text-foreground font-medium">{ex.temps}</span>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <hr className="border-border" />
+
+                  {/* Avatar + stars */}
+                  <div className="flex items-center gap-3">
+                    {ex.photo ? (
+                      <img src={ex.photo} alt={ex.author} className="h-8 w-8 rounded-full object-cover" />
+                    ) : (
+                      <div className="h-8 w-8 rounded-full flex items-center justify-center text-[12px] font-bold text-foreground" style={{ background: 'hsl(var(--secondary))', border: '1px solid hsl(var(--border))' }}>
+                        {ex.initials}
+                      </div>
+                    )}
+                    <span className="text-[13px] font-medium text-foreground">{ex.author}</span>
+                    <span className="ml-auto text-[13px]" style={{ letterSpacing: '0.05em' }}>
+                      {'★'.repeat(ex.stars)}{'☆'.repeat(5 - ex.stars)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+// ─── ProjectExamplesSection ───────────────────────────────────────────────────
+
+type SaasProject = {
+  id: number
+  title: string
+  description: string
+  mrr: string
+  sector: string
+  gradient: string
+  imageSrc?: string
+  tag?: string
+}
+
+const saasProjects: SaasProject[] = [
+  {
+    id: 1,
+    title: "PriceFlow",
+    description: "Pricing dynamique pour e-commerce multi-marchés",
+    mrr: "~1 500 €/mois",
+    sector: "E-commerce · B2B",
+    gradient: "linear-gradient(160deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)",
+    imageSrc: "/dashboard/PriceFlow.png",
+    tag: "E-commerce · B2B",
+  },
+  {
+    id: 2,
+    title: "Swarm X",
+    description: "Agents IA qui font grossir et monétisent un compte X en autonomie",
+    mrr: "~2 200 €/mois",
+    sector: "Creator economy · B2C",
+    gradient: "linear-gradient(160deg, #09090b 0%, #1a0a2e 50%, #09090b 100%)",
+    imageSrc: "/dashboard/XAI Forge.png",
+    tag: "Creator economy · B2C",
+  },
+  {
+    id: 3,
+    title: "Hostora",
+    description: "Gestion locative auto pour conciergeries et propriétaires",
+    mrr: "~1 470 €/mois",
+    sector: "Immobilier · B2B",
+    gradient: "linear-gradient(160deg, #1a0c08 0%, #7c2d12 50%, #9a3412 100%)",
+    imageSrc: "/dashboard/Hostora.png",
+    tag: "Immobilier · B2B",
+  },
+  {
+    id: 4,
+    title: "Biohackr",
+    description: "Plateforme IA qui optimise sommeil, énergie et perf d'entrepreneur",
+    mrr: "~2 400 €/mois",
+    sector: "Founders · B2C",
+    gradient: "linear-gradient(160deg, #0c1220 0%, #0f2845 50%, #1a3a6e 100%)",
+    imageSrc: "/dashboard/Rankr.png",
+    tag: "Founders · B2C",
+  },
+  {
+    id: 5,
+    title: "BatiConseil",
+    description: "Diagnostic IA et devis instantanés pour artisans du bâtiment",
+    mrr: "~1 200 €/mois",
+    sector: "Artisans · B2B",
+    gradient: "linear-gradient(160deg, #080e1a 0%, #0f1e3d 50%, #1a2e5a 100%)",
+    imageSrc: "/dashboard/BatiConseil.png",
+    tag: "Artisans · B2B",
+  },
+  {
+    id: 6,
+    title: "Vocali",
+    description: "CRM vocal qui transforme tes notes en clients, offres et landings",
+    mrr: "~1 800 €/mois",
+    sector: "Coachs & solopreneurs · B2B",
+    gradient: "linear-gradient(160deg, #13002a 0%, #4c1d95 50%, #2e1065 100%)",
+    imageSrc: "/dashboard/Vocalia.png",
+    tag: "Coachs & solopreneurs · B2B",
+  },
+]
+
+function useCardSize() {
+  const [dims, setDims] = useState({ w: 520, h: 320 })
+  useEffect(() => {
+    const update = () => {
+      const vw = window.innerWidth
+      setDims({ w: Math.min(520, vw - 56), h: vw < 640 ? 270 : 320 })
+    }
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
+  return dims
+}
+
+function renderSaasCard(item: SaasProject, _state: { active: boolean }) {
+  return (
+    <div className="relative h-full w-full overflow-hidden" style={{ background: item.gradient }}>
+      {/* Dashboard screenshot — top 65% of card */}
+      {item.imageSrc && (
+        <div className="absolute inset-x-0 top-0" style={{ height: "65%" }}>
+          <img
+            src={item.imageSrc}
+            alt={item.title}
+            className="h-full w-full object-cover object-top"
+            draggable={false}
+            loading="eager"
+            onError={e => { (e.target as HTMLImageElement).parentElement!.style.display = "none" }}
+          />
+          {/* Fade screenshot into card gradient */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.92) 100%)" }}
+          />
         </div>
       )}
 
-      <div className="mb-2 flex items-center gap-2 flex-wrap">
-        <div className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-[11px] font-semibold text-foreground">
-          {item.productName}
+      {/* Bottom info panel — sits over gradient */}
+      <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-5" style={{ height: "42%" }}>
+        <div className="mb-2">
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em]"
+            style={{ background: "rgba(255,255,255,0.10)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.10)" }}
+          >
+            {item.sector}
+          </span>
         </div>
-        <div className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-semibold" style={{ background: 'rgba(167,139,250,0.12)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.25)' }}>
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Construit avec Claude · {item.temps}
+        <div className="text-[20px] font-bold leading-tight text-white">{item.title}</div>
+        <div className="mt-1 text-[12px] leading-snug" style={{ color: "rgba(255,255,255,0.65)" }}>
+          {item.description}
         </div>
-      </div>
-
-      <p className="mb-5 text-[15px] leading-relaxed text-muted-foreground">
-        {item.desc}
-      </p>
-
-      <div className="mb-5 flex flex-col gap-2">
-        {[
-          { label: 'Cible',         value: item.cible },
-          { label: 'MRR Potentiel', value: item.mrr   },
-          { label: 'Temps',         value: item.temps },
-        ].map(({ label, value }) => (
-          <div key={label} className="flex items-baseline gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/50 w-[90px] shrink-0">{label}</span>
-            <span className="text-[13px] font-semibold text-foreground">{value}</span>
-          </div>
-        ))}
-      </div>
-
-      <hr className="mb-4 border-border" />
-
-      <div className="flex items-center gap-3">
-        <img
-          src={item.founderAvatar}
-          alt={item.founderName}
-          className="h-9 w-9 shrink-0 rounded-full object-cover"
-          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none" }}
-        />
-        <p className="text-[14px] font-semibold text-foreground flex-1">{item.founderName}</p>
-        <div className="flex shrink-0 gap-0.5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className={i <= item.stars ? 'text-foreground' : 'text-border'}>
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          ))}
+        <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.10)" }}>
+          <span className="font-mono text-[16px] font-bold" style={{ color: "#22c55e" }}>
+            {item.mrr}
+          </span>
         </div>
       </div>
     </div>
   )
 }
+
+function ProjectExamplesSection() {
+  const { w, h } = useCardSize()
+
+  return (
+    <section className="py-24" style={{ background: "#0a0a0a" }}>
+      <div className="mx-auto max-w-[1100px] px-6">
+
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <Reveal>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: "rgba(255,255,255,0.35)" }}>
+              Exemples de projets
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2
+              className="mb-4 text-white"
+              style={{ fontSize: "clamp(28px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            >
+              Voilà ce que les Buildrs shippent en 6 jours.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="mx-auto max-w-[580px] text-[15px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.45)" }}>
+              Des SaaS réels, lancés par nos Buildrs ou réalisables avec Blueprint.
+              Clique sur une card pour explorer ce que tu pourrais shipper la semaine prochaine.
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Carousel */}
+        <Reveal delay={0.12}>
+          <CardStack
+            items={saasProjects}
+            cardWidth={w}
+            cardHeight={h}
+            autoAdvance
+            intervalMs={5000}
+            pauseOnHover
+            showDots
+            loop
+            renderCard={renderSaasCard}
+          />
+        </Reveal>
+
+        {/* Footer note + CTA */}
+        <div className="mt-16 flex flex-col items-center gap-8">
+          <p className="max-w-[680px] text-center text-[13px] italic leading-relaxed" style={{ color: "rgba(255,255,255,0.25)" }}>
+            Ces projets sont inspirés de SaaS réels lancés par nos Buildrs ou créés en interne.
+            Ton idée n'est pas dans la liste&nbsp;? Le système fonctionne pour 90% des cas d'usage SaaS et IA.
+          </p>
+          <a href="#pricing">
+            <div className="hero-rainbow-border relative cursor-pointer">
+              <div
+                className="relative rounded-xl px-8 py-3.5 text-[15px] font-semibold"
+                style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
+              >
+                Découvrir Blueprint →
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+function WhatYouGet() {
+  const [activeTab, setActiveTab] = useState(0)
+  const [direction, setDirection] = useState(1)
+
+  const handleTab = (i: number) => {
+    setDirection(i >= activeTab ? 1 : -1)
+    setActiveTab(i)
+  }
+
+  const tab = dashTabs[activeTab]
+
+  return (
+    <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
+      <div className="relative mx-auto max-w-[1100px] px-6">
+
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
+            Ce que tu vas recevoir
+          </p></Reveal>
+          <Reveal delay={0.08}><h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+            className="mb-4 text-white"
+          >
+            Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
+          </h2></Reveal>
+          <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
+            Trouve ton idée. Valide-la. Construis-la. Monétise-la. Tout dans un seul cockpit.
+          </p></Reveal>
+        </div>
+
+        {/* Tab nav */}
+        <Reveal delay={0.2}>
+          <div className="mb-6 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+            {dashTabs.map((t, i) => {
+              const active = i === activeTab
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => handleTab(i)}
+                  className="flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200"
+                  style={{
+                    background: active ? "#ffffff" : "rgba(255,255,255,0.06)",
+                    color: active ? "#09090b" : "rgba(255,255,255,0.45)",
+                    border: active ? "1px solid rgba(255,255,255,0.9)" : "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <t.Icon size={14} strokeWidth={1.5} />
+                  {t.label}
+                </button>
+              )
+            })}
+          </div>
+        </Reveal>
+
+        {/* Content panel */}
+        <Reveal delay={0.28}>
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: direction * 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-2"
+            >
+              {/* Left — text */}
+              <div className="flex flex-col justify-center gap-6 p-8 lg:p-10">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-xl"
+                  style={{ background: `${tab.color}18`, border: `1px solid ${tab.color}35` }}
+                >
+                  <tab.Icon size={18} strokeWidth={1.5} style={{ color: tab.color }} />
+                </div>
+                <div>
+                  <h3 className="mb-3 text-[20px] font-bold text-white leading-snug">{tab.title}</h3>
+                  <p className="text-[14px] leading-[1.7] text-white/50">{tab.desc}</p>
+                </div>
+                <ul className="flex flex-col gap-2.5">
+                  {tab.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2.5">
+                      <div className="mt-[6px] h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: tab.color }} />
+                      <span className="text-[13px] text-white/60">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Right — screenshot */}
+              <div
+                className="relative overflow-hidden flex items-center justify-center"
+                style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", minHeight: 220 }}
+              >
+                <img
+                  src={tab.img}
+                  alt={tab.title}
+                  loading="lazy"
+                  className="w-full object-contain object-top lg:h-full lg:object-cover"
+                  style={{ maxHeight: 380 }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        </Reveal>
+
+        {/* Tab dots indicator */}
+        <div className="mt-5 flex justify-center gap-1.5">
+          {dashTabs.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleTab(i)}
+              className="rounded-full transition-all duration-200"
+              style={{
+                width: i === activeTab ? 20 : 6,
+                height: 6,
+                background: i === activeTab ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Axes de mise à jour — marquee */}
+        <div className="mt-14 overflow-hidden border-y border-white/[0.07] py-4">
+          <div
+            className="flex gap-10 whitespace-nowrap"
+            style={{ animation: "marquee-scroll 28s linear infinite", width: "max-content" }}
+          >
+            {[
+              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
+              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
+              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
+              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
+              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
+              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
+            ].map((label, i) => (
+              <span key={i} className="inline-flex items-center gap-2.5 text-[13px] font-medium text-white/40">
+                <span className="h-1 w-1 rounded-full bg-white/20 shrink-0" />
+                Mise à jour — {label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
 
 const whatsappTestimonials = [
   { img: "/Temoignages/IMG_8889.jpeg", label: "Abonnement 99€/mois lancé", sub: "SaaS live + deals entreprise en cours" },
@@ -1247,7 +1819,7 @@ function UniqueTestimonialSection() {
           Ils l'ont fait
         </p>
         <h2
-          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
+          style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
           className="text-white"
         >
           Les messages de notre WhatsApp.
@@ -1298,20 +1870,21 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section id="tarif" className="bg-muted py-24 text-center">
       <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p>
-        <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-4 text-foreground">
-          Tout ce qu'il te faut pour lancer<br />ton produit avec l'IA.
-        </h2>
-        <p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
+        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
+          Tout ce qu'il te faut pour lancer ton SaaS IA.
+        </h2></Reveal>
+        <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
           Un seul paiement. Accès à vie. Zéro risque.
-        </p>
+        </p></Reveal>
 
         {/* Shine border wrapper */}
+        <Reveal delay={0.24}>
         <div className="bump-neon relative mx-auto mt-12 max-w-[560px]" style={{ borderRadius: 22 }}>
           <div className="bump-inner p-10 text-left" style={{ borderRadius: 20 }}>
             {/* Header row */}
             <div className="mb-5 flex items-center justify-between">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Builders Blueprint</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Buildrs Blueprint</p>
               <span
                 className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold"
                 style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
@@ -1363,14 +1936,18 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
             >
               Accéder au Blueprint — 27€ →
             </a>
-            <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
-              Satisfait ou remboursé 30 jours · zéro condition.
-            </p>
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-4 py-3">
+              <Shield size={14} strokeWidth={1.5} className="shrink-0 text-foreground/60" />
+              <p className="text-[13px] font-medium text-muted-foreground">
+                <span className="font-semibold text-foreground">Satisfait ou remboursé — 30 jours.</span> Sans condition. Sans question.
+              </p>
+            </div>
             <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
               Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
             </p>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -1411,96 +1988,46 @@ function TeamRobot({ isAI }: { isAI?: boolean }) {
 
 type HologramVariant = 'a' | 'b' | 'c' | 'd'
 
-function HologramFigure({ uid, variant }: { uid: string; variant: HologramVariant }) {
-  const cfg = {
-    a: { hCy: 82, hRx: 41, hRy: 50, body: "M54,140 Q100,120 146,140 L153,220 H47 Z" },
-    b: { hCy: 79, hRx: 39, hRy: 52, body: "M48,142 Q100,118 152,142 L160,220 H40 Z" },
-    c: { hCy: 84, hRx: 43, hRy: 48, body: "M58,137 Q100,119 142,137 L149,220 H51 Z" },
-    d: { hCy: 80, hRx: 46, hRy: 46, body: "M44,140 Q100,114 156,140 L166,220 H34 Z" },
-  }[variant]
-  const neckY = cfg.hCy + cfg.hRy - 2
-  const glowId = `glow-${uid}`
-  const isJarvis = variant === 'd'
-  // Blanc pour les humains, violet pour Jarvis
-  const lineColor = isJarvis ? "#a78bfa" : "rgba(255,255,255,0.85)"
-  const eyeCenter = isJarvis ? "#c4b5fd" : "#ffffff"
-
-  return (
-    <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <defs>
-        <radialGradient id={glowId} cx="50%" cy="42%" r="50%">
-          <stop offset="0%" stopColor={lineColor} stopOpacity={isJarvis ? "0.35" : "0.22"}/>
-          <stop offset="100%" stopColor={lineColor} stopOpacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="200" height="240" fill="#08080a"/>
-      <ellipse cx="100" cy="105" rx="90" ry="115" fill={`url(#${glowId})`}/>
-      {/* scan lines */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        <line key={i} x1="0" y1={i * 20 + 8} x2="200" y2={i * 20 + 8} stroke={lineColor} strokeOpacity="0.04" strokeWidth="1"/>
-      ))}
-      {/* head */}
-      <ellipse cx="100" cy={cfg.hCy} rx={cfg.hRx} ry={cfg.hRy} stroke={lineColor} strokeWidth="1" fill="#0c0c14" fillOpacity="0.97"/>
-      {/* triangulation lines */}
-      <line x1={100 - cfg.hRx + 2} y1={cfg.hCy} x2={100 + cfg.hRx - 2} y2={cfg.hCy} stroke={lineColor} strokeOpacity="0.18" strokeWidth="0.7"/>
-      <line x1="100" y1={cfg.hCy - cfg.hRy + 4} x2={100 - cfg.hRx + 8} y2={cfg.hCy + cfg.hRy - 8} stroke={lineColor} strokeOpacity="0.14" strokeWidth="0.7"/>
-      <line x1="100" y1={cfg.hCy - cfg.hRy + 4} x2={100 + cfg.hRx - 8} y2={cfg.hCy + cfg.hRy - 8} stroke={lineColor} strokeOpacity="0.14" strokeWidth="0.7"/>
-      <line x1={100 - cfg.hRx + 8} y1={cfg.hCy - 18} x2={100 + cfg.hRx - 8} y2={cfg.hCy - 18} stroke={lineColor} strokeOpacity="0.12" strokeWidth="0.6"/>
-      {/* eyes */}
-      <ellipse cx={isJarvis ? 86 : 87} cy={cfg.hCy - 9} rx="7" ry={isJarvis ? 5 : 3.5} fill={lineColor} fillOpacity="0.55"/>
-      <ellipse cx={isJarvis ? 114 : 113} cy={cfg.hCy - 9} rx="7" ry={isJarvis ? 5 : 3.5} fill={lineColor} fillOpacity="0.55"/>
-      <circle cx={isJarvis ? 86 : 87} cy={cfg.hCy - 9} r="2.5" fill={eyeCenter}/>
-      <circle cx={isJarvis ? 114 : 113} cy={cfg.hCy - 9} r="2.5" fill={eyeCenter}/>
-      {/* jarvis extra: brow lines */}
-      {isJarvis && <><line x1="80" y1={cfg.hCy - 17} x2="93" y2={cfg.hCy - 14} stroke={eyeCenter} strokeOpacity="0.6" strokeWidth="1.2"/><line x1="120" y1={cfg.hCy - 17} x2="107" y2={cfg.hCy - 14} stroke={eyeCenter} strokeOpacity="0.6" strokeWidth="1.2"/></>}
-      {/* neck */}
-      <rect x="88" y={neckY} width="24" height="16" fill="#0c0c14" stroke={lineColor} strokeWidth="0.8" strokeOpacity="0.35"/>
-      {/* body */}
-      <path d={cfg.body} fill="#0c0c14" fillOpacity="0.97" stroke={lineColor} strokeWidth="1"/>
-      <line x1="100" y1={neckY + 16} x2="100" y2="218" stroke={lineColor} strokeOpacity="0.15" strokeWidth="0.6"/>
-      <line x1="62" y1="168" x2="138" y2="168" stroke={lineColor} strokeOpacity="0.11" strokeWidth="0.6"/>
-      <line x1="56" y1="190" x2="144" y2="190" stroke={lineColor} strokeOpacity="0.08" strokeWidth="0.6"/>
-      {/* top glow */}
-      <ellipse cx="100" cy={cfg.hCy - cfg.hRy + 8} rx="18" ry="6" fill={eyeCenter} fillOpacity={isJarvis ? "0.14" : "0.10"}/>
-    </svg>
-  )
-}
-
-const teamData: { uid: string; variant: HologramVariant; name: string; role: string; bio: string; isAI?: boolean }[] = [
-  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Co-Founder",  bio: "Développement produit, vision et architecture du groupe." },
-  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Vibe Coder",  bio: "Marketing, acquisition et développement commercial." },
-  { uid: "tim",    variant: "c", name: "Tim",     role: "CTO & Vibe Coder",  bio: "Implémentation IA et accompagnement des membres du Lab." },
+const teamData: { uid: string; variant: HologramVariant; name: string; role: string; bio: string; photo?: string; isAI?: boolean }[] = [
+  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Co-Founder",  bio: "Développement produit, vision et architecture du groupe.", photo: "/Alfred_opt.jpg" },
+  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Vibe Coder",  bio: "Marketing, acquisition et développement commercial.", photo: "/Chris_opt.jpg" },
+  { uid: "tim",    variant: "c", name: "Tim",     role: "CTO & Vibe Coder",  bio: "Implémentation IA, design et front-end.", photo: "/Tim_opt.jpg" },
   { uid: "jarvis", variant: "d", name: "Jarvis",  role: "Chief AI Officer",  bio: "Intelligence Artificielle Autonome. Pilote 40 agents IA chez Buildrs.", isAI: true },
 ]
 
 function TeamSection() {
   return (
-    <section className="py-24" style={{ background: "#0a0a0a" }}>
+    <section className="relative py-24 overflow-hidden" style={{ background: "#0a0a0a" }}>
       <div className="mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
         <div className="mb-14 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5" style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}>
+          <Reveal><div className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5" style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}>
             <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/40">Qui sommes-nous</span>
-          </div>
-          <h2
-            style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
+          </div></Reveal>
+          <Reveal delay={0.08}><h2
+            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.06 }}
             className="text-white"
           >
-            Des experts IA qui construisent avec vous.
-          </h2>
+            Des entrepreneurs IA qui construisent pour vous.
+          </h2></Reveal>
         </div>
 
         {/* Cards */}
+        <Reveal delay={0.24}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-          {teamData.map(({ uid, variant, name, role, bio, isAI }) => (
+          {teamData.map(({ uid, variant, name, role, bio, photo, isAI }) => (
             <div
               key={uid}
               className="rounded-2xl overflow-hidden"
               style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
             >
-              <div className="h-52 flex items-center justify-center" style={{ background: isAI ? "rgba(139,92,246,0.07)" : "rgba(255,255,255,0.025)" }}>
-                <TeamRobot isAI={isAI} />
+              <div className="h-52 flex items-center justify-center overflow-hidden" style={{ background: isAI ? "rgba(139,92,246,0.07)" : "rgba(255,255,255,0.025)" }}>
+                {photo ? (
+                  <img src={photo} alt={name} loading="lazy" className="w-full h-full object-cover object-top" />
+                ) : (
+                  <TeamRobot isAI={isAI} />
+                )}
               </div>
               <div className="p-4">
                 <div className="flex items-center gap-1.5 mb-0.5">
@@ -1515,22 +2042,23 @@ function TeamSection() {
             </div>
           ))}
         </div>
+        </Reveal>
 
         {/* Credibility block */}
         <div
-          className="rounded-2xl px-8 py-8"
+          className="rounded-2xl px-8 py-8 mb-4"
           style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
         >
           <div className="flex flex-col sm:flex-row sm:items-start gap-8">
             {/* Stats */}
             <div className="flex gap-8 shrink-0">
               <div className="text-center">
-                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>+35</p>
-                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">SaaS créés</p>
+                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>+25</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Secrets</p>
               </div>
               <div className="text-center">
-                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>3</p>
-                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Revendus 5 chiffres</p>
+                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>1/2</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Builders lancés</p>
               </div>
             </div>
             {/* Divider */}
@@ -1541,11 +2069,34 @@ function TeamSection() {
                 Pas des coachs. Des geeks, experts en produit et en IA.
               </p>
               <p className="text-[13px] leading-[1.7] text-white/45">
-                On utilise l'intelligence artificielle comme levier d'enrichissement — pas pour en parler, pour en vivre. +35 SaaS créés, déployés et mis sur le marché, pour des entreprises et pour nous. 3 revendus à 5 chiffres. On a décidé, il y a quelques mois, de rendre ce système accessible. Buildrs, c'est un mouvement. Pas une formation.
+                On utilise l'intelligence artificielle comme levier d'enrichissement — pas pour en parler, pour en vivre. +25 secrets condensés, déployés sur le marché, pour des entreprises et pour nous. 3 revendus à 5 chiffres. On a décidé, il y a quelques mois, de rendre ce système accessible. Buildrs, c'est un mouvement. Pas une formation.
               </p>
             </div>
           </div>
         </div>
+
+        {/* Anthropic Partner badge */}
+        <Reveal delay={0.32}>
+          <div
+            className="flex items-center gap-5 rounded-2xl px-6 py-5"
+            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
+          >
+            <div
+              className="shrink-0 flex h-12 w-12 items-center justify-center rounded-xl"
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+            >
+              <BrandIcons.anthropic style={{ width: 22, height: 22, color: "#ffffff" }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] font-bold text-white leading-tight" style={{ letterSpacing: "-0.01em" }}>
+                Par Buildrs — Anthropic Partner certifié
+              </p>
+              <p className="mt-0.5 text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.38)" }}>
+                +25 produits IA actifs · 1 builder sur 2 a lancé son SaaS · plus de 40 agents IA internes chez Buildrs
+              </p>
+            </div>
+          </div>
+        </Reveal>
 
       </div>
     </section>
@@ -1557,13 +2108,14 @@ function TeamSection() {
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
   return (
-    <section id="faq" className="py-24">
+    <section id="faq" className="relative py-24 overflow-hidden">
       <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">FAQ</p>
-        <h2 style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
+        <Reveal><p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">FAQ</p></Reveal>
+        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }} className="mb-12 text-center text-foreground">
           Tes questions.<br />Nos réponses.
-        </h2>
+        </h2></Reveal>
 
+        <Reveal delay={0.24}>
         <div className="mx-auto max-w-[680px] overflow-hidden rounded-2xl border border-border">
           {faqs.map(({ q, a }, i) => (
             <div
@@ -1586,6 +2138,7 @@ function FAQ() {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   )
@@ -1596,6 +2149,7 @@ function FAQ() {
 function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
   return (
     <section className="relative overflow-hidden px-6 py-[120px] text-center">
+      <StarField />
       <div
         className="pointer-events-none absolute inset-0"
         style={{ background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(160,160,255,0.07) 0%, transparent 70%)" }}
@@ -1604,124 +2158,284 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
         className="mx-auto mb-[18px] max-w-[680px] text-foreground"
         style={{ fontSize: "clamp(40px, 6vw, 70px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
       >
-        Ton premier produit IA est à 6 jours d'ici.
+        Ton premier SaaS IA est à 6 jours d'ici.
       </h2>
       <p className="mx-auto mb-9 max-w-[440px] text-[17px] leading-[1.65] text-muted-foreground">
         Pas dans 6 mois. Pas quand tu auras appris à coder. Pas quand tu auras trouvé le bon moment. En 6 jours.
       </p>
-      <a href="#tarif" onClick={onCTA} className="cta-rainbow inline-flex items-center gap-2 rounded-[10px] bg-foreground px-8 py-4 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline">
-        Commencer maintenant — 27€ (au lieu de 297€) →
-      </a>
-      <p className="mt-4 text-[12px] text-muted-foreground/60">
-        Valeur réelle : 1 235€ · Paiement unique · Accès à vie
-      </p>
-      <div className="mt-5 w-full max-w-[340px] mx-auto">
-        <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
-          <span>110/200 places réclamées</span>
-          <span>Ensuite 297€</span>
-        </div>
-        <div className="h-1.5 w-full rounded-full bg-border overflow-hidden">
-          <div className="h-full rounded-full bg-foreground/70" style={{ width: "55%" }} />
+      <div className="hero-rainbow-border relative inline-flex cursor-pointer" onClick={onCTA}>
+        <div className="relative rounded-xl bg-foreground px-8 py-4 text-[15px] font-semibold text-background">
+          Commencer maintenant — 27€ (au lieu de 297€) →
         </div>
       </div>
+      <p className="mt-5 text-[13px] text-muted-foreground/50">
+        Garantie 14 jours · Paiement unique · Accès à vie · Mises à jour incluses
+      </p>
     </section>
   )
 }
 
-// ─── SPRINT ──────────────────────────────────────────────────────────────────
+// ─── PROGRAMME ───────────────────────────────────────────────────────────────
 
-const sprintDays = [
+const programmeModules = [
   {
-    day: "01", label: "Phase 1", title: "Trouver",
-    deliverable: "Ton idée validée, prête à construire.",
-    items: [], accent: "#4d96ff",
+    num: "01", title: "Fondations",
+    highlight: "Ta stratégie de lancement définie",
+    color: "#4d96ff", bg: "rgba(77,150,255,0.07)", border: "rgba(77,150,255,0.20)",
+    folderColor: "blue" as const,
+    bullets: [
+      "Tu comprends pourquoi l'IA fait 90% du travail à ta place",
+      "Tu choisis le format adapté à ton profil : app, SaaS IA ou logiciel",
+      "Tu choisis ta stratégie : copier, résoudre ou découvrir",
+      "Tu poses ton objectif financier — le système s'adapte",
+    ],
   },
   {
-    day: "02", label: "Phase 2", title: "Construire",
-    deliverable: "Ton produit fonctionnel, designé, architecturé.",
-    items: [], accent: "#cc5de8",
+    num: "02", title: "Ton espace de travail",
+    highlight: "Un environnement complet, configuré, prêt à builder",
+    color: "#cc5de8", bg: "rgba(204,93,232,0.07)", border: "rgba(204,93,232,0.20)",
+    folderColor: "black" as const,
+    bullets: [
+      "Tu installes tout — un outil à la fois, guidé",
+      "Ton environnement complet est prêt en une session",
+      "Zéro configuration à refaire — c'est en place pour de bon",
+    ],
   },
   {
-    day: "03", label: "Phase 3", title: "Déployer",
-    deliverable: "En ligne, accessible au monde entier.",
-    items: [], accent: "#22c55e",
+    num: "03", title: "Trouver & Valider",
+    highlight: "Ton idée validée et ta fiche produit prête à exécuter",
+    color: "#f06595", bg: "rgba(240,101,149,0.07)", border: "rgba(240,101,149,0.20)",
+    folderColor: "orange" as const,
+    bullets: [
+      "Tu trouves les SaaS IA rentables et tu t'en inspires",
+      "Tu génères 5 idées rentables en un clic — tu choisis",
+      "Tu valides ton marché en 30 minutes — tu décides",
+      "Tu repars avec ta fiche produit : nom, cible, fonctionnalité star, prix",
+    ],
   },
   {
-    day: "04", label: "Phase 4", title: "Monétiser",
-    deliverable: "Tes premiers revenus, ta stratégie de croissance.",
-    items: [], accent: "#f97316",
+    num: "04", title: "Design & Architecture",
+    highlight: "Le design et l'architecture de ton produit validés — prêt à construire",
+    color: "#f97316", bg: "rgba(249,115,22,0.07)", border: "rgba(249,115,22,0.20)",
+    folderColor: "yellow" as const,
+    bullets: [
+      "Tu crées ton identité visuelle en t'inspirant des meilleurs SaaS IA du marché",
+      "Tu génères ton parcours utilisateur page par page",
+      "Tu obtiens la structure technique de ton produit — prête à construire",
+    ],
+  },
+  {
+    num: "05", title: "Construire",
+    highlight: "Un produit fonctionnel qui tourne",
+    color: "#ef4444", bg: "rgba(239,68,68,0.07)", border: "rgba(239,68,68,0.20)",
+    folderColor: "red" as const,
+    bullets: [
+      "Tu décris ce que tu veux — l'IA génère ton produit",
+      "Ta fonctionnalité principale est construite et fonctionnelle",
+      "L'inscription utilisateur et l'onboarding sont en place",
+    ],
+  },
+  {
+    num: "06", title: "Déployer",
+    highlight: "Ton produit en ligne, accessible au monde entier",
+    color: "#22c55e", bg: "rgba(34,197,94,0.07)", border: "rgba(34,197,94,0.20)",
+    folderColor: "grey" as const,
+    bullets: [
+      "Ton produit est mis en ligne en un clic — Vercel s'occupe de tout",
+      "Ton domaine personnalisé est connecté",
+      "Paiements et emails automatiques sont branchés et testés",
+    ],
+  },
+  {
+    num: "07", title: "Monétiser & Lancer",
+    highlight: "Ta page de vente live, ta communication lancée, tes premiers euros en vue",
+    color: "#f59f00", bg: "rgba(245,159,0,0.07)", border: "rgba(245,159,0,0.20)",
+    folderColor: "orange" as const,
+    bullets: [
+      "Tu valides ta stratégie de prix : abonnement, unique, freemium",
+      "Ta page de vente est créée par l'IA — tu ajustes, tu publies",
+      "Ta stratégie de communication est posée — contenus, réseaux, pubs",
+      "5 contenus de lancement générés — prêts à poster",
+      "Ta première campagne configurée — le trafic arrive",
+      "Premiers clients, premiers revenus",
+    ],
   },
 ]
 
-import { motion } from "framer-motion"
+function Programme() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const [lineProgress, setLineProgress] = useState(0)
 
-function Sprint() {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return
+      const rect = sectionRef.current.getBoundingClientRect()
+      const windowH = window.innerHeight
+      const progress = Math.min(1, Math.max(0, (windowH - rect.top) / (rect.height + windowH * 0.3)))
+      setLineProgress(progress)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <section id="modules" className="overflow-hidden py-24 bg-muted">
-      <div className="mx-auto max-w-[1100px] px-6">
-        <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Le programme</p>
-        <h2
-          style={{ fontSize: "clamp(34px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.06 }}
-          className="mb-4 text-foreground"
-        >
-          Un système en 7 étapes.<br />Un produit live à la fin.
-        </h2>
-        <p className="mb-14 max-w-[560px] text-[15px] md:text-[17px] leading-[1.65] text-muted-foreground">
-          <span className="font-semibold text-foreground">Toi tu décides. L'IA construit. Tu encaisses.</span>
-        </p>
+    <section id="modules" className="relative py-20 sm:py-28" style={{ background: '#0a0a0a' }}>
+      <div className="mx-auto max-w-[1060px] px-6">
 
-        {/* Timeline horizontale — desktop */}
-        <div className="hidden md:block">
-          {/* Ligne de connexion */}
-          <div className="relative mb-6">
-            <div className="absolute top-4 left-[calc(100%/14)] right-[calc(100%/14)] h-px bg-border" />
-            <div className="grid grid-cols-4 gap-0">
-              {sprintDays.map(({ day, accent }) => (
-                <div key={day} className="flex flex-col items-center">
-                  <div
-                    className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted"
-                    style={{ boxShadow: `0 0 0 3px hsl(var(--muted))` }}
-                  >
-                    <span className="font-mono text-[10px] font-bold" style={{ color: accent }}>{day}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Contenu sous chaque dot */}
-          <div className="grid grid-cols-4 gap-3">
-            {sprintDays.map(({ day, title, deliverable, accent }) => (
-              <div key={day} className="flex flex-col gap-1.5 pt-1">
-                <p className="text-[13px] font-bold text-foreground leading-tight">{title}</p>
-                <p className="text-[11px] leading-[1.5] text-muted-foreground">{deliverable}</p>
-              </div>
-            ))}
-          </div>
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <Reveal>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Le programme
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2
+              style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.08 }}
+              className="mb-5 text-white"
+            >
+              1 Système rentable.<br />1 produit monétisé.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="mx-auto max-w-[480px] text-[15px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              7 modules pour passer de l'idée au produit monétisé. Les IA qu'on utilise sont les meilleures du marché — et presque tous gratuits.
+            </p>
+          </Reveal>
         </div>
 
-        {/* Timeline compacte — mobile */}
-        <div className="flex flex-col gap-0 md:hidden">
-          {sprintDays.map(({ day, title, deliverable, accent }, i) => (
-            <div key={day} className="flex gap-4">
-              {/* Colonne gauche — dot + ligne */}
-              <div className="flex flex-col items-center shrink-0">
+        {/* Timeline */}
+        <div className="relative" ref={sectionRef}>
+
+          {/* Ligne verticale desktop */}
+          <div className="absolute pointer-events-none hidden md:block"
+            style={{ left: '50%', top: 16, bottom: 16, width: 1, transform: 'translateX(-50%)',
+              background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.08) 4%, rgba(255,255,255,0.08) 96%, transparent)' }}
+          />
+          {/* Fill animé desktop */}
+          <div className="absolute pointer-events-none hidden md:block overflow-hidden"
+            style={{ left: '50%', top: 16, bottom: 16, width: 1, transform: 'translateX(-50%)' }}
+          >
+            <div style={{ width: '100%', height: `${lineProgress * 100}%`,
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.35) 60%, rgba(255,255,255,0.08))',
+              transition: 'height 0.15s ease-out' }} />
+          </div>
+
+          {/* Ligne mobile */}
+          <div className="absolute pointer-events-none md:hidden"
+            style={{ left: 19, top: 16, bottom: 16, width: 1, background: 'rgba(255,255,255,0.08)' }} />
+          <div className="absolute pointer-events-none md:hidden overflow-hidden"
+            style={{ left: 19, top: 16, bottom: 16, width: 1 }}
+          >
+            <div style={{ width: '100%', height: `${lineProgress * 100}%`,
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.35) 60%, rgba(255,255,255,0.08))',
+              transition: 'height 0.15s ease-out' }} />
+          </div>
+
+          <div className="flex flex-col" style={{ gap: 0 }}>
+            {programmeModules.map((mod, i) => {
+              const isLeft = i % 2 === 0
+
+              const Card = (
                 <div
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border bg-muted"
+                  className="flex flex-col rounded-2xl p-5 transition-all duration-300"
+                  style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.background = 'rgba(255,255,255,0.07)'
+                    el.style.borderColor = mod.border
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.background = 'rgba(255,255,255,0.04)'
+                    el.style.borderColor = 'rgba(255,255,255,0.08)'
+                  }}
                 >
-                  <span className="font-mono text-[9px] font-bold" style={{ color: accent }}>{day}</span>
+                  <div className="mb-3 flex items-center gap-2.5">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold"
+                      style={{ background: mod.bg, color: mod.color, border: `1px solid ${mod.border}` }}>
+                      {mod.num}
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.1em]"
+                      style={{ color: 'rgba(255,255,255,0.30)' }}>
+                      Module {mod.num}
+                    </span>
+                  </div>
+                  <h3 className="mb-3 font-bold leading-tight text-white"
+                    style={{ fontSize: 'clamp(15px, 1.8vw, 18px)', letterSpacing: '-0.02em' }}>
+                    {mod.title}
+                  </h3>
+                  <div className="mb-3">
+                    <Folder color={mod.folderColor} size="sm" />
+                  </div>
+                  <p className="mb-3 text-[12px] font-semibold leading-snug" style={{ color: mod.color }}>
+                    {mod.highlight}
+                  </p>
+                  <div className="mb-3" style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+                  <ul className="flex flex-col gap-1.5">
+                    {mod.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2 text-[12px] leading-[1.55]"
+                        style={{ color: 'rgba(255,255,255,0.45)' }}>
+                        <span className="mt-[6px] shrink-0 h-[3px] w-[3px] rounded-full"
+                          style={{ background: mod.color, opacity: 0.7 }} />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                {i < sprintDays.length - 1 && (
-                  <div className="w-px flex-1 bg-border mt-1 mb-1" style={{ minHeight: 24 }} />
-                )}
-              </div>
-              {/* Contenu */}
-              <div className="pb-5 pt-0.5">
-                <p className="text-[14px] font-bold text-foreground">{title}</p>
-                <p className="text-[12px] leading-[1.5] text-muted-foreground mt-0.5">{deliverable}</p>
-              </div>
-            </div>
-          ))}
+              )
+
+              return (
+                <Reveal key={mod.num} delay={0.05 + i * 0.05}>
+                  {/* Desktop — alternance gauche/droite */}
+                  <div className="hidden md:grid items-center pb-10"
+                    style={{ gridTemplateColumns: '1fr 80px 1fr', minHeight: 80 }}>
+
+                    {/* Colonne gauche */}
+                    <div className="pr-10">
+                      {isLeft ? Card : null}
+                    </div>
+
+                    {/* Dot central */}
+                    <div className="flex justify-center relative z-10">
+                      <div className="flex items-center justify-center rounded-full text-[11px] font-bold"
+                        style={{
+                          width: 36, height: 36,
+                          background: mod.color,
+                          color: '#09090b',
+                          boxShadow: `0 0 0 4px #0a0a0a, 0 0 0 5px ${mod.border}, 0 4px 16px rgba(0,0,0,0.4)`,
+                          letterSpacing: '-0.01em', flexShrink: 0,
+                        }}>
+                        {mod.num}
+                      </div>
+                    </div>
+
+                    {/* Colonne droite */}
+                    <div className="pl-10">
+                      {!isLeft ? Card : null}
+                    </div>
+                  </div>
+
+                  {/* Mobile — dot gauche + card droite */}
+                  <div className="flex md:hidden gap-5 pb-8 items-start">
+                    <div className="shrink-0 flex items-center justify-center rounded-full z-10 text-[11px] font-bold"
+                      style={{ width: 36, height: 36, background: mod.color, color: '#09090b',
+                        boxShadow: `0 0 0 4px #0a0a0a, 0 0 0 5px ${mod.border}`,
+                        marginTop: 2, letterSpacing: '-0.01em', flexShrink: 0 }}>
+                      {mod.num}
+                    </div>
+                    <div className="flex-1">{Card}</div>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -1738,13 +2452,13 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
       <main>
         <Hero onCTA={go} />
         <Marquee />
-        <Stats />
         <Pain />
-        <WhySaaS />
+        <WindowIA />
         <SaasVehicle />
         <BeforeAfter />
-        <Sprint />
-        <DashboardSection />
+        <Programme />
+        <WhatYouGet />
+        <ProjectExamplesSection />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
         <TeamSection />
