@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le système Buildrs · 7 jours pour lancer un SaaS IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ── Fonts ── */
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('./fonts/GeistMono-Variable.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Tokens ── */
+    :root {
+      --bg:        #09090b;
+      --bg-card:   #0c0c0e;
+      --border:    #27272a;
+      --text:      #fafafa;
+      --muted:     #a1a1aa;
+      --subtle:    #52525b;
+      --d01: #6366f1;
+      --d02: #8b5cf6;
+      --d03: #22c55e;
+      --d04: #eab308;
+      --d05: #f97316;
+      --d06: #ec4899;
+      --d07: #06b6d4;
+    }
+
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono { font-family: 'Geist Mono', 'Courier New', monospace; }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+
+    /* ── Scroll animation ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: 0.1s; }
+    .fade-up.d2 { transition-delay: 0.2s; }
+    .fade-up.d3 { transition-delay: 0.3s; }
+    .fade-up.d4 { transition-delay: 0.4s; }
+
+    /* ── Utility ── */
+    .rainbow-text {
+      background: linear-gradient(90deg, #ff6b6b 0%, #ffd93d 25%, #6bcb77 50%, #4d96ff 75%, #cc5de8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    #hero {
+      padding: 88px 0 72px;
+      text-align: center;
+    }
+
+    .partner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+    .partner-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #cc5de8, #4d96ff);
+      flex-shrink: 0;
+    }
+
+    #hero h1 {
+      font-size: clamp(30px, 3.2vw, 50px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    .accent-exact {
+      color: #8b5cf6;
+      text-decoration: underline;
+      text-decoration-color: rgba(139, 92, 246, 0.35);
+      text-underline-offset: 5px;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 60px;
+      line-height: 1.65;
+    }
+    .hero-sub span { color: var(--subtle); }
+
+    /* Trust strip */
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .trust-item {
+      background: var(--bg-card);
+      padding: 24px 12px;
+      text-align: center;
+    }
+    .trust-num {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 7px;
+    }
+    .trust-lbl {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ═══════════════════════════════════════
+       INTRO CARDS
+    ═══════════════════════════════════════ */
+    .intro-wrap {
+      max-width: 720px;
+      margin: 0 auto 40px;
+    }
+    .intro-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+    }
+    .kicker {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .intro-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .body-text {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .body-text p + p { margin-top: 10px; }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 13px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Comparison */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .cmp-col {
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid;
+    }
+    .cmp-col.before {
+      background: rgba(239, 68, 68, 0.04);
+      border-color: rgba(239, 68, 68, 0.18);
+    }
+    .cmp-col.after {
+      background: rgba(34, 197, 94, 0.04);
+      border-color: rgba(34, 197, 94, 0.18);
+    }
+    .cmp-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+    .cmp-col.before .cmp-label { color: #f87171; }
+    .cmp-col.after  .cmp-label { color: #4ade80; }
+    .cmp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .cmp-list li {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .cmp-list li svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 2px; }
+
+    /* ═══════════════════════════════════════
+       BRIDGE DIVIDERS
+    ═══════════════════════════════════════ */
+    .bridge {
+      text-align: center;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .bridge-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bridge-icon svg { width: 16px; height: 16px; }
+    .bridge-text {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--subtle);
+      letter-spacing: 0.07em;
+    }
+
+    /* ═══════════════════════════════════════
+       TIMELINE
+    ═══════════════════════════════════════ */
+    .timeline {
+      position: relative;
+      padding-bottom: 16px;
+    }
+    /* Vertical dashed line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--border) 0, var(--border) 6px,
+        transparent 6px, transparent 14px
+      );
+      z-index: 0;
+    }
+
+    .tl-row {
+      display: grid;
+      grid-template-columns: 1fr 72px 1fr;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tl-left  { padding-right: 20px; }
+    .tl-right { padding-left: 20px; }
+    .tl-empty { /* spacer */ }
+
+    /* Center column: day circle badge */
+    .tl-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 36px;
+    }
+    .day-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      position: relative;
+      z-index: 2;
+    }
+    .day-circle-num {
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .day-circle-lbl {
+      font-family: 'Geist Mono', monospace;
+      font-size: 8px;
+      color: var(--subtle);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    /* Bridge between day rows */
+    .tl-bridge-row {
+      display: grid;
+      grid-template-columns: 1fr 72px 1fr;
+      position: relative;
+      z-index: 1;
+    }
+    .tl-bridge-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0 8px;
+    }
+    .tl-bridge-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .tl-bridge-icon svg { width: 13px; height: 13px; }
+    .tl-bridge-text {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9px;
+      color: var(--subtle);
+      text-align: center;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    /* Timeline card */
+    .tl-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 24px 0 32px;
+    }
+    .tl-day-kicker {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .tl-phase-kicker {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 16px;
+    }
+    .tl-card h4 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      line-height: 1.35;
+    }
+
+    /* Bullets */
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: #d4d4d8;
+      line-height: 1.5;
+    }
+    .bullets li svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 2px; }
+
+    /* Tool chips */
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 18px;
+    }
+    .tool-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .tool-chip svg { width: 12px; height: 12px; }
+
+    /* Screenshots strip */
+    .screens {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .screen-fig {
+      flex: 1;
+      min-width: 0;
+    }
+    .screen-fig img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      object-position: top left;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .screen-cap {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9px;
+      color: var(--subtle);
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    /* Quote box */
+    .quote-box {
+      margin-top: 18px;
+      padding: 13px 16px;
+      background: rgba(139, 92, 246, 0.05);
+      border-left: 2px solid rgba(139, 92, 246, 0.35);
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-box p {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .quote-box cite {
+      display: block;
+      margin-top: 5px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      color: var(--subtle);
+      font-style: normal;
+    }
+
+    /* ═══════════════════════════════════════
+       EXIT CARD (rainbow border)
+    ═══════════════════════════════════════ */
+    .exit-wrap {
+      max-width: 860px;
+      margin: 16px auto 80px;
+    }
+    .exit-border {
+      padding: 2px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8);
+    }
+    .exit-inner {
+      background: var(--bg-card);
+      border-radius: 18px;
+      padding: 40px;
+    }
+    .exit-phase {
+      font-family: 'Geist Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 14px;
+    }
+    .exit-inner h4 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .exit-body {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .exit-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .exit-col {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .exit-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .exit-icon svg { width: 17px; height: 17px; }
+    .exit-col h5 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 7px;
+    }
+    .exit-col p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       CTA
+    ═══════════════════════════════════════ */
+    .cta-section {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 80px 0 100px;
+    }
+    .cta-section h2 {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+    .cta-sub {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #cc5de8, #4d96ff);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .cta-btn svg { width: 17px; height: 17px; }
+    .cta-trust {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .cta-sep {
+      width: 1px;
+      height: 11px;
+      background: var(--border);
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .trust-strip { grid-template-columns: repeat(3, 1fr); }
+      .tl-row, .tl-bridge-row { grid-template-columns: 1fr; }
+      .tl-center, .tl-bridge-center { display: none; }
+      .tl-left, .tl-right { padding: 0; }
+      .timeline::before { left: 0; }
+      .exit-cols { grid-template-columns: 1fr; }
+      .comparison { grid-template-columns: 1fr; }
+      .page { padding: 0 24px; }
+    }
+    @media (max-width: 500px) {
+      #hero h1 { font-size: 26px; }
+      .trust-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero">
+
+    <div class="partner-badge fade-up">
+      <span class="partner-dot"></span>
+      Anthropic Business Partner · Buildrs Group
+    </div>
+
+    <h1 class="fade-up d1">
+      Le système <span class="accent-exact">exact</span> qu'on utilise chez Buildrs
+      pour lancer des SaaS IA en&nbsp;7&nbsp;jours grâce à Claude Code.
+    </h1>
+
+    <p class="hero-sub fade-up d2">
+      De l'idée validée au premier MRR <span>·</span> le même système opérationnel,
+      appliqué sur 25 SaaS.
+    </p>
+
+    <div class="trust-strip fade-up d3">
+      <div class="trust-item">
+        <div class="trust-num" style="color:#6366f1">25</div>
+        <div class="trust-lbl">SaaS lancés</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num" style="color:#22c55e">3</div>
+        <div class="trust-lbl">SaaS revendus</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num" style="color:#f97316">45M</div>
+        <div class="trust-lbl">tokens Claude/mois</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num" style="color:#06b6d4">250</div>
+        <div class="trust-lbl">Buildrs accompagnés</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num" style="color:#8b5cf6">9</div>
+        <div class="trust-lbl">modules · système</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       BRIQUE 1 · CONTEXTE
+  ═══════════════════════════════════════ -->
+  <div class="intro-wrap fade-up">
+    <div class="intro-card">
+      <div class="kicker" style="color:#6366f1">Contexte · le terrain de jeu</div>
+      <h3>Un SaaS IA, c'est une solution à un problème concret.</h3>
+      <div class="body-text">
+        <p>B2B ou B2C, peu importe.</p>
+        <p>Tu identifies un problème spécifique chez une cible précise.
+           Tu construis un produit qui le résout. Tu y intègres l'IA
+           pour multiplier la valeur livrée.</p>
+        <p>C'est tout. Pas de plus. Pas de moins.</p>
+      </div>
+      <div class="badge-row">
+        <span class="pill" style="background:rgba(77,150,255,.12);color:#4d96ff">B2B</span>
+        <span class="pill" style="background:rgba(107,203,119,.12);color:#6bcb77">B2C</span>
+        <span class="pill" style="background:rgba(139,92,246,.12);color:#8b5cf6">Problème concret</span>
+        <span class="pill" style="background:rgba(255,153,51,.12);color:#ff9933">Cible précise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bridge -->
+  <div class="bridge fade-up">
+    <div class="bridge-icon">
+      <i data-lucide="sparkles" style="color:#8b5cf6"></i>
+    </div>
+    <span class="bridge-text">L'IA change tout</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       BRIQUE 2 · POURQUOI MAINTENANT
+  ═══════════════════════════════════════ -->
+  <div class="intro-wrap fade-up">
+    <div class="intro-card">
+      <div class="kicker" style="color:#f97316">Pourquoi maintenant · le bon timing</div>
+      <h3>Avant · 6 mois et 3 développeurs.<br/>Aujourd'hui · 7 jours et Claude Code.</h3>
+      <div class="body-text">
+        <p>Avant 2024, lancer un SaaS demandait des développeurs, des
+           mois de dev, et souvent une levée de fonds.</p>
+        <p>Aujourd'hui, l'infrastructure existe. Les outils sont prêts.
+           Claude Code écrit le code à ta place pendant que tu supervises.</p>
+        <p>Tu n'es plus dev. Tu deviens chef d'orchestre.</p>
+      </div>
+      <div class="comparison">
+        <div class="cmp-col before">
+          <div class="cmp-label">AVANT · 2023 et avant</div>
+          <ul class="cmp-list">
+            <li><i data-lucide="x" style="color:#f87171"></i> 6 mois de développement</li>
+            <li><i data-lucide="x" style="color:#f87171"></i> 3 développeurs minimum</li>
+            <li><i data-lucide="x" style="color:#f87171"></i> Levée de fonds nécessaire</li>
+            <li><i data-lucide="x" style="color:#f87171"></i> 50–100k€ d'investissement</li>
+          </ul>
+        </div>
+        <div class="cmp-col after">
+          <div class="cmp-label">AUJOURD'HUI · 2026</div>
+          <ul class="cmp-list">
+            <li><i data-lucide="check" style="color:#4ade80"></i> 7 jours pour lancer</li>
+            <li><i data-lucide="check" style="color:#4ade80"></i> 1 entrepreneur + Claude Code</li>
+            <li><i data-lucide="check" style="color:#4ade80"></i> Aucune levée</li>
+            <li><i data-lucide="check" style="color:#4ade80"></i> 47€ d'outils + temps</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bridge -->
+  <div class="bridge fade-up">
+    <div class="bridge-icon">
+      <i data-lucide="rocket" style="color:#f97316"></i>
+    </div>
+    <span class="bridge-text">On commence le parcours</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       TIMELINE
+  ═══════════════════════════════════════ -->
+  <div class="timeline">
+
+    <!-- ─── DAY 01 · gauche ─── -->
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d01)">DAY 01 / Trouver et valider l'idée</div>
+          <div class="tl-phase-kicker">Phase · Sourcing &amp; Validation</div>
+          <h4>Tu pars d'une idée déjà validée par le marché</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d01)"></i> Tu scrap les SaaS qui marchent · Reddit, Product Hunt, TrueMRR, Acquire</li>
+            <li><i data-lucide="check" style="color:var(--d01)"></i> Tu vois directement quelles idées ont déjà des clients qui paient</li>
+            <li><i data-lucide="check" style="color:var(--d01)"></i> 30 minutes de validation avant de toucher au code</li>
+            <li><i data-lucide="check" style="color:var(--d01)"></i> Tu sors avec 3 idées qui tiennent économiquement</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="message-square"></i>Reddit</span>
+            <span class="tool-chip"><i data-lucide="award"></i>Product Hunt</span>
+            <span class="tool-chip"><i data-lucide="trending-up"></i>TrueMRR</span>
+            <span class="tool-chip"><i data-lucide="dollar-sign"></i>Acquire</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.00.55.png" alt="Reddit" loading="lazy" />
+              <figcaption class="screen-cap">Reddit</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.07.png" alt="Product Hunt" loading="lazy" />
+              <figcaption class="screen-cap">Product Hunt</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.37.png" alt="TrueMRR" loading="lazy" />
+              <figcaption class="screen-cap">TrueMRR</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d01)">01</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Bridge 01→02 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="lightbulb" style="color:var(--d01)"></i>
+        </div>
+        <span class="tl-bridge-text">30 min de boulot</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 02 · droite ─── -->
+    <div class="tl-row">
+      <div class="tl-empty"></div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d02)">02</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d02)">DAY 02 / Design</div>
+          <div class="tl-phase-kicker">Phase · UI/UX express</div>
+          <h4>Tu génères une interface qui convertit en 1 prompt</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d02)"></i> Tu t'inspires des SaaS top 1% · pas de design from scratch</li>
+            <li><i data-lucide="check" style="color:var(--d02)"></i> Tu récupères les meilleures UI sur Mobbin par catégorie</li>
+            <li><i data-lucide="check" style="color:var(--d02)"></i> Claude Design produit ton interface customisée</li>
+            <li><i data-lucide="check" style="color:var(--d02)"></i> Branding express en 1 prompt · palette, typo, style visuel</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="layout-grid"></i>Mobbin</span>
+            <span class="tool-chip"><i data-lucide="palette"></i>Claude Design</span>
+            <span class="tool-chip"><i data-lucide="sparkles"></i>21st.dev</span>
+            <span class="tool-chip"><i data-lucide="pen-tool"></i>Draftly</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.04.08.png" alt="Mobbin" loading="lazy" />
+              <figcaption class="screen-cap">Mobbin</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.03.39.png" alt="Claude Design" loading="lazy" />
+              <figcaption class="screen-cap">Claude Design</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.04.26.png" alt="21st.dev" loading="lazy" />
+              <figcaption class="screen-cap">21st.dev</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bridge 02→03 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="sparkles" style="color:var(--d02)"></i>
+        </div>
+        <span class="tl-bridge-text">100% piloté par IA</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 03 · gauche ─── -->
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d03)">DAY 03 / Architecture</div>
+          <div class="tl-phase-kicker">Phase · Stack technique</div>
+          <h4>Tu connectes ta stack en 30 minutes</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d03)"></i> Next.js · Supabase · Vercel · Stripe · Resend</li>
+            <li><i data-lucide="check" style="color:var(--d03)"></i> Auth, base de données, paiement, hosting · tout en place</li>
+            <li><i data-lucide="check" style="color:var(--d03)"></i> Schéma technique défini avant la première ligne de code</li>
+            <li><i data-lucide="check" style="color:var(--d03)"></i> 20 minutes de planification = 5 heures de dev gagnées</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="code-2"></i>Next.js</span>
+            <span class="tool-chip"><i data-lucide="database"></i>Supabase</span>
+            <span class="tool-chip"><i data-lucide="globe"></i>Vercel</span>
+            <span class="tool-chip"><i data-lucide="credit-card"></i>Stripe</span>
+            <span class="tool-chip"><i data-lucide="mail"></i>Resend</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.05.png" alt="Supabase" loading="lazy" />
+              <figcaption class="screen-cap">Supabase</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.03.07.png" alt="Claude.ai" loading="lazy" />
+              <figcaption class="screen-cap">Claude.ai</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.26.png" alt="Obsidian" loading="lazy" />
+              <figcaption class="screen-cap">Obsidian</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d03)">03</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Bridge 03→04 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="zap" style="color:var(--d03)"></i>
+        </div>
+        <span class="tl-bridge-text">Stack complète en 30 min</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 04 · droite ─── -->
+    <div class="tl-row">
+      <div class="tl-empty"></div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d04)">04</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d04)">DAY 04 / Brief et construction</div>
+          <div class="tl-phase-kicker">Phase · Claude Code prend le relais</div>
+          <h4>Tu briefes Claude Code · l'IA exécute, tu supervises</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d04)"></i> Tu rédiges un brief complet · objectif, features, stack, design</li>
+            <li><i data-lucide="check" style="color:var(--d04)"></i> Claude Code initialise et scaffold l'architecture entière</li>
+            <li><i data-lucide="check" style="color:var(--d04)"></i> Mon rôle devient superviseur · je valide, je dirige</li>
+            <li><i data-lucide="check" style="color:var(--d04)"></i> Itérer par feature · une chose à la fois, sans dette technique</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="terminal"></i>Claude Code</span>
+            <span class="tool-chip"><i data-lucide="github"></i>GitHub</span>
+            <span class="tool-chip"><i data-lucide="code-2"></i>VS Code</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.58.png" alt="Claude Code" loading="lazy" />
+              <figcaption class="screen-cap">Claude Code</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.08.20.png" alt="GitHub" loading="lazy" />
+              <figcaption class="screen-cap">GitHub</figcaption>
+            </figure>
+          </div>
+          <div class="quote-box">
+            <p>"Mon job devient superviseur."</p>
+            <cite>— Alfred · Buildrs Group</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bridge 04→05 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="bot" style="color:var(--d04)"></i>
+        </div>
+        <span class="tl-bridge-text">L'IA exécute. Tu supervises.</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 05 · gauche ─── -->
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d05)">DAY 05 / Fonctionnalité IA</div>
+          <div class="tl-phase-kicker">Phase · Coeur produit</div>
+          <h4>Tu construis le coeur IA de ton produit</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d05)"></i> Claude Code livre la feature principale qui justifie ton SaaS</li>
+            <li><i data-lucide="check" style="color:var(--d05)"></i> Tu testes, tu itères, tu polis l'expérience utilisateur</li>
+            <li><i data-lucide="check" style="color:var(--d05)"></i> L'API key reste sécurisée · jamais côté client</li>
+            <li><i data-lucide="check" style="color:var(--d05)"></i> L'expérience IA prend forme et devient utilisable</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="brain"></i>Claude API</span>
+            <span class="tool-chip"><i data-lucide="sparkles"></i>Anthropic SDK</span>
+            <span class="tool-chip"><i data-lucide="server"></i>Supabase Edge Fn</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.15.png" alt="Whispr Flow" loading="lazy" />
+              <figcaption class="screen-cap">Whispr Flow</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.58.png" alt="Claude Code" loading="lazy" />
+              <figcaption class="screen-cap">Claude Code</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d05)">05</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Bridge 05→06 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="cpu" style="color:var(--d05)"></i>
+        </div>
+        <span class="tl-bridge-text">Coeur IA en place</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 06 · droite ─── -->
+    <div class="tl-row">
+      <div class="tl-empty"></div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d06)">06</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d06)">DAY 06 / Déployer</div>
+          <div class="tl-phase-kicker">Phase · Mise en ligne</div>
+          <h4>Ton SaaS est en ligne · accessible au monde entier</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d06)"></i> Push Vercel depuis GitHub · déploiement en moins de 2 minutes</li>
+            <li><i data-lucide="check" style="color:var(--d06)"></i> Connecter le domaine et configurer le DNS via Hostinger</li>
+            <li><i data-lucide="check" style="color:var(--d06)"></i> Stripe en mode live · paiements activés</li>
+            <li><i data-lucide="check" style="color:var(--d06)"></i> Emails transactionnels Resend · bienvenue, confirmation</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="globe"></i>Vercel</span>
+            <span class="tool-chip"><i data-lucide="server"></i>Hostinger</span>
+            <span class="tool-chip"><i data-lucide="database"></i>Supabase</span>
+            <span class="tool-chip"><i data-lucide="mail"></i>Resend</span>
+            <span class="tool-chip"><i data-lucide="github"></i>GitHub</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.13.png" alt="Vercel" loading="lazy" />
+              <figcaption class="screen-cap">Vercel</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.49.png" alt="Hostinger" loading="lazy" />
+              <figcaption class="screen-cap">Hostinger</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.20.png" alt="Resend" loading="lazy" />
+              <figcaption class="screen-cap">Resend</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bridge 06→07 -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon">
+          <i data-lucide="globe" style="color:var(--d06)"></i>
+        </div>
+        <span class="tl-bridge-text">Live · accessible au monde</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- ─── DAY 07 · gauche ─── -->
+    <div class="tl-row">
+      <div class="tl-left">
+        <div class="tl-card fade-up">
+          <div class="tl-day-kicker" style="color:var(--d07)">DAY 07 / Launch</div>
+          <div class="tl-phase-kicker">Phase · Go-to-market</div>
+          <h4>Tu lances ta machine d'acquisition</h4>
+          <ul class="bullets">
+            <li><i data-lucide="check" style="color:var(--d07)"></i> Stripe live · produits, prix, checkout configurés · prêt à encaisser</li>
+            <li><i data-lucide="check" style="color:var(--d07)"></i> Distribution multi-canal · ProductHunt, Reddit, X, communautés</li>
+            <li><i data-lucide="check" style="color:var(--d07)"></i> 5 contenus de lancement générés · prêts à poster</li>
+            <li><i data-lucide="check" style="color:var(--d07)"></i> Premiers visiteurs, premiers euros, première boucle bouclée</li>
+          </ul>
+          <div class="tools">
+            <span class="tool-chip"><i data-lucide="credit-card"></i>Stripe</span>
+            <span class="tool-chip"><i data-lucide="award"></i>ProductHunt</span>
+            <span class="tool-chip"><i data-lucide="message-square"></i>Reddit</span>
+            <span class="tool-chip"><i data-lucide="x-circle"></i>X</span>
+            <span class="tool-chip"><i data-lucide="bar-chart-2"></i>PostHog</span>
+          </div>
+          <div class="screens">
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.34.png" alt="Stripe" loading="lazy" />
+              <figcaption class="screen-cap">Stripe</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.07.35.png" alt="PostHog" loading="lazy" />
+              <figcaption class="screen-cap">PostHog</figcaption>
+            </figure>
+            <figure class="screen-fig">
+              <img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.07.png" alt="Product Hunt" loading="lazy" />
+              <figcaption class="screen-cap">Product Hunt</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <div class="tl-center">
+        <div class="day-circle">
+          <span class="day-circle-num" style="color:var(--d07)">07</span>
+          <span class="day-circle-lbl">DAY</span>
+        </div>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+    <!-- Bridge 07→7+ -->
+    <div class="tl-bridge-row">
+      <div class="tl-empty"></div>
+      <div class="tl-bridge-center">
+        <div class="tl-bridge-icon" style="background:rgba(204,93,232,.08);border-color:rgba(204,93,232,.3)">
+          <i data-lucide="trending-up" style="color:#cc5de8"></i>
+        </div>
+        <span class="tl-bridge-text">Et après ?</span>
+      </div>
+      <div class="tl-empty"></div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <!-- ═══════════════════════════════════════
+       EXIT CARD · rainbow border
+  ═══════════════════════════════════════ -->
+  <div class="exit-wrap fade-up">
+    <div class="exit-border">
+      <div class="exit-inner">
+        <div class="kicker rainbow-text" style="margin-bottom:4px">DAY 7+ / Premiers MRR · et maintenant ?</div>
+        <div class="exit-phase">Phase · Capitaliser · 3 choix</div>
+        <h4>Le SaaS tourne. La première MRR est là. C'est le début.</h4>
+        <p class="exit-body">Ce n'est pas la fin. C'est le début du choix le plus stratégique du projet.</p>
+        <div class="exit-cols">
+          <div class="exit-col">
+            <div class="exit-icon" style="background:rgba(255,107,107,.1)">
+              <i data-lucide="dollar-sign" style="color:#ff6b6b"></i>
+            </div>
+            <h5>Revendre</h5>
+            <p>Cash-out via Flippa ou Acquire.com. Valorisation 3–5x ton MRR mensuel. Réinvestir dans le prochain SaaS.</p>
+          </div>
+          <div class="exit-col">
+            <div class="exit-icon" style="background:rgba(255,217,61,.1)">
+              <i data-lucide="copy" style="color:#ffd93d"></i>
+            </div>
+            <h5>Dupliquer</h5>
+            <p>Réutiliser la même stack sur une autre niche. Effort divisé par 3 dès le deuxième SaaS.</p>
+          </div>
+          <div class="exit-col">
+            <div class="exit-icon" style="background:rgba(204,93,232,.1)">
+              <i data-lucide="trending-up" style="color:#cc5de8"></i>
+            </div>
+            <h5>Scaler</h5>
+            <p>Meta Ads, features supplémentaires, viser 1 000€ MRR puis 10 000€. Construire l'actif long terme.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════ -->
+  <section class="cta-section fade-up">
+    <h2>Le système complet <span class="rainbow-text">· 47€.</span></h2>
+    <p class="cta-sub">Place 240/300 à ce prix. Le prix monte à 57€ dans 60 ventes.</p>
+    <a href="https://buildrs.fr/#/checkout" class="cta-btn">
+      Accéder au Blueprint · 47€
+      <i data-lucide="arrow-right"></i>
+    </a>
+    <div class="cta-trust">
+      <span>Garantie 14 jours</span>
+      <span class="cta-sep"></span>
+      <span>Paiement unique</span>
+      <span class="cta-sep"></span>
+      <span>Updates à vie</span>
+    </div>
+  </section>
+
+</div><!-- /page -->
+
+<script>
+  lucide.createIcons({ attrs: { 'stroke-width': 1.5 } });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
