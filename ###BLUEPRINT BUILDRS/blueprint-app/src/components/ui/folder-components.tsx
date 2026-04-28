@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-type FolderColor = "blue" | "black" | "grey" | "yellow" | "orange" | "red";
+type FolderColor = "blue" | "black" | "grey" | "yellow" | "orange" | "red" | "pink";
 type FolderSize = "sm" | "md";
 
 type FolderProps = {
@@ -123,6 +123,16 @@ const colorMap: Record<FolderColor, {
     paperBorder: "border-gray-300",
     labelBg: "bg-gray-800/20",
     folderBorder: "border-white/40",
+  },
+  pink: {
+    folder: "from-pink-400 to-pink-500",
+    flap: "bg-pink-300/50",
+    paperBack: "bg-pink-100/60",
+    paperFront: "bg-pink-50",
+    paperLine: "bg-pink-400/40",
+    paperBorder: "border-pink-200",
+    labelBg: "bg-pink-900/20",
+    folderBorder: "border-white/30",
   },
 };
 

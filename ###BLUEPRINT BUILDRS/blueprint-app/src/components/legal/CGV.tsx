@@ -1,4 +1,5 @@
 import { LegalPage, LSection, LP, LStrong, LUl, LLi, LCallout } from './LegalPage'
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
 
 export function CGV() {
   return (
@@ -12,7 +13,7 @@ export function CGV() {
         </LP>
         <LP>Les produits et services proposés sont les suivants :</LP>
         <LUl>
-          <LLi><LStrong>Buildrs Blueprint</LStrong> — 27€ TTC : accès à vie au dashboard interactif, 6 modules de formation, bibliothèque de prompts, générateurs IA, mises à jour incluses.</LLi>
+          <LLi><LStrong>Buildrs Blueprint</LStrong> — {BLUEPRINT_PRICE}€ TTC : accès à vie au dashboard interactif, 6 modules de formation, bibliothèque de prompts, générateurs IA, mises à jour incluses.</LLi>
           <LLi><LStrong>Module Claude 360°</LStrong> — +37€ TTC (order bump) : module bonus sur l'utilisation avancée de Claude.</LLi>
           <LLi><LStrong>Buildrs Sprint</LStrong> — 497€ TTC : livraison d'un MVP complet en 72h.</LLi>
           <LLi><LStrong>Buildrs Cohorte</LStrong> — 1 497€ TTC (paiement unique) ou 3 × 499€ TTC (mensuel) : accompagnement intensif de 60 jours.</LLi>

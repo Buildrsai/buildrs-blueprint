@@ -7,6 +7,7 @@ import { AdCreativeB } from './AdCreativeB'
 import { AdCreativeC } from './AdCreativeC'
 import { AdCreativeD } from './AdCreativeD'
 import { AdCreativeE } from './AdCreativeE'
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
 
 const SCALE = 0.44
 
@@ -134,7 +135,7 @@ l'idée au MVP monétisé avec Claude comme moteur.
 → Prompts exacts à chaque étape
 → Stack pro configuré (Supabase, Stripe, Vercel)
 
-27€. Offre de lancement. Paiement unique.`}</pre>
+${BLUEPRINT_PRICE}€. Offre de lancement. Paiement unique.`}</pre>
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ fontSize: '11px', fontWeight: '600', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>CRÉA B</p>
@@ -152,7 +153,7 @@ associé technique qui construit avec toi.
 → Prompts, stack, checklist — tout est prêt
 → Zéro code requis
 
-27€. Paiement unique. Accès à vie.`}</pre>
+${BLUEPRINT_PRICE}€. Paiement unique. Accès à vie.`}</pre>
             </div>
           </div>
         </div>

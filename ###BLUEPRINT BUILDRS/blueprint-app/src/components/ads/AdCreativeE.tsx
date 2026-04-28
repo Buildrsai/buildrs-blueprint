@@ -1,3 +1,5 @@
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
+
 /**
  * AdCreativeE — "6 JOURS." Roadmap · Fond noir · DA LP
  * Format : 1080×1080px (carré Meta)
@@ -198,7 +200,7 @@ export function AdCreativeE() {
             letterSpacing: '-0.05em', lineHeight: '1',
             fontFamily: "'Geist Mono', monospace",
           }}>
-            27€
+            {BLUEPRINT_PRICE}€
           </div>
         </div>
       </div>

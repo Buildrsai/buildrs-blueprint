@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { Share2, Clock, TrendingUp, Zap } from 'lucide-react'
 import { BuildrsIcon } from '../ui/icons'
 import type { IdeaResult } from '../../types/generator'
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
 
 // ── Score count-up ────────────────────────────────────────────────────────────
 function useCountUp(target: number, delay = 300) {
@@ -301,7 +302,7 @@ export function SaasMatchResultsPage({ navigate }: Props) {
               onClick={() => navigate('#/checkout')}
               className="relative w-full bg-foreground text-background rounded-xl py-4 text-sm font-bold hover:opacity-90 transition-opacity z-10"
             >
-              Lancer ce SaaS IA avec le Blueprint — 27€ →
+              Lancer ce SaaS IA avec le Blueprint — {BLUEPRINT_PRICE}€ →
             </button>
           </div>
           <p className="text-[10px] text-muted-foreground/60 text-center">

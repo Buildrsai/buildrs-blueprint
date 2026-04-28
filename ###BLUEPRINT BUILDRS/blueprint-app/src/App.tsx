@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import './index.css'
 import { trackEvent } from './lib/pixel'
+import { BLUEPRINT_PRICE } from './lib/pricing'
 import { BouncingDots } from './components/ui/bouncing-dots'
 import { Check } from 'lucide-react'
 
@@ -402,7 +403,7 @@ function App() {
     const idle = (window as unknown as { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback
       ?? ((cb: () => void) => setTimeout(cb, 3000))
     if (route.type === 'landing') {
-      idle(() => trackEvent('ViewContent', { content_name: 'Buildrs Blueprint', currency: 'EUR', value: 27 }))
+      idle(() => trackEvent('ViewContent', { content_name: 'Buildrs Blueprint', currency: 'EUR', value: BLUEPRINT_PRICE }))
     }
   }, [route.type])
 
@@ -517,12 +518,12 @@ function App() {
       return null
     }
     // Tracker les achats dont le return_url pointe vers /signup
-    // (downsell Blueprint 27€, OTO Agents 147€) — une seule fois par session
+    // (downsell Blueprint palier courant, OTO Agents 147€) — une seule fois par session
     const signupHashParams = new URLSearchParams(window.location.hash.split('?')[1] || '')
     if (signupHashParams.get('purchased') === 'downsell'
       && !sessionStorage.getItem('tracked_downsell')) {
       sessionStorage.setItem('tracked_downsell', '1')
-      trackEvent('Purchase', { value: 27, currency: 'EUR', num_items: 1 })
+      trackEvent('Purchase', { value: BLUEPRINT_PRICE, currency: 'EUR', num_items: 1 })
     }
     if (signupHashParams.get('oto') === 'success'
       && !sessionStorage.getItem('tracked_oto')) {

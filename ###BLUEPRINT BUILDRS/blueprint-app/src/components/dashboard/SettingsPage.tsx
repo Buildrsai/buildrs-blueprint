@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Settings, Lock, Check, AlertCircle, ChevronDown } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Settings, Lock, Check, AlertCircle, ChevronDown, Camera } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 import type { BuildrsProfile } from '../../hooks/useProfile'
-import { BuilderAvatar, type BuilderLevel } from '../ui/BuilderAvatar'
+import { UserAvatarWithFallback } from '../ui/UserAvatar'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Props {
@@ -64,14 +64,6 @@ function Msg({ msg }: { msg: { type: 'success' | 'error'; text: string } }) {
   )
 }
 
-// ── Level labels ──────────────────────────────────────────────────────────────
-const LEVEL_LABELS: Record<string, string> = {
-  explorer: 'Explorer',
-  builder:  'Builder',
-  launcher: 'Launcher',
-  scaler:   'Scaler',
-}
-
 // ── Main component ────────────────────────────────────────────────────────────
 export function SettingsPage({ user, profile, updateProfile, navigate }: Props) {
   // Profile fields
@@ -82,6 +74,12 @@ export function SettingsPage({ user, profile, updateProfile, navigate }: Props) 
   const [techLevel,    setTechLevel]    = useState<BuildrsProfile['tech_level']>(null)
   // Onboarding field not in profile
   const [strategie,    setStrategie]    = useState<'problem' | 'copy' | 'discover' | null>(null)
+
+  // Avatar
+  const [avatarUrl,      setAvatarUrl]     = useState<string | null>(user?.user_metadata?.avatar_url ?? null)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [avatarMsg,       setAvatarMsg]    = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Password
   const [newPassword,  setNewPassword]  = useState('')
@@ -112,6 +110,31 @@ export function SettingsPage({ user, profile, updateProfile, navigate }: Props) 
       .maybeSingle()
       .then(({ data }) => { if (data?.strategie) setStrategie(data.strategie as any) })
   }, [user?.id])
+
+  const uploadAvatar = async (file: File) => {
+    if (!user) return
+    setUploadingAvatar(true)
+    setAvatarMsg(null)
+    try {
+      const ext  = file.name.split('.').pop() ?? 'jpg'
+      const path = `${user.id}/avatar.${ext}`
+      const { error: upErr } = await supabase.storage
+        .from('avatars')
+        .upload(path, file, { upsert: true, contentType: file.type })
+      if (upErr) throw upErr
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)
+      const publicUrl = `${urlData.publicUrl}?t=${Date.now()}`
+      const { error: authErr } = await supabase.auth.updateUser({ data: { avatar_url: publicUrl } })
+      if (authErr) throw authErr
+      setAvatarUrl(publicUrl)
+      setAvatarMsg({ type: 'success', text: 'Photo mise à jour.' })
+      setTimeout(() => setAvatarMsg(null), 3000)
+    } catch (e: any) {
+      setAvatarMsg({ type: 'error', text: e?.message ?? 'Erreur upload.' })
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
 
   const saveProfile = async () => {
     if (!user) return
@@ -183,10 +206,6 @@ export function SettingsPage({ user, profile, updateProfile, navigate }: Props) 
     </div>
   )
 
-  const level   = (profile?.level ?? 'explorer') as BuilderLevel
-  const xp      = profile?.xp_points ?? 0
-  const levelLabel = LEVEL_LABELS[level] ?? level
-
   return (
     <div className="p-7 max-w-lg">
 
@@ -205,30 +224,42 @@ export function SettingsPage({ user, profile, updateProfile, navigate }: Props) 
       <div className="border border-border rounded-xl p-5 mb-6">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-5">Profil</p>
 
-        {/* Avatar (fixed by level) */}
+        {/* Photo de profil */}
         <div className="flex items-center gap-4 mb-6">
           <div className="relative flex-shrink-0">
-            <BuilderAvatar level={level} size={56} />
+            <UserAvatarWithFallback
+              avatarUrl={avatarUrl}
+              firstName={displayName || user.email?.split('@')[0]}
+              email={user.email}
+              size={56}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingAvatar}
+              className="absolute -bottom-1 -right-1 w-[20px] h-[20px] rounded-full bg-foreground text-background flex items-center justify-center border-2 border-background hover:opacity-80 transition-opacity"
+            >
+              <Camera size={10} strokeWidth={2} />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={e => { const f = e.target.files?.[0]; if (f) uploadAvatar(f) }}
+            />
           </div>
           <div>
             <p className="text-sm font-bold text-foreground">
               {displayName || user.email?.split('@')[0] || 'Builder'}
             </p>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span
-                className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide"
-                style={{
-                  background: level === 'scaler' ? '#eab30820' : level === 'launcher' ? '#cc5de820' : level === 'builder' ? '#22c55e20' : '#4d96ff20',
-                  color:      level === 'scaler' ? '#eab308'   : level === 'launcher' ? '#cc5de8'   : level === 'builder' ? '#22c55e'   : '#4d96ff',
-                }}
-              >
-                {levelLabel}
-              </span>
-              <span className="text-[10px] text-muted-foreground/50">{xp} XP</span>
-            </div>
-            <p className="text-[10px] text-muted-foreground/50 mt-1">
-              Ton avatar évolue automatiquement avec ton niveau.
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {uploadingAvatar ? 'Upload en cours...' : 'Clique sur la photo pour changer'}
             </p>
+            {avatarMsg && (
+              <p className="text-[10px] mt-1" style={{ color: avatarMsg.type === 'success' ? '#22c55e' : '#ef4444' }}>
+                {avatarMsg.text}
+              </p>
+            )}
           </div>
         </div>
 

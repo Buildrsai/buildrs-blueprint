@@ -4,7 +4,7 @@ import {
   Flag, Pin, Bookmark, ChevronDown, Image, Search, X, UserPlus,
 } from 'lucide-react'
 import { useCommunityFeed, type CommunityPost } from '../../hooks/useCommunityFeed'
-import { BuilderAvatar, type BuilderLevel } from '../ui/BuilderAvatar'
+import { UserAvatar, UserAvatarWithFallback } from '../ui/UserAvatar'
 import { BuildrsIcon } from '../ui/icons'
 import { supabase } from '../../lib/supabase'
 
@@ -101,6 +101,9 @@ function renderContent(text: string): React.ReactNode {
 
 // ── System avatar ─────────────────────────────────────────────────────────────
 function SystemAvatar({ name, size = 32 }: { name: string; size?: number }) {
+  if (name === 'Alfred') return (
+    <img src="/Alfred_opt.jpg" alt="Alfred" style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+  )
   if (name === 'Buildrs') return (
     <div className="rounded-full bg-foreground flex items-center justify-center flex-shrink-0" style={{ width: size, height: size }}>
       <BuildrsIcon color="hsl(var(--background))" size={Math.round(size * 0.5)} />
@@ -123,7 +126,7 @@ function SystemAvatar({ name, size = 32 }: { name: string; size?: number }) {
       </div>
     )
   }
-  return <BuilderAvatar level="scaler" size={size} />
+  return <UserAvatar firstName={name} size={size} />
 }
 
 // ── @mention autocomplete hook ────────────────────────────────────────────────
@@ -229,7 +232,7 @@ function MentionDropdown({ results, onSelect }: { results: MentionUser[]; onSele
       {results.map(u => (
         <button key={u.user_id} type="button" onMouseDown={e => { e.preventDefault(); onSelect(u) }}
           className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-secondary/60 transition-colors">
-          <BuilderAvatar level={(u.level as BuilderLevel) ?? 'explorer'} size={22} />
+          <UserAvatar firstName={u.display_name} size={22} />
           <span className="text-xs font-semibold text-foreground">@{u.display_name}</span>
           {u.level && <span className="ml-auto text-[10px] text-muted-foreground/50 capitalize">{u.level}</span>}
         </button>
@@ -285,7 +288,7 @@ function CommentsSection({
           <div key={c.id} className="flex items-start gap-2">
             {(c.author_display_name === 'Jarvis')
               ? <SystemAvatar name="Jarvis" size={24} />
-              : <BuilderAvatar level={(c.author_level as BuilderLevel) ?? 'explorer'} size={24} />
+              : <UserAvatar firstName={c.author_display_name ?? undefined} size={24} />
             }
             <div className="flex-1 min-w-0 bg-secondary/40 rounded-lg px-3 py-2">
               <div className="flex items-baseline gap-2 mb-0.5">
@@ -300,7 +303,7 @@ function CommentsSection({
       {submitErr && <p className="text-[10px] text-red-500 px-1">{submitErr}</p>}
       {userId && (
         <div className="flex items-center gap-2">
-          <BuilderAvatar level={(userLevel as BuilderLevel) ?? 'explorer'} size={24} />
+          <UserAvatar firstName={userDisplayName} size={24} />
           <div className="flex-1 flex items-center gap-2 bg-secondary/40 rounded-lg px-3 py-1.5 border border-transparent focus-within:border-border transition-colors">
             <input value={content} onChange={e => setContent(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit() } }}
@@ -339,7 +342,6 @@ function PostCard({
   const TypeIcon    = typeInfo.Icon
   const isSeed      = !!post.seed_author_name
   const authorName  = isSeed ? post.seed_author_name! : (post.author_display_name ?? 'Builder')
-  const authorLevel = (isSeed ? (post.seed_author_level as BuilderLevel) : (post.author_level as BuilderLevel)) ?? 'explorer'
   const isSystem    = authorName === 'Buildrs' || authorName === 'Jarvis' || authorName === 'Alfred'
   const isSaved     = savedIds.includes(post.id)
 
@@ -357,7 +359,7 @@ function PostCard({
         </div>
       )}
       <div className="flex items-start gap-3">
-        {isSystem ? <SystemAvatar name={authorName} size={32} /> : <BuilderAvatar level={authorLevel} size={32} />}
+        {isSystem ? <SystemAvatar name={authorName} size={32} /> : <UserAvatarWithFallback avatarUrl={post.author_avatar_url ?? undefined} firstName={authorName} size={32} />}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-semibold text-foreground">{authorName}</span>
@@ -420,12 +422,11 @@ function PinnedCard({ post }: { post: CommunityPost }) {
   const [expanded, setExpanded] = useState(false)
   const authorName  = post.seed_author_name ?? 'Buildrs'
   const isSystem    = authorName === 'Buildrs' || authorName === 'Jarvis' || authorName === 'Alfred'
-  const authorLevel = (post.seed_author_level as BuilderLevel) ?? 'explorer'
   const isLong = post.content.length > 120
   return (
     <div className="border border-foreground/10 rounded-xl p-3 bg-secondary/20 hover:border-foreground/20 transition-colors">
       <div className="flex items-start gap-2.5">
-        {isSystem ? <SystemAvatar name={authorName} size={28} /> : <BuilderAvatar level={authorLevel} size={28} />}
+        {isSystem ? <SystemAvatar name={authorName} size={28} /> : <UserAvatar firstName={authorName} size={28} />}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-1">
             <span className="text-[11px] font-bold text-foreground">{authorName}</span>
@@ -481,10 +482,10 @@ function SavedPanel({ savedIds, allFeedPosts, onClose, userId, onReact, onToggle
 }
 
 // ── Post composer ─────────────────────────────────────────────────────────────
-function PostComposer({ userId, userDisplayName, userLevel, onPosted, addPost }: {
-  userId: string | undefined; userDisplayName?: string; userLevel?: string
+function PostComposer({ userId, userDisplayName, userLevel, userAvatarUrl, onPosted, addPost }: {
+  userId: string | undefined; userDisplayName?: string; userLevel?: string; userAvatarUrl?: string
   onPosted?: () => void
-  addPost: (type: CommunityPost['type'], content: string, displayName?: string, level?: string) => Promise<CommunityPost | null>
+  addPost: (type: CommunityPost['type'], content: string, displayName?: string, level?: string, avatarUrl?: string) => Promise<CommunityPost | null>
 }) {
   const [newContent, setNewContent] = useState('')
   const [newType,    setNewType]    = useState<CommunityPost['type']>('win')
@@ -548,7 +549,7 @@ function PostComposer({ userId, userDisplayName, userLevel, onPosted, addPost }:
     if (!newContent.trim() || !userId) return
     setPosting(true)
     const content = newContent.trim()
-    const post = await addPost(newType, content, userDisplayName, userLevel)
+    const post = await addPost(newType, content, userDisplayName, userLevel, userAvatarUrl)
     if (post) {
       await sendMentionNotifications(content)
       triggerJarvisReply(post.id, content) // fire and forget
@@ -615,6 +616,7 @@ interface Props {
   onPost?: () => void
   userDisplayName?: string
   userLevel?: string
+  userAvatarUrl?: string
 }
 
 const FILTER_OPTIONS: { key: CommunityPost['type'] | 'all'; label: string }[] = [
@@ -626,7 +628,7 @@ const FILTER_OPTIONS: { key: CommunityPost['type'] | 'all'; label: string }[] = 
   { key: 'resource',  label: 'Ressources' },
 ]
 
-export function CommunityPage({ userId, navigate: _navigate, onPost, userDisplayName, userLevel }: Props) {
+export function CommunityPage({ userId, navigate: _navigate, onPost, userDisplayName, userLevel, userAvatarUrl }: Props) {
   const { pinnedPosts, feedPosts, loading, addPost, toggleReaction, commentCounts, incrementCommentCount } = useCommunityFeed(userId)
 
   const [filter,       setFilter]        = useState<CommunityPost['type'] | 'all'>('all')
@@ -678,7 +680,7 @@ export function CommunityPage({ userId, navigate: _navigate, onPost, userDisplay
 
         <div className="flex-1 min-w-0 flex flex-col gap-4">
           {userId && (
-            <PostComposer userId={userId} userDisplayName={userDisplayName} userLevel={userLevel} onPosted={onPost} addPost={addPost} />
+            <PostComposer userId={userId} userDisplayName={userDisplayName} userLevel={userLevel} userAvatarUrl={userAvatarUrl} onPosted={onPost} addPost={addPost} />
           )}
 
           {loading ? (
@@ -709,10 +711,51 @@ export function CommunityPage({ userId, navigate: _navigate, onPost, userDisplay
             <Pin size={11} strokeWidth={1.5} className="text-muted-foreground/50" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">Messages épinglés</span>
           </div>
-          {pinnedPosts.length === 0
-            ? <p className="text-xs text-muted-foreground/40 text-center py-4">Aucun message épinglé.</p>
-            : pinnedPosts.map(p => <PinnedCard key={p.id} post={p} />)
-          }
+          {(() => {
+            const filtered = pinnedPosts.filter(p => {
+              const author = p.seed_author_name ?? p.author_display_name ?? ''
+              return author !== 'Buildrs' && author !== 'Alfred'
+            })
+            return filtered.length === 0
+              ? <p className="text-xs text-muted-foreground/40 text-center py-4">Aucun message épinglé.</p>
+              : filtered.map(p => <PinnedCard key={p.id} post={p} />)
+          })()}
+
+          {/* ── Équipe ── */}
+          <div className="flex items-center gap-1.5 mt-2 mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50">L'équipe</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            {[
+              {
+                name: 'Alfred',
+                photo: '/Alfred_opt.jpg',
+                title: 'Fondateur & CEO',
+                desc: 'Vision produit, architecture du groupe et accompagnement des membres.',
+              },
+              {
+                name: 'Chris',
+                photo: '/Chris_opt.jpg',
+                title: 'Responsable Acquisition',
+                desc: "Systèmes d'acquisition, landing pages, funnels et stratégie marketing.",
+              },
+              {
+                name: 'Tim',
+                photo: '/Tim_opt.jpg',
+                title: 'Lead Vibe Coder',
+                desc: 'Front-end, back-end, intégrations et développement des MVPs clients.',
+              },
+            ].map(member => (
+              <div key={member.name} className="flex items-center gap-3 border border-border rounded-xl p-3 bg-secondary/20">
+                <img src={member.photo} alt={member.name} className="rounded-full object-cover flex-shrink-0" style={{ width: 38, height: 38 }} />
+                <div className="min-w-0">
+                  <p className="text-[12px] font-bold text-foreground leading-tight">{member.name}</p>
+                  <p className="text-[10px] font-medium text-muted-foreground/70 leading-tight">{member.title}</p>
+                  <p className="text-[10px] text-muted-foreground/50 mt-0.5 leading-snug line-clamp-2">{member.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>

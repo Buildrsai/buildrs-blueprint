@@ -2,6 +2,7 @@
  * InstaPost1 — "Le Manifeste Buildr" — 3 slides 1080×1080
  * Fond noir · typo massive · chiffres de preuve · CTA mot-clé
  */
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
 
 const BuildrsHashIcon = ({ color = '#ffffff', size = 24 }: { color?: string; size?: number }) => (
   <svg viewBox="0 0 48 48" fill="none" stroke={color} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" width={size} height={size}>
@@ -193,7 +194,7 @@ export function InstaPost1Slide3() {
   const stats = [
     { value: '110+', label: 'Buildrs actifs', sub: 'communauté en croissance' },
     { value: '6j',   label: 'de l\'idée au live', sub: 'méthode Buildrs' },
-    { value: '27€',  label: 'pour commencer', sub: 'accès à vie · paiement unique' },
+    { value: `${BLUEPRINT_PRICE}€`, label: 'pour commencer', sub: 'accès à vie · paiement unique' },
   ]
 
   return (

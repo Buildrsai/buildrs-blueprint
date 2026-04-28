@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type ComponentType, type SVGProps } from "react"
-import { Clock, Banknote, Layers, Bot, Zap, Check, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard, Coffee, Home, Mic, HeartPulse, FileText, type LucideIcon } from "lucide-react"
+import { Clock, Banknote, Layers, Bot, Zap, Check, X, Flame, Globe, TrendingUp, Copy, ArrowLeftRight, BookOpen, Lightbulb, CheckSquare, Wrench, FolderOpen, Linkedin, ArrowRight, Shield, Database, Users, Search, BarChart2, Receipt, LayoutDashboard, Coffee, Home, Mic, HeartPulse, FileText, Circle, Gift, type LucideIcon } from "lucide-react"
 import { motion } from "framer-motion"
 import { StackedCircularFooter } from "./ui/stacked-circular-footer"
 import { FeatureCard } from "./ui/grid-feature-cards"
@@ -7,6 +7,8 @@ import { HoverBrandLogo } from "./ui/hover-brand-logo"
 import { BuildrsIcon, BrandIcons, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
 import { CardStack } from "./ui/card-stack"
 import { Folder } from "./ui/folder-components"
+import { BLUEPRINT_PRICE, STRIKETHROUGH_PRICE, getCurrentTier } from "../lib/pricing"
+import { BuilderTierBadge } from "./ui/builder-tier-badge"
 
 import { DashboardPreviewV2 as DashboardPreview } from "./ui/dashboard-preview"
 import { OrbitalClaude, OrbitalStack } from "./ui/orbital-claude"
@@ -32,14 +34,14 @@ function Reveal({ children, delay = 0, className }: { children: React.ReactNode;
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
 const brands = [
-  { id: "claude",     name: "Claude",      utility: "Génère, raisonne et dirige — le cerveau de l'opération",                           Icon: BrandIcons.claude },
-  { id: "claudeCode", name: "Claude Code", utility: "Construit ton SaaS dans le terminal, fichier par fichier",                         Icon: BrandIcons.claudeCode },
-  { id: "chatgpt",    name: "ChatGPT",     utility: "On l'utilise pour les images uniquement — via ChatGPT Image 2 (DALL·E 3)",          Icon: BrandIcons.openai },
-  { id: "supabase",   name: "Supabase",    utility: "Base de données, auth et API prêts en quelques clics",                             Icon: BrandIcons.supabase },
-  { id: "vercel",     name: "Vercel",      utility: "Déploiement instantané — ton SaaS live en moins de 60 secondes",                   Icon: BrandIcons.vercel },
-  { id: "github",     name: "GitHub",      utility: "Versioning et sauvegarde de tout ton code à chaque étape",                         Icon: BrandIcons.github },
-  { id: "stripe",     name: "Stripe",      utility: "Paiements intégrés et récurrents dès le premier jour",                             Icon: BrandIcons.stripe },
-  { id: "resend",     name: "Resend",      utility: "Emails transactionnels ultra-fiables et délivrables",                              Icon: BrandIcons.resend },
+  { id: "claude",     name: "Claude",      utility: "Pensée",          Icon: BrandIcons.claude },
+  { id: "claudeCode", name: "Claude Code", utility: "Développement",   Icon: BrandIcons.claudeCode },
+  { id: "chatgpt",    name: "ChatGPT",     utility: "Designer",        Icon: BrandIcons.openai },
+  { id: "supabase",   name: "Supabase",    utility: "Base de données", Icon: BrandIcons.supabase },
+  { id: "vercel",     name: "Vercel",      utility: "Déploiements",    Icon: BrandIcons.vercel },
+  { id: "github",     name: "GitHub",      utility: "Versioning",      Icon: BrandIcons.github },
+  { id: "stripe",     name: "Stripe",      utility: "Paiement",        Icon: BrandIcons.stripe },
+  { id: "resend",     name: "Resend",      utility: "Emailing",        Icon: BrandIcons.resend },
 ]
 
 const stats: { target: number; prefix: string; suffix: string; desc: string; sub?: string }[] = [
@@ -126,7 +128,7 @@ const faqs = [
   },
   {
     q: "C'est quoi la différence avec un bootcamp à 900€ ?",
-    a: "Le prix (27€ vs 900€), la vitesse (6 jours vs 2-4 semaines), l'autonomie totale (tu n'attends pas un coach), et l'outil (Claude, pas GPT). Même résultat — un produit live. Dix fois moins cher. Dix fois plus rapide.",
+    a: `Le prix (${BLUEPRINT_PRICE}€ vs 900€), la vitesse (6 jours vs 2-4 semaines), l'autonomie totale (tu n'attends pas un coach), et l'outil (Claude, pas GPT). Même résultat — un produit live. Dix fois moins cher. Dix fois plus rapide.`,
   },
   {
     q: "C'est quoi un Micro-SaaS IA exactement ?",
@@ -555,13 +557,13 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 
           {/* Badge */}
           <Reveal>
-            <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-background px-4 py-2 text-[12px] sm:text-[13px] text-muted-foreground">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-[11px] sm:text-[13px] text-muted-foreground whitespace-nowrap">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
               </span>
               <span className="font-semibold text-foreground">+250 Buildrs accompagnés</span>
-              <span className="text-muted-foreground/40">·</span>
+              <span className="text-muted-foreground/40" aria-hidden>·</span>
               <span>Résultats dès la 1ère semaine</span>
             </div>
           </Reveal>
@@ -598,7 +600,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
                   className="flex items-center justify-center no-underline hover:opacity-90 transition-opacity"
                   style={{ background: '#09090b', borderRadius: '50px', padding: '16px 44px', fontSize: '16px', fontWeight: 700, color: '#ffffff', whiteSpace: 'nowrap' }}
                 >
-                  Accéder au Blueprint — 27€
+                  Accéder au Blueprint — {BLUEPRINT_PRICE}€
                 </a>
               </div>
               <p className="text-[12px] text-muted-foreground/50">
@@ -766,7 +768,7 @@ function RealProblemSection() {
         <Reveal delay={0.16}>
           <p className="mx-auto mt-8 max-w-[680px] text-base sm:text-lg leading-relaxed text-white/70">
             Il y a 1 an, créer un SaaS demandait 6 mois et 10 000€.
-            Aujourd'hui : 6 jours et 27€. Le code n'est plus un problème.
+            Aujourd'hui : 6 jours et {BLUEPRINT_PRICE}€. Le code n'est plus un problème.
             Ton job : avoir la vision, l'IA construit.
           </p>
         </Reveal>
@@ -1104,7 +1106,7 @@ function SavingsChoc() {
         {/* Bottom stat */}
         <p className="mt-10 text-center text-[15px] text-white/30">
           Tout ça pour{" "}
-          <span className="font-bold text-white">27€</span>
+          <span className="font-bold text-white">{BLUEPRINT_PRICE}€</span>
           {" "}— paiement unique, accès à vie.
         </p>
 
@@ -1494,13 +1496,13 @@ const saasProjects: SaasProject[] = [
   },
   {
     id: 4,
-    title: "Biohackr",
-    description: "Plateforme IA qui optimise sommeil, énergie et perf d'entrepreneur",
+    title: "Rankr",
+    description: "Optimise la visibilité de ton app ou SaaS dans les moteurs de recherche IA et LLM",
     mrr: "~2 400 €/mois",
-    sector: "Founders · B2C",
+    sector: "GEO · B2B",
     gradient: "linear-gradient(160deg, #0c1220 0%, #0f2845 50%, #1a3a6e 100%)",
     imageSrc: "/dashboard/Rankr.png",
-    tag: "Founders · B2C",
+    tag: "GEO · B2B",
   },
   {
     id: 5,
@@ -1588,7 +1590,7 @@ function ProjectExamplesSection() {
   const { w, h } = useCardSize()
 
   return (
-    <section className="py-24" style={{ background: "#0a0a0a" }}>
+    <section className="py-24 overflow-hidden" style={{ background: "#0a0a0a" }}>
       <div className="mx-auto max-w-[1100px] px-6">
 
         {/* Header */}
@@ -1866,88 +1868,345 @@ function UniqueTestimonialSection() {
 
 // ─── PRICING ─────────────────────────────────────────────────────────────────────────────
 
-function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
+// ─── TRI SECTION ─────────────────────────────────────────────────────────────
+
+const notForYou = [
+  "Tu collectionnes les formations sans jamais lancer.",
+  "Tu cherches une méthode \"100% passive, 0% effort\".",
+  "Tu refuses d'utiliser l'IA par principe ou tu préfères tout faire à la main.",
+  "Tu n'as jamais touché un outil no-code, un LLM ou un dashboard d'automatisation.",
+]
+
+const forYou = [
+  "Tu sais que l'IA change la donne et tu veux prendre position avant tout le monde.",
+  "Tu as un job, des clients ou une activité, et tu veux lancer ton propre side-project rentable en parallèle.",
+  "Tu veux exécuter, pas juste apprendre. Lancer un produit qui facture, pas accumuler des notes Notion.",
+  "Tu cherches un système qui rapporte dans les 30-60 jours, pas dans 2 ans.",
+]
+
+function TriSection() {
   return (
-    <section id="tarif" className="bg-muted py-24 text-center">
-      <div className="mx-auto max-w-[1100px] px-6">
-        <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p></Reveal>
-        <Reveal delay={0.08}><h2 style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }} className="mb-4 text-foreground">
-          Tout ce qu'il te faut pour lancer ton SaaS IA.
-        </h2></Reveal>
-        <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground">
-          Un seul paiement. Accès à vie. Zéro risque.
-        </p></Reveal>
+    <section className="relative py-28 overflow-hidden" style={{ background: "#080909" }}>
+      {/* Subtle dot pattern */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
 
-        {/* Shine border wrapper */}
-        <Reveal delay={0.24}>
-        <div className="bump-neon relative mx-auto mt-12 max-w-[560px]" style={{ borderRadius: 22 }}>
-          <div className="bump-inner p-10 text-left" style={{ borderRadius: 20 }}>
-            {/* Header row */}
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Buildrs Blueprint</p>
-              <span
-                className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold"
-                style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
-              >
-                <Flame size={12} strokeWidth={1.5} />
-                Offre de lancement
-              </span>
-            </div>
+      <div className="relative mx-auto max-w-[1000px] px-6">
 
-            {/* Price */}
-            <div className="mb-1 flex items-baseline gap-2">
-              <span className="text-[18px] font-medium text-muted-foreground/50 line-through">297€</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-[22px] font-semibold text-muted-foreground">€</span>
-                <span style={{ fontSize: 64, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1 }} className="text-foreground">27</span>
-              </div>
-            </div>
-            <p className="mb-7 text-[14px] text-muted-foreground">Paiement unique · Accès à vie</p>
-
-            <hr className="mb-7 border-border" />
-
-            {/* Features */}
-            <ul className="mb-7 flex flex-col gap-3 text-[14px]">
-              {features.map((f) => (
-                <li key={f.title} className="flex items-start gap-2.5">
-                  <Check size={15} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
-                  <span className="text-muted-foreground">
-                    <span className="font-semibold text-foreground">{f.title}</span>
-                    {' '}— {f.desc}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Bonus — single line */}
-            <div className="mb-7 flex items-start gap-2.5 rounded-xl border border-dashed border-border bg-muted px-4 py-3.5">
-              <Zap size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
-              <p className="text-[13px] text-muted-foreground">
-                <span className="font-semibold text-foreground">Bonus pour les 200 premiers</span>
-                {' '}— Jarvis IA + Toolbox Pro + accès WhatsApp privé Buildrs.
-              </p>
-            </div>
-
-            {/* CTA */}
-            <a
-              href="#"
-              onClick={onCTA}
-              className="cta-rainbow relative flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline"
+        {/* Header */}
+        <Reveal>
+          <div className="mb-16 text-center">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ color: "rgba(255,255,255,0.3)" }}>
+              Ce système trie
+            </p>
+            <h2
+              className="mb-5 text-white"
+              style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
             >
-              Accéder au Blueprint — 27€ →
-            </a>
-            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-4 py-3">
-              <Shield size={14} strokeWidth={1.5} className="shrink-0 text-foreground/60" />
-              <p className="text-[13px] font-medium text-muted-foreground">
-                <span className="font-semibold text-foreground">Satisfait ou remboursé — 30 jours.</span> Sans condition. Sans question.
-              </p>
-            </div>
-            <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
-              Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
+              On ne forme pas tout le monde.
+            </h2>
+            <p className="mx-auto max-w-[520px] text-[15px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Buildrs Blueprint est un système d'exécution — pas une vitrine de contenus.
+              Si tu te reconnais dans la mauvaise colonne, n'achète pas.
             </p>
           </div>
-        </div>
         </Reveal>
+
+        {/* Two columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {/* NOT for you */}
+          <Reveal delay={0.06}>
+            <div
+              className="rounded-2xl p-8 h-full"
+              style={{
+                background: "rgba(239,68,68,0.03)",
+                border: "1px solid rgba(239,68,68,0.12)",
+              }}
+            >
+              <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(239,68,68,0.5)" }}>
+                Pas pour toi si
+              </p>
+              <ul className="flex flex-col gap-4">
+                {notForYou.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md"
+                      style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)" }}
+                    >
+                      <X size={11} strokeWidth={2.5} style={{ color: "rgba(239,68,68,0.7)" }} />
+                    </span>
+                    <span className="text-[14px] leading-[1.6]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+
+          {/* FOR you */}
+          <Reveal delay={0.12}>
+            <div
+              className="rounded-2xl p-8 h-full"
+              style={{
+                background: "rgba(34,197,94,0.03)",
+                border: "1px solid rgba(34,197,94,0.14)",
+              }}
+            >
+              <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(34,197,94,0.6)" }}>
+                Pour toi si
+              </p>
+              <ul className="flex flex-col gap-4">
+                {forYou.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span
+                      className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md"
+                      style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.2)" }}
+                    >
+                      <Check size={11} strokeWidth={2.5} style={{ color: "rgba(34,197,94,0.8)" }} />
+                    </span>
+                    <span className="text-[14px] leading-[1.6]" style={{ color: "rgba(255,255,255,0.6)" }}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Closing line */}
+        <Reveal delay={0.2}>
+          <p
+            className="mt-12 text-center text-[13px] italic leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.25)" }}
+          >
+            Si tu coches au moins 3 cases dans la bonne colonne, tu es exactement au bon endroit.
+            Si tu hésites, c'est probablement pas pour toi.
+          </p>
+        </Reveal>
+
+      </div>
+    </section>
+  )
+}
+
+function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
+  const tier = getCurrentTier()
+  const overallPct = Math.min(Math.round((tier.builderCount / tier.tierEnd) * 100), 100)
+
+  const ALL_TIERS = [
+    { label: "0 → 100 builders", price: 27 },
+    { label: "100 → 200 builders", price: 37 },
+    { label: "200 → 300 builders", price: 47 },
+    { label: "300 → 400 builders", price: 57 },
+    { label: "400 → 500 builders", price: 67 },
+  ].map((t, i) => ({
+    ...t,
+    state: i < tier.tierIndex ? "done" : i === tier.tierIndex ? "current" : "upcoming",
+  }))
+
+  const outcomes = [
+    { title: "Le parcours 7 jours", desc: "De l'idée à ton SaaS en live, jour par jour. Chaque jour a son objectif, ses livrables, ses checkpoints. Tu n'as plus à te demander \"je fais quoi maintenant\"." },
+    { title: "7 vidéos guidées (45-60 min chacune)", desc: "Une vidéo par jour qui te montre exactement quoi faire, écran à l'appui. Tu suis, tu exécutes, tu avances." },
+    { title: "7 templates projet clonables", desc: "Le squelette de ton SaaS prêt · auth, paiement, dashboard, email. Tu clones, tu personnalises, tu déploies." },
+    { title: "7 prompts système prêts à l'emploi", desc: "Le bon prompt au bon moment du parcours. Testés en prod sur les 25+ SaaS actifs chez Buildrs Lab." },
+    { title: "La stack préconfigurée", desc: "Supabase, Vercel, Stripe, Resend · les guides d'installation et de connexion sans perdre 3h sur la conf." },
+    { title: "Accès à vie + mises à jour", desc: "Anthropic sort un nouveau modèle ? Une nouvelle stack ? Tu reçois la mise à jour automatique. Pour toujours." },
+  ]
+
+  const bonuses = [
+    { title: "Bonus 1 · La Marketplace Buildrs", desc: "10 idées de SaaS validées avec marché, concurrence, stack et prompts de démarrage.", value: 197 },
+    { title: "Bonus 2 · Les 10 prompts de lancement", desc: "Les prompts qu'on utilise chez Buildrs pour lancer un nouveau SaaS de zéro.", value: 47 },
+    { title: "Bonus 3 · La Bibliothèque Buildrs", desc: "50 prompts système classés par phase + le guide d'utilisation de chaque outil.", value: 297 },
+  ]
+
+  const valueItems = [
+    { label: "Le parcours Buildrs Blueprint", value: tier.currentPrice },
+    { label: "Bonus 1 · Marketplace", value: 197 },
+    { label: "Bonus 2 · 10 prompts de lancement", value: 47 },
+    { label: "Bonus 3 · Bibliothèque Buildrs", value: 297 },
+  ]
+
+  return (
+    <section id="tarif" className="py-24" style={{ backgroundColor: "hsl(var(--background))" }}>
+      <div className="mx-auto max-w-[720px] px-6">
+
+        <Reveal>
+          <p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Tarif</p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h2 className="mb-4 text-center text-foreground" style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.1 }}>
+            7 jours pour lancer ton SaaS IA en live.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.14}>
+          <p className="mx-auto mb-12 max-w-[480px] text-center text-[16px] leading-[1.65] text-muted-foreground">
+            Le prix monte tous les 100 builders. Tu paies le prix du palier où tu t'inscris — et tu le gardes à vie.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="bump-neon relative mx-auto" style={{ borderRadius: 22 }}>
+            <div className="bump-inner p-8 text-left" style={{ borderRadius: 20 }}>
+
+              {/* ── PRICE BLOCK ── */}
+              <div className="mb-6">
+                <div className="mb-3 flex items-center justify-between">
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">Buildrs Blueprint</p>
+                  <span className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold" style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}>
+                    <Flame size={12} strokeWidth={1.5} />
+                    Offre de lancement
+                  </span>
+                </div>
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <span className="text-[16px] font-medium text-muted-foreground/50 line-through">{STRIKETHROUGH_PRICE}€</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[22px] font-semibold text-muted-foreground">€</span>
+                      <span className="text-foreground" style={{ fontSize: 72, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1 }}>{tier.currentPrice}</span>
+                    </div>
+                    <p className="mt-1 text-[13px] text-muted-foreground">Paiement unique · Accès à vie</p>
+                  </div>
+                  <div className="min-w-[180px] shrink-0">
+                    <div className="mb-1.5 flex items-center justify-between text-[12px]">
+                      <span className="font-medium text-muted-foreground">Place {tier.builderCount}/{tier.tierEnd}</span>
+                      <span className="font-semibold text-foreground">{overallPct}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full" style={{ backgroundColor: "hsl(var(--border))" }}>
+                      <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-500" style={{ width: `${overallPct}%` }} />
+                    </div>
+                    <p className="mt-1.5 text-[11px] text-muted-foreground">
+                      {tier.placesLeft} places à <span className="font-semibold text-foreground">{tier.currentPrice}€</span> avant {tier.nextPrice}€
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <hr className="mb-6 border-border" />
+
+              {/* ── TIER TABLE ── */}
+              <div className="mb-6">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Évolution des paliers</p>
+                <div className="flex flex-col gap-1.5">
+                  {ALL_TIERS.map((t) => (
+                    <div key={t.price} className="flex items-center justify-between rounded-lg px-3 py-2" style={{
+                      backgroundColor: t.state === "current" ? "hsl(var(--foreground) / 0.06)" : "transparent",
+                      border: t.state === "current" ? "1px solid hsl(var(--foreground) / 0.12)" : "1px solid transparent",
+                    }}>
+                      <div className="flex items-center gap-2.5">
+                        {t.state === "done" ? (
+                          <Check size={12} strokeWidth={2} className="text-muted-foreground/40" />
+                        ) : t.state === "current" ? (
+                          <Circle size={10} strokeWidth={2.5} className="fill-foreground text-foreground" />
+                        ) : (
+                          <Circle size={10} strokeWidth={1.5} className="text-muted-foreground/30" />
+                        )}
+                        <span className={`text-[13px] ${t.state === "done" ? "text-muted-foreground/40 line-through" : t.state === "current" ? "font-semibold text-foreground" : "text-muted-foreground/50"}`}>
+                          {t.label}
+                        </span>
+                      </div>
+                      <span className={`font-mono text-[13px] font-semibold ${t.state === "done" ? "text-muted-foreground/40 line-through" : t.state === "current" ? "text-foreground" : "text-muted-foreground/40"}`}>
+                        {t.price}€
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <hr className="mb-6 border-border" />
+
+              {/* ── 6 OUTCOMES ── */}
+              <div className="mb-6">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Ce que tu reçois</p>
+                <ul className="flex flex-col gap-3">
+                  {outcomes.map((o) => (
+                    <li key={o.title} className="flex items-start gap-3">
+                      <Check size={14} strokeWidth={2} className="mt-[3px] shrink-0 text-foreground" />
+                      <div>
+                        <p className="text-[13px] font-semibold uppercase tracking-[0.04em] text-foreground">{o.title}</p>
+                        <p className="mt-0.5 text-[13px] leading-[1.55] text-muted-foreground">{o.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <hr className="mb-6 border-border" />
+
+              {/* ── 3 BONUSES ── */}
+              <div className="mb-6">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Bonuses inclus</p>
+                <div className="flex flex-col gap-2.5">
+                  {bonuses.map((b) => (
+                    <div key={b.title} className="flex items-start gap-3 rounded-xl border border-dashed border-border px-4 py-3" style={{ backgroundColor: "hsl(var(--muted))" }}>
+                      <Gift size={14} strokeWidth={1.5} className="mt-[2px] shrink-0 text-foreground" />
+                      <p className="min-w-0 flex-1 text-[13px]">
+                        <span className="font-semibold text-foreground">{b.title}</span>
+                        <span className="text-muted-foreground"> — {b.desc}</span>
+                      </p>
+                      <span className="shrink-0 font-mono text-[12px] font-semibold text-muted-foreground/60">{b.value}€</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <hr className="mb-6 border-border" />
+
+              {/* ── VALUE RECAP ── */}
+              <div className="mb-6 rounded-xl border border-border p-4" style={{ backgroundColor: "hsl(var(--muted))" }}>
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">Récapitulatif de valeur</p>
+                <div className="flex flex-col gap-1.5">
+                  {valueItems.map((v) => (
+                    <div key={v.label} className="flex items-center justify-between">
+                      <span className="text-[13px] text-muted-foreground">{v.label}</span>
+                      <span className="font-mono text-[13px] font-medium text-muted-foreground/60">{v.value}€</span>
+                    </div>
+                  ))}
+                  <hr className="my-2 border-border" />
+                  <div className="flex items-center justify-between">
+                    <span className="text-[13px] font-semibold text-foreground">Valeur totale</span>
+                    <span className="font-mono text-[15px] font-bold text-muted-foreground line-through">588€</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[14px] font-bold text-foreground">Ton investissement aujourd'hui</span>
+                    <span className="font-mono text-[20px] font-extrabold text-foreground">{tier.currentPrice}€</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── CTA ── */}
+              <a
+                href="#"
+                onClick={onCTA}
+                className="cta-rainbow relative flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-4 text-[16px] font-bold text-background no-underline transition-opacity hover:opacity-85"
+              >
+                Démarrer le parcours · {tier.currentPrice}€ →
+              </a>
+
+              {/* ── GUARANTEE ── */}
+              <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-3" style={{ backgroundColor: "hsl(var(--muted))" }}>
+                <Shield size={14} strokeWidth={1.5} className="shrink-0 text-foreground/60" />
+                <p className="text-[13px] font-medium text-muted-foreground">
+                  <span className="font-semibold text-foreground">Satisfait ou remboursé — 14 jours.</span> Sans condition. Sans question.
+                </p>
+              </div>
+
+              {/* ── TRUST STRIP ── */}
+              <p className="mt-3 text-center text-[12px] text-muted-foreground/60">
+                Paiement sécurisé par Stripe · Accès immédiat · Aucun abonnement
+              </p>
+
+            </div>
+          </div>
+        </Reveal>
+
       </div>
     </section>
   )
@@ -1989,9 +2248,9 @@ function TeamRobot({ isAI }: { isAI?: boolean }) {
 type HologramVariant = 'a' | 'b' | 'c' | 'd'
 
 const teamData: { uid: string; variant: HologramVariant; name: string; role: string; bio: string; photo?: string; isAI?: boolean }[] = [
-  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Co-Founder",  bio: "Développement produit, vision et architecture du groupe.", photo: "/Alfred_opt.jpg" },
-  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Vibe Coder",  bio: "Marketing, acquisition et développement commercial.", photo: "/Chris_opt.jpg" },
-  { uid: "tim",    variant: "c", name: "Tim",     role: "CTO & Vibe Coder",  bio: "Implémentation IA, design et front-end.", photo: "/Tim_opt.jpg" },
+  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Founder",             bio: "Développement produit, vision et architecture du groupe.", photo: "/Alfred_opt.jpg" },
+  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Développeur Full Stack", bio: "Agents IA, automatisation avancée, infrastructures backend.\nIl construit ce que les autres appellent encore \"impossible à automatiser\".", photo: "/Chris_opt.jpg" },
+  { uid: "tim",    variant: "c", name: "Tim",     role: "CMO & Vibe Coder Front",       bio: "Direction artistique, conception produit et front-end.\nTim transforme une idée brute en interface que les gens ont envie d'utiliser — avant même que le code soit terminé.", photo: "/Tim_opt.jpg" },
   { uid: "jarvis", variant: "d", name: "Jarvis",  role: "Chief AI Officer",  bio: "Intelligence Artificielle Autonome. Pilote 40 agents IA chez Buildrs.", isAI: true },
 ]
 
@@ -2037,7 +2296,7 @@ function TeamSection() {
                   )}
                 </div>
                 <p className="text-[11px] text-white/40 mb-2">{role}</p>
-                <p className="text-[12px] text-white/55 leading-relaxed">{bio}</p>
+                <p className="text-[12px] text-white/55 leading-relaxed whitespace-pre-line">{bio}</p>
               </div>
             </div>
           ))}
@@ -2054,11 +2313,11 @@ function TeamSection() {
             <div className="flex gap-8 shrink-0">
               <div className="text-center">
                 <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>+25</p>
-                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Secrets</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">SaaS IA lancés</p>
               </div>
               <div className="text-center">
-                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>1/2</p>
-                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Builders lancés</p>
+                <p className="text-[36px] font-extrabold text-white leading-none" style={{ letterSpacing: "-0.04em" }}>+250</p>
+                <p className="text-[11px] text-white/35 mt-1 uppercase tracking-wider">Builders accompagnés</p>
               </div>
             </div>
             {/* Divider */}
@@ -2069,34 +2328,12 @@ function TeamSection() {
                 Pas des coachs. Des geeks, experts en produit et en IA.
               </p>
               <p className="text-[13px] leading-[1.7] text-white/45">
-                On utilise l'intelligence artificielle comme levier d'enrichissement — pas pour en parler, pour en vivre. +25 secrets condensés, déployés sur le marché, pour des entreprises et pour nous. 3 revendus à 5 chiffres. On a décidé, il y a quelques mois, de rendre ce système accessible. Buildrs, c'est un mouvement. Pas une formation.
+                On utilise l'intelligence artificielle comme levier d'enrichissement — pas pour en parler, pour en vivre. +25 SaaS lancés, déployés sur le marché, pour des entreprises et pour nous. 3 revendus à 5 chiffres. On a décidé, il y a quelques mois, de rendre ce système accessible. Buildrs, c'est un mouvement. Pas une formation.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Anthropic Partner badge */}
-        <Reveal delay={0.32}>
-          <div
-            className="flex items-center gap-5 rounded-2xl px-6 py-5"
-            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
-            <div
-              className="shrink-0 flex h-12 w-12 items-center justify-center rounded-xl"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
-            >
-              <BrandIcons.anthropic style={{ width: 22, height: 22, color: "#ffffff" }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[14px] font-bold text-white leading-tight" style={{ letterSpacing: "-0.01em" }}>
-                Par Buildrs — Anthropic Partner certifié
-              </p>
-              <p className="mt-0.5 text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.38)" }}>
-                +25 produits IA actifs · 1 builder sur 2 a lancé son SaaS · plus de 40 agents IA internes chez Buildrs
-              </p>
-            </div>
-          </div>
-        </Reveal>
 
       </div>
     </section>
@@ -2165,10 +2402,13 @@ function FinalCTA({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
       </p>
       <div className="hero-rainbow-border relative inline-flex cursor-pointer" onClick={onCTA}>
         <div className="relative rounded-xl bg-foreground px-8 py-4 text-[15px] font-semibold text-background">
-          Commencer maintenant — 27€ (au lieu de 297€) →
+          Commencer maintenant — {BLUEPRINT_PRICE}€ (au lieu de {STRIKETHROUGH_PRICE}€) →
         </div>
       </div>
-      <p className="mt-5 text-[13px] text-muted-foreground/50">
+      <div className="mt-4 w-full max-w-[480px] mx-auto">
+        <BuilderTierBadge variant="full" />
+      </div>
+      <p className="mt-4 text-[13px] text-muted-foreground/50">
         Garantie 14 jours · Paiement unique · Accès à vie · Mises à jour incluses
       </p>
     </section>
@@ -2205,7 +2445,7 @@ const programmeModules = [
     num: "03", title: "Trouver & Valider",
     highlight: "Ton idée validée et ta fiche produit prête à exécuter",
     color: "#f06595", bg: "rgba(240,101,149,0.07)", border: "rgba(240,101,149,0.20)",
-    folderColor: "orange" as const,
+    folderColor: "pink" as const,
     bullets: [
       "Tu trouves les SaaS IA rentables et tu t'en inspires",
       "Tu génères 5 idées rentables en un clic — tu choisis",
@@ -2216,7 +2456,7 @@ const programmeModules = [
   {
     num: "04", title: "Design & Architecture",
     highlight: "Le design et l'architecture de ton produit validés — prêt à construire",
-    color: "#f97316", bg: "rgba(249,115,22,0.07)", border: "rgba(249,115,22,0.20)",
+    color: "#eab308", bg: "rgba(234,179,8,0.07)", border: "rgba(234,179,8,0.20)",
     folderColor: "yellow" as const,
     bullets: [
       "Tu crées ton identité visuelle en t'inspirant des meilleurs SaaS IA du marché",
@@ -2238,7 +2478,7 @@ const programmeModules = [
   {
     num: "06", title: "Déployer",
     highlight: "Ton produit en ligne, accessible au monde entier",
-    color: "#22c55e", bg: "rgba(34,197,94,0.07)", border: "rgba(34,197,94,0.20)",
+    color: "#a1a1aa", bg: "rgba(161,161,170,0.07)", border: "rgba(161,161,170,0.20)",
     folderColor: "grey" as const,
     bullets: [
       "Ton produit est mis en ligne en un clic — Vercel s'occupe de tout",
@@ -2249,7 +2489,7 @@ const programmeModules = [
   {
     num: "07", title: "Monétiser & Lancer",
     highlight: "Ta page de vente live, ta communication lancée, tes premiers euros en vue",
-    color: "#f59f00", bg: "rgba(245,159,0,0.07)", border: "rgba(245,159,0,0.20)",
+    color: "#f97316", bg: "rgba(249,115,22,0.07)", border: "rgba(249,115,22,0.20)",
     folderColor: "orange" as const,
     bullets: [
       "Tu valides ta stratégie de prix : abonnement, unique, freemium",
@@ -2302,6 +2542,32 @@ function Programme() {
             <p className="mx-auto max-w-[480px] text-[15px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.45)' }}>
               7 modules pour passer de l'idée au produit monétisé. Les IA qu'on utilise sont les meilleures du marché — et presque tous gratuits.
             </p>
+          </Reveal>
+
+          <Reveal delay={0.24}>
+            <div className="mt-6 flex justify-center">
+              <div
+                className="inline-flex items-center gap-3 rounded-2xl px-5 py-3"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.10)',
+                  backdropFilter: 'blur(12px)',
+                }}
+              >
+                <svg fill="currentColor" fillRule="evenodd" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" style={{ color: 'rgba(255,255,255,0.7)', flexShrink: 0 }}>
+                  <path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-7.258 0h3.767L16.906 20h-3.674l-1.343-3.461H5.017l-1.344 3.46H0L6.57 3.522zm4.132 9.959L8.453 7.687 6.205 13.48H10.7z" />
+                </svg>
+                <div className="h-3.5 w-px" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[12px] font-semibold" style={{ color: 'rgba(255,255,255,0.65)', letterSpacing: '0.02em' }}>
+                    Buildrs Group · Anthropic Certified Partner
+                  </span>
+                  <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    Plus de 25 SaaS IA propulsés, dont trois revendus
+                  </span>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
 
@@ -2461,6 +2727,7 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <ProjectExamplesSection />
         <UniqueTestimonialSection />
         <Pricing onCTA={go} />
+        <TriSection />
         <TeamSection />
         <FAQ />
         <FinalCTA onCTA={go} />

@@ -1,48 +1,75 @@
 import { useState, useEffect, useRef } from "react";
-import { BrandIcons } from "./icons";
+import { BuildrsIcon, BrandIcons, ClaudeIcon } from "./icons";
 
-const nodes = [
-  { id: 1, Icon: BrandIcons.resend },
-  { id: 2, Icon: BrandIcons.supabase },
-  { id: 3, Icon: BrandIcons.github },
-  { id: 4, Icon: BrandIcons.cloudflare },
-  { id: 5, Icon: BrandIcons.vercel },
-  { id: 6, Icon: BrandIcons.stripe },
+// Tile configs — bg = tile background, icon rendered in white
+const TILES = {
+  claude:     { bg: "#1C1915", border: "rgba(204,155,122,0.25)" },
+  claudeCode: { bg: "#D97757", border: "rgba(217,119,87,0.45)" },
+  anthropic:  { bg: "#1C1915", border: "rgba(204,155,122,0.25)" },
+  vercel:     { bg: "#000000", border: "rgba(255,255,255,0.14)" },
+  stripe:     { bg: "#635BFF", border: "rgba(99,91,255,0.4)"    },
+  resend:     { bg: "#111111", border: "rgba(255,255,255,0.12)" },
+  supabase:   { bg: "#3ECF8E", border: "rgba(62,207,142,0.4)"   },
+  github:     { bg: "#ffffff", border: "rgba(0,0,0,0.10)" },
+};
+
+// Inner orbit — 3 Claude-ecosystem products
+const innerNodes = [
+  { id: "claude",     tile: TILES.claude,     render: (s: number) => <BrandIcons.claude    style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "claudecode", tile: TILES.claudeCode, render: (s: number) => <BrandIcons.claudeCode style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "anthropic",  tile: TILES.anthropic,  render: (s: number) => <BrandIcons.anthropic style={{ width: s, height: s, color: "#ffffff" }} /> },
+];
+
+// Outer orbit — 5 stack tools
+const outerNodes = [
+  { id: "vercel",   tile: TILES.vercel,   render: (s: number) => <BrandIcons.vercel   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "stripe",   tile: TILES.stripe,   render: (s: number) => <BrandIcons.stripe   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "resend",   tile: TILES.resend,   render: (s: number) => <BrandIcons.resend   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "supabase", tile: TILES.supabase, render: (s: number) => <BrandIcons.supabase style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "github",   tile: TILES.github,   render: (s: number) => <BrandIcons.github   style={{ width: s, height: s, color: "#ffffff" }} /> },
 ];
 
 export function OrbitalClaude() {
-  const [angle, setAngle] = useState(0);
-  const [size, setSize] = useState(460);
+  const [innerAngle, setInnerAngle] = useState(0);
+  const [outerAngle, setOuterAngle] = useState(180);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState(360);
 
   useEffect(() => {
     const obs = new ResizeObserver((entries) => {
       const w = entries[0].contentRect.width;
-      setSize(Math.min(460, Math.max(300, w)));
+      setSize(Math.min(420, Math.max(280, w)));
     });
     if (containerRef.current) obs.observe(containerRef.current);
     return () => obs.disconnect();
   }, []);
 
-  // ~12s per full rotation
+  // Inner: ~10s CW, Outer: ~22s CCW
   useEffect(() => {
-    const id = setInterval(() => setAngle((a) => (a + 0.5) % 360), 50);
+    const id = setInterval(() => {
+      setInnerAngle((a) => (a + 0.6) % 360);
+      setOuterAngle((a) => (a - 0.3 + 360) % 360);
+    }, 50);
     return () => clearInterval(id);
   }, []);
 
-  // Orbit radius: half the container minus tile half-width
-  const TILE = 48;
-  const radius = size / 2 - TILE / 2 - 8;
+  const CENTER_TILE = 64;
+  const INNER_TILE  = 42;
+  const OUTER_TILE  = 38;
 
-  const pos = (i: number) => {
-    const deg = ((i / nodes.length) * 360 + angle) % 360;
+  const innerRadius = size * 0.255;
+  const outerRadius = size * 0.435;
+
+  // True circular orbit — no y-compression
+  const pos = (i: number, count: number, angle: number, radius: number) => {
+    const deg = ((i / count) * 360 + angle) % 360;
     const rad = (deg * Math.PI) / 180;
-    const depth = Math.cos(rad); // -1 back, +1 front
+    const depth = Math.cos(rad);
     return {
       x: radius * Math.cos(rad),
       y: radius * Math.sin(rad),
-      opacity: 0.5 + 0.5 * ((1 + depth) / 2),
-      z: Math.round(10 + 20 * depth),
+      opacity: 0.45 + 0.55 * ((1 + depth) / 2),
+      z: Math.round(10 + 20 * ((1 + depth) / 2)),
     };
   };
 
@@ -50,47 +77,48 @@ export function OrbitalClaude() {
     <div
       ref={containerRef}
       className="relative mx-auto flex items-center justify-center"
-      style={{ width: "100%", maxWidth: 460, height: size, background: "transparent" }}
+      style={{ width: "100%", maxWidth: 420, height: size, background: "transparent" }}
     >
-      {/* Dashed orbit ring */}
+      {/* Outer dashed ring */}
       <div
-        className="pointer-events-none absolute rounded-full"
+        className="pointer-events-none absolute"
         style={{
-          width: radius * 2,
-          height: radius * 2,
-          border: "1px dashed rgba(255,255,255,0.12)",
+          width: outerRadius * 2,
+          height: outerRadius * 2,
+          borderRadius: "50%",
+          border: "1px dashed rgba(255,255,255,0.10)",
+        }}
+      />
+      {/* Inner dashed ring */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          width: innerRadius * 2,
+          height: innerRadius * 2,
+          borderRadius: "50%",
+          border: "1px dashed rgba(255,255,255,0.10)",
         }}
       />
 
-      {/* Claude center — rounded square tile, purple glow */}
-      <div className="absolute z-20 flex items-center justify-center">
-        {/* Purple glow */}
-        <div
-          className="pointer-events-none absolute rounded-2xl"
-          style={{
-            width: 90, height: 90,
-            background: "radial-gradient(circle, rgba(168,85,247,0.25) 0%, transparent 70%)",
-            filter: "blur(10px)",
-          }}
-        />
-        {/* Tile */}
+      {/* Center — Buildrs */}
+      <div className="absolute z-30 flex items-center justify-center">
         <div
           className="relative flex items-center justify-center rounded-2xl"
           style={{
-            width: 72, height: 72,
-            background: "#111113",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: "0 0 0 1px rgba(168,85,247,0.15), 0 8px 24px rgba(0,0,0,0.5)",
+            width: CENTER_TILE,
+            height: CENTER_TILE,
+            background: "#09090b",
+            border: "1px solid rgba(255,255,255,0.12)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
           }}
         >
-          <BrandIcons.claude style={{ width: 36, height: 36, color: "#fff" }} />
+          <BuildrsIcon color="#ffffff" size={28} />
         </div>
       </div>
 
-      {/* Orbiting brand icon tiles */}
-      {nodes.map((node, i) => {
-        const { x, y, opacity, z } = pos(i);
-        const Icon = node.Icon;
+      {/* Inner orbit — Claude ecosystem */}
+      {innerNodes.map((node, i) => {
+        const { x, y, opacity, z } = pos(i, innerNodes.length, innerAngle, innerRadius);
         return (
           <div
             key={node.id}
@@ -98,8 +126,8 @@ export function OrbitalClaude() {
             style={{
               left: "50%",
               top: "50%",
-              width: TILE,
-              height: TILE,
+              width: INNER_TILE,
+              height: INNER_TILE,
               transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
               opacity,
               zIndex: z,
@@ -107,14 +135,162 @@ export function OrbitalClaude() {
             }}
           >
             <div
-              className="flex h-full w-full items-center justify-center rounded-2xl"
+              className="flex h-full w-full items-center justify-center rounded-xl"
               style={{
-                background: "#111113",
-                border: "1px solid rgba(255,255,255,0.09)",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                background: node.tile.bg,
+                border: `1px solid ${node.tile.border}`,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.4)",
               }}
             >
-              <Icon style={{ width: 22, height: 22, color: "#fff" }} />
+              {node.render(20)}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Outer orbit — Stack tools */}
+      {outerNodes.map((node, i) => {
+        const { x, y, opacity, z } = pos(i, outerNodes.length, outerAngle, outerRadius);
+        return (
+          <div
+            key={node.id}
+            className="absolute"
+            style={{
+              left: "50%",
+              top: "50%",
+              width: OUTER_TILE,
+              height: OUTER_TILE,
+              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              opacity: opacity * 0.85,
+              zIndex: z,
+              transition: "transform 50ms linear, opacity 50ms linear",
+            }}
+          >
+            <div
+              className="flex h-full w-full items-center justify-center rounded-xl"
+              style={{
+                background: node.tile.bg,
+                border: `1px solid ${node.tile.border}`,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.35)",
+              }}
+            >
+              {node.render(17)}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── OrbitalStack — Claude at center, single ring of tools ────────────────────
+
+const stackNodes = [
+  { id: "vercel",     tile: TILES.vercel,     render: (s: number) => <BrandIcons.vercel   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "stripe",     tile: TILES.stripe,     render: (s: number) => <BrandIcons.stripe   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "supabase",   tile: TILES.supabase,   render: (s: number) => <BrandIcons.supabase style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "github",     tile: TILES.github,     render: (s: number) => <BrandIcons.github   style={{ width: s, height: s, color: "#24292F" }} /> },
+  { id: "resend",     tile: TILES.resend,     render: (s: number) => <BrandIcons.resend   style={{ width: s, height: s, color: "#ffffff" }} /> },
+  { id: "claudecode", tile: TILES.claudeCode, render: (s: number) => <BrandIcons.claudeCode style={{ width: s, height: s, color: "#ffffff" }} /> },
+];
+
+export function OrbitalStack() {
+  const [angle, setAngle] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState(340);
+
+  useEffect(() => {
+    const obs = new ResizeObserver((entries) => {
+      const w = entries[0].contentRect.width;
+      setSize(Math.min(380, Math.max(260, w)));
+    });
+    if (containerRef.current) obs.observe(containerRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setAngle((a) => (a + 0.45) % 360), 50);
+    return () => clearInterval(id);
+  }, []);
+
+  const CENTER_TILE = 64;
+  const NODE_TILE = 42;
+  const radius = size * 0.4;
+
+  const pos = (i: number) => {
+    const deg = ((i / stackNodes.length) * 360 + angle) % 360;
+    const rad = (deg * Math.PI) / 180;
+    const depth = Math.cos(rad);
+    return {
+      x: radius * Math.cos(rad),
+      y: radius * Math.sin(rad),
+      opacity: 0.45 + 0.55 * ((1 + depth) / 2),
+      z: Math.round(10 + 20 * ((1 + depth) / 2)),
+    };
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative mx-auto flex items-center justify-center"
+      style={{ width: "100%", maxWidth: 380, height: size, background: "transparent" }}
+    >
+      {/* Dashed ring */}
+      <div
+        className="pointer-events-none absolute"
+        style={{
+          width: radius * 2,
+          height: radius * 2,
+          borderRadius: "50%",
+          border: "1px dashed rgba(255,255,255,0.10)",
+        }}
+      />
+
+      {/* Center — Claude logo blanc sur fond sombre */}
+      <div className="absolute z-30 flex items-center justify-center">
+        <div
+          className="relative flex items-center justify-center"
+          style={{
+            width: CENTER_TILE,
+            height: CENTER_TILE,
+            borderRadius: "50%",
+            background: "#09090b",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.22)",
+          }}
+        >
+          <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* Orbiting stack tools */}
+      {stackNodes.map((node, i) => {
+        const { x, y, opacity, z } = pos(i);
+        return (
+          <div
+            key={node.id}
+            className="absolute"
+            style={{
+              left: "50%",
+              top: "50%",
+              width: NODE_TILE,
+              height: NODE_TILE,
+              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              opacity,
+              zIndex: z,
+              transition: "transform 50ms linear, opacity 50ms linear",
+            }}
+          >
+            <div
+              className="flex h-full w-full items-center justify-center rounded-xl"
+              style={{
+                background: node.tile.bg,
+                border: `1px solid ${node.tile.border}`,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.4)",
+              }}
+            >
+              {node.render(20)}
             </div>
           </div>
         );

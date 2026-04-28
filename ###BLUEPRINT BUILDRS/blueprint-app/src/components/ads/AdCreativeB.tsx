@@ -1,3 +1,5 @@
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
+
 /**
  * AdCreativeB — "ChatGPT vs Claude Buildrs"
  * Format : 1080×1080px (carré Meta)
@@ -230,7 +232,7 @@ export function AdCreativeB() {
         <div>
           <div style={{ fontSize: '10px', fontWeight: '600', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '5px' }}>BUILDRS BLUEPRINT</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-            <span style={{ fontSize: '34px', fontWeight: '800', color: '#09090b', letterSpacing: '-0.04em', lineHeight: '1' }}>27€</span>
+            <span style={{ fontSize: '34px', fontWeight: '800', color: '#09090b', letterSpacing: '-0.04em', lineHeight: '1' }}>{BLUEPRINT_PRICE}€</span>
             <span style={{ fontSize: '14px', color: '#71717a' }}>Paiement unique · Accès à vie</span>
           </div>
         </div>
@@ -240,7 +242,7 @@ export function AdCreativeB() {
             borderRadius: '12px', fontSize: '15px', fontWeight: '600', border: 'none',
             cursor: 'pointer', fontFamily: "'Geist', system-ui, sans-serif",
           }}>Je prends ma place →</button>
-          <span style={{ fontSize: '11px', color: '#a1a1aa' }}>27€ · Offre de lancement · buildrs.fr</span>
+          <span style={{ fontSize: '11px', color: '#a1a1aa' }}>{BLUEPRINT_PRICE}€ · Offre de lancement · buildrs.fr</span>
         </div>
       </div>
     </div>

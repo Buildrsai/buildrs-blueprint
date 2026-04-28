@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { Check, Shield, Lock, Zap, Target, Workflow, ArrowLeft, Clock, Video, Globe } from "lucide-react"
 import { BuildrsLogo, BuildrsIcon } from "./ui/icons"
 import { trackEvent } from "../lib/pixel"
+import { BLUEPRINT_PRICE, CLAUDE_OS_BUMP_PRICE, ACQUISITION_BUMP_PRICE } from "../lib/pricing"
 
 const SUPABASE_FUNCTIONS_URL = "https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1"
 
@@ -251,7 +252,7 @@ export function UpsellCohortPage({ onDecline }: Props) {
     const hasAcquisition = hash.includes("acquisition=1")
     const value = isClaude
       ? 47 + (hasBump ? 27 : 0)
-      : 27 + (hasBump ? 37 : 0) + (hasAcquisition ? 27 : 0)
+      : BLUEPRINT_PRICE + (hasBump ? CLAUDE_OS_BUMP_PRICE : 0) + (hasAcquisition ? ACQUISITION_BUMP_PRICE : 0)
     trackEvent("Purchase", { value, currency: "EUR", num_items: 1 })
   }, [])
 
