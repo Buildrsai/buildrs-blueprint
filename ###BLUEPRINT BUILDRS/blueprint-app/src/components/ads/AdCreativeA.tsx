@@ -1,3 +1,5 @@
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
+
 /**
  * AdCreativeA — "SaaS qui encaisse"
  * Format : 1080×1080px (carré Meta)
@@ -419,7 +421,7 @@ export function AdCreativeA() {
             BUILDRS BLUEPRINT
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-            <span style={{ fontSize: '34px', fontWeight: '800', color: '#09090b', letterSpacing: '-0.04em', lineHeight: '1' }}>27€</span>
+            <span style={{ fontSize: '34px', fontWeight: '800', color: '#09090b', letterSpacing: '-0.04em', lineHeight: '1' }}>{BLUEPRINT_PRICE}€</span>
             <span style={{ fontSize: '14px', color: '#64748b' }}>De l'idée au SaaS monétisé</span>
           </div>
         </div>
@@ -429,7 +431,7 @@ export function AdCreativeA() {
             borderRadius: '12px', fontSize: '15px', fontWeight: '600', border: 'none',
             cursor: 'pointer', fontFamily: "'Geist', system-ui, sans-serif", letterSpacing: '-0.01em',
           }}>Je démarre →</button>
-          <span style={{ fontSize: '11px', color: '#94a3b8' }}>27€ · Offre de lancement · buildrs.fr</span>
+          <span style={{ fontSize: '11px', color: '#94a3b8' }}>{BLUEPRINT_PRICE}€ · Offre de lancement · buildrs.fr</span>
         </div>
       </div>
     </div>

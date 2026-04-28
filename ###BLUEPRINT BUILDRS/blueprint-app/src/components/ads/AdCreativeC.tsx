@@ -1,3 +1,5 @@
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
+
 /**
  * AdCreativeC — "Ton app, ton SaaS ou ton logiciel" — Fond noir
  * Format : 1080×1080px (carré Meta)
@@ -292,7 +294,7 @@ export function AdCreativeC() {
         <div>
           <div style={{ fontSize: '10px', fontWeight: '600', color: '#3f3f46', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '5px' }}>BUILDRS BLUEPRINT</div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-            <span style={{ fontSize: '34px', fontWeight: '800', color: '#fafafa', letterSpacing: '-0.04em', lineHeight: '1' }}>27€</span>
+            <span style={{ fontSize: '34px', fontWeight: '800', color: '#fafafa', letterSpacing: '-0.04em', lineHeight: '1' }}>{BLUEPRINT_PRICE}€</span>
             <span style={{ fontSize: '14px', color: '#52525b' }}>Paiement unique · Accès à vie</span>
           </div>
         </div>
@@ -306,7 +308,7 @@ export function AdCreativeC() {
           }}>
             Je démarre →
           </button>
-          <span style={{ fontSize: '11px', color: '#3f3f46' }}>27€ · Offre de lancement · buildrs.fr</span>
+          <span style={{ fontSize: '11px', color: '#3f3f46' }}>{BLUEPRINT_PRICE}€ · Offre de lancement · buildrs.fr</span>
         </div>
       </div>
     </div>

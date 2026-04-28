@@ -1,32 +1,31 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { BuildrsIcon, Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons"
+
+function VerifiedBadge() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-label="Certifié">
+      <circle cx="9" cy="9" r="9" fill="#3B82F6" />
+      <path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
 function StackedCircularFooter() {
   return (
     <footer className="bg-background text-foreground">
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="flex flex-col items-center">
-          {/* Logo */}
+
+          {/* Buildrs logo */}
           <div className="mb-8">
-            <BuildrsIcon color="hsl(var(--foreground))" size={36} />
+            <img src="/LogoBuildrsBlanc.png" alt="Buildrs" className="h-8 w-auto" />
           </div>
 
-          {/* Nav links */}
-          <nav className="mb-8 flex flex-wrap justify-center gap-6">
-            {["Modules", "Comment ça marche", "Tarif", "FAQ", "Contact"].map(
-              (item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item}
-                </a>
-              )
-            )}
-          </nav>
+          {/* Social label */}
+          <div className="mb-5 flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Retrouvez-nous sur les réseaux</span>
+            <span className="text-sm font-semibold text-foreground">@wearebuildrs</span>
+            <VerifiedBadge />
+          </div>
 
           {/* Social links */}
           <div className="mb-8 flex space-x-4">
@@ -35,10 +34,15 @@ function StackedCircularFooter() {
               { label: "TikTok",    Icon: Icons.tiktok,    href: "https://www.tiktok.com/@wearebuildrs" },
               { label: "Instagram", Icon: Icons.instagram, href: "https://www.instagram.com/wearebuildrs/" },
             ].map(({ label, Icon, href }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <Icon className="h-4 w-4" />
-                </Button>
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground/60 transition-colors hover:border-foreground/30 hover:text-foreground"
+              >
+                <Icon className="h-4 w-4" />
               </a>
             ))}
           </div>
@@ -73,6 +77,7 @@ function StackedCircularFooter() {
           <p className="mt-4 max-w-[600px] text-center text-[11px] leading-relaxed text-muted-foreground/40">
             Ce site n'est pas affilié à Facebook™, Instagram™ ou Meta Platforms, Inc. Facebook™ et Instagram™ sont des marques déposées de Meta Platforms, Inc. Les résultats peuvent varier selon les individus et dépendent de nombreux facteurs. Ce site ne garantit aucun résultat spécifique.
           </p>
+
         </div>
       </div>
     </footer>

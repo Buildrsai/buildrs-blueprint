@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ListChecks, BookOpen, HelpCircle, Check, CheckCircle2, ChevronRight, Lock, X, RotateCcw } from 'lucide-react'
+import confetti from 'canvas-confetti'
 import { getModule } from '../../data/curriculum'
 import { VideoPlayer } from '../ui/video-player'
 
@@ -153,6 +154,13 @@ function ChecklistTab({ moduleId }: { moduleId: string }) {
       const next = new Set(prev)
       next.has(n) ? next.delete(n) : next.add(n)
       localStorage.setItem(storageKey, JSON.stringify([...next]))
+      if (moduleId === '04' && next.size === steps.length && !prev.has(n)) {
+        setTimeout(() => {
+          confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 }, colors: ['#4d96ff', '#22c55e', '#cc5de8', '#ffd93d', '#ff6b6b'] })
+          setTimeout(() => confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0, y: 0.7 } }), 200)
+          setTimeout(() => confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1, y: 0.7 } }), 400)
+        }, 100)
+      }
       return next
     })
   }

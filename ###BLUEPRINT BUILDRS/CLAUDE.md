@@ -715,6 +715,25 @@ Emails signés Alfred directement : **E18 (Sprint)**, **E20 (Cohorte)**, **E23 (
 
 ---
 
+## Feature Pack Agents (en développement)
+
+Le dashboard contient maintenant une section `/agents` qui héberge 7 agents IA spécialisés vendus comme OTO à 197€ après achat du Blueprint.
+
+Stack :
+- Table Supabase `user_projects` (projets utilisateur)
+- Table Supabase `agent_outputs` (historique des outputs)
+- Table Supabase `user_entitlements` (qui a acheté quoi)
+- Endpoint `/api/agents/run` qui appelle l'API Anthropic (model claude-sonnet-4-5)
+- 7 system prompts stockés dans `/src/lib/agents/prompts/`
+
+Les 7 agents : jarvis, planner, designer, db-architect, builder, connector, launcher.
+
+Chaque agent prend un formulaire en input, fait un appel API Anthropic avec un system prompt premium, retourne un output Markdown/SQL/ZIP que l'utilisateur peut copier ou télécharger pour son Claude Code local.
+
+L'accès aux agents est gaté par `user_entitlements.has_agents_pack = true`.
+
+---
+
 ## Notes techniques pour Claude Code
 
 ### Stack blueprint-app (React LP + pages funnel)

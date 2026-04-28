@@ -1,3 +1,5 @@
+import { BLUEPRINT_PRICE } from '../../lib/pricing'
+
 /**
  * AdCreativeD — "J'AI LANCÉ MON PREMIER LOGICIEL IA EN 6 JOURS" — Fond blanc
  * Format : 1080×1080px (carré Meta)
@@ -220,7 +222,7 @@ export function AdCreativeD() {
             Démarre maintenant →
           </div>
           <div style={{ fontSize: '12px', color: '#52525b', marginTop: '6px', letterSpacing: '0.02em' }}>
-            27€ · Accès à vie · buildrs.fr
+            {BLUEPRINT_PRICE}€ · Accès à vie · buildrs.fr
           </div>
         </div>
         {/* Prix mis en valeur */}
@@ -233,7 +235,7 @@ export function AdCreativeD() {
             letterSpacing: '-0.05em', lineHeight: '1',
             fontFamily: "'Geist Mono', monospace",
           }}>
-            27€
+            {BLUEPRINT_PRICE}€
           </div>
         </div>
       </div>

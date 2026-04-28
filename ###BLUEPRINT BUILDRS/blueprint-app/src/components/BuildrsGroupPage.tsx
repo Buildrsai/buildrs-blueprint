@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight, TrendingUp, Clock, Building2, Users, BookOpen, MessageSquare, Zap } from 'lucide-react'
 import { BuildrsLogo, BuildrsIcon, BrandIcons } from './ui/icons'
 import { GridPattern } from './ui/grid-pattern'
+import { BLUEPRINT_PRICE } from '../lib/pricing'
 
 // ── Helpers statiques ────────────────────────────────────────────────────────
 function Tag({ label }: { label: string }) {
@@ -231,7 +232,7 @@ export function BuildrsGroupPage() {
                 body: "Tu as des idées. Tu n'as pas d'équipe, pas de budget, pas de compétences techniques. Le Buildrs Blueprint te donne le système complet pour passer de l'idée à un produit qui génère des revenus récurrents. En 6 jours. Seul. Sans écrire une ligne de code.",
                 bullets: ['Ton micro-SaaS, ta web app ou ton outil en ligne', 'Un produit live, hébergé, avec paiement intégré', 'Un business qui génère du MRR, que tu peux revendre ou dupliquer'],
                 mono: '6 modules · Agents IA inclus · Stack complète <50€ · Accès à vie',
-                cta: 'Accéder au Blueprint — 27€', href: '/#/checkout',
+                cta: `Accéder au Blueprint — ${BLUEPRINT_PRICE}€`, href: '/#/checkout',
                 sub: 'Paiement unique. Satisfait ou remboursé 30 jours.', d: 160,
               },
               {

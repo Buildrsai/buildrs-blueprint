@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react"
-import { Lock, Check, Flame, ChevronLeft, ChevronDown } from "lucide-react"
+import { Check, Shield, RefreshCw, Zap, Lock } from "lucide-react"
 import { trackEvent } from '../lib/pixel'
 import { loadStripe } from "@stripe/stripe-js"
-import { BuildrsIcon, ClaudeIcon, WhatsAppIcon } from "./ui/icons"
-import { RobotJarvis } from "./ui/agent-robots"
+import { StackedCircularFooter } from "./ui/stacked-circular-footer"
+import { ClaudeIcon } from "./ui/icons"
+import { BLUEPRINT_PRICE, CLAUDE_OS_BUMP_PRICE, ACQUISITION_BUMP_PRICE } from '../lib/pricing'
+import { BuilderTierBadge } from './ui/builder-tier-badge'
 
 const SUPABASE_FUNCTIONS_URL = 'https://ihgbbgwhgmosfjaknvlf.supabase.co/functions/v1'
-
-// ─── Props ────────────────────────────────────────────────────────────────────
 
 interface CheckoutPageProps {
   hasOrderBump: boolean
@@ -21,146 +21,143 @@ interface CheckoutPageProps {
   onBack: () => void
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const MAIN_FEATURES = [
-  "Le système en 7 étapes — de l'idée au Produit IA monétisé",
-  "3 stratégies de départ : copier une fonctionnalité d'un SaaS/App existant, résoudre un problème que tu as identifié, ou explorer les opportunités",
-  "Le Générateur d'Idées — trouve des idées de SaaS IA rentables prêts à lancer avec fiches produit prêtes (niche, cible, fonctionnalité, MRR potentiel)",
-  "Le Validateur — score ton idée de produit IA avant de la builder. Rentabilité, concurrence, faisabilité — tu sais si ça vaut le coup avant de démarrer",
-  "50+ prompts testés à copier-coller — les instructions exactes à donner à Claude",
-  "3 modèles de monétisation avec guide : revenus récurrents, revente, ou prestation client",
-  "Checklist de progression — tu ne seras jamais perdu, tu sais exactement quoi faire ensuite",
-  "Le Dashboard Buildrs — ton espace projet, tes outils et ta progression au même endroit",
-  "Accès à la communauté Buildrs — pose tes questions, avance avec les autres builders, partage tes victoires",
-  "Accès à vie + toutes les mises à jour futures",
-]
-
-const MAIN_BONUSES = [
-  { text: "Jarvis IA — ton copilote intelligent qui te guide à chaque étape en temps réel", value: "valeur 97€", isJarvis: true },
-  { text: "Toolbox Pro — les meilleurs outils IA du marché pour créer ton Micro-SaaS IA", value: "valeur 47€", isJarvis: false },
-  { text: "WhatsApp Buildrs — accès privé à Alfred & Jarvis via le canal WhatsApp Buildrs", value: "valeur 47€", isJarvis: false },
+const BLUEPRINT_FEATURES = [
+  "Le parcours 7 jours — de l'idée à ton SaaS en live, jour par jour",
+  "7 vidéos guidées — une par jour, écran à l'appui (45-60 min)",
+  "7 templates projet clonables — auth, paiement, dashboard, email",
+  "7 prompts système prêts à l'emploi — testés sur 25+ SaaS actifs",
+  "La stack préconfigurée — Supabase, Vercel, Stripe, Resend",
+  "Accès à vie + mises à jour automatiques",
+  "+ 3 bonus : Marketplace · 10 prompts de lancement · Bibliothèque Buildrs",
 ]
 
 const CLAUDE_OS_FEATURES = [
-  "L'arsenal complet Claude AI + Code + Cowork",
-  "22 plugins, 70+ skills, tous les MCP configurés",
-  "5 générateurs (CLAUDE.md, Skills, MCP, Prompts, Team Agents)",
-  "Spécialisé Micro-SaaS IA, apps et produits digitaux",
-  "Guide d'installation pas à pas — opérationnel en 15 minutes",
+  "Système Buildrs AI + Skills testés en production",
+  "Système Buildrs Code + Sub-agents pré-configurés",
+  "MCPs recommandés avec configurations",
+  "Veille quotidienne Jarvis",
+  "Banque d'inspiration",
+  "Updates à vie",
 ]
 
-const ACQUISITION_FEATURES = [
-  "La méthode pour atteindre 100 clients payants",
-  "Les 5 canaux d'acquisition qui marchent pour un Micro-SaaS IA",
-  "Les templates de lancement (emails, posts, ads)",
-  "Le guide de pricing optimisé pour maximiser le MRR",
-]
-
-// ─── BumpCard ─────────────────────────────────────────────────────────────────
-
-interface BumpCardProps {
+function ExtensionCard({ checked, onToggle, name, price, badge, accroche, highlights, closing, icon }: {
   checked: boolean
   onToggle: () => void
   name: string
-  strikeprice: string
-  addprice: string
-  title: string
-  description: string
-  detailOpen: boolean
-  onToggleDetail: () => void
-  features: string[]
-  accentColor: string
+  price: string
+  badge?: string
+  accroche?: string
+  highlights?: string[]
+  closing?: string
   icon?: React.ReactNode
-}
-
-function BumpCard({ checked, onToggle, name, strikeprice, addprice, title, description, detailOpen, onToggleDetail, features, accentColor, icon }: BumpCardProps) {
+}) {
   return (
-    <div className={`rounded-2xl border-2 transition-all overflow-hidden ${checked ? 'border-foreground bg-card' : 'border-border bg-card'}`}>
-      <button onClick={onToggle} className="w-full text-left p-6 cursor-pointer hover:bg-secondary/20 transition-colors">
-        <div className="flex items-start gap-4">
-          {/* Checkbox */}
-          <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors ${checked ? 'border-foreground bg-foreground' : 'border-border bg-background'}`}>
-            {checked && <Check size={11} strokeWidth={3} className="text-background" />}
-          </div>
-          <div className="flex-1 text-left">
-            <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-              <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-background">
-                Oui — ajouter
-              </span>
-              {icon && <span className="flex items-center">{icon}</span>}
-              <span className="text-[14px] font-bold text-foreground">{name}</span>
-              <span className="text-[13px] font-medium text-muted-foreground/50 line-through">{strikeprice}</span>
-              <span className="text-[14px] font-bold text-foreground">{addprice}</span>
-            </div>
-            <p className="mb-2 text-[14px] font-bold text-foreground leading-[1.3]">{title}</p>
-            <p className="text-[13px] text-muted-foreground leading-[1.55]">{description}</p>
-          </div>
-        </div>
-      </button>
-
-      <div className="px-6 pb-4">
-        <button
-          onClick={onToggleDetail}
-          className="flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-3 py-1.5"
-        >
-          {detailOpen ? 'Réduire' : 'Voir le détail'}
-          <ChevronDown size={13} strokeWidth={2} className="transition-transform duration-200" style={{ transform: detailOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-        </button>
-      </div>
-
-      {detailOpen && (
-        <div className="border-t border-border px-6 pb-6 pt-5">
-          <ul className="flex flex-col gap-[10px]">
-            {features.map((f, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <Check size={13} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
-                <span className="text-muted-foreground text-[13px]">{f}</span>
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={onToggleDetail}
-            className="mt-4 flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ChevronDown size={13} strokeWidth={2} style={{ transform: 'rotate(180deg)' }} />
-            Réduire
-          </button>
+    <button
+      onClick={onToggle}
+      className="w-full text-left rounded-xl p-4 transition-all"
+      style={{
+        border: `1px solid ${checked ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.09)'}`,
+        background: checked ? 'rgba(255,255,255,0.04)' : 'transparent',
+        cursor: 'pointer',
+      }}
+    >
+      {badge && (
+        <div style={{ marginBottom: 10 }}>
+          <span style={{
+            display: 'inline-block', fontSize: 10, fontWeight: 700,
+            letterSpacing: '0.07em', textTransform: 'uppercase' as const,
+            color: '#09090b', background: '#ffffff',
+            borderRadius: 4, padding: '3px 8px',
+          }}>
+            {badge}
+          </span>
         </div>
       )}
-    </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: accroche || highlights ? 10 : 0 }}>
+        <div style={{
+          width: 20, height: 20, borderRadius: 4, flexShrink: 0,
+          border: `1.5px solid ${checked ? '#fff' : 'rgba(255,255,255,0.3)'}`,
+          background: checked ? '#fff' : 'transparent',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          {checked && <Check size={11} strokeWidth={3} style={{ color: '#09090b' }} />}
+        </div>
+        <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>+</span>
+        {icon && <span style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>}
+        <span style={{ flex: 1, fontSize: 14, fontWeight: 700, color: '#fff' }}>{name}</span>
+        <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', flexShrink: 0 }}>{price}</span>
+      </div>
+      {accroche && (
+        <p style={{ fontSize: 12, lineHeight: 1.6, color: 'rgba(255,255,255,0.55)', paddingLeft: 30, marginBottom: highlights?.length ? 8 : 0 }}>
+          {accroche}
+        </p>
+      )}
+      {highlights && highlights.length > 0 && (
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingLeft: 30, marginBottom: closing ? 8 : 0 }}>
+          {highlights.map((h) => (
+            <li key={h} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>
+              <Check size={11} strokeWidth={2} style={{ marginTop: 2, flexShrink: 0, color: 'rgba(255,255,255,0.45)' }} />
+              {h}
+            </li>
+          ))}
+        </ul>
+      )}
+      {closing && (
+        <p style={{ fontSize: 11, lineHeight: 1.55, color: 'rgba(255,255,255,0.3)', paddingLeft: 30, fontStyle: 'italic' }}>
+          {closing}
+        </p>
+      )}
+    </button>
   )
 }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export function CheckoutPage({
   hasOrderBump, setHasOrderBump,
   hasAgentsBump: _hasAgentsBump, setHasAgentsBump: _setHasAgentsBump,
   hasAcquisitionBump, setHasAcquisitionBump,
-  funnelSource, onBack,
+  funnelSource,
 }: CheckoutPageProps) {
   const isClaudeFunnel = funnelSource === 'claude'
-  const [dark, setDark] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showStripe, setShowStripe] = useState(false)
   const [stripeReady, setStripeReady] = useState(false)
-  const [offerOpen, setOfferOpen] = useState(false)
-  const [claudeOSOpen, setClaudeOSOpen] = useState(false)
-  const [acquisitionOpen, setAcquisitionOpen] = useState(false)
-  const checkoutRef = useRef<{ destroy: () => void } | null>(null)
   const mountRef = useRef<HTMLDivElement>(null)
+  const checkoutRef = useRef<{ destroy: () => void } | null>(null)
 
-  const basePrice = isClaudeFunnel ? 47 : 27
-  const claudeOSPrice = isClaudeFunnel ? 27 : 37
-  const acquisitionPrice = 27
+  const basePrice = isClaudeFunnel ? 47 : BLUEPRINT_PRICE
+  const ext1Price = isClaudeFunnel ? 27 : CLAUDE_OS_BUMP_PRICE
+  const ext2Price = ACQUISITION_BUMP_PRICE
+
   const total = basePrice
-    + (hasOrderBump ? claudeOSPrice : 0)
-    + (!isClaudeFunnel && hasAcquisitionBump ? acquisitionPrice : 0)
+    + (hasOrderBump ? ext1Price : 0)
+    + (!isClaudeFunnel && hasAcquisitionBump ? ext2Price : 0)
+
+  const productName = isClaudeFunnel ? "Buildrs OS Pack" : "Buildrs Blueprint"
+  const productSubtitle = isClaudeFunnel
+    ? "Brique Claude AI + Brique Claude Code"
+    : "De l'idée au SaaS IA en 7 jours — sans savoir coder"
+  const productFeatures = isClaudeFunnel ? CLAUDE_OS_FEATURES : BLUEPRINT_FEATURES
+
+  const ext1Name = isClaudeFunnel ? "Ajouter Claude Design OS" : "Ajouter Buildrs OS"
+  const ext1Accroche = isClaudeFunnel
+    ? "Tu conçois et tu crées au niveau agence. Skills de conception, MCPs Figma/Canva, templates d'assets, walkthroughs vidéo."
+    : "Le même setup testé 18 mois sur 25+ produits actifs et 45M tokens/mois."
+  const ext1Highlights = isClaudeFunnel ? undefined : [
+    "130+ skills business préconfigurés",
+    "27 sub-agents Claude prêts à déléguer",
+    "46 MCPs configurés (Notion, Drive, Stripe, Supabase...)",
+    "La veille quotidienne Jarvis (mise à jour chaque jour)",
+    "Updates à vie",
+  ]
+  const ext1Closing = isClaudeFunnel ? undefined : "Tu repars de chez Buildrs avec l'environnement Claude qu'on utilise quotidiennement. Tu n'as plus rien à configurer."
 
   useEffect(() => {
-    return () => { checkoutRef.current?.destroy() }
+    document.documentElement.classList.add('dark')
+    return () => {
+      document.documentElement.classList.remove('dark')
+      checkoutRef.current?.destroy()
+    }
   }, [])
 
   const handlePay = async () => {
@@ -203,290 +200,208 @@ export function CheckoutPage({
     }
   }
 
-  const handleCloseStripe = () => {
-    checkoutRef.current?.destroy()
-    checkoutRef.current = null
-    setShowStripe(false)
-    setStripeReady(false)
-  }
-
-  const toggleTheme = () => {
-    setDark((prev) => {
-      document.documentElement.classList.toggle('dark', !prev)
-      return !prev
-    })
-  }
-
   return (
-    <div className="min-h-screen bg-background">
+    <div style={{ minHeight: '100vh', background: '#080909', color: '#fff' }}>
 
       {/* NAV */}
-      <nav className="border-b border-border bg-background/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-[60px] max-w-[1000px] items-center justify-between px-6">
-          <button onClick={onBack} className="flex items-center gap-2 no-underline hover:opacity-70 transition-opacity" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            <BuildrsIcon color="currentColor" className="h-6 w-6 text-foreground" />
-            <span className="text-[15px] font-bold tracking-tight text-foreground" style={{ letterSpacing: '-0.03em' }}>Buildrs</span>
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
-              <Lock className="h-3.5 w-3.5" strokeWidth={1.5} />
-              <span className="hidden sm:inline">Paiement sécurisé</span>
-            </div>
-            <button
-              onClick={toggleTheme}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-transparent text-muted-foreground hover:bg-accent transition-colors cursor-pointer"
-            >
-              {dark
-                ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              }
-            </button>
+      <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="mx-auto flex h-[60px] max-w-[640px] items-center justify-between px-6">
+          <img src="/LogoBuildrsBlanc.png" alt="Buildrs" style={{ height: 28, width: 'auto' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Lock size={12} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.45)' }} />
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 500 }}>Paiement sécurisé</span>
           </div>
         </div>
       </nav>
 
       {/* MAIN */}
-      <div className="mx-auto max-w-[1000px] px-6 py-8">
+      <div className="mx-auto max-w-[560px] px-5 py-10">
 
-        {/* Badge + Titre */}
+        {/* Title */}
         <div className="mb-8 text-center">
-          <div className="mb-3 flex justify-center">
-            <span className="rounded-full border border-border bg-secondary px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
-              Finalise ta commande
-            </span>
-          </div>
-          <h1 className="text-foreground" style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
-            Rejoins Buildrs Aujourd'hui
+          <h1 style={{ fontSize: 'clamp(24px, 5vw, 32px)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, color: '#fff', marginBottom: 10 }}>
+            Installer {productName}
           </h1>
-          <p className="mt-3 mx-auto max-w-[480px] text-[16px] leading-[1.6] text-muted-foreground">
-            Le système guidé pour créer et monétiser ton premier SaaS IA en autopilote.
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)' }}>
+            Accès immédiat après paiement · Updates à vie · Garantie 14 jours
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
+        {/* Card — rainbow glow border */}
+        <div className="card-rainbow mb-4">
+        <div style={{ borderRadius: 20, background: '#0a0a0a', overflow: 'hidden' }}>
 
-          {/* ── LEFT ── */}
-          <div className="flex flex-col gap-5">
-
-            {/* Blueprint card — neon border */}
-            <div className="bump-neon relative" style={{ borderRadius: 20 }}>
-              <div className="bump-inner text-left" style={{ borderRadius: 18 }}>
-
-                {/* Toujours visible */}
-                <div className="p-6 sm:p-7">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground">
-                      Builders Blueprint
-                    </p>
-                    <span className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-semibold flex-shrink-0" style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}>
-                      <Flame size={12} strokeWidth={1.5} />
-                      Offre de lancement
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-[14px] font-medium text-muted-foreground/50 line-through">297€</span>
-                      <div className="flex items-baseline gap-0.5">
-                        <span className="text-[16px] font-semibold text-muted-foreground">€</span>
-                        <span style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }} className="text-foreground">{basePrice}</span>
-                      </div>
-                      <span className="text-[12px] text-muted-foreground">· paiement unique</span>
-                    </div>
-                    <button
-                      onClick={() => setOfferOpen(o => !o)}
-                      className="flex items-center gap-1.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors flex-shrink-0 border border-border rounded-lg px-3 py-1.5"
-                    >
-                      {offerOpen ? 'Réduire' : 'Voir le détail'}
-                      <ChevronDown size={13} strokeWidth={2} className="transition-transform duration-200" style={{ transform: offerOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                    </button>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Bonus réclamés</span>
-                      <span className="text-[11px] font-bold text-foreground tabular-nums">110 / 200</span>
-                    </div>
-                    <div className="h-[3px] rounded-full bg-border overflow-hidden">
-                      <div className="h-full rounded-full bg-foreground" style={{ width: "55%" }} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Détail expandable */}
-                {offerOpen && (
-                  <div className="border-t border-border px-6 sm:px-8 pb-8 pt-6">
-                    <ul className="mb-6 flex flex-col gap-[10px]">
-                      {MAIN_FEATURES.map((f) => {
-                        const dashIdx = f.indexOf(' — ')
-                        return (
-                          <li key={f} className="flex items-start gap-2.5">
-                            <Check size={13} strokeWidth={2} className="mt-[2px] shrink-0 text-foreground" />
-                            {dashIdx !== -1
-                              ? <span className="text-muted-foreground text-[13px]"><span className="font-bold text-foreground">{f.slice(0, dashIdx)}</span> — {f.slice(dashIdx + 3)}</span>
-                              : <span className="font-bold text-foreground text-[13px]">{f}</span>
-                            }
-                          </li>
-                        )
-                      })}
-                    </ul>
-
-                    <div className="border-t border-border pt-3 text-right">
-                      <div className="text-[11px] text-muted-foreground/50 line-through">Valeur totale : 1 583€</div>
-                      <div className="text-[12px] font-bold text-foreground">Ton prix aujourd'hui : {basePrice}€</div>
-                    </div>
-                  </div>
-                )}
-              </div>
+          {/* Product */}
+          <div className="p-6">
+            <div className="flex items-start justify-between mb-1">
+              <p style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>{productName}</p>
+              <p style={{ fontSize: 17, fontWeight: 700, color: '#fff' }}>{basePrice}€</p>
             </div>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', marginBottom: 18 }}>{productSubtitle}</p>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {productFeatures.map((f) => (
+                <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+                  <span style={{ marginTop: 2, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>•</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* OB 1 — Claude OS */}
-            <BumpCard
+          {/* Divider */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }} />
+
+          {/* Extensions */}
+          <div className="p-6" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.22)', marginBottom: 4 }}>
+              Extension recommandée
+            </p>
+
+            <ExtensionCard
               checked={hasOrderBump}
               onToggle={() => setHasOrderBump(!hasOrderBump)}
-              name="Claude OS"
-              strikeprice="97€"
-              addprice={`+${claudeOSPrice}€`}
-              title="Le même setup qu'on utilise pour générer +35K€/mois. Installe une fois, crée à l'infini."
-              description='"Sans Claude OS tu peux builder. Avec, tu builds comme un pro."'
-              detailOpen={claudeOSOpen}
-              onToggleDetail={() => setClaudeOSOpen(o => !o)}
-              features={CLAUDE_OS_FEATURES}
-              accentColor="#a78bfa"
-              icon={<ClaudeIcon size={16} className="text-foreground" />}
+              name={ext1Name}
+              price={`+${ext1Price}€`}
+              badge={!isClaudeFunnel ? "PROMO ACHETEUR BLUEPRINT · -21% sur le prix public (47€)" : undefined}
+              accroche={ext1Accroche}
+              highlights={ext1Highlights}
+              closing={ext1Closing}
+              icon={<ClaudeIcon size={15} style={{ color: '#fff', opacity: 0.85 }} />}
             />
 
-            {/* OB 2 — Blueprint 100 Clients */}
             {!isClaudeFunnel && (
-              <BumpCard
+              <ExtensionCard
                 checked={hasAcquisitionBump}
                 onToggle={() => setHasAcquisitionBump(!hasAcquisitionBump)}
-                name="Blueprint 100 Premiers Clients"
-                strikeprice="197€"
-                addprice="+27€"
-                title="Ton Micro-SaaS IA est live. Maintenant il faut des clients."
-                description="La méthode complète pour atteindre 100 clients payants — canaux, templates et guide de pricing inclus."
-                detailOpen={acquisitionOpen}
-                onToggleDetail={() => setAcquisitionOpen(o => !o)}
-                features={ACQUISITION_FEATURES}
-                accentColor="#60a5fa"
+                name="Ajouter 100 Premiers Clients"
+                price={`+${ext2Price}€`}
+                accroche="La méthode complète pour acquérir tes 100 premiers clients payants sans agence et sans budget ADS infini."
+                highlights={[
+                  "Le framework d'acquisition par canal (organic, ADS, outbound)",
+                  "Les templates de pitch + scripts de DM testés",
+                  "Les structures de pricing qui convertissent (anchoring, tiers)",
+                  "Le playbook ProductHunt + lancement communautaire",
+                  "Les 10 erreurs qui tuent une acquisition (à éviter)",
+                ]}
+                closing="Tu sors avec un plan d'acquisition exécutable, pas une théorie générique."
               />
             )}
           </div>
 
-          {/* ── RIGHT — sticky summary ── */}
-          <div className="lg:sticky lg:top-6 flex flex-col gap-4">
-            <div className="rounded-2xl border border-border bg-card p-6">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.09em] text-muted-foreground mb-5">Récapitulatif</p>
+          {/* Divider */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }} />
 
-              <div className="flex flex-col gap-2.5 mb-5">
-                <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-muted-foreground">Builders Blueprint</span>
-                  <span className="font-semibold text-foreground">{basePrice}€</span>
-                </div>
-                {hasOrderBump && (
-                  <div className="flex items-center justify-between text-[13px]">
-                    <span className="text-muted-foreground">Claude OS</span>
-                    <span className="font-semibold text-foreground">+{claudeOSPrice}€</span>
-                  </div>
-                )}
-                {!isClaudeFunnel && hasAcquisitionBump && (
-                  <div className="flex items-center justify-between text-[13px]">
-                    <span className="text-muted-foreground">Blueprint 100 Clients</span>
-                    <span className="font-semibold text-foreground">+{acquisitionPrice}€</span>
-                  </div>
-                )}
-                <div className="border-t border-border pt-3 flex items-center justify-between">
-                  <span className="text-[14px] font-bold text-foreground">Total</span>
-                  <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em' }} className="text-foreground">{total}€</span>
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <div className="flex items-center justify-between mb-1.5 text-[11px] text-muted-foreground/60">
-                  <span>110/200 places réclamées</span>
-                  <span>Ensuite 297€</span>
-                </div>
-                <div className="h-1.5 w-full rounded-full bg-border overflow-hidden">
-                  <div className="h-full rounded-full bg-foreground/70" style={{ width: "55%" }} />
-                </div>
-              </div>
-
-              {error && (
-                <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">
-                  {error}
-                </div>
-              )}
-
-              {!showStripe && (
-                <>
-                  <a
-                    href="#"
-                    onClick={(e) => { e.preventDefault(); handlePay() }}
-                    className="cta-rainbow relative flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-[15px] font-semibold text-background transition-opacity hover:opacity-85 no-underline"
-                    style={{ opacity: loading ? 0.7 : 1, pointerEvents: loading ? 'none' : 'auto' }}
-                  >
-                    {loading ? 'Connexion...' : `Accéder au Blueprint — ${total}€ →`}
-                  </a>
-                  <ul className="mt-4 flex flex-col gap-2.5">
-                    {[
-                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, label: "Paiement sécurisé Stripe" },
-                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>, label: "SSL 256-bit" },
-                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>, label: "Satisfait ou remboursé 30j" },
-                      { icon: <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><text x="2" y="17" fontSize="14" fontWeight="bold" fill="currentColor" stroke="none">S</text></svg>, label: "Visa / Mastercard / AMEX" },
-                    ].map(({ icon, label }) => (
-                      <li key={label} className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
-                        <span className="shrink-0 text-muted-foreground/70">{icon}</span>
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {/* Stripe inline */}
-              {showStripe && (
-                <div className="mt-2 rounded-xl border border-border overflow-hidden">
-                  {!stripeReady && (
-                    <div className="flex flex-col items-center justify-center gap-3 py-12">
-                      <div className="h-7 w-7 animate-spin rounded-full border-2 border-border border-t-foreground" />
-                      <span className="text-[13px] text-muted-foreground">Chargement sécurisé…</span>
-                    </div>
-                  )}
-                  <div ref={mountRef} className={stripeReady ? '' : 'hidden'} />
-                </div>
-              )}
+          {/* Total */}
+          <div className="px-6 py-5 flex items-end justify-between">
+            <p style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Total</p>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1, color: '#fff' }}>{total}€</p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>paiement unique</p>
             </div>
           </div>
         </div>
+        </div>{/* end cta-rainbow */}
+
+        {/* Error */}
+        {error && (
+          <div className="mb-3 rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', fontSize: 13, color: '#f87171' }}>
+            {error}
+          </div>
+        )}
+
+        {/* CTA */}
+        {!showStripe && (
+          <button
+            onClick={handlePay}
+            disabled={loading}
+            className="w-full rounded-xl transition-opacity hover:opacity-90 disabled:opacity-60"
+            style={{ background: '#fff', fontSize: 16, fontWeight: 700, color: '#09090b', border: 'none', cursor: loading ? 'not-allowed' : 'pointer', letterSpacing: '-0.02em', padding: '15px 0' }}
+          >
+            {loading ? 'Connexion...' : `Finaliser l'achat · ${total}€`}
+          </button>
+        )}
+
+        {!isClaudeFunnel && !showStripe && (
+          <div className="mt-3">
+            <BuilderTierBadge variant="full" />
+          </div>
+        )}
+
+        {/* Payment security block */}
+        <div className="mt-4 rounded-2xl px-5 py-5" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}>
+          <div className="flex items-center justify-center gap-1.5 mb-4">
+            <Lock size={11} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.45)' }} />
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.07em', textTransform: 'uppercase', fontWeight: 600 }}>
+              Paiement sécurisé · SSL 256-bit
+            </p>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 14 }}>
+
+            {/* Apple Pay */}
+            <svg width="58" height="22" viewBox="0 0 58 22" fill="white" style={{ opacity: 0.78 }}>
+              <path d="M9.16 4.47a3.37 3.37 0 0 0 .77-2.39 3.43 3.43 0 0 0-2.22 1.15 3.2 3.2 0 0 0-.8 2.32 2.83 2.83 0 0 0 2.25-1.08z"/>
+              <path d="M9.92 5.69c-1.24-.07-2.3.7-2.89.7-.6 0-1.52-.67-2.51-.65a3.7 3.7 0 0 0-3.14 1.9C.05 9.87.94 13.62 2.23 15.59c.63.92 1.4 1.95 2.4 1.91.96-.04 1.32-.62 2.49-.62s1.5.62 2.5.6c1.04-.02 1.7-.94 2.33-1.87a8 8 0 0 0 1.03-2.12 3.4 3.4 0 0 1-2.04-3.1 3.48 3.48 0 0 1 1.66-2.93 3.56 3.56 0 0 0-2.68-1.77z"/>
+              <text x="15" y="14.5" fontFamily="-apple-system,BlinkMacSystemFont,system-ui,sans-serif" fontSize="11" fontWeight="600">Pay</text>
+            </svg>
+
+            {/* Google Pay */}
+            <svg width="54" height="22" viewBox="0 0 54 22" fill="white" style={{ opacity: 0.78 }}>
+              <text x="0" y="15" fontFamily="system-ui,sans-serif" fontSize="13" fontWeight="500">G Pay</text>
+            </svg>
+
+            {/* Revolut */}
+            <svg width="72" height="22" viewBox="0 0 72 22" fill="white" style={{ opacity: 0.78 }}>
+              <text x="0" y="16" fontFamily="system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif" fontSize="15" fontWeight="800" letterSpacing="-0.4">Revolut</text>
+            </svg>
+
+            {/* CB — Carte Bancaire */}
+            <svg width="40" height="22" viewBox="0 0 40 22" fill="none" style={{ opacity: 0.78 }}>
+              <rect x="0.5" y="0.5" width="39" height="21" rx="3.5" stroke="white" strokeOpacity="0.55"/>
+              <text x="8" y="15" fontFamily="system-ui,sans-serif" fontSize="11" fontWeight="800" fill="white">CB</text>
+            </svg>
+
+            {/* American Express */}
+            <svg width="56" height="22" viewBox="0 0 56 22" fill="none" style={{ opacity: 0.78 }}>
+              <rect x="0.5" y="0.5" width="55" height="21" rx="3.5" stroke="white" strokeOpacity="0.45" fill="rgba(255,255,255,0.06)"/>
+              <text x="5" y="9.5" fontFamily="system-ui,sans-serif" fontSize="7" fontWeight="800" fill="white" letterSpacing="0.8">AMERICAN</text>
+              <text x="7" y="17.5" fontFamily="system-ui,sans-serif" fontSize="7" fontWeight="800" fill="white" letterSpacing="0.8">EXPRESS</text>
+            </svg>
+
+          </div>
+        </div>
+
+        {/* Stripe embedded */}
+        {showStripe && (
+          <div className="mt-4 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+            {!stripeReady && (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, padding: '48px 0' }}>
+                <div className="animate-spin rounded-full" style={{ width: 28, height: 28, border: '2px solid rgba(255,255,255,0.15)', borderTopColor: '#fff' }} />
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>Chargement sécurisé…</span>
+              </div>
+            )}
+            <div ref={mountRef} className={stripeReady ? '' : 'hidden'} />
+          </div>
+        )}
+
+        {/* Trust badges */}
+        <div className="mt-6 grid grid-cols-4 gap-2">
+          {[
+            { label: 'Garantie 14 jours', Icon: Shield },
+            { label: 'Updates à vie',     Icon: RefreshCw },
+            { label: 'Accès immédiat',    Icon: Zap },
+            { label: 'Paiement Stripe',   Icon: Lock },
+          ].map(({ label, Icon }) => (
+            <div key={label} className="rounded-xl flex flex-col items-center gap-2 p-3 text-center" style={{ border: '1px solid rgba(255,255,255,0.18)', background: 'transparent' }}>
+              <Icon size={15} strokeWidth={1.5} style={{ color: 'rgba(255,255,255,0.7)' }} />
+              <p style={{ fontSize: 10, lineHeight: 1.3, color: 'rgba(255,255,255,0.55)' }}>{label}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
 
-      {/* FOOTER */}
-      <footer className="border-t border-border bg-background mt-16">
-        <div className="mx-auto max-w-[1000px] px-6 py-10 flex flex-col items-center gap-4">
-          <div className="rounded-full bg-foreground p-3">
-            <BuildrsIcon color="hsl(var(--background))" className="h-6 w-6" />
-          </div>
-          <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Buildrs Group. Tous droits réservés.
-          </p>
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
-            {[
-              { label: "CGV",               hash: "#/legal/cgv" },
-              { label: "Mentions légales",  hash: "#/legal/mentions" },
-              { label: "Confidentialité",   hash: "#/legal/confidentialite" },
-              { label: "Cookies",           hash: "#/legal/cookies" },
-            ].map(({ label, hash }) => (
-              <a key={label} href={hash} className="text-[11px] text-muted-foreground/50 transition-colors hover:text-muted-foreground">
-                {label}
-              </a>
-            ))}
-          </div>
-          <p className="max-w-[560px] text-center text-[11px] leading-relaxed text-muted-foreground/40">
-            Ce site n'est pas affilié à Facebook™, Instagram™ ou Meta Platforms, Inc. Facebook™ et Instagram™ sont des marques déposées de Meta Platforms, Inc. Les résultats peuvent varier selon les individus et dépendent de nombreux facteurs. Ce site ne garantit aucun résultat spécifique.
-          </p>
-        </div>
-      </footer>
+      <StackedCircularFooter />
+
     </div>
   )
 }

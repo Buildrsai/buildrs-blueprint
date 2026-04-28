@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { LogOut, Settings, Bell } from 'lucide-react'
 import { useNotifications } from '../../hooks/useNotifications'
-import { BuilderAvatar } from '../ui/BuilderAvatar'
+import { UserAvatarWithFallback } from '../ui/UserAvatar'
 
 interface Props {
   title: string
@@ -24,7 +24,7 @@ function timeAgo(date: string): string {
   return `${Math.floor(hours / 24)}j`
 }
 
-export function Header({ title, userEmail, userFirstName, userAvatarUrl: _userAvatarUrl, userLevel, userId, onSignOut, navigate }: Props) {
+export function Header({ title, userEmail, userFirstName, userAvatarUrl, userLevel: _userLevel, userId, onSignOut, navigate }: Props) {
   const displayName  = userFirstName || userEmail?.split('@')[0] || ''
   const [userOpen, setUserOpen]   = useState(false)
   const [bellOpen, setBellOpen]   = useState(false)
@@ -150,7 +150,7 @@ export function Header({ title, userEmail, userFirstName, userAvatarUrl: _userAv
             <span className="text-[12px] text-muted-foreground hidden sm:block tracking-[-0.01em]">
               {displayName}
             </span>
-            <BuilderAvatar level={userLevel ?? 'explorer'} size={28} />
+            <UserAvatarWithFallback avatarUrl={userAvatarUrl} firstName={userFirstName} email={userEmail} size={28} />
           </button>
 
           {userOpen && (

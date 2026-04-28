@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=1200"/>
+  <title>Buildrs · 7-Day SaaS Sprint System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    @font-face {
+      font-family: 'Geist Mono';
+      src: url('./fonts/GeistMono-Variable.woff2') format('woff2-variations');
+      font-weight: 100 900;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #FAFAFA;
+      background-image: radial-gradient(circle, #d4d4d4 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+    body { padding-top: 42px; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 42px;
+      background: rgba(250,250,250,0.94);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #E5E5E5;
+      display: flex; align-items: center; padding: 0 24px; gap: 10px; z-index: 200;
+    }
+    .topbar-name { font-size:13px; font-weight:600; color:#0A0A0A; }
+    .topbar-sep { color:#D4D4D4; font-size:14px; }
+    .topbar-file { font-family:'Geist Mono',monospace; font-size:11px; color:#737373; }
+    .topbar-partner {
+      margin-left: auto;
+      font-family:'Geist Mono',monospace; font-size:9px; font-weight:700;
+      letter-spacing:0.1em; text-transform:uppercase;
+      padding:4px 12px; border-radius:20px;
+      border:1px solid rgba(204,93,232,0.28);
+      background:linear-gradient(135deg,#cc5de8,#4d96ff);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+
+    /* ── CANVAS WRAPPER ── */
+    .canvas-wrap { width:1200px; margin:0 auto; padding:48px 60px 100px; }
+
+    /* ── DRAGGABLE CANVAS ── */
+    .canvas {
+      position: relative;
+      width: 1080px;
+      height: 5400px;
+    }
+
+    /* SVG connector layer */
+    #connectors {
+      position: absolute; top:0; left:0;
+      width:1080px; height:5400px;
+      pointer-events: none; z-index:1; overflow:visible;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      position: absolute;
+      width: 820px;
+      background: #fff;
+      border: 1px solid #E5E5E5;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+      padding: 36px 40px 32px;
+      cursor: grab;
+      -webkit-user-select: none; user-select: none;
+      z-index: 2;
+      transition: box-shadow 0.15s;
+    }
+    .card.dragging {
+      cursor: grabbing;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(204,93,232,0.15);
+      z-index: 100;
+    }
+    .card-hero { width:1080px; border-radius:20px; padding:56px 64px 52px; }
+    .card-exit {
+      background: linear-gradient(145deg, rgba(204,93,232,0.04), rgba(77,150,255,0.04));
+      border-color: rgba(140,100,240,0.18);
+    }
+
+    /* Drag hint on hover */
+    .drag-label {
+      position:absolute; top:-20px; left:0;
+      font-family:'Geist Mono',monospace; font-size:9px; color:#C0C0C0;
+      letter-spacing:0.04em; pointer-events:none;
+      opacity:0; transition:opacity 0.2s;
+    }
+    .card:hover .drag-label { opacity:1; }
+
+    /* ── CARD INTERNALS ── */
+    .frame-label { display:flex; align-items:center; gap:8px; margin-bottom:10px; font-family:'Geist Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.02em; }
+    .day-num { font-weight:700; background:linear-gradient(135deg,#cc5de8,#4d96ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .day-name { color:#A3A3A3; }
+    .frame-phase { font-family:'Geist Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:#A3A3A3; margin-bottom:14px; }
+    .frame-title { font-size:24px; font-weight:700; color:#0A0A0A; letter-spacing:-0.02em; line-height:1.2; margin-bottom:14px; }
+    .frame-bullets { list-style:none; margin-bottom:20px; }
+    .frame-bullets li { font-size:14px; color:#525252; line-height:1.6; padding:3px 0 3px 16px; position:relative; }
+    .frame-bullets li::before { content:''; position:absolute; left:0; top:11px; width:4px; height:4px; border-radius:50%; background:linear-gradient(135deg,#cc5de8,#4d96ff); }
+    .frame-tools { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+    .tool-chip { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; background:#fff; border:1px solid #E5E5E5; border-radius:20px; font-family:'Geist Mono',monospace; font-size:11px; font-weight:500; color:#0A0A0A; pointer-events:none; }
+    .frame-screens { display:flex; flex-wrap:wrap; gap:10px; }
+    .frame-screens figure { flex-shrink:0; }
+    .frame-screens img { width:152px; height:auto; border-radius:8px; border:1px solid #E5E5E5; box-shadow:0 2px 8px rgba(0,0,0,0.06); display:block; pointer-events:none; }
+    .frame-screens figcaption { font-family:'Geist Mono',monospace; font-size:9px; color:#A3A3A3; margin-top:5px; text-align:center; pointer-events:none; }
+
+    /* Hero internals */
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; margin-bottom:32px; padding:6px 14px; background:#FAFAFA; border:1px solid #E5E5E5; border-radius:20px; font-family:'Geist Mono',monospace; font-size:10px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:#525252; }
+    .hero-tag-dot { width:6px; height:6px; border-radius:50%; background:linear-gradient(135deg,#cc5de8,#4d96ff); flex-shrink:0; }
+    .hero-title { font-size:46px; font-weight:800; line-height:1.1; letter-spacing:-0.03em; color:#0A0A0A; margin-bottom:20px; }
+    .hero-title .grad { background:linear-gradient(135deg,#cc5de8,#4d96ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero-subtitle { font-size:17px; color:#525252; line-height:1.55; margin-bottom:44px; }
+    .hero-badges { display:flex; gap:14px; flex-wrap:wrap; }
+    .hero-badge { display:flex; flex-direction:column; gap:5px; padding:14px 20px; background:#FAFAFA; border:1px solid #E5E5E5; border-radius:12px; min-width:128px; }
+    .hero-badge-num { font-family:'Geist Mono',monospace; font-size:24px; font-weight:700; line-height:1; background:linear-gradient(135deg,#cc5de8,#4d96ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero-badge-label { font-size:11px; font-weight:500; color:#525252; line-height:1.35; }
+
+    /* Alfred comment */
+    .comment-row { display:flex; align-items:flex-start; gap:10px; margin-top:16px; padding:14px 16px; background:rgba(204,93,232,0.06); border:1.5px solid rgba(204,93,232,0.18); border-radius:12px; pointer-events:none; }
+    .comment-avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; flex-shrink:0; border:2px solid #fff; box-shadow:0 0 0 1.5px rgba(204,93,232,0.3); }
+    .comment-text { font-size:13px; font-style:italic; color:#0A0A0A; line-height:1.5; padding-top:5px; }
+    .comment-author { font-family:'Geist Mono',monospace; font-size:9px; color:#A3A3A3; font-style:normal; margin-top:4px; }
+
+    /* Exit paths */
+    .exit-label { display:inline-flex; align-items:center; gap:6px; font-family:'Geist Mono',monospace; font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:linear-gradient(135deg,#cc5de8,#4d96ff); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:10px; }
+    .exit-paths { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:20px 0 22px; pointer-events:none; }
+    .exit-path { background:#fff; border:1px solid #E5E5E5; border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; gap:8px; }
+    .exit-path-icon { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,rgba(204,93,232,0.1),rgba(77,150,255,0.1)); display:flex; align-items:center; justify-content:center; }
+    .exit-path-title { font-size:15px; font-weight:700; color:#0A0A0A; }
+    .exit-path-desc { font-size:12px; color:#525252; line-height:1.55; }
+
+    /* Footer */
+    .footer { width:1080px; padding-top:32px; margin-top:40px; border-top:1px solid #E5E5E5; display:flex; align-items:center; justify-content:space-between; }
+    .footer-left { display:flex; align-items:center; gap:12px; }
+    .footer-name { font-size:14px; font-weight:600; color:#0A0A0A; }
+    .footer-url { font-family:'Geist Mono',monospace; font-size:11px; color:#A3A3A3; }
+    .footer-right { font-family:'Geist Mono',monospace; font-size:9px; color:#D4D4D4; letter-spacing:0.08em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+      <rect x="11" y="2" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+      <rect x="2" y="11" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+      <rect x="11" y="11" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+    </svg>
+    <span class="topbar-name">Buildrs Group</span>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-file">7-Day SaaS Sprint System · v3</span>
+    <span class="topbar-partner">ANTHROPIC BUSINESS PARTNERS</span>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas" id="canvas">
+
+      <!-- ── SVG CONNECTOR OVERLAY ── -->
+      <svg id="connectors" viewBox="0 0 1080 5400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg-conn" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#cc5de8"/>
+            <stop offset="100%" stop-color="#4d96ff"/>
+          </linearGradient>
+          <linearGradient id="lg-badge" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#cc5de8"/>
+            <stop offset="100%" stop-color="#4d96ff"/>
+          </linearGradient>
+        </defs>
+        <!-- Connector paths (updated by JS) -->
+        <path id="conn-0" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-1" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-2" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-3" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-4" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-5" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-6" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <path id="conn-7" fill="none" stroke="url(#lg-conn)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
+        <!-- Badge circles at midpoints -->
+        <circle id="badge-0" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-1" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-2" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-3" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-4" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-5" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-6" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <circle id="badge-7" r="18" fill="url(#lg-badge)" filter="drop-shadow(0 2px 8px rgba(204,93,232,0.3))"/>
+        <!-- Chevron icons inside badges (translated by JS) -->
+        <path id="icon-0" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-1" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-2" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-3" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-4" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-5" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-6" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path id="icon-7" d="M-5.5,-2.5 L0,4 L5.5,-2.5" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+
+      <!-- ══ HERO ══ -->
+      <div id="hero" class="card card-hero" style="left:0;top:0;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          ANTHROPIC BUSINESS PARTNERS · Buildrs Group
+        </div>
+        <h1 class="hero-title">
+          Le système <span class="grad">exact</span> qu'on utilise<br/>
+          chez Buildrs pour lancer des SaaS IA<br/>
+          en 7 jours grâce à Claude Code
+        </h1>
+        <p class="hero-subtitle">
+          De l'idée validée au premier MRR — le même système opérationnel, appliqué sur 25 SaaS.
+        </p>
+        <div class="hero-badges">
+          <div class="hero-badge"><span class="hero-badge-num">25</span><span class="hero-badge-label">SaaS lancés</span></div>
+          <div class="hero-badge"><span class="hero-badge-num">3</span><span class="hero-badge-label">SaaS revendus</span></div>
+          <div class="hero-badge"><span class="hero-badge-num">45M</span><span class="hero-badge-label">tokens Claude Code/mois</span></div>
+          <div class="hero-badge"><span class="hero-badge-num">250</span><span class="hero-badge-label">Buildrs accompagnés</span></div>
+          <div class="hero-badge"><span class="hero-badge-num">7</span><span class="hero-badge-label">modules · système complet</span></div>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 01 ══ -->
+      <div id="day01" class="card" style="left:130px;top:600px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 01</span><span class="day-name">/ Trouver et valider l'idée</span></div>
+        <div class="frame-phase">Phase · Sourcing &amp; Validation</div>
+        <h2 class="frame-title">Trouver et valider l'idée</h2>
+        <ul class="frame-bullets">
+          <li>Repérer ce qui marche déjà avec des chiffres réels — pas des intuitions</li>
+          <li>Sourcer sur les marketplaces de revente pour voir les MRR prouvés</li>
+          <li>Valider le problème ET le marché : des gens paient déjà pour ça</li>
+          <li>Définir l'idée en une phrase avant de toucher au code</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Reddit</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Product Hunt</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>TrustMRR</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Flippa</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>Acquire.com</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.00.55.png" alt="Reddit" loading="lazy"/><figcaption>Reddit</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.07.png" alt="Product Hunt" loading="lazy"/><figcaption>Product Hunt</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.37.png" alt="TrustMRR" loading="lazy"/><figcaption>TrustMRR</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.56.png" alt="Flippa" loading="lazy"/><figcaption>Flippa</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.07.04.png" alt="Acquire.com" loading="lazy"/><figcaption>Acquire.com</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 02 ══ -->
+      <div id="day02" class="card" style="left:130px;top:1180px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 02</span><span class="day-name">/ Architecture</span></div>
+        <div class="frame-phase">Phase · Fondations</div>
+        <h2 class="frame-title">Architecture</h2>
+        <ul class="frame-bullets">
+          <li>Définir la stack avec Claude avant d'écrire une seule ligne de code</li>
+          <li>Schéma base de données · authentification · sécurité RLS</li>
+          <li>Brief produit complet : objectif, features core, flow utilisateur</li>
+          <li>20 minutes de planification = 5 heures de développement gagnées</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Claude.ai</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Supabase</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Obsidian</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.03.07.png" alt="Claude.ai" loading="lazy"/><figcaption>Claude.ai</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.26.png" alt="Obsidian" loading="lazy"/><figcaption>Obsidian</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.05.png" alt="Supabase" loading="lazy"/><figcaption>Supabase</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 03 ══ -->
+      <div id="day03" class="card" style="left:130px;top:1720px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 03</span><span class="day-name">/ Design</span></div>
+        <div class="frame-phase">Phase · UI/UX express</div>
+        <h2 class="frame-title">Design</h2>
+        <ul class="frame-bullets">
+          <li>S'inspirer des apps qui convertissent — copier ce qui marche, pas réinventer</li>
+          <li>Récupérer des composants prêts à l'emploi — pas partir de zéro</li>
+          <li>Branding express en un prompt : palette, typo, style visuel</li>
+          <li>Donner les références visuelles à Claude Code pour coller au résultat voulu</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Mobbin</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>21st.dev</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Claude Design</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Draftly</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.04.08.png" alt="Mobbin" loading="lazy"/><figcaption>Mobbin</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.04.26.png" alt="21st.dev" loading="lazy"/><figcaption>21st.dev</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.03.39.png" alt="Claude Design" loading="lazy"/><figcaption>Claude Design</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.42.png" alt="Draftly" loading="lazy"/><figcaption>Draftly</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 04 ══ -->
+      <div id="day04" class="card" style="left:130px;top:2280px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 04</span><span class="day-name">/ Construction et brief projet</span></div>
+        <div class="frame-phase">Phase · Build — Claude Code prend le relais</div>
+        <h2 class="frame-title">Construction et brief projet</h2>
+        <ul class="frame-bullets">
+          <li>Rédiger le brief complet : objectif, features, stack, design, contraintes</li>
+          <li>Claude Code initialise le projet et scaffold l'architecture entière</li>
+          <li>Mon rôle devient superviseur — je valide, je dirige, je n'écris pas de code</li>
+          <li>Itérer par feature — une chose à la fois, proprement, sans dette technique</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Claude Code</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>VS Code</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.58.png" alt="Claude Code" loading="lazy"/><figcaption>Claude Code</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.08.20.png" alt="GitHub" loading="lazy"/><figcaption>GitHub</figcaption></figure>
+        </div>
+        <div class="comment-row">
+          <img src="./Alfred_opt.jpg" alt="Alfred" class="comment-avatar"/>
+          <div><div class="comment-text">Mon job devient superviseur.</div><div class="comment-author">Alfred · Buildrs Group</div></div>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 05 ══ -->
+      <div id="day05" class="card" style="left:130px;top:2900px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 05</span><span class="day-name">/ Features et automatisation IA</span></div>
+        <div class="frame-phase">Phase · Polish &amp; IA</div>
+        <h2 class="frame-title">Features et automatisation IA</h2>
+        <ul class="frame-bullets">
+          <li>La feature core IA est branchée — Claude API via Edge Function Supabase</li>
+          <li>Tester, itérer, polir — l'UX prend forme et devient réellement utilisable</li>
+          <li>Whispr pour dicter les prompts à Claude Code à la voix — vitesse x3</li>
+          <li>Jamais l'API key côté client — tout passe par les Edge Functions</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Claude Code</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>Whispr</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Anthropic API</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.58.png" alt="Claude Code" loading="lazy"/><figcaption>Claude Code</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.05.15.png" alt="Whispr" loading="lazy"/><figcaption>Whispr / Flow</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.05.png" alt="Supabase" loading="lazy"/><figcaption>Supabase</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 06 ══ -->
+      <div id="day06" class="card" style="left:130px;top:3440px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 06</span><span class="day-name">/ Déployer</span></div>
+        <div class="frame-phase">Phase · Mise en ligne</div>
+        <h2 class="frame-title">Déployer</h2>
+        <ul class="frame-bullets">
+          <li>Push Vercel depuis GitHub — déploiement automatique en moins de 2 minutes</li>
+          <li>Connecter le domaine et configurer le DNS via Hostinger</li>
+          <li>Supabase production : RLS activé, variables d'environnement sécurisées</li>
+          <li>Emails transactionnels Resend : bienvenue, confirmation, relance</li>
+          <li>Accessible au monde entier — première URL prod live</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Vercel</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Hostinger</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>Supabase</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Resend</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.13.png" alt="Vercel" loading="lazy"/><figcaption>Vercel</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.49.png" alt="Hostinger" loading="lazy"/><figcaption>Hostinger</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.05.png" alt="Supabase" loading="lazy"/><figcaption>Supabase</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.20.png" alt="Resend" loading="lazy"/><figcaption>Resend</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.08.20.png" alt="GitHub" loading="lazy"/><figcaption>GitHub</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ DAY 07 ══ -->
+      <div id="day07" class="card" style="left:130px;top:4060px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="frame-label"><span class="day-num">DAY 07</span><span class="day-name">/ Launch — Monétiser et lancer</span></div>
+        <div class="frame-phase">Phase · Go-to-market</div>
+        <h2 class="frame-title">Launch — Monétiser et lancer</h2>
+        <ul class="frame-bullets">
+          <li>Stripe live : produits, prix, checkout configurés — prêt à encaisser</li>
+          <li>Analytics et tracking dès J1 — savoir ce qui fonctionne, ne pas deviner</li>
+          <li>Distribution multi-canal : Product Hunt · Reddit · X · communautés niche</li>
+          <li>Premiers visiteurs, premiers euros — la boucle est bouclée</li>
+        </ul>
+        <div class="frame-tools">
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Stripe</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>PostHog</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Product Hunt</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Reddit</span>
+          <span class="tool-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16"/><path d="M20 4L4 20"/></svg>X</span>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.34.png" alt="Stripe" loading="lazy"/><figcaption>Stripe</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.07.35.png" alt="PostHog" loading="lazy"/><figcaption>PostHog</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.02.07.png" alt="Product Hunt" loading="lazy"/><figcaption>Product Hunt</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.00.55.png" alt="Reddit" loading="lazy"/><figcaption>Reddit</figcaption></figure>
+        </div>
+      </div>
+
+
+      <!-- ══ EXIT ══ -->
+      <div id="exit" class="card card-exit" style="left:130px;top:4640px;">
+        <span class="drag-label">⠿ déplacer</span>
+        <div class="exit-label">DAY 7+ · Première MRR · Et maintenant ?</div>
+        <div class="frame-phase">Phase · Capitaliser — 3 chemins</div>
+        <h2 class="frame-title">Revendre · Dupliquer · Scaler</h2>
+        <p style="font-size:14px;color:#525252;line-height:1.6;max-width:640px;">
+          Le SaaS tourne. La première MRR est là. Ce n'est pas la fin — c'est le début du choix le plus stratégique du projet.
+        </p>
+        <div class="exit-paths">
+          <div class="exit-path">
+            <div class="exit-path-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#cc5de8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="exit-path-title">Revendre</div>
+            <div class="exit-path-desc">Cash-out via Flippa ou Acquire.com. Valorisation 3–5× MRR mensuel. Réinvestir dans le prochain.</div>
+          </div>
+          <div class="exit-path">
+            <div class="exit-path-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7b8bff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <div class="exit-path-title">Dupliquer</div>
+            <div class="exit-path-desc">Réutiliser la même stack sur une autre niche. Effort divisé par 3 dès le deuxième SaaS.</div>
+          </div>
+          <div class="exit-path">
+            <div class="exit-path-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4d96ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+            <div class="exit-path-title">Scaler</div>
+            <div class="exit-path-desc">Meta Ads, features supplémentaires, viser 1 000€ MRR puis 10 000€. Construire l'actif long terme.</div>
+          </div>
+        </div>
+        <div class="frame-screens">
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.56.png" alt="Flippa" loading="lazy"/><figcaption>Flippa</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.07.04.png" alt="Acquire.com" loading="lazy"/><figcaption>Acquire.com</figcaption></figure>
+          <figure><img src="./Screen%20(Outils%20%C3%A0%20utiliser)/Capture%20d%E2%80%99%C3%A9cran%202026-04-28%20%C3%A0%2015.06.34.png" alt="Stripe" loading="lazy"/><figcaption>Stripe</figcaption></figure>
+        </div>
+      </div>
+
+    </div><!-- /canvas -->
+
+    <!-- ── FOOTER (outside canvas, normal flow) ── -->
+    <div class="footer">
+      <div class="footer-left">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+          <rect x="11" y="2" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+          <rect x="2" y="11" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+          <rect x="11" y="11" width="7" height="7" rx="1.5" stroke="#0A0A0A" stroke-width="1.5"/>
+        </svg>
+        <span class="footer-name">Buildrs Group</span>
+        <span class="footer-url">buildrs.fr</span>
+      </div>
+      <span class="footer-right">ANTHROPIC BUSINESS PARTNERS · 7-Day SaaS Sprint System · v3 · 2026</span>
+    </div>
+  </div><!-- /canvas-wrap -->
+
+  <script>
+    // ── CONNECTIONS ──
+    const connections = [
+      ['hero',  'day01'],
+      ['day01', 'day02'],
+      ['day02', 'day03'],
+      ['day03', 'day04'],
+      ['day04', 'day05'],
+      ['day05', 'day06'],
+      ['day06', 'day07'],
+      ['day07', 'exit'],
+    ];
+
+    // ── UPDATE SVG CONNECTORS ──
+    function updateConnectors() {
+      connections.forEach(([fromId, toId], i) => {
+        const from = document.getElementById(fromId);
+        const to   = document.getElementById(toId);
+        if (!from || !to) return;
+
+        const startX = from.offsetLeft + from.offsetWidth  / 2;
+        const startY = from.offsetTop  + from.offsetHeight;
+        const endX   = to.offsetLeft   + to.offsetWidth    / 2;
+        const endY   = to.offsetTop;
+
+        const midX = (startX + endX) / 2;
+        const midY = (startY + endY) / 2;
+        const dy   = endY - startY;
+
+        // Smooth bezier (vertical S-curve adapts to horizontal offset)
+        const path = document.getElementById('conn-' + i);
+        path.setAttribute('d',
+          `M ${startX} ${startY} C ${startX} ${startY + dy * 0.45} ${endX} ${endY - dy * 0.45} ${endX} ${endY}`
+        );
+
+        // Badge circle at midpoint
+        const circle = document.getElementById('badge-' + i);
+        circle.setAttribute('cx', midX);
+        circle.setAttribute('cy', midY);
+
+        // Chevron inside badge (translate to midpoint)
+        const icon = document.getElementById('icon-' + i);
+        icon.setAttribute('transform', `translate(${midX}, ${midY})`);
+      });
+    }
+
+    // ── DRAG ──
+    let drag = null;
+
+    function onPointerDown(e) {
+      // Ignore clicks on images and links
+      if (['IMG','A','INPUT','BUTTON'].includes(e.target.tagName)) return;
+      e.preventDefault();
+      const card = e.currentTarget;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      drag = {
+        card,
+        startX: clientX,
+        startY: clientY,
+        origLeft: card.offsetLeft,
+        origTop:  card.offsetTop,
+      };
+      card.classList.add('dragging');
+    }
+
+    function onPointerMove(e) {
+      if (!drag) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const dx = clientX - drag.startX;
+      const dy = clientY - drag.startY;
+      drag.card.style.left = Math.max(0, drag.origLeft + dx) + 'px';
+      drag.card.style.top  = Math.max(0, drag.origTop  + dy) + 'px';
+      updateConnectors();
+    }
+
+    function onPointerUp() {
+      if (drag) { drag.card.classList.remove('dragging'); drag = null; }
+    }
+
+    // Attach drag to all cards
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousedown',  onPointerDown);
+      card.addEventListener('touchstart', onPointerDown, { passive: false });
+    });
+    window.addEventListener('mousemove',  onPointerMove);
+    window.addEventListener('touchmove',  (e) => { if (drag) { e.preventDefault(); onPointerMove(e); } }, { passive: false });
+    window.addEventListener('mouseup',    onPointerUp);
+    window.addEventListener('touchend',   onPointerUp);
+
+    // ── INITIAL DRAW ──
+    requestAnimationFrame(() => {
+      updateConnectors();
+      // Re-draw after fonts + images settle
+      document.fonts.ready.then(updateConnectors);
+      setTimeout(updateConnectors, 300);
+    });
+  </script>
+</body>
+</html>

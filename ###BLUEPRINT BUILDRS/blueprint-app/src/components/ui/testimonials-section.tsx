@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { TestimonialsColumn, type Testimonial } from "./testimonials-columns";
+import { BLUEPRINT_PRICE } from "../../lib/pricing";
 
 const testimonials: Testimonial[] = [
   {
@@ -23,7 +24,7 @@ const testimonials: Testimonial[] = [
     role: "Freelance → Product Builder",
   },
   {
-    text: "J'avais essayé des bootcamps à 900€. Blueprint à 27€ m'a donné plus de clarté que tout le reste combiné.",
+    text: `J'avais essayé des bootcamps à 900€. Blueprint à ${BLUEPRINT_PRICE}€ m'a donné plus de clarté que tout le reste combiné.`,
     name: "Camille",
     role: "Coach → Fondatrice",
   },

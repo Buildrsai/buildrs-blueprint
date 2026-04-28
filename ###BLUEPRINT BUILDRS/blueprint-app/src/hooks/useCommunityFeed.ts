@@ -14,6 +14,7 @@ export interface CommunityPost {
   author_email?: string
   author_display_name?: string | null
   author_level?: string | null
+  author_avatar_url?: string | null
   // seed posts
   seed_author_name?: string | null
   seed_author_level?: string | null
@@ -62,6 +63,7 @@ export function useCommunityFeed(userId: string | undefined) {
     content: string,
     authorDisplayName?: string,
     authorLevel?: string,
+    authorAvatarUrl?: string,
   ) => {
     if (!userId) return null
     const { data } = await supabase
@@ -72,6 +74,7 @@ export function useCommunityFeed(userId: string | undefined) {
         content,
         author_display_name: authorDisplayName ?? null,
         author_level: authorLevel ?? null,
+        author_avatar_url: authorAvatarUrl ?? null,
       })
       .select()
       .single()

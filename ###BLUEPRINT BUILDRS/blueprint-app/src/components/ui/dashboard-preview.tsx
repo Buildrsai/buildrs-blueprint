@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Layers, Search, Palette, Building2, Hammer, Rocket, DollarSign,
   TrendingUp, Check, Zap, ChevronDown, Bot, Home, Lock,
@@ -614,7 +614,7 @@ function JarvisContent() {
 
 // ── Main DashboardPreview ─────────────────────────────────────────────────────
 
-export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideTabs = false }: {
+export function DashboardPreview({ windowHeight = 460, mobileHeight = 260, hideTabs = false }: {
   windowHeight?: number
   mobileHeight?: number
   hideTabs?: boolean
@@ -632,7 +632,7 @@ export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideT
     <div className="w-full select-none">
       {/* Tab switcher */}
       {!hideTabs && (
-        <div className="relative mb-4 flex justify-center">
+        <div className="hidden sm:flex relative mb-4 justify-center">
           <div className="relative flex items-center gap-1 rounded-full border border-border bg-card px-1.5 py-1.5 overflow-x-auto max-w-full"
             style={{ scrollbarWidth: 'none' }}>
             {TABS.map(t => (
@@ -711,11 +711,23 @@ export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideT
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex" style={{ height: mobileHeight - 28 }}>
-          <MiniSidebar tab={tab} onTabChange={setTab} />
-          <div className="flex-1 overflow-hidden" style={{ minWidth: 0 }}>
-            {tabContent()}
+        {/* Content — mobile: features list */}
+        <div className="flex flex-col px-5 pt-5 pb-4" style={{ height: mobileHeight - 28 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Inclus dans le dashboard</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[
+              'Le système complet en 4 phases',
+              'Générateurs IA intégrés',
+              'Dashboard de pilotage',
+              'Ressources Claude + Communauté',
+            ].map((item) => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 18, height: 18, borderRadius: 5, background: 'rgba(34,197,94,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '0.5px solid rgba(34,197,94,0.25)' }}>
+                  <Check size={10} color="#22c55e" strokeWidth={2.5} />
+                </div>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontWeight: 500 }}>{item}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -725,23 +737,24 @@ export function DashboardPreview({ windowHeight = 460, mobileHeight = 220, hideT
 
 // ── DashboardPreviewV2 — Cockpit 4-onglets ────────────────────────────────────
 
-const V2_TABS = ['Dashboard', 'Explorer', 'Construire', 'Monétiser']
+const V2_TABS = ['Dashboard', 'Explorer', 'Construire', 'Monétiser'] as const
+type V2Tab = typeof V2_TABS[number]
 
 const V2_CHECKLIST = [
   { label: 'Idée trouvée',       status: 'done'        },
   { label: 'Idée validée',       status: 'done'        },
   { label: 'Offre structurée',   status: 'done'        },
-  { label: 'MVP designé',        status: 'in_progress' },
-  { label: 'Produit déployé',    status: 'locked'      },
-  { label: 'Monétisation active',status: 'locked'      },
+  { label: 'MVP déployé',        status: 'done'        },
+  { label: 'Premiers clients',   status: 'done'        },
+  { label: 'Monétisation active',status: 'in_progress' },
 ]
 
-const SPARKLINE_BARS = [3, 5, 4, 7, 6, 8, 9]
+const SPARKLINE_BARS = [8, 14, 12, 21, 28, 35, 47]
 
 function V2Sidebar() {
   return (
     <div
-      className="hidden sm:flex flex-col shrink-0 h-full"
+      className="flex flex-col shrink-0 h-full"
       style={{ width: 200, borderRight: '0.5px solid rgba(255,255,255,0.07)', background: '#0a0b0e' }}
     >
       {/* Mon SaaS IA */}
@@ -756,7 +769,7 @@ function V2Sidebar() {
           border: '0.5px solid rgba(99,102,241,0.3)',
           borderRadius: 20, padding: '2px 7px', marginBottom: 7,
         }}>
-          Phase : Idéation
+          Phase : Lancement
         </span>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
           <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)' }}>Score viabilité</span>
@@ -828,8 +841,31 @@ function V2Sidebar() {
   )
 }
 
+// ── Animated counter ─────────────────────────────────────────────────────────
+
+function AnimatedValue({ target, suffix = '', duration = 1400 }: { target: number; suffix?: string; duration?: number }) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    const start = performance.now()
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setVal(Math.round(eased * target))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    const raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [target, duration])
+  return <>{val.toLocaleString('fr-FR')}{suffix}</>
+}
+
 function V2CockpitContent() {
   const maxBar = Math.max(...SPARKLINE_BARS)
+  const metrics = [
+    { label: 'Visiteurs', target: 1247, suffix: '',  sub: '+18% cette semaine', color: '#4d96ff' },
+    { label: 'Signups',   target: 38,   suffix: '',  sub: '+5 nouveaux',        color: '#22c55e' },
+    { label: 'MRR',       target: 340,  suffix: ' €',sub: '+60€ ce mois',       color: '#eab308' },
+  ]
   return (
     <div className="flex-1 overflow-hidden" style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
       {/* Header */}
@@ -842,52 +878,53 @@ function V2CockpitContent() {
       <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
           <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>Progression globale</p>
-          <span style={{ fontSize: 9, fontWeight: 600, background: 'rgba(99,102,241,0.15)', color: '#818cf8', border: '0.5px solid rgba(99,102,241,0.3)', borderRadius: 20, padding: '1px 7px' }}>Phase : Idéation</span>
+          <span style={{ fontSize: 9, fontWeight: 600, background: 'rgba(34,197,94,0.12)', color: '#22c55e', border: '0.5px solid rgba(34,197,94,0.3)', borderRadius: 20, padding: '1px 7px' }}>Phase : Lancement</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ flex: 1, height: 4, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
-            <div style={{ height: '100%', width: '48%', borderRadius: 99, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)' }} />
+            <div style={{ height: '100%', width: '83%', borderRadius: 99, background: 'linear-gradient(90deg,#22c55e,#4d96ff)' }} />
           </div>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#fafafa', flexShrink: 0 }}>48%</span>
-          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>3/6 étapes</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#fafafa', flexShrink: 0 }}>83%</span>
+          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>5/6 étapes</span>
         </div>
       </div>
 
       {/* Row 2 — Prochaine action */}
-      <div style={{ background: '#111113', border: '0.5px solid rgba(99,102,241,0.25)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(99,102,241,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <div style={{ background: '#111113', border: '0.5px solid rgba(234,179,8,0.25)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(234,179,8,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#eab308" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 3 }}>Prochaine action</p>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#fafafa', marginBottom: 5 }}>Valider ton idée avec 3 prospects réels</p>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 9, fontWeight: 600, color: '#818cf8', cursor: 'default' }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#fafafa', marginBottom: 5 }}>Activer ta première campagne Meta Ads</p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 9, fontWeight: 600, color: '#eab308', cursor: 'default' }}>
             Ouvrir le générateur
-            <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#eab308" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
         </div>
       </div>
 
-      {/* Row 3 — Métriques SaaS */}
+      {/* Row 3 — Métriques SaaS animées */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 7 }}>
-        {[
-          { label: 'Visiteurs', val: '0', sub: '— cette semaine' },
-          { label: 'Signups',   val: '0', sub: '— cette semaine' },
-          { label: 'MRR',       val: '0 €', sub: 'Lance ton produit' },
-        ].map(({ label, val, sub }) => (
-          <div key={label} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '8px 10px' }}>
+        {metrics.map(({ label, target, suffix, sub, color }) => (
+          <div key={label} style={{ background: '#111113', border: `0.5px solid ${color}22`, borderRadius: 10, padding: '8px 10px' }}>
             <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.3)', marginBottom: 3, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase' }}>{label}</p>
-            <p style={{ fontSize: 16, fontWeight: 700, color: '#fafafa', marginBottom: 1 }}>{val}</p>
-            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)' }}>{sub}</p>
+            <p style={{ fontSize: 16, fontWeight: 700, color, marginBottom: 1, letterSpacing: '-0.02em' }}>
+              <AnimatedValue target={target} suffix={suffix} />
+            </p>
+            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)' }}>{sub}</p>
           </div>
         ))}
       </div>
 
-      {/* Row 4 — Sparkline activité */}
+      {/* Row 4 — Sparkline trafic */}
       <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', flex: 1, minHeight: 0 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', marginBottom: 8 }}>
-          Activité projet — 7 derniers jours
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase' }}>
+            Trafic — 7 derniers jours
+          </p>
+          <span style={{ fontSize: 9, fontWeight: 700, color: '#22c55e' }}>+47% ↑</span>
+        </div>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 28 }}>
           {SPARKLINE_BARS.map((v, i) => (
             <div
@@ -897,8 +934,8 @@ function V2CockpitContent() {
                 height: `${Math.round((v / maxBar) * 100)}%`,
                 borderRadius: 3,
                 background: i === SPARKLINE_BARS.length - 1
-                  ? 'linear-gradient(180deg,#6366f1,#8b5cf6)'
-                  : 'rgba(99,102,241,0.3)',
+                  ? 'linear-gradient(180deg,#22c55e,#4d96ff)'
+                  : `rgba(77,150,255,${0.15 + (i / SPARKLINE_BARS.length) * 0.35})`,
                 minHeight: 3,
               }}
             />
@@ -909,13 +946,173 @@ function V2CockpitContent() {
   )
 }
 
-export function DashboardPreviewV2({ windowHeight = 560, mobileHeight = 260 }: {
+function V2ExplorerContent() {
+  const ideas = [
+    { name: 'FactureAI', niche: 'Compta IA', score: 91, est: '1 800 €/mois' },
+    { name: 'SchedulrPro', niche: 'Planning SaaS', score: 87, est: '1 200 €/mois' },
+    { name: 'SupportBot', niche: 'Support IA', score: 84, est: '900 €/mois' },
+  ]
+  return (
+    <div style={{ flex: 1, overflow: 'hidden', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      <div>
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#fafafa', marginBottom: 2 }}>Marketplace d'idées</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Projets validés — score de viabilité IA</p>
+      </div>
+      {ideas.map(({ name, niche, score, est }) => (
+        <div key={name} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#fafafa', marginBottom: 3 }}>{name}</p>
+            <span style={{ fontSize: 9, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#818cf8', border: '0.5px solid rgba(99,102,241,0.25)', borderRadius: 20, padding: '1px 7px' }}>{niche}</span>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#22c55e', marginBottom: 1 }}>{score}/100</p>
+            <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)' }}>~{est}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function V2ConstruireContent() {
+  const tools = [
+    { label: 'Générateur de prompts', sub: '50+ prompts testés prêts à copier', color: '#6366f1' },
+    { label: 'Architecte de stack', sub: 'Claude Code + Supabase + Vercel', color: '#22c55e' },
+    { label: 'Validateur de MVP', sub: 'Score de viabilité + retours IA', color: '#f97316' },
+    { label: 'Estimateur de revenus', sub: 'MRR potentiel selon ta niche', color: '#eab308' },
+  ]
+  return (
+    <div style={{ flex: 1, overflow: 'hidden', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      <div>
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#fafafa', marginBottom: 2 }}>Outils de construction</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Générateurs IA intégrés au cockpit</p>
+      </div>
+      {tools.map(({ label, sub, color }) => (
+        <div key={label} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 8, height: 8, borderRadius: 2, background: color, flexShrink: 0 }} />
+          <div>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#fafafa', marginBottom: 2 }}>{label}</p>
+            <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)' }}>{sub}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function V2MonetiserContent() {
+  const plans = [
+    { name: 'Solo', price: '9 €/mois', users: '1 utilisateur', highlight: false },
+    { name: 'Pro', price: '29 €/mois', users: '5 utilisateurs', highlight: true },
+    { name: 'Team', price: '79 €/mois', users: 'Illimité', highlight: false },
+  ]
+  return (
+    <div style={{ flex: 1, overflow: 'hidden', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      <div>
+        <p style={{ fontSize: 15, fontWeight: 700, color: '#fafafa', marginBottom: 2 }}>Stratégie de prix</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>Modèle recommandé pour PriceFlow</p>
+      </div>
+      {plans.map(({ name, price, users, highlight }) => (
+        <div key={name} style={{ background: highlight ? 'rgba(99,102,241,0.1)' : '#111113', border: `0.5px solid ${highlight ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#fafafa', marginBottom: 2 }}>{name}</p>
+            <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)' }}>{users}</p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: highlight ? '#818cf8' : '#fafafa' }}>{price}</p>
+            {highlight && <span style={{ fontSize: 8, fontWeight: 700, color: '#818cf8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Recommandé</span>}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function V2TabContent({ tab }: { tab: V2Tab }) {
+  if (tab === 'Explorer')   return <V2ExplorerContent />
+  if (tab === 'Construire') return <V2ConstruireContent />
+  if (tab === 'Monétiser')  return <V2MonetiserContent />
+  return <V2CockpitContent />
+}
+
+const CHROME_H = 36
+const TABBAR_H = 28
+const SCALE    = 0.50
+
+export function DashboardPreviewV2({ windowHeight = 560, mobileHeight = 340 }: {
   windowHeight?: number
   mobileHeight?: number
 }) {
+  const [activeTab, setActiveTab] = useState<V2Tab>('Dashboard')
+
+  const TabBar = ({ mobile = false }: { mobile?: boolean }) => (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: mobile ? 0 : 2,
+      padding: mobile ? '0 8px' : '0 16px',
+      background: '#0a0b0e',
+      borderBottom: '0.5px solid rgba(255,255,255,0.07)',
+      overflowX: 'auto', scrollbarWidth: 'none' as const,
+    }}>
+      {V2_TABS.map((label) => {
+        const isActive = label === activeTab
+        return (
+          <button
+            key={label}
+            onClick={() => setActiveTab(label)}
+            style={{
+              padding: mobile ? '5px 10px' : '7px 14px',
+              fontSize: mobile ? 9 : 11,
+              fontWeight: isActive ? 600 : 500,
+              color: isActive ? '#fafafa' : 'rgba(255,255,255,0.3)',
+              borderBottom: isActive ? '1.5px solid #6366f1' : '1.5px solid transparent',
+              cursor: 'pointer',
+              background: 'none',
+              border: 'none',
+              borderBottomWidth: '1.5px',
+              borderBottomStyle: 'solid',
+              borderBottomColor: isActive ? '#6366f1' : 'transparent',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              outline: 'none',
+            }}
+          >
+            {label}
+          </button>
+        )
+      })}
+    </div>
+  )
+
+  const ChromeBar = ({ mobile = false }: { mobile?: boolean }) => (
+    <div
+      style={{
+        display: 'flex', alignItems: 'center',
+        gap: mobile ? 4 : 6,
+        padding: mobile ? '0 10px' : '0 12px',
+        height: CHROME_H,
+        background: '#0a0b0e',
+        borderBottom: '0.5px solid rgba(255,255,255,0.07)',
+        flexShrink: 0,
+      }}
+    >
+      {(['#ef4444', '#eab308', '#22c55e'] as const).map(c => (
+        <div key={c} style={{ width: mobile ? 7 : 10, height: mobile ? 7 : 10, borderRadius: 99, background: c, flexShrink: 0 }} />
+      ))}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 6, padding: '3px 10px' }}>
+          <div style={{ width: 5, height: 5, borderRadius: 99, background: '#22c55e', flexShrink: 0 }} />
+          <span style={{ fontSize: mobile ? 7 : 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist Mono, monospace' }}>
+            app.buildrs.fr/dashboard
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="w-full select-none">
-      {/* Desktop window */}
+
+      {/* ── Desktop window ── */}
       <div className="hidden sm:block w-full" style={{ perspective: '1400px' }}>
         <div
           className="relative w-full overflow-hidden rounded-2xl"
@@ -927,51 +1124,16 @@ export function DashboardPreviewV2({ windowHeight = 560, mobileHeight = 260 }: {
             boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
           }}
         >
-          {/* Window chrome */}
-          <div className="flex items-center gap-1.5 px-3 py-2.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
-            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#ef4444' }} />
-            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#eab308' }} />
-            <div className="h-2.5 w-2.5 rounded-full" style={{ background: '#22c55e' }} />
-            <div className="mx-auto flex items-center gap-1.5 rounded-md px-3 py-1"
-              style={{ background: 'rgba(255,255,255,0.05)', border: '0.5px solid rgba(255,255,255,0.08)' }}>
-              <div className="h-1.5 w-1.5 rounded-full" style={{ background: '#22c55e' }} />
-              <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist Mono, monospace' }}>
-                app.buildrs.fr/dashboard
-              </span>
-            </div>
-          </div>
-
-          {/* Tab bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 2, padding: '0 16px', background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
-            {V2_TABS.map((label) => {
-              const isActive = label === 'Dashboard'
-              return (
-                <div
-                  key={label}
-                  style={{
-                    padding: '7px 14px',
-                    fontSize: 11,
-                    fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#fafafa' : 'rgba(255,255,255,0.3)',
-                    borderBottom: isActive ? '1.5px solid #6366f1' : '1.5px solid transparent',
-                    cursor: 'default',
-                  }}
-                >
-                  {label}
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Content */}
-          <div className="flex" style={{ height: windowHeight - 70 }}>
+          <ChromeBar />
+          <TabBar />
+          <div className="flex" style={{ height: windowHeight - CHROME_H - TABBAR_H }}>
             <V2Sidebar />
-            <V2CockpitContent />
+            <V2TabContent tab={activeTab} />
           </div>
         </div>
       </div>
 
-      {/* Mobile window */}
+      {/* ── Mobile window ── */}
       <div className="sm:hidden w-full overflow-hidden rounded-xl"
         style={{
           border: '1px solid rgba(255,255,255,0.08)',
@@ -980,61 +1142,27 @@ export function DashboardPreviewV2({ windowHeight = 560, mobileHeight = 260 }: {
           boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
         }}
       >
-        {/* Chrome */}
-        <div className="flex items-center gap-1 px-2.5 py-1.5" style={{ background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)' }}>
-          {['#ef4444','#eab308','#22c55e'].map(c => (
-            <div key={c} className="h-2 w-2 rounded-full" style={{ background: c }} />
-          ))}
-          <div className="mx-auto flex items-center gap-1 rounded px-2 py-0.5" style={{ background: 'rgba(255,255,255,0.05)' }}>
-            <span className="text-[8px]" style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'Geist Mono, monospace' }}>app.buildrs.fr</span>
-          </div>
-        </div>
-        {/* Tab bar mobile */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 0, background: '#0a0b0e', borderBottom: '0.5px solid rgba(255,255,255,0.07)', overflowX: 'auto', scrollbarWidth: 'none' }}>
-          {V2_TABS.map((label) => {
-            const isActive = label === 'Dashboard'
-            return (
-              <div key={label} style={{ padding: '5px 10px', fontSize: 9, fontWeight: isActive ? 600 : 500, color: isActive ? '#fafafa' : 'rgba(255,255,255,0.3)', borderBottom: isActive ? '1.5px solid #6366f1' : '1.5px solid transparent', whiteSpace: 'nowrap', cursor: 'default' }}>
-                {label}
-              </div>
-            )
-          })}
-        </div>
-        {/* Content mobile — cockpit only, no sidebar */}
-        <div style={{ height: mobileHeight - 44, overflow: 'hidden', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#fafafa', marginBottom: 1 }}>Bon retour, Alfred</p>
-            <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.4)' }}>Voici où en est ton projet</p>
-          </div>
-          {/* Progress mobile */}
-          <div style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '7px 9px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
-              <p style={{ fontSize: 7, fontWeight: 700, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Progression</p>
-              <span style={{ fontSize: 7, fontWeight: 600, background: 'rgba(99,102,241,0.15)', color: '#818cf8', borderRadius: 20, padding: '1px 5px' }}>Phase : Idéation</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <div style={{ flex: 1, height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.06)' }}>
-                <div style={{ height: '100%', width: '48%', borderRadius: 99, background: 'linear-gradient(90deg,#6366f1,#8b5cf6)' }} />
-              </div>
-              <span style={{ fontSize: 9, fontWeight: 700, color: '#fafafa' }}>48%</span>
-            </div>
-          </div>
-          {/* Next action mobile */}
-          <div style={{ background: '#111113', border: '0.5px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '7px 9px' }}>
-            <p style={{ fontSize: 7, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 3 }}>Prochaine action</p>
-            <p style={{ fontSize: 9, fontWeight: 600, color: '#fafafa' }}>Valider ton idée avec 3 prospects</p>
-          </div>
-          {/* Metrics mobile */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
-            {[{ label: 'Visiteurs', val: '0' }, { label: 'Signups', val: '0' }, { label: 'MRR', val: '0 €' }].map(({ label, val }) => (
-              <div key={label} style={{ background: '#111113', border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 7, padding: '5px 7px' }}>
-                <p style={{ fontSize: 7, color: 'rgba(255,255,255,0.3)', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 2 }}>{label}</p>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#fafafa' }}>{val}</p>
-              </div>
-            ))}
+        <ChromeBar mobile />
+        <TabBar mobile />
+
+        {/* Scaled full layout — same as desktop */}
+        <div style={{ position: 'relative', height: mobileHeight - CHROME_H - TABBAR_H, overflow: 'hidden' }}>
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: `${100 / SCALE}%`,
+            height: `${100 / SCALE}%`,
+            transform: `scale(${SCALE})`,
+            transformOrigin: 'top left',
+            display: 'flex',
+          }}>
+            <V2Sidebar />
+            <V2TabContent tab={activeTab} />
           </div>
         </div>
       </div>
+
     </div>
   )
 }

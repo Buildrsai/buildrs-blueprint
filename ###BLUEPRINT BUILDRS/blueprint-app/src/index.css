@@ -157,6 +157,18 @@
   animation: rainbow-glow 3s linear infinite;
 }
 
+/* ── CARD RAINBOW BORDER (checkout main card) ── */
+.card-rainbow {
+  border-radius: 22px;
+  padding: 1.5px;
+  background: conic-gradient(from 0deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #cc5de8, #ff6b6b);
+  animation: card-rainbow-spin 4s linear infinite;
+}
+@keyframes card-rainbow-spin {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
+
 /* ── WHITE RING BUTTON ── */
 @keyframes white-ring-spin {
   from { transform: rotate(0deg); }

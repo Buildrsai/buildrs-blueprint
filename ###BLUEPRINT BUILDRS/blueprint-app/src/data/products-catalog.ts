@@ -7,6 +7,7 @@ import {
   BookOpen, Sparkles, Terminal, RefreshCw, Bot, Rocket, Users,
   type LucideIcon,
 } from 'lucide-react'
+import { BLUEPRINT_PRICE_CENTS } from '../lib/pricing'
 
 export interface ProductCatalogItem {
   slug:        string
@@ -29,7 +30,7 @@ export const PRODUCTS_CATALOG: ProductCatalogItem[] = [
     description: 'Le parcours complet pour lancer ton MVP.',
     category:    'construire',
     icon:        BookOpen,
-    priceCents:  2700,
+    priceCents:  BLUEPRINT_PRICE_CENTS,
     totalBlocs:  7,
     totalBricks: 42,
     accentColor: '#fafafa',
