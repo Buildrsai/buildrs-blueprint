@@ -11,6 +11,7 @@ import { BLUEPRINT_PRICE, STRIKETHROUGH_PRICE, getCurrentTier } from "../lib/pri
 import { BuilderTierBadge } from "./ui/builder-tier-badge"
 
 import { DashboardPreviewV2 as DashboardPreview } from "./ui/dashboard-preview"
+import { XCard } from "./ui/x-gradient-card"
 import { OrbitalClaude, OrbitalStack } from "./ui/orbital-claude"
 import { WordRotate } from "./ui/word-rotate"
 import { SaasMarquee } from "./ui/saas-marquee"
@@ -572,16 +573,21 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
           <Reveal delay={0.1}>
             <h1
               className="mb-7 text-foreground mx-auto max-w-[860px]"
-              style={{ fontSize: "clamp(42px, 6.5vw, 84px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}
+              style={{ fontSize: "clamp(40px, 8vw, 84px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.0 }}
             >
-              Ton premier SaaS IA en live en moins de 7 jours.
+              Ton premier SaaS IA, live en 7 jours.
             </h1>
           </Reveal>
 
           {/* Sub */}
           <Reveal delay={0.18}>
             <p className="mb-8 max-w-[520px] text-[16px] leading-[1.65] text-muted-foreground">
-              De l'idée au premier client payant — guidé par l'IA, étape par étape. Génère tes premiers revenus en autopilote. <strong className="font-semibold text-foreground">Même sans savoir coder</strong> — avec <span className="inline-flex items-center gap-1 align-middle"><BrandIcons.claudeCode className="inline-block w-4 h-4 text-foreground" /></span><strong className="font-semibold text-foreground"> Claude Code</strong> comme moteur.
+              De l'idée au premier client payant — guidé par{' '}
+              <span className="inline-flex items-center gap-1 align-middle">
+                <BrandIcons.claudeCode className="inline-block w-4 h-4 text-foreground" />
+                <strong className="font-semibold text-foreground">Claude Code</strong>
+              </span>
+              , étape par étape. Génère tes premiers revenus en autopilote. Même sans savoir coder.
             </p>
           </Reveal>
 
@@ -620,7 +626,7 @@ function Hero({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
 function Marquee() {
   return (
     <section className="border-y border-border bg-background">
-      <HoverBrandLogo brands={brands} label="Nous travaillons avec les outils IA les plus performants du marché" />
+      <HoverBrandLogo brands={brands} label="Nos outils IA (qui seront bientôt les vôtres)" defaultId="claudeCode" />
     </section>
   )
 }
@@ -709,6 +715,40 @@ const constatCards = [
   },
 ]
 
+const painTestimonials = [
+  { image: '/F2.jpeg', name: 'Sarah', role: 'Coach yoga, ex-RH', text: "Je voulais un Vinted pour le sport — fitness, yoga, running. Tout le monde me disait 'tu sais pas coder, oublie'. 6 jours après le Blueprint le MVP était en ligne. 3 semaines plus tard : 80 vendeuses inscrites, 14 ventes, 3,40€ de commission par transaction. Tu commences petit, tu ajustes, ça marche." },
+  { image: '/F5.webp', name: 'Camille', role: 'Growth Marketer freelance', text: "Je facturais 600€ par brief Meta Ads à mes clients. J'ai construit un générateur qui sort le brief en 4 minutes au lieu de 4h. 12 agences le payent 49€/mois. 588€ de MRR récurrent au bout de 5 semaines, sans toucher une ligne de code à la main." },
+  { image: '/F4.jpeg', name: 'Maxime', role: 'Coach business, ex-banquier', text: "Coach depuis 3 ans, jamais touché à la tech. J'ai shippé un outil qui transforme l'audio de mes calls en plan d'action PDF pour mes clients. Je facture 30% plus cher depuis. Le truc qui m'a débloqué : Claude écrit le code, moi je dirige. Pas de dev à payer, pas d'agence." },
+  { image: '/F3.jpeg', name: 'Erwan', role: 'Créateur de contenu (43k IG)', text: "Je perdais 4h par semaine à planifier mes posts. Mon générateur de calendrier IG est sorti en 5 jours. 200 créateurs payent 19€/mois. 3 800€ de MRR. Le marché est saturé qu'ils disent — non, le marché est mal servi. Tu vises niche, tu sers mieux, ça paye." },
+  { image: '/F6.webp', name: 'Thomas', role: 'Solopreneur, ex-comptable', text: "3 SaaS abandonnés avant celui-là — toujours bloqué sur la technique, j'attendais le 'bon moment'. Avec le Blueprint : idée validée jour 1, MVP shipé jour 6, premier client à 29€/mois jour 8. Le système t'oblige à shipper, pas à perfectionner." },
+  { image: '/Mec1.webp', name: 'Antoine', role: 'Ex-consultant stratégie', text: "J'ai quitté le conseil. Construit un outil de reporting auto pour PME en 7 jours. 14 clients à 89€/mois aujourd'hui — 1 246€ de MRR en 2 mois. J'ai zéro réseau dans la tech, zéro background dev. Si tu sais expliquer un problème en français, tu peux construire la solution." },
+]
+
+function PainTestimonialsColumn({ items, duration, className }: { items: typeof painTestimonials; duration: number; className?: string }) {
+  return (
+    <div className={`overflow-hidden ${className ?? ''}`} style={{ flex: '0 0 auto', width: 320 }}>
+      <motion.div
+        animate={{ translateY: '-50%' }}
+        transition={{ duration, repeat: Infinity, ease: 'linear', repeatType: 'loop' as const }}
+        className="flex flex-col gap-4"
+      >
+        {[...items, ...items].map((t, i) => (
+          <div key={i} style={{ background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: '20px' }}>
+            <p style={{ fontSize: 13, lineHeight: 1.65, color: 'rgba(255,255,255,0.7)', marginBottom: 14 }}>{t.text}</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <img src={t.image} alt={t.name} style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#fafafa', lineHeight: 1.3, margin: 0 }}>{t.name}</p>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', lineHeight: 1.3, margin: 0 }}>{t.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
 function Pain() {
   return (
     <section className="bg-background py-20">
@@ -738,9 +778,17 @@ function Pain() {
 
         <Reveal delay={0.36}>
           <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
-            Et pourtant, d'autres y arrivent avec le bon système.
+            Et pourtant, d'autres y arrivent grâce au Blueprint.
           </p>
         </Reveal>
+
+        <div className="mt-10 flex justify-center gap-5 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] max-h-[620px] overflow-hidden">
+          {/* Mobile : 1 colonne avec les 6 */}
+          <PainTestimonialsColumn items={painTestimonials} duration={32} className="md:hidden" />
+          {/* Desktop : 2 colonnes de 3 */}
+          <PainTestimonialsColumn items={painTestimonials.slice(0, 3)} duration={22} className="hidden md:block" />
+          <PainTestimonialsColumn items={painTestimonials.slice(3, 6)} duration={26} className="hidden md:block" />
+        </div>
       </div>
     </section>
   )
@@ -780,9 +828,36 @@ function RealProblemSection() {
 
 // ─── WINDOW IA ───────────────────────────────────────────────────────────────
 
+const windowIAQuotes = [
+  {
+    authorName: "Dario Amodei",
+    authorHandle: "DarioAmodei",
+    authorImage: "/Amodei.webp",
+    content: ["Une entreprise pilotée par une seule personne valant un milliard de dollars va émerger en 2026.", "C'est certain."],
+    timestamp: "Code with Claude · Mai 2025",
+    highlight: true,
+  },
+  {
+    authorName: "Jensen Huang",
+    authorHandle: "jensenhuang",
+    authorImage: "/Huang.webp",
+    content: ["L'IA va créer plus de millionnaires en 5 ans", "qu'internet n'en a créés en 20 ans."],
+    timestamp: "All-In Podcast · 2025",
+    highlight: false,
+  },
+  {
+    authorName: "Sam Altman",
+    authorHandle: "sama",
+    authorImage: "/Altman.jpeg",
+    content: ["La première entreprise à 1 milliard de dollars pilotée par une seule personne est imminente.", "C'était impensable sans l'IA."],
+    timestamp: "Entretien Alexis Ohanian · Sept. 2024",
+    highlight: false,
+  },
+]
+
 function WindowIA() {
   return (
-    <section className="bg-background py-24 sm:py-32">
+    <section className="bg-background py-6 sm:py-10">
       <div className="mx-auto max-w-[680px] px-6 text-center flex flex-col items-center">
         <Reveal>
           <h2
@@ -805,7 +880,10 @@ function WindowIA() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.26}>
+      </div>
+
+      <div className="mx-auto max-w-[680px] px-6 text-center flex flex-col items-center mt-10">
+        <Reveal delay={0.1}>
           <p
             className="text-foreground"
             style={{ fontSize: "clamp(20px, 2.8vw, 30px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2 }}
@@ -1233,93 +1311,6 @@ function BeforeAfter() {
 
 // ─── WHAT YOU GET ─────────────────────────────────────────────────────────────
 
-const dashTabs = [
-  {
-    id: "cockpit",
-    label: "Cockpit",
-    Icon: Zap,
-    title: "Ton cockpit de pilotage",
-    desc: "La checklist interactive étape par étape. Tu sais toujours exactement où tu en es — de l'idée au SaaS déployé.",
-    bullets: [
-      "Progression en temps réel sur les 4 phases",
-      "50+ prompts testés, copiables en 1 clic",
-      "Stack complète configurée et documentée",
-    ],
-    img: "/Dash-Accueil.webp",
-    color: "#22c55e",
-  },
-  {
-    id: "parcours",
-    label: "Parcours",
-    Icon: BookOpen,
-    title: "Le parcours étape par étape",
-    desc: "6 modules complets. Chaque leçon = une action concrète. Vidéos, exercices, prompts — de l'idée au produit monétisé.",
-    bullets: [
-      "6 modules avec contenu vidéo + texte",
-      "Exercices pratiques à chaque étape",
-      "Progression débloquée automatiquement",
-    ],
-    img: "/dash-parcours.jpg",
-    color: "#4d96ff",
-  },
-  {
-    id: "marketplace",
-    label: "Marketplace",
-    Icon: Search,
-    title: "Marketplace d'idées SaaS IA",
-    desc: "Des centaines d'idées analysées par nos agents depuis les vraies sources. Pas du ChatGPT — de la vraie data sur ce qui se vend.",
-    bullets: [
-      "Idées triées par rentabilité et viabilité",
-      "Analyse concurrentielle incluse",
-      "Modèle de prix suggéré pour chaque idée",
-    ],
-    img: "/dash-marketplace.webp",
-    color: "#4d96ff",
-  },
-  {
-    id: "validator",
-    label: "Générateur & Validateur",
-    Icon: BarChart2,
-    title: "Génère et valide ton idée",
-    desc: "Score de viabilité sur 100. MRR estimé. Scénario de revente. Tout basé sur des données réelles — avant de coder une ligne.",
-    bullets: [
-      "Score de viabilité sur 100",
-      "Estimation MRR potentiel",
-      "Scénario de revente inclus",
-    ],
-    img: "/Dash-Valider.webp",
-    color: "#cc5de8",
-  },
-  {
-    id: "community",
-    label: "Communauté",
-    Icon: Users,
-    title: "Le canal privé Buildrs",
-    desc: "Tu rejoins une communauté de builders actifs. Questions, retours, partages — Alfred et Chris répondent directement.",
-    bullets: [
-      "Canal WhatsApp privé Buildrs",
-      "Accès direct à Alfred et Chris",
-      "Retours sur ton projet en temps réel",
-    ],
-    img: "/dash-community.png",
-    color: "#f59e0b",
-  },
-  {
-    id: "tools",
-    label: "Boîte à outils",
-    Icon: Wrench,
-    title: "Boîte à outils complète",
-    desc: "Tous les outils de la stack avec guides de configuration pas à pas. Supabase, Stripe, Vercel, Resend — tout est documenté.",
-    bullets: [
-      "Guides de configuration pour chaque outil",
-      "Templates prêts à copier-coller",
-      "Mises à jour permanentes sur Claude",
-    ],
-    img: "/dash-outils.jpg",
-    color: "#f97316",
-  },
-]
-
 // ─── SAAS EXAMPLES ───────────────────────────────────────────────────────────
 
 const saasExamples = [
@@ -1342,7 +1333,7 @@ const saasExamples = [
     mrr: "100 users × 9€ = 900€/mois",
     temps: "4 jours",
     author: "Chris",
-    photo: "/Chris_opt.jpg",
+    photo: "/Chris_Buildrs.png",
     stars: 5,
   },
   {
@@ -1655,15 +1646,23 @@ function ProjectExamplesSection() {
 }
 
 function WhatYouGet() {
-  const [activeTab, setActiveTab] = useState(0)
-  const [direction, setDirection] = useState(1)
+  const sidebarItems = [
+    { label: 'Accueil', Icon: LayoutDashboard, active: false },
+    { label: 'Formation', Icon: BookOpen, active: true },
+    { label: 'Claude OS', Icon: Bot, active: false },
+    { label: 'Agents IA', Icon: Layers, active: false, badge: 'NEW' },
+    { label: 'Ressources', Icon: FolderOpen, active: false },
+    { label: 'Outils IA', Icon: Wrench, active: false },
+    { label: 'Communauté', Icon: Users, active: false },
+  ]
 
-  const handleTab = (i: number) => {
-    setDirection(i >= activeTab ? 1 : -1)
-    setActiveTab(i)
-  }
-
-  const tab = dashTabs[activeTab]
+  const lessons = [
+    { done: true, label: "Configurer son environnement" },
+    { done: true, label: "S'inspirer avec Mobbin" },
+    { done: true, label: "Branding express" },
+    { done: false, label: "Parcours utilisateur avec Claude", current: true },
+    { done: false, label: "Scaffolding Claude Code" },
+  ]
 
   return (
     <section className="relative overflow-hidden py-28" style={{ background: "#0a0a0a" }}>
@@ -1671,129 +1670,157 @@ function WhatYouGet() {
 
         {/* Header */}
         <div className="mb-12 text-center">
-          <Reveal><p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
-            Ce que tu vas recevoir
-          </p></Reveal>
-          <Reveal delay={0.08}><h2
-            style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
-            className="mb-4 text-white"
-          >
-            Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
-          </h2></Reveal>
-          <Reveal delay={0.16}><p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
-            Trouve ton idée. Valide-la. Construis-la. Monétise-la. Tout dans un seul cockpit.
-          </p></Reveal>
-        </div>
-
-        {/* Tab nav */}
-        <Reveal delay={0.2}>
-          <div className="mb-6 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
-            {dashTabs.map((t, i) => {
-              const active = i === activeTab
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => handleTab(i)}
-                  className="flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-all duration-200"
-                  style={{
-                    background: active ? "#ffffff" : "rgba(255,255,255,0.06)",
-                    color: active ? "#09090b" : "rgba(255,255,255,0.45)",
-                    border: active ? "1px solid rgba(255,255,255,0.9)" : "1px solid rgba(255,255,255,0.08)",
-                  }}
-                >
-                  <t.Icon size={14} strokeWidth={1.5} />
-                  {t.label}
-                </button>
-              )
-            })}
-          </div>
-        </Reveal>
-
-        {/* Content panel */}
-        <Reveal delay={0.28}>
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{ background: "#111113", border: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: direction * 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-2"
+          <Reveal>
+            <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.09em] text-white/35">
+              Ce que tu vas recevoir
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2
+              style={{ fontSize: "clamp(32px, 4.5vw, 52px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1 }}
+              className="mb-4 text-white"
             >
-              {/* Left — text */}
-              <div className="flex flex-col justify-center gap-6 p-8 lg:p-10">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-xl"
-                  style={{ background: `${tab.color}18`, border: `1px solid ${tab.color}35` }}
-                >
-                  <tab.Icon size={18} strokeWidth={1.5} style={{ color: tab.color }} />
+              Pas un PDF. Pas une vidéo.<br />Un système complet piloté par l'IA.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="mx-auto max-w-[480px] text-[15px] leading-[1.6] text-white/45">
+              Trouve ton idée. Valide-la. Construis-la. Monétise-la. Tout dans un seul cockpit.
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Dashboard mockup */}
+        <Reveal delay={0.24}>
+          <div style={{ border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, overflow: 'hidden', background: '#111113', boxShadow: '0 40px 120px rgba(0,0,0,0.6)' }}>
+
+            {/* Browser chrome */}
+            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, background: '#0d0d0f' }}>
+              <div style={{ display: 'flex', gap: 5 }}>
+                {['#ff5f57','#ffbd2e','#28c840'].map(c => (
+                  <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.65 }} />
+                ))}
+              </div>
+              <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 6, padding: '3px 14px', fontSize: 10, color: 'rgba(255,255,255,0.2)', fontFamily: 'Geist Mono, monospace' }}>
+                  buildrs.fr/dashboard
                 </div>
-                <div>
-                  <h3 className="mb-3 text-[20px] font-bold text-white leading-snug">{tab.title}</h3>
-                  <p className="text-[14px] leading-[1.7] text-white/50">{tab.desc}</p>
+              </div>
+            </div>
+
+            {/* App shell */}
+            <div style={{ display: 'flex', height: 500 }}>
+
+              {/* Sidebar */}
+              <div style={{ width: 188, borderRight: '1px solid rgba(255,255,255,0.06)', padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 1, flexShrink: 0, background: '#0d0d0f' }}>
+                <div style={{ padding: '4px 8px 14px', borderBottom: '1px solid rgba(255,255,255,0.07)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <BuildrsIcon color="#fff" size={17} />
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>Buildrs</span>
                 </div>
-                <ul className="flex flex-col gap-2.5">
-                  {tab.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2.5">
-                      <div className="mt-[6px] h-[5px] w-[5px] shrink-0 rounded-full" style={{ background: tab.color }} />
-                      <span className="text-[13px] text-white/60">{b}</span>
-                    </li>
-                  ))}
-                </ul>
+                {sidebarItems.map(({ label, Icon, active, badge }) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px', borderRadius: 8, cursor: 'default', background: active ? 'rgba(255,255,255,0.07)' : 'transparent' }}>
+                    <Icon size={13} strokeWidth={1.5} style={{ color: active ? '#fff' : 'rgba(255,255,255,0.28)', flexShrink: 0 }} />
+                    <span style={{ fontSize: 12, fontWeight: active ? 600 : 400, color: active ? '#fff' : 'rgba(255,255,255,0.3)' }}>{label}</span>
+                    {badge && <span style={{ marginLeft: 'auto', fontSize: 8, fontWeight: 700, color: '#22c55e', background: 'rgba(34,197,94,0.12)', padding: '1px 5px', borderRadius: 99 }}>{badge}</span>}
+                  </div>
+                ))}
               </div>
 
-              {/* Right — screenshot */}
-              <div
-                className="relative overflow-hidden flex items-center justify-center"
-                style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", minHeight: 220 }}
-              >
-                <img
-                  src={tab.img}
-                  alt={tab.title}
-                  loading="lazy"
-                  className="w-full object-contain object-top lg:h-full lg:object-cover"
-                  style={{ maxHeight: 380 }}
-                />
+              {/* Main */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+                {/* Top bar */}
+                <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '11px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 2 }}>Formation</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>Module 2 — Préparer & Designer</div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>7 / 11 étapes</div>
+                    <div style={{ width: 72, height: 3, borderRadius: 99, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                      <div style={{ width: '63%', height: '100%', background: '#22c55e', borderRadius: 99 }} />
+                    </div>
+                    <div style={{ width: 26, height: 26, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+                      <img src="/Alfred_Buildrs_V2.png" alt="Alfred" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content grid */}
+                <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr auto', gap: 12, padding: 14, overflow: 'hidden' }}>
+
+                  {/* Video — blurred */}
+                  <div style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', background: '#16161a', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(34,197,94,0.2), rgba(77,150,255,0.14), rgba(204,93,232,0.08))', filter: 'blur(20px)', transform: 'scale(1.3)' }} />
+                    <div style={{ position: 'absolute', inset: 0, backdropFilter: 'blur(8px)', background: 'rgba(10,10,12,0.45)' }} />
+                    <div style={{ position: 'relative', width: 38, height: 38, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="white" style={{ marginLeft: 2 }}><path d="M4 2l10 6-10 6V2z"/></svg>
+                    </div>
+                    <div style={{ position: 'absolute', bottom: 10, right: 10, background: 'rgba(0,0,0,0.55)', borderRadius: 4, padding: '2px 6px', fontSize: 9, color: 'rgba(255,255,255,0.5)', fontFamily: 'Geist Mono, monospace' }}>12:34</div>
+                    <div style={{ position: 'absolute', top: 10, left: 10, fontSize: 9, color: 'rgba(255,255,255,0.5)', background: 'rgba(0,0,0,0.45)', borderRadius: 5, padding: '2px 7px' }}>Leçon 7 · Design Express</div>
+                  </div>
+
+                  {/* Claude Code terminal */}
+                  <div style={{ borderRadius: 12, overflow: 'hidden', background: '#0a0a0c', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ padding: '7px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ display: 'flex', gap: 4 }}>
+                        {['#ff5f57','#ffbd2e','#28c840'].map(c => <div key={c} style={{ width: 6, height: 6, borderRadius: '50%', background: c, opacity: 0.55 }} />)}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginLeft: 4 }}>
+                        <BrandIcons.claudeCode style={{ width: 10, height: 10, color: 'rgba(255,255,255,0.4)' }} />
+                        <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.28)' }}>Claude Code — Mon Projet</span>
+                      </div>
+                    </div>
+                    <div style={{ padding: '10px 12px', flex: 1, fontFamily: 'Geist Mono, monospace', fontSize: 9.5, lineHeight: 1.9 }}>
+                      <div><span style={{ color: 'rgba(255,255,255,0.2)' }}>$ </span><span style={{ color: 'rgba(255,255,255,0.5)' }}>npx vite build</span></div>
+                      <div style={{ color: '#22c55e' }}>✓ 2 353 modules transformed</div>
+                      <div style={{ color: '#22c55e' }}>✓ built in 1.17s</div>
+                      <div style={{ marginTop: 4 }}><span style={{ color: 'rgba(255,255,255,0.2)' }}>$ </span><span style={{ color: 'rgba(255,255,255,0.5)' }}>vercel --prod</span></div>
+                      <div style={{ color: '#22c55e' }}>✓ Deployed to production</div>
+                      <div style={{ color: 'rgba(77,150,255,0.75)' }}>→ https://monapp.vercel.app</div>
+                      <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 5 }}>
+                        <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+                        <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 9 }}>En attente de ta prochaine commande</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lessons row */}
+                  <div style={{ gridColumn: '1 / -1', borderRadius: 10, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '10px 12px' }}>
+                    <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Étapes du module</div>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      {lessons.map(({ done, label, current }) => (
+                        <div key={label} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 5, padding: '5px 8px', borderRadius: 7, background: current ? 'rgba(255,255,255,0.04)' : 'transparent', border: current ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent' }}>
+                          <div style={{ width: 13, height: 13, borderRadius: '50%', flexShrink: 0, background: done ? '#22c55e' : 'rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {done && <svg width="7" height="7" viewBox="0 0 8 8"><path d="M1 4l2 2 4-4" stroke="#000" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>}
+                          </div>
+                          <span style={{ fontSize: 9.5, color: done ? 'rgba(255,255,255,0.22)' : current ? '#fff' : 'rgba(255,255,255,0.38)', textDecoration: done ? 'line-through' : 'none', lineHeight: 1.3 }}>{label}</span>
+                          {current && <span style={{ marginLeft: 'auto', flexShrink: 0, fontSize: 8, fontWeight: 700, color: '#22c55e', background: 'rgba(34,197,94,0.1)', padding: '1px 5px', borderRadius: 99 }}>→</span>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </Reveal>
 
-        {/* Tab dots indicator */}
-        <div className="mt-5 flex justify-center gap-1.5">
-          {dashTabs.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => handleTab(i)}
-              className="rounded-full transition-all duration-200"
-              style={{
-                width: i === activeTab ? 20 : 6,
-                height: 6,
-                background: i === activeTab ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Axes de mise à jour — marquee */}
+        {/* Scrolling ticker */}
         <div className="mt-14 overflow-hidden border-y border-white/[0.07] py-4">
-          <div
-            className="flex gap-10 whitespace-nowrap"
-            style={{ animation: "marquee-scroll 28s linear infinite", width: "max-content" }}
-          >
+          <div className="flex gap-10 whitespace-nowrap" style={{ animation: "marquee-scroll 28s linear infinite", width: "max-content" }}>
             {[
-              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
-              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
-              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
-              "Nouveaux skills", "Mises à jour Claude", "Nouveaux prompts",
-              "Nouveaux plugins", "Nouvelles vidéos", "Nouvelles stratégies IA",
-              "Retours terrain Buildrs Lab", "Nouvelles intégrations",
+              "6 modules de formation", "50+ prompts copiables", "Marketplace d'idées IA",
+              "Agents IA spécialisés", "Claude OS inclus", "Générateur & Validateur",
+              "Communauté Buildrs", "Templates clonables", "Mises à jour à vie",
+              "6 modules de formation", "50+ prompts copiables", "Marketplace d'idées IA",
+              "Agents IA spécialisés", "Claude OS inclus", "Générateur & Validateur",
+              "Communauté Buildrs", "Templates clonables", "Mises à jour à vie",
             ].map((label, i) => (
               <span key={i} className="inline-flex items-center gap-2.5 text-[13px] font-medium text-white/40">
                 <span className="h-1 w-1 rounded-full bg-white/20 shrink-0" />
-                Mise à jour — {label}
+                {label}
               </span>
             ))}
           </div>
@@ -2025,6 +2052,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
     { title: "Bonus 1 · La Marketplace Buildrs", desc: "10 idées de SaaS validées avec marché, concurrence, stack et prompts de démarrage.", value: 197 },
     { title: "Bonus 2 · Les 10 prompts de lancement", desc: "Les prompts qu'on utilise chez Buildrs pour lancer un nouveau SaaS de zéro.", value: 47 },
     { title: "Bonus 3 · La Bibliothèque Buildrs", desc: "50 prompts système classés par phase + le guide d'utilisation de chaque outil.", value: 297 },
+    { title: "Bonus 4 · Communauté Buildrs", desc: "Accès à la communauté avec les autres Builders pour échanger — Ressources · Communauté · Classement · Co-build sur des projets Buildrs.", value: 97 },
   ]
 
   const valueItems = [
@@ -2032,6 +2060,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
     { label: "Bonus 1 · Marketplace", value: 197 },
     { label: "Bonus 2 · 10 prompts de lancement", value: 47 },
     { label: "Bonus 3 · Bibliothèque Buildrs", value: 297 },
+    { label: "Bonus 4 · Communauté Buildrs", value: 97 },
   ]
 
   return (
@@ -2172,7 +2201,7 @@ function Pricing({ onCTA }: { onCTA?: (e: React.MouseEvent) => void }) {
                   <hr className="my-2 border-border" />
                   <div className="flex items-center justify-between">
                     <span className="text-[13px] font-semibold text-foreground">Valeur totale</span>
-                    <span className="font-mono text-[15px] font-bold text-muted-foreground line-through">588€</span>
+                    <span className="font-mono text-[15px] font-bold text-muted-foreground line-through">685€</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[14px] font-bold text-foreground">Ton investissement aujourd'hui</span>
@@ -2248,9 +2277,9 @@ function TeamRobot({ isAI }: { isAI?: boolean }) {
 type HologramVariant = 'a' | 'b' | 'c' | 'd'
 
 const teamData: { uid: string; variant: HologramVariant; name: string; role: string; bio: string; photo?: string; isAI?: boolean }[] = [
-  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Founder",             bio: "Développement produit, vision et architecture du groupe.", photo: "/Alfred_opt.jpg" },
-  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Développeur Full Stack", bio: "Agents IA, automatisation avancée, infrastructures backend.\nIl construit ce que les autres appellent encore \"impossible à automatiser\".", photo: "/Chris_opt.jpg" },
-  { uid: "tim",    variant: "c", name: "Tim",     role: "CMO & Vibe Coder Front",       bio: "Direction artistique, conception produit et front-end.\nTim transforme une idée brute en interface que les gens ont envie d'utiliser — avant même que le code soit terminé.", photo: "/Tim_opt.jpg" },
+  { uid: "alfred", variant: "a", name: "Alfred",  role: "CEO & Founder",             bio: "Développement produit, vision et architecture du groupe.", photo: "/Alfred_Buildrs_V2.png" },
+  { uid: "chris",  variant: "b", name: "Chris",   role: "CCO & Développeur Full Stack", bio: "Agents IA, automatisation avancée, infrastructures backend.", photo: "/Chris_Buildrs.png" },
+  { uid: "tim",    variant: "c", name: "Tim",     role: "CMO & Vibe Coder Front",       bio: "Direction artistique, conception produit et front-end.", photo: "/Tim_Buildrs.png" },
   { uid: "jarvis", variant: "d", name: "Jarvis",  role: "Chief AI Officer",  bio: "Intelligence Artificielle Autonome. Pilote 40 agents IA chez Buildrs.", isAI: true },
 ]
 
@@ -2285,7 +2314,7 @@ function TeamSection() {
                 {photo ? (
                   <img src={photo} alt={name} loading="lazy" className="w-full h-full object-cover object-top" />
                 ) : (
-                  <TeamRobot isAI={isAI} />
+                  <RobotJarvis size={160} />
                 )}
               </div>
               <div className="p-4">
@@ -2424,10 +2453,11 @@ const programmeModules = [
     color: "#4d96ff", bg: "rgba(77,150,255,0.07)", border: "rgba(77,150,255,0.20)",
     folderColor: "blue" as const,
     bullets: [
-      "Tu comprends pourquoi l'IA fait 90% du travail à ta place",
-      "Tu choisis le format adapté à ton profil : app, SaaS IA ou logiciel",
+      "Tu comprends pourquoi l'IA fait 80% du travail à ta place",
+      "Découverte de Claude, Claude Code, Claude Co-Work et Claude Design",
+      "Tu choisis le format adapté à ton profil : micro SaaS IA, SaaS IA ou logiciel",
       "Tu choisis ta stratégie : copier, résoudre ou découvrir",
-      "Tu poses ton objectif financier — le système s'adapte",
+      "Tu poses ton objectif financier : revenu récurrent, revente ou commande client",
     ],
   },
   {
@@ -2436,9 +2466,10 @@ const programmeModules = [
     color: "#cc5de8", bg: "rgba(204,93,232,0.07)", border: "rgba(204,93,232,0.20)",
     folderColor: "black" as const,
     bullets: [
-      "Tu installes tout — un outil à la fois, guidé",
+      "Découverte des meilleurs outils du marché (on t'offre les licences)",
       "Ton environnement complet est prêt en une session",
       "Zéro configuration à refaire — c'est en place pour de bon",
+      "Outils · Authentification · Base de données · Back-end · Front-end · Paiement · Feature IA",
     ],
   },
   {
@@ -2473,6 +2504,7 @@ const programmeModules = [
       "Tu décris ce que tu veux — l'IA génère ton produit",
       "Ta fonctionnalité principale est construite et fonctionnelle",
       "L'inscription utilisateur et l'onboarding sont en place",
+      "Création du front-end et du back-end, de l'authentification, de la sécurité, des paiements et des automatisations",
     ],
   },
   {
@@ -2723,12 +2755,12 @@ export function LandingPage({ onCTAClick }: { onCTAClick?: () => void }) {
         <SaasVehicle />
         <BeforeAfter />
         <Programme />
-        <WhatYouGet />
         <ProjectExamplesSection />
-        <UniqueTestimonialSection />
+        <WhatYouGet />
         <Pricing onCTA={go} />
         <TriSection />
         <TeamSection />
+        <UniqueTestimonialSection />
         <FAQ />
         <FinalCTA onCTA={go} />
       </main>
