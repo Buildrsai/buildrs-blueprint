@@ -777,7 +777,28 @@ function Pain() {
         </motion.div>
 
         <Reveal delay={0.36}>
-          <p className="mt-12 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
+          <p className="mt-12 max-w-[600px] text-[15px] sm:text-[17px] leading-[1.65] text-muted-foreground">
+            Cette fenêtre ne sera pas ouverte éternellement dans les mêmes conditions. Ceux qui agissent maintenant prendront une avance structurelle.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.44}>
+          <p
+            className="mt-6"
+            style={{ fontSize: "clamp(20px, 2.8vw, 30px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2 }}
+          >
+            Il te manque le{" "}
+            <span
+              className="rounded-md px-2 py-0.5"
+              style={{ background: "rgba(0,0,0,0.07)", border: "1px solid rgba(0,0,0,0.10)" }}
+            >
+              bon système.
+            </span>
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.52}>
+          <p className="mt-10 text-center text-[18px] sm:text-[20px] font-semibold text-foreground" style={{ letterSpacing: '-0.02em' }}>
             Et pourtant, d'autres y arrivent grâce au Blueprint.
           </p>
         </Reveal>
